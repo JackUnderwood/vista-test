@@ -1,0 +1,19 @@
+#! python
+import sys
+
+def arguments_parser(args):
+    print("Script's file name: ", args[0])
+    print("Number of arguments: ", len(args))
+    counter = 0
+    for arg in args:
+        counter += 1
+        print_str = " Argument index[{0}] : {1}".format(counter, arg)
+        print(print_str)
+        # print("Argument index[%d] : %s" % (counter, arg))
+
+# Get the arguments passed in at the command line.
+if len(sys.argv) > 1:
+    arguments_parser(sys.argv[1:])  # pass just the args
+sys.stdout.write("Python %s\n" % (sys.version,))
+
+print(" decimal {0:d}\n hex {0:x}\n octal {0:o}\n binary {0:b} ".format(21))
