@@ -1,0 +1,17 @@
+{
+    "root": [
+        {
+            "url": "http://dev.com/"
+        },
+        {
+            "user": "Jack Shoop"
+        },
+		{
+			"comment": "The log_levels may be DEBUG, INFO, WARNING, ERROR, CRITICAL",
+			"log_level": "INFO"
+		},
+        {
+            "etc": "onward and upward"
+        }
+    ]
+}

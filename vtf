@@ -1,6 +1,8 @@
 #! python
 import sys
 
+print("Hello, world.")
+
 def arguments_parser(args):
     print("Script's file name: ", args[0])
     print("Number of arguments: ", len(args))
