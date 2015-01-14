@@ -1,8 +1,11 @@
 __author__ = 'John Underwood'
-from base import UI
+from ui import UI
 
 
-class A(UI):
+class FileBegin(UI):
+    """
+    Begins at the main page and branches to the File page.
+    """
     def __init__(self, override=None):
         super().__init__()
         print("A __init__", override)

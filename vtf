@@ -1,8 +1,6 @@
 #! python
 import sys
 
-print("Hello, world.")
-
 def arguments_parser(args):
     """
     Return only the path for now.
@@ -25,8 +23,5 @@ def arguments_parser(args):
 path = ""
 if len(sys.argv) > 1:
     path = arguments_parser(sys.argv[1:])  # pass just the args
-sys.stdout.write("Python %s\n" % (sys.version,))
-
-print(" decimal {0:d}\n hex {0:x}\n octal {0:o}\n binary {0:b} ".format(21))
-if path:
     print("This is the path:", path)
+
