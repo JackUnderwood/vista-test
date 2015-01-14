@@ -1,5 +1,7 @@
 #! python
+import os
 import sys
+
 
 def arguments_parser(args):
     """
@@ -20,8 +22,22 @@ def arguments_parser(args):
 
 
 # Get the arguments passed in at the command line.
-path = ""
 if len(sys.argv) > 1:
     path = arguments_parser(sys.argv[1:])  # pass just the args
-    print("This is the path:", path)
+    full_path = path + ".py"
+    if os.path.exists(full_path):
+        print("This is the path:", full_path)
+    else:
+        #  TODO: throw an exception here
+        print("Thrown exception: path does not exist:", full_path)
+
+    # Run the file.
+    try:
+        command_module = __import__("%s" % path)
+    except ImportError:
+        #  TODO: throw an exception here
+        print("Thrown exception error: unable to __import__")
+
+    print("Hello, world!")
+
 
