@@ -4,6 +4,7 @@ from ui import UI
 
 class FileMyQueue(UI):
     """
+    Pre-requirement: needs to be on the File page - execute file mod first.
     Case test goes into My Queue and then returns to File's listings.
     """
     def __init__(self, override=None):
