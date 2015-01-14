@@ -20,7 +20,6 @@ def arguments_parser(args):
         # print("Argument index[%d] : %s" % (counter, arg))
     return 0
 
-
 # Get the arguments passed in at the command line.
 if len(sys.argv) > 1:
     path = arguments_parser(sys.argv[1:])  # pass just the args
@@ -31,7 +30,10 @@ if len(sys.argv) > 1:
         #  TODO: throw an exception here
         print("Thrown exception: path does not exist:", full_path)
 
-    # Run the file.
+    # Need to replace to make friendly for the __import__()
+    path = path.replace('/', '.')
+    print("New Path:", path)
+    # Import the passed in module - executes it.
     try:
         command_module = __import__("%s" % path)
     except ImportError:
@@ -39,5 +41,3 @@ if len(sys.argv) > 1:
         print("Thrown exception error: unable to __import__")
 
     print("Hello, world!")
-
-
