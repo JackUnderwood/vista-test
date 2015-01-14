@@ -7,12 +7,6 @@ Selectors Reference:
 //xpath
 .class
 #id
-
-TODO:
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
-from selenium.webdriver.support import expected_conditions as EC # since 2.26.0
-
 """
 import time
 from selenium import webdriver
@@ -24,6 +18,7 @@ class UI:
     chrome_options.add_argument("--start-maximized")
     driver = webdriver.Chrome('C:/Common/chromedriver',
                               chrome_options=chrome_options)
+    driver.implicitly_wait(5)  # seconds
     driver.get('http://dev.com')
     assert "INDY" in driver.title
 
@@ -64,7 +59,7 @@ class UI:
                 print("Throw an error")
             print()
             time.sleep(1)
-        # self.driver.quit()
+        # self.driver.quit() # JNU have driver quit during teardown
 
     def click(self, path):
         print("This is a Click command")
@@ -82,7 +77,7 @@ class UI:
     def select(self, path, value):
         print("This is a Select command")
         print("PATH and VALUE is", path, value)
-        # element = self.find_element(path)
+        self.find_element(path)  # TODO: needs to be implemented
 
     def find_element(self, path):
         """
@@ -102,3 +97,11 @@ class UI:
             print("error: no correct element found")  # TODO: need to throw excp
 
         return None
+
+    def teardown(self):  # TODO: this should also be in the launch file vtf
+        time.sleep(5)  # Remove later JNU!!!
+        self.driver.quit()
+
+    @staticmethod
+    def wait(seconds):
+        time.sleep(seconds)

@@ -5,6 +5,13 @@ from ui import UI
 class FileBegin(UI):
     """
     Begins at the main page and branches to the File page.
+    Other files needed:
+    - HomeBegin
+    - TravelBegin
+    - CorrTemplateCreatorBegin
+    - CorrSendBegin
+    - LyrisBegin
+    - NotifyBegin
     """
     def __init__(self, override=None):
         super().__init__()
