@@ -5,7 +5,7 @@ from ui import UI
 class FileBegin(UI):
     """
     Begins at the main page and branches to the File page.
-    Other files needed:
+    Other sibling files might be:
     - HomeBegin
     - TravelBegin
     - CorrTemplateCreatorBegin
@@ -15,7 +15,7 @@ class FileBegin(UI):
     """
     def __init__(self, override=None):
         super().__init__()
-        print("A __init__", override)
+        print("FileBegin __init__", override)
         runtime = {
             'file': ("Click", "//*[@id='yw1']/li[6]/a/i", ""),
         }
