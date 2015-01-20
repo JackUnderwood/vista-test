@@ -11,6 +11,7 @@ Selectors Reference:
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import Select
 
 
 class UI:
@@ -41,7 +42,7 @@ class UI:
         """
         :param items: a dictionary of tuples
         :return: void
-        # 'item' always expects a tuple of three elements
+        Note: 'item' always expects a tuple of three elements
         """
         for item in items:
             t = self.runtime.get(item, ("Unknown", "Unknown", "Unknown"))
@@ -75,9 +76,18 @@ class UI:
         element.submit()
 
     def select(self, path, value):
+        """
+        May want to add the other options such as by value and by index.
+        See http://selenium-python.readthedocs.org/en/latest/api.html
+        :param path: holds the xpath, id, or class
+        :param value: visible text inside the list
+        :return: void
+        """
         print("This is a Select command")
         print("PATH and VALUE is", path, value)
-        self.find_element(path)  # TODO: needs to be implemented
+        element = self.find_element(path)
+        select = Select(element)
+        select.select_by_visible_text(value)
 
     def find_element(self, path):
         """
