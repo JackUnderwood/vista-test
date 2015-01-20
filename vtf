@@ -30,6 +30,7 @@ if len(sys.argv) > 1:
     else:
         #  TODO: throw an exception here
         print("Thrown exception: path does not exist:", full_path)
+        raise OSError
 
     # Need replace to make path friendly for __import__()
     path = path.replace('/', '.')
@@ -42,5 +43,7 @@ if len(sys.argv) > 1:
     except ImportError:
         #  TODO: throw an exception here
         print("Thrown exception error: unable to __import__()")
+        tb = sys.exc_info()[2]
+        raise ImportError(...).with_traceback(tb)
 
     print("Hello, world!")
