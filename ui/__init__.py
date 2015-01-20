@@ -25,7 +25,7 @@ class UI:
 
     runtime = {}
     override = {}
-    element = None  # the driver's element  TODO:
+    element = None  # TODO: the driver's element
 
     def __init__(self, override=None):
         self.override = override
