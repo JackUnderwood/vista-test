@@ -17,11 +17,6 @@ class TravelMiddleInitial(UI):
                 "Click",
                 '//*[@id="provider_profile_sub"]/div[2]/div[1]/label[3]/a', ""
             ),
-            'clearPrevious': (
-                "Click",
-                '#provider_profile_sub',
-                ""
-            ),
             'enterMi': (
                 "Type",
                 '//*[@id="provider_profile_sub"]/div[2]/div[1]/label[3]/div/div[2]/div/form/div/div[1]/div[1]/input',
@@ -29,13 +24,12 @@ class TravelMiddleInitial(UI):
             ),  # getting Traceback error after this point
             'submit': (
                 "Click",
-                '//*[@id="provider_profile_sub"]/div[2]/div[1]/label[3]/div/div[2]/div/form/div/div[1]/div[2]/button[1]/i',
+                '//*[@id="provider_profile_sub"]/div[2]/div[1]/label[3]/div/div[2]/div/form/div/div[1]/div[2]/button[1]',
                 ""
             ),
         }
         process = UI(override)
         process.update(runtime)
-        order = ('provider', 'middleInitial', 'clearPrevious',
-                 'enterMi', 'submit')
+        order = ('provider', 'middleInitial', 'enterMi', )
         process.execute(order)
 

@@ -41,9 +41,9 @@ if len(sys.argv) > 1:
         # https://docs.python.org/3/reference/import.html
         command_module = __import__("%s" % path)
     except ImportError:
-        #  TODO: throw an exception here
+        #  TODO: test this throw an exception
         print("Thrown exception error: unable to __import__()")
         tb = sys.exc_info()[2]
         raise ImportError(...).with_traceback(tb)
-
-    print("Hello, world!")
+else:
+    print("vtf <path> --> You are missing the path argument")
