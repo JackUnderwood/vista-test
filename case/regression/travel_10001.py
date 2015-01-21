@@ -12,12 +12,14 @@ class Travel10001(UI):
     This test case is a trial test to see how the vtf will be use. It tests
     naming convention of regression files, tests interaction between modules,
     tests how to handle setup and teardown (should be used by vtf file) etc.
+
+    Change the runtime to use specialty IMHSP and select specific assignment.
     """
     TravelBegin()
-    override = {  # specialty IMHSP
+    runtime = {  # specialty IMHSP
         'selectSpecialty': ("Click", '//*[@id="content"]/div[6]/div', ""),
         'selectAssign': ("Click", '//*[@id="138861"]/div[1]', "")}
-    TravelSpecialty(override)
+    TravelSpecialty(runtime)
     TravelMiddleInitial()
     UI().teardown()
 
