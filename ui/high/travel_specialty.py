@@ -2,7 +2,7 @@ __author__ = 'John Underwood'
 from ui import UI
 
 
-class TravelEm(UI):
+class TravelSpecialty(UI):
     """
     Pre-requirement: needs to be on the Travel page - execute file mod first.
     Case test goes to EM and then selects an assignment.
@@ -11,11 +11,11 @@ class TravelEm(UI):
         super().__init__()
         print("TravelEm __init__", override)
 
-        runtime = {
-            'selectEm': ("Click", '//*[@id="content"]/div[1]/div', ""),
+        runtime = {  # specialty default EM
+            'selectSpecialty': ("Click", '//*[@id="content"]/div[1]/div', ""),
             'selectAssign': ("Click", '//*[@id="138924"]/div[1]', "")
         }
         process = UI(override)
         process.update(runtime)
-        order = ('selectEm', 'selectAssign')
+        order = ('selectSpecialty', 'selectAssign')
         process.execute(order)

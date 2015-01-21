@@ -96,6 +96,7 @@ class UI:
         """
         first_element = path[0]
         if first_element == '/':  # xpath
+            # print("   >>> PATH: %s <<<" % path)
             return self.driver.find_element_by_xpath(path)
         elif first_element == '.':  # class
             _class = path[1:]

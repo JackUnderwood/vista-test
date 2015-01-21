@@ -19,13 +19,9 @@ class TravelMiddleInitial(UI):
             ),
             'enterMi': (
                 "Type",
-                '//*[@id="provider_profile_sub"]/div[2]/div[1]/label[3]/div/div[2]/div/form/div/div[1]/div[1]/input',
-                'N'
-            ),  # getting Traceback error after this point
-            'submit': (
-                "Click",
-                '//*[@id="provider_profile_sub"]/div[2]/div[1]/label[3]/div/div[2]/div/form/div/div[1]/div[2]/button[1]',
-                ""
+                '//*[@id="provider_profile_sub"]/div[2]/div[1]/label[3]/div/'
+                'div[2]/div/form/div/div[1]/div[1]/input',
+                'N'  # TODO: need to implement '__OVERRIDE__' for this value 'N'
             ),
         }
         process = UI(override)
