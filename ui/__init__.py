@@ -1,8 +1,7 @@
 __author__ = 'John Underwood'
 """
-This is an abstract class that will setup the selenium driver and
-process all commands from subclasses. This class drives the user
-interface testing framework.
+This class will setup the selenium driver and process all commands from
+subclasses. This class drives the user interface testing framework.
 
 Selectors Reference:
 //xpath
