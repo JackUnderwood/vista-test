@@ -9,7 +9,7 @@ from ui.high.travel_mi import TravelMiddleInitial
 class Travel10001(UI):
     """
     Purpose: dummy testcase; goes to the Travel page.
-    This test case is a trial test to see how the vtf will be use. It tests
+    This test case is a trial test to see how the vtf will be used. It tests
     naming convention of regression files, tests interaction between modules,
     tests how to handle setup and teardown (should be used by vtf file) etc.
 

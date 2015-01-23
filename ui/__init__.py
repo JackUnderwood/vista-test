@@ -1,7 +1,8 @@
 __author__ = 'John Underwood'
 """
-This is an abstract class that will setup the selenium driver and process all
-commands from subclasses. This drives the user interface testing framework.
+This is an abstract class that will setup the selenium driver and
+process all commands from subclasses. This class drives the user
+interface testing framework.
 
 Selectors Reference:
 //xpath
@@ -9,9 +10,11 @@ Selectors Reference:
 #id
 """
 import time
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
+from colorama import init, Fore
 
 
 class UI:
@@ -28,8 +31,9 @@ class UI:
     element = None  # TODO: the driver's element
 
     def __init__(self, override=None):
+        init()  # init the colorama stuff
         self.override = override
-        print("UI __init__", override)
+        print("UI __init__")
 
     def update(self, runtime):
         print("UI update()")
@@ -63,14 +67,15 @@ class UI:
         # self.driver.quit() # JNU have driver quit during teardown
 
     def click(self, path):
-        print("This is a Click command")
-        print("PATH is", path)
+        print(Fore.CYAN + "Click command" + Fore.RESET)
+        print(Fore.CYAN + ">>> PATH: %s " + Fore.RESET % path)
         element = self.find_element(path)
         element.click()
 
     def type(self, path, value):
-        print("This is a Type command")
-        print("PATH and VALUE is", path, value)
+        print(Fore.CYAN + "Type command" + Fore.RESET)
+        print(Fore.CYAN + ">>> PATH: %s \n>>> VALUE: %s" + Fore.RESET %
+              (path, value))
         element = self.find_element(path)
         element.send_keys(value)
         element.submit()
@@ -83,8 +88,9 @@ class UI:
         :param value: visible text inside the list
         :return: void
         """
-        print("This is a Select command")
-        print("PATH and VALUE is", path, value)
+        print(Fore.CYAN + "Select command" + Fore.RESET)
+        print(Fore.CYAN + ">>> PATH: %s \n>>> VALUE: %s" + Fore.RESET %
+              (path, value))
         element = self.find_element(path)
         select = Select(element)
         select.select_by_visible_text(value)
@@ -96,7 +102,6 @@ class UI:
         """
         first_element = path[0]
         if first_element == '/':  # xpath
-            # print("   >>> PATH: %s <<<" % path)
             return self.driver.find_element_by_xpath(path)
         elif first_element == '.':  # class
             _class = path[1:]
@@ -105,11 +110,13 @@ class UI:
             _id = path[1:]
             return self.driver.find_element_by_id(_id)
         else:
-            print("error: no correct element found")  # TODO: need to throw excp
+            # TODO: need to throw excp
+            print(Fore.RED + "error: no correct element found" + Fore.RESET)
 
         return None
 
-    def teardown(self):  # TODO: this should also be in the launch file vtf
+    def teardown(self):
+        # TODO: this should also be in the launch file vtf
         time.sleep(5)  # Remove later JNU!!!
         self.driver.quit()
 
