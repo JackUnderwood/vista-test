@@ -8,7 +8,7 @@ class LyrisBegin(UI):
     """
     def __init__(self, override=None):
         super().__init__()
-        print("LyrisBegin __init__", override)
+        print("LyrisBegin __init__")
         runtime = {
             'lyris': ("Click", '//*[@id="lyris"]', ""),
         }

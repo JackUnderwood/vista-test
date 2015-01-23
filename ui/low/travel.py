@@ -8,7 +8,7 @@ class TravelBegin(UI):
     """
     def __init__(self, override=None):
         super().__init__()
-        print("TravelBegin __init__", override)
+        print("TravelBegin __init__")
         runtime = {
             'travel': ("Click", '//*[@id="yw1"]/li[4]/a/i', ""),
         }

@@ -9,7 +9,6 @@ class TravelSpecialty(UI):
     """
     def __init__(self, override=None):
         super().__init__()
-        print("TravelEm __init__", override)
 
         runtime = {  # specialty default EM
             'selectSpecialty': ("Click", '//*[@id="content"]/div[1]/div', ""),

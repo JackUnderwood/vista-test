@@ -9,7 +9,6 @@ class TravelMiddleInitial(UI):
     """
     def __init__(self, override=None):
         super().__init__()
-        print("TravelMiddleInitial __init__", override)
 
         runtime = {
             'provider': ("Click", '//*[@id="vert-tabs"]/ul/li[1]/a', ""),

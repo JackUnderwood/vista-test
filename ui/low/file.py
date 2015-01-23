@@ -15,7 +15,7 @@ class FileBegin(UI):
     """
     def __init__(self, override=None):
         super().__init__()
-        print("FileBegin __init__", override)
+        print("FileBegin __init__")
         runtime = {
             'file': ("Click", "//*[@id='yw1']/li[6]/a/i", ""),
         }

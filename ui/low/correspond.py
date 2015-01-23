@@ -5,7 +5,8 @@ from ui import UI
 class CorrespondBegin(UI):
     def __init__(self, override=None):
         super().__init__()
-        print("CorrespondBegin __init__", override)
+        print("CorrespondBegin __init__")
+
         runtime = {
             'correspond': ("Click", '//*[@id="yw1"]/li[5]/a/i', ""),
             'creator': ("Click", '//*[@id="yt0"]/li[1]/a', ""),

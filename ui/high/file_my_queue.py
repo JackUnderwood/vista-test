@@ -9,7 +9,6 @@ class FileMyQueue(UI):
     """
     def __init__(self, override=None):
         super().__init__()
-        print("FileMyQueue __init__", override)
 
         runtime = {
             'myQueue': ("Click", '//*[@id="myqueue"]/span', ""),
