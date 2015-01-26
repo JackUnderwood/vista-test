@@ -2,6 +2,14 @@
 import os
 import sys
 
+#
+# import logging
+# logging.basicConfig(level=logging.DEBUG, name="vtf")
+# log = logging.getLogger("vtf")
+from tool.clog import CLog
+
+log = CLog(name="vtf")
+
 
 def arguments_parser(args):
     """
@@ -18,14 +26,16 @@ def arguments_parser(args):
         print_str = " Argument index[{0}] : {1}".format(counter, arg)
         print(print_str)
         # print("Argument index[%d] : %s" % (counter, arg))
-    return 0
+    return ""
 
 
 # Get the arguments passed in at the command line.
 if len(sys.argv) > 1:
     path = arguments_parser(sys.argv[1:])  # pass just the args
     full_path = path + ".py"
+    log.warning("MESSAGE ..........")
     if os.path.exists(full_path):
+
         print("This is the path:", full_path)
     else:
         #  TODO: throw an exception here

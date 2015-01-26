@@ -67,7 +67,7 @@ class UI:
 
     def click(self, path):
         print(Fore.CYAN + "Click command" + Fore.RESET)
-        print(Fore.CYAN + ">>> PATH: %s " + Fore.RESET % path)
+        print(Fore.CYAN + ">>> PATH: %s " + Fore.RESET)
         element = self.find_element(path)
         element.click()
 
