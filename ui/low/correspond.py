@@ -9,7 +9,7 @@ class CorrespondBegin(UI):
 
         runtime = {
             'correspond': ("Click", '//*[@id="yw1"]/li[5]/a/i', ""),
-            'creator': ("Click", '//*[@id="yt0"]/li[1]/a', ""),
+            'creator': ("Click", '//*[@id="yt0"]/li[2]/a', ""),
         }
         process = UI(override)
         process.update(runtime)

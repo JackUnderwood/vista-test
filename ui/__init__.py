@@ -13,7 +13,10 @@ import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
-from colorama import init, Fore
+
+from tool.clog import CLog
+
+log = CLog(name="vtf", log_name="UI")
 
 
 class UI:
@@ -30,12 +33,12 @@ class UI:
     element = None  # TODO: the driver's element
 
     def __init__(self, override=None):
-        init()  # init the colorama stuff
+
         self.override = override
-        print("UI __init__")
+        log.debug("UI __init__")
 
     def update(self, runtime):
-        print("UI update()")
+        log.debug("UI update")
         if self.override:
             # override the 'passed in' runtime data
             runtime.update(self.override)
@@ -49,7 +52,7 @@ class UI:
         """
         for item in items:
             t = self.runtime.get(item, ("Unknown", "Unknown", "Unknown"))
-            print(t)
+            # print(t)
             command, path, value = t
             if command == "Click":
                 self.click(path)
@@ -66,15 +69,12 @@ class UI:
         # self.driver.quit() # JNU have driver quit during teardown
 
     def click(self, path):
-        print(Fore.CYAN + "Click command" + Fore.RESET)
-        print(Fore.CYAN + ">>> PATH: %s " + Fore.RESET)
+        log.info("Click Command - PATH: \'{0}\'".format(path))
         element = self.find_element(path)
         element.click()
 
     def type(self, path, value):
-        print(Fore.CYAN + "Type command" + Fore.RESET)
-        print(Fore.CYAN + ">>> PATH: %s \n>>> VALUE: %s" + Fore.RESET %
-              (path, value))
+        log.info("Type Command - PATH: \'{0}\' - VALUE: {1}".format(path, value))
         element = self.find_element(path)
         element.send_keys(value)
         element.submit()
@@ -87,9 +87,7 @@ class UI:
         :param value: visible text inside the list
         :return: void
         """
-        print(Fore.CYAN + "Select command" + Fore.RESET)
-        print(Fore.CYAN + ">>> PATH: %s \n>>> VALUE: %s" + Fore.RESET %
-              (path, value))
+        log.info("Select Command - PATH: {0} - VALUE: {1}".format(path, value))
         element = self.find_element(path)
         select = Select(element)
         select.select_by_visible_text(value)
@@ -110,13 +108,13 @@ class UI:
             return self.driver.find_element_by_id(_id)
         else:
             # TODO: need to throw excp
-            print(Fore.RED + "error: no correct element found" + Fore.RESET)
+            log.exception("no correct element found")
 
         return None
 
     def teardown(self):
         # TODO: this should also be in the launch file vtf
-        time.sleep(5)  # Remove later JNU!!!
+        time.sleep(1)  # Remove later JNU!!!
         self.driver.quit()
 
     @staticmethod
