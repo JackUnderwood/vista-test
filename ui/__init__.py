@@ -64,11 +64,12 @@ class UI:
                 print("This command is unknown - throw an error")
             else:
                 print("Throw an error")
-            print()
+            # print()
             time.sleep(1)
         # self.driver.quit() # JNU have driver quit during teardown
 
     def click(self, path):
+        # value = "nicely done"
         log.info("Click Command - PATH: \'{0}\'".format(path))
         element = self.find_element(path)
         element.click()
