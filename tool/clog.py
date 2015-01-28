@@ -11,10 +11,11 @@ class CLog(logging.Logger):
     add new debug levels. Also, provides options to write to file and
     display on the console simultaneously.
     """
-    def __init__(self, name="VTF", level=logging.DEBUG):
+    def __init__(self, name="VTF", level=logging.INFO, log_name="vtf"):
         init()  # initialize colorama
         logging.Logger.__init__(self, name, level)
-        self.log = logging.getLogger(name)
+        logging.basicConfig(level=level)
+        self.log = logging.getLogger(log_name)
 
     def debug(self, msg, *args, **kwargs):
         msg = Fore.GREEN + msg + Fore.RESET
