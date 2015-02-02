@@ -1,11 +1,13 @@
 __author__ = 'John Underwood'
 from ui import UI
+from tool.clog import CLog
 
 
 class CorrespondBegin(UI):
     def __init__(self, override=None):
         super().__init__()
-        print("CorrespondBegin __init__")
+        log = CLog(name="vtf", log_name="CorrespondBegin")
+        log.info("__init__() called")
 
         runtime = {
             'correspond': ("Click", '//*[@id="yw1"]/li[5]/a/i', ""),

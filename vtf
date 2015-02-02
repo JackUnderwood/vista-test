@@ -4,6 +4,7 @@ import sys
 
 from tool.clog import CLog
 
+log = CLog(name="vtf", log_name="vtf")
 
 
 def arguments_parser(args):
@@ -23,19 +24,17 @@ def arguments_parser(args):
         # print("Argument index[%d] : %s" % (counter, arg))
     return ""
 
-
 # Get the arguments passed in at the command line.
 if len(sys.argv) > 1:
-    log = CLog(name="vtf", log_name="nan")
     path = arguments_parser(sys.argv[1:])  # pass just the args
     full_path = path + ".py"
     log.info("MESSAGE ..........")
     if os.path.exists(full_path):
-
-        print("This is the path:", full_path)
+        log.info("This is the path: {0}".format(path, ))
     else:
-        #  TODO: throw an exception here
-        print("Thrown exception: path does not exist:", full_path)
+        #  TODO: raise/throw an exception here
+        log.exception("Thrown exception: path does not exist:".
+                      format(full_path,))
         raise OSError
 
     # Need replace to make path friendly for __import__()
@@ -47,9 +46,9 @@ if len(sys.argv) > 1:
         # https://docs.python.org/3/reference/import.html
         command_module = __import__("%s" % path)
     except ImportError:
-        #  TODO: test this throw an exception
-        print("Thrown exception error: unable to __import__()")
+        #  TODO: test this raise/throw an exception
+        log.exception("Thrown exception: unable to __import__()")
         tb = sys.exc_info()[2]
         raise ImportError(...).with_traceback(tb)
 else:
-    print("vtf <path> --> You are missing the path argument")
+    log.error("vtf <path> --> You are missing the path argument")

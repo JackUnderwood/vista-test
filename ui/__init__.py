@@ -18,6 +18,10 @@ from tool.clog import CLog
 
 log = CLog(name="vtf", log_name="UI")
 
+# TODO: fix selenium logging to not display at DEBUG level
+# from selenium.webdriver.remote.remote_connection import LOGGER
+# LOGGER.setLevel(log.WARNING)
+
 
 class UI:
     chrome_options = Options()
@@ -35,10 +39,10 @@ class UI:
     def __init__(self, override=None):
 
         self.override = override
-        log.debug("UI __init__")
+        log.debug("UI __init__()")
 
     def update(self, runtime):
-        log.debug("UI update")
+        log.debug("update()")
         if self.override:
             # override the 'passed in' runtime data
             runtime.update(self.override)
@@ -50,6 +54,7 @@ class UI:
         :return: void
         Note: 'item' always expects a tuple of three elements
         """
+        log.debug("execute()")
         for item in items:
             t = self.runtime.get(item, ("Unknown", "Unknown", "Unknown"))
             # print(t)
