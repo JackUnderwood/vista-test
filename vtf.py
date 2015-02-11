@@ -2,6 +2,9 @@
 import os
 import sys
 import importlib
+import pprint
+
+from tool.testrail import *
 
 from tool.clog import CLog
 
@@ -25,11 +28,20 @@ def arguments_parser(args):
 
 
 # Get the arguments passed in at the command line.
+# Using powershell, path shows: .\vtf.py .\case\testcase
 if len(sys.argv) > 1:
     path = arguments_parser(sys.argv[1:])  # pass just the args
-    full_path = path + ".py"
+    full_path = path
+    if path.find('.py') is -1:
+        full_path = path + ".py"
     if os.path.exists(full_path):
         log.debug("This is the path: {0}".format(full_path, ))
+        client = APIClient('https://vistastaff.testrail.com/')
+        client.user = 'john.underwood@vistastaff.com'
+        client.password = 'Make1tso'
+        case = client.send_get('get_case/8')
+        pp = pprint.PrettyPrinter(indent=4)
+        pp.pprint(case)
     else:
         #  TODO: throw an exception here - needs improvement
         log.error("path '{0}' does not exist".
@@ -37,9 +49,14 @@ if len(sys.argv) > 1:
         raise Exception
 
     # Need replace to make path friendly for __import__()
+    # Change path '.\case\testcase' to 'case.testcase'
+    if path.find('.') == 0:
+        # Using powershell, path shows: '.\case\testcase' to 'case\testcase'
+        path = path[2:]
     path = path.replace('\\', '.')  # for win paths
     path = path.replace('/', '.')  # for unix paths
     path = path.replace('.py', '')
+    # The path should now be 'case.testcase'
     log.info("New altered path: {0}".format(path,))
     # Import the passed in module - executes it.
     try:
