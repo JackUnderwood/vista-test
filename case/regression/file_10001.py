@@ -14,5 +14,26 @@ class File10001(UI):
     """
     FileBegin()
     FileMyQueue()
-    UI().teardown()
+
+    runtime = {
+        'file1': (
+            "Click",
+            '//*[@id="fileList"]/div[2]/div/div[2]/div[4]',
+            ""
+        ),
+        'file2': (
+            "Click",
+            '//*[@id="fileList"]/div[2]/div/div[2]/div[5]',
+            ""
+        ),
+    }
+    process = UI()
+    process.update(runtime)
+    order = ('file1', )
+    process.execute(order)
+    process.wait(1)
+    order = ('file2', )
+    process.execute(order)
+    process.wait(8)
+    process.teardown()
 

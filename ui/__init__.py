@@ -29,7 +29,7 @@ class UI:
     driver = webdriver.Chrome('C:/Common/chromedriver',
                               chrome_options=chrome_options)
     driver.implicitly_wait(5)  # seconds
-    driver.get('http://dev.com')
+    driver.get('http://oasslcvswebt01')  # http://dev.com
     assert "INDY" in driver.title
 
     runtime = {}
@@ -37,7 +37,6 @@ class UI:
     element = None  # TODO: the driver's element
 
     def __init__(self, override=None):
-
         self.override = override
         log.debug("UI __init__()")
 
@@ -63,8 +62,12 @@ class UI:
                 self.click(path)
             elif command == "Type":
                 self.type(path, value)
+            elif command == "Find":
+                self.find(path, value)
             elif command == "Select":
                 self.select(path, value)
+            elif command == "Wait":
+                self.wait_for_element(path, value)
             elif command == "Unknown":
                 print("This command is unknown - throw an error")
             else:
@@ -85,6 +88,18 @@ class UI:
         element.send_keys(value)
         element.submit()
 
+    def find(self, path, value):
+        """
+        Special 'Type' case for Find... that requires no submit()
+        :param path:
+        :param value:
+        :return:
+        """
+        log.info("Type Command for Find... - PATH: \'{0}\' - VALUE: {1}".
+                 format(path, value))
+        element = self.find_element(path)
+        element.send_keys(value)
+
     def select(self, path, value):
         """
         May want to add the other options such as by value and by index.
@@ -97,6 +112,18 @@ class UI:
         element = self.find_element(path)
         select = Select(element)
         select.select_by_visible_text(value)
+
+    def wait_for_element(self, elem_id, wait_time):
+        log.info("Wait Command - wait for id=\"{0}\"".format(elem_id))
+        from selenium.webdriver.support import expected_conditions as ec
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.common.by import By
+        try:
+            WebDriverWait(self.driver, wait_time).until(
+                ec.presence_of_element_located((By.ID, elem_id))
+            )
+        finally:
+            pass
 
     def find_element(self, path):
         """
@@ -121,7 +148,7 @@ class UI:
     def teardown(self):
         # TODO: this should also be in the launch file vtf
         log.info("Teardown")
-        time.sleep(1)  # Remove later JNU!!!
+        wait(1)  # Remove later JNU!!!
         self.driver.quit()
 
     @staticmethod

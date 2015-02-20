@@ -11,11 +11,19 @@ class FileMyQueue(UI):
         super().__init__()
 
         runtime = {
-            'myQueue': ("Click", '//*[@id="myqueue"]/span', ""),
-            'myQueueGo': ("Click", '//*[@id="myqueueGo"]', "")
+            'subNav': ("Wait", "vsubnav", 5),
+            'category': (
+                "Click",
+                '//*[@id="vsubnav"]/div/div[3]/ul/li',
+                ""
+            ),
+            'element': (
+                "Click",
+                '//*[@id="vsubnav"]/div/div[3]/ul/ul/li[@alt="System Documents"]',
+                ""
+            ),
         }
         process = UI(override)
         process.update(runtime)
-        order = ('myQueue', 'myQueueGo',)
+        order = ('subNav', 'category', 'element')  # 'myQueueGo',)
         process.execute(order)
-
