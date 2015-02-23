@@ -1,6 +1,6 @@
 __author__ = 'John Underwood'
 from ui import UI
-from tool.clog import CLog
+from tool.vlog import VLog
 
 
 class TravelBegin(UI):
@@ -9,7 +9,7 @@ class TravelBegin(UI):
     """
     def __init__(self, override=None):
         super().__init__()
-        log = CLog(name="vtf", log_name="TravelBegin")
+        log = VLog(name="vtf", log_name="TravelBegin")
         log.info("__init__() called")
         runtime = {
             'travel': ("Click", '//*[@id="yw1"]/li[4]/a/i', ""),

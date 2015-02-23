@@ -14,9 +14,10 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
 
-from tool.clog import CLog
+from tool.vlog import VLog
 
-log = CLog(name="vtf", log_name="UI")
+log = VLog(name="vtf", log_name="UI")
+
 
 # TODO: fix selenium logging to not display at DEBUG level
 # from selenium.webdriver.remote.remote_connection import LOGGER

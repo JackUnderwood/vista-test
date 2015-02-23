@@ -1,6 +1,6 @@
 __author__ = 'John Underwood'
 from ui import UI
-from tool.clog import CLog
+from tool.vlog import VLog
 
 
 class FileBegin(UI):
@@ -16,7 +16,7 @@ class FileBegin(UI):
     """
     def __init__(self, override=None):
         super().__init__()
-        log = CLog(name="vtf", log_name="FileBegin")
+        log = VLog(name="vtf", log_name="FileBegin")
         log.info("__init__() called")
         runtime = {
             'file': ("Click", "//*[@id='yw1']/li[6]/a/i", ""),

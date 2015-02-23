@@ -6,9 +6,9 @@ import pprint
 
 from tool.testrail import *
 
-from tool.clog import CLog
+from tool.vlog import VLog
 # TODO: have the ability to set level as a command line arg.
-log = CLog(name="vtf", level=10, log_name="vtf")  # set to debug level 10
+log = VLog(name="vtf", level=10, log_name="vtf")  # set to debug level 10
 
 
 def arguments_parser(args):
@@ -18,19 +18,33 @@ def arguments_parser(args):
     log.info("Script's file name: {0}".format(args[0]))
     log.info("Number of arguments: {0}".format(len(args)))
     counter = 0
+    arguments = {}
     for arg in args:
         counter += 1
-        if arg.find("/"):
-            log.info("Found the path")
-            return arg
-        log.info(" Argument index[{0}] : {1}".format(counter, arg))
-    return ""
+        if arg.find(".\\") == 0:
+            log.debug("Found path argument")
+            arguments['path'] = arg
+        elif arg.find("--log-level=") == 0:
+            log.debug("Found level argument")
+            arguments['logLevel'] = arg[arg.find("=")+1:]
+        log.debug("Argument index[{0}] : {1}".format(counter, arg))
+    return arguments
 
 
 # Get the arguments passed in at the command line.
 # Using powershell, path shows: .\vtf.py .\case\testcase
 if len(sys.argv) > 1:
-    path = arguments_parser(sys.argv[1:])  # pass just the args
+    args = arguments_parser(sys.argv[1:])  # send args only
+    if 'path' not in args:
+        log.critical("vtf <path> <-- You are missing the path argument")
+        raise Exception
+    if 'logLevel' in args:  # TODO: still not working
+        print("INSIDE logLevel")
+        log_level = int(args['logLevel'])
+        log = VLog(name="start", level=log_level, log_name="start")
+        log.info("Testing...")
+        log.debug("Testing...")  # this should display if log_level == 10
+    path = args['path']
     full_path = path
     if path.find('.py') is -1:
         full_path = path + ".py"

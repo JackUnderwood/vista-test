@@ -1,6 +1,6 @@
 __author__ = 'John Underwood'
 from ui import UI
-from tool.clog import CLog
+from tool.vlog import VLog
 
 
 class LyrisBegin(UI):
@@ -9,7 +9,7 @@ class LyrisBegin(UI):
     """
     def __init__(self, override=None):
         super().__init__()
-        log = CLog(name="vtf", log_name="LyrisBegin")
+        log = VLog(name="vtf", log_name="LyrisBegin")
         log.info("__init__() called")
         runtime = {
             'lyris': ("Click", '//*[@id="lyris"]', ""),
