@@ -7,8 +7,8 @@ import pprint
 from tool.testrail import *
 
 from tool.clog import CLog
-
-log = CLog(name="vtf", log_name="vtf")
+# TODO: have the ability to set level as a command line arg.
+log = CLog(name="vtf", level=10, log_name="vtf")  # set to debug level 10
 
 
 def arguments_parser(args):
