@@ -19,7 +19,8 @@ class FileMyQueue(UI):
             ),
             'element': (
                 "Click",
-                '//*[@id="vsubnav"]/div/div[3]/ul/ul/li[@alt="System Documents"]',
+                '//*[@id="vsubnav"]/div/div[3]/ul/ul/li'
+                '[@alt="System Documents"]',
                 ""
             ),
         }
