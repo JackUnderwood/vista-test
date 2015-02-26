@@ -12,10 +12,10 @@ class CorrespondBegin(UI):
         runtime = {
             'correspond': ("Click", '//*[@id="yw1"]/li[5]/a/i', ""),
             'waitSub': ("Wait", "yt0", 5),
-            'creator': ("Click", '//*[@id="yt0"]/li[2]/a', ""),
+            'corrSend': ("Click", '//*[@id="yt0"]/li[2]/a', ""),
         }
         process = UI(override)
         process.update(runtime)
-        order = ('correspond', 'waitSub', 'creator')
+        order = ('correspond', 'waitSub', 'corrSend')
         process.execute(order)
 
