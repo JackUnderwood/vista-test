@@ -16,7 +16,7 @@ class VLog(logging.Logger):
     """
     The Test Framework logger - VISTA LOG (VLOG)
     The purpose of this derived class is to add coloration to logs and
-    add new debug levels. Also, provides options to write to file and
+    add new debug levels. TODO: Also, provides options to write to file and
     display on the console simultaneously.
     """
     def __init__(self, name="VTF", level=logging.INFO, log_name="vtf"):

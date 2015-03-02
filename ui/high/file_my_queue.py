@@ -4,8 +4,8 @@ from ui import UI
 
 class FileMyQueue(UI):
     """
-    Pre-requirement: needs to be on the File page - execute file mod first.
-    Case test goes into My Queue and then returns to File's listings.
+    Pre-requirement: needs to be on the File page - execute low.file first.
+    Test case goes into MyQueue.
     """
     def __init__(self, override=None):
         super().__init__()
@@ -14,17 +14,11 @@ class FileMyQueue(UI):
             'subNav': ("Wait", "vsubnav", 5),
             'category': (
                 "Click",
-                '//*[@id="vsubnav"]/div/div[3]/ul/li',
-                ""
-            ),
-            'element': (
-                "Click",
-                '//*[@id="vsubnav"]/div/div[3]/ul/ul/li'
-                '[@alt="System Documents"]',
+                '//*[@id="vsubnav"]/div/div[8]/i/span',
                 ""
             ),
         }
         process = UI(override)
         process.update(runtime)
-        order = ('subNav', 'category', 'element')  # 'myQueueGo',)
+        order = ('subNav', 'category', )
         process.execute(order)
