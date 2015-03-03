@@ -21,7 +21,7 @@ class VLog(logging.Logger):
     """
     def __init__(self, name="VTF", level=logging.INFO, log_name="vtf"):
         init()  # initialize colorama
-        LOGGER.setLevel(logging.WARNING)
+        LOGGER.setLevel(logging.WARNING)  # for Selenium
         logging.Logger.__init__(self, name, level)
         logging.basicConfig(level=level)
         self.logger = logging.getLogger(log_name)
