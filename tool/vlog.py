@@ -23,7 +23,8 @@ class VLog(logging.Logger):
         init()  # initialize colorama
         LOGGER.setLevel(logging.WARNING)  # for Selenium
         logging.Logger.__init__(self, name, level)
-        logging.basicConfig(level=level)
+        logging.basicConfig(filename='log/example.log', filemode='w',
+                            level=level)
         self.logger = logging.getLogger(log_name)
 
     def debug(self, msg, *args, **kwargs):
