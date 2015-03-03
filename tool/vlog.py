@@ -25,9 +25,10 @@ class VLog(logging.Logger):
         logging.Logger.__init__(self, name, level)
         logging.basicConfig(filename='log/example.log', filemode='w',
                             level=level)
+
         # see https://docs.python.org/3.4/howto/logging-cookbook.html
         console = logging.StreamHandler()
-        formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
+        formatter = logging.Formatter('%(name)-8s: %(levelname)-9s:%(message)s')
         console.setFormatter(formatter)
         logging.getLogger(log_name).addHandler(console)
         self.logger = logging.getLogger(log_name)
@@ -48,10 +49,10 @@ class VLog(logging.Logger):
         msg = " " + Fore.RED + msg + Fore.RESET
         self.logger.error(msg, *args, **kwargs)
 
-    def exception(self, msg, *args, **kwargs):
-        msg = " " + Fore.RED + Back.YELLOW + msg + Fore.RESET + Back.RESET
-        self.logger.exception(msg, *args, **kwargs)
+    # def exception(self, msg, *args, **kwargs):  # Use error()
+    #     msg = " " + Fore.RED + Back.YELLOW + msg + Back.RESET + Fore.RESET
+    #     self.logger.error(msg, *args, **kwargs)
 
     def critical(self, msg, *args, **kwargs):
-        msg = " " + Fore.WHITE + Back.RED + msg + Fore.RESET + Back.RESET
+        msg = " " + Fore.WHITE + Back.RED + msg + Back.RESET + Fore.RESET
         self.logger.critical(msg, *args, **kwargs)
