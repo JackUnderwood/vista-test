@@ -6,7 +6,7 @@ from tool.vlog import VLog
 class CorrespondBegin(UI):
     def __init__(self, override=None):
         super().__init__()
-        log = VLog(name="vtf", log_name="CorrespondBegin")
+        log = VLog(name="vtf", log_name="CORRESPD")
         log.info("__init__() called")
 
         runtime = {

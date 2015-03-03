@@ -9,7 +9,7 @@ class LyrisBegin(UI):
     """
     def __init__(self, override=None):
         super().__init__()
-        log = VLog(name="vtf", log_name="LyrisBegin")
+        log = VLog(name="vtf", log_name="LYRIS")
         log.info("__init__() called")
         runtime = {
             'lyris': ("Click", '//*[@id="lyris"]', ""),

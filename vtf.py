@@ -8,7 +8,7 @@ from tool.testrail import *
 
 from tool.vlog import VLog
 # TODO: have the ability to set level as a command line arg.
-log = VLog(name="vtf", level=10, log_name="vtf")  # set to debug level 10
+log = VLog(name="vtf", level=10, log_name="VTF")  # set to debug level 10
 
 
 def arguments_parser(args):

@@ -9,7 +9,7 @@ class TravelBegin(UI):
     """
     def __init__(self, override=None):
         super().__init__()
-        log = VLog(name="vtf", log_name="TravelBegin")
+        log = VLog(name="vtf", log_name="TRAVEL")
         log.info("__init__() called")
         runtime = {
             'travel': ("Click", '//*[@id="yw1"]/li[4]/a/i', ""),

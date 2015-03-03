@@ -16,7 +16,7 @@ class FileBegin(UI):
     """
     def __init__(self, override=None):
         super().__init__()
-        log = VLog(name="vtf", log_name="FileBegin")
+        log = VLog(name="vtf", log_name="FILE")
         log.info("__init__() called")
         runtime = {
             'file': ("Click", "//*[@id='yw1']/li[6]/a/i", ""),
