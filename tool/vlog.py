@@ -21,10 +21,15 @@ class VLog(logging.Logger):
     """
     def __init__(self, name="VTF", level=logging.INFO, log_name="vtf"):
         init()  # initialize colorama
-        LOGGER.setLevel(logging.WARNING)  # for Selenium
+        LOGGER.setLevel(logging.WARNING)  # for Selenium - prevent verbose
         logging.Logger.__init__(self, name, level)
         logging.basicConfig(filename='log/example.log', filemode='w',
                             level=level)
+        # see https://docs.python.org/3.4/howto/logging-cookbook.html
+        console = logging.StreamHandler()
+        formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
+        console.setFormatter(formatter)
+        logging.getLogger(log_name).addHandler(console)
         self.logger = logging.getLogger(log_name)
 
     def debug(self, msg, *args, **kwargs):
