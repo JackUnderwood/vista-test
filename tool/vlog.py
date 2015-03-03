@@ -24,7 +24,7 @@ class VLog(logging.Logger):
         LOGGER.setLevel(logging.WARNING)  # for Selenium - prevent verbose
         logging.Logger.__init__(self, name, level)
         logging.basicConfig(filename='log/example.log', filemode='w',
-                            level=level)
+                            level=level)  # filename is a placeholder JNU!!!
 
         # see https://docs.python.org/3.4/howto/logging-cookbook.html
         console = logging.StreamHandler()
