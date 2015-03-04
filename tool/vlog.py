@@ -1,5 +1,7 @@
 __author__ = 'John Underwood'
 import logging
+import datetime
+import time
 
 from colorama import init, Fore, Back
 from selenium.webdriver.remote.remote_connection import LOGGER
@@ -23,12 +25,17 @@ class VLog(logging.Logger):
         init()  # initialize colorama
         LOGGER.setLevel(logging.WARNING)  # for Selenium - prevent verbose
         logging.Logger.__init__(self, name, level)
-        logging.basicConfig(filename='log/example.log', filemode='w',
-                            level=level)  # filename is a placeholder JNU!!!
+        dt = datetime.datetime.fromtimestamp(time.time())
+        lname = "{0}{1}{2}{3}{4}{5}".format(dt.year, dt.month, dt.day, dt.hour,
+                                            dt.minute, dt.second)
+        fname = "log/vtf{}.log".format(lname, )
+        structure = '%(asctime)s.%(levelno)-2d:%(message)s'
+        logging.basicConfig(filename=fname, filemode='w',
+                            level=level, format=structure)
 
         # see https://docs.python.org/3.4/howto/logging-cookbook.html
         console = logging.StreamHandler()
-        formatter = logging.Formatter('%(name)-8s: %(levelname)-9s:%(message)s')
+        formatter = logging.Formatter('%(name)-8s: %(levelno)-2d:%(message)s')
         console.setFormatter(formatter)
         logging.getLogger(log_name).addHandler(console)
         self.logger = logging.getLogger(log_name)
@@ -49,9 +56,9 @@ class VLog(logging.Logger):
         msg = " " + Fore.RED + msg + Fore.RESET
         self.logger.error(msg, *args, **kwargs)
 
-    # def exception(self, msg, *args, **kwargs):  # Use error()
-    #     msg = " " + Fore.RED + Back.YELLOW + msg + Back.RESET + Fore.RESET
-    #     self.logger.error(msg, *args, **kwargs)
+    def exception(self, msg, *args, **kwargs):  # Use error()
+        msg = " " + Fore.RED + Back.YELLOW + msg + Back.RESET + Fore.RESET
+        self.logger.exception(msg, *args, **kwargs)
 
     def critical(self, msg, *args, **kwargs):
         msg = " " + Fore.WHITE + Back.RED + msg + Back.RESET + Fore.RESET
