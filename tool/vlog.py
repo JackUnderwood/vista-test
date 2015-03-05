@@ -28,7 +28,7 @@ class VLog(logging.Logger):
         dt = datetime.datetime.fromtimestamp(time.time())
         lname = "{0}{1}{2}{3}{4}{5}".format(dt.year, dt.month, dt.day, dt.hour,
                                             dt.minute, dt.second)
-        fname = "log/vtf{}.log".format(lname, )
+        fname = "log/vtf{}.log".format(lname, )  # python asctime milliseconds
         structure = '%(asctime)s.%(levelno)-2d:%(message)s'
         logging.basicConfig(filename=fname, filemode='w',
                             level=level, format=structure)
