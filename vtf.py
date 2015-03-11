@@ -34,7 +34,7 @@ def arguments_parser(arguments):
 if len(sys.argv) > 1:
     args = arguments_parser(sys.argv[1:])  # send args only
     if 'path' not in args:
-        print("vtf <path> <-- You are missing the path argument")
+        print("vtf <path> <-- The path argument is incorrectly written")
         raise Exception
 
     config = utils.get_configurations()
@@ -49,8 +49,8 @@ if len(sys.argv) > 1:
     elif log_level == 'CRITICAL':
         log_level_value = VLog.CRITICAL
     log = VLog(name="vtf", level=log_level_value, log_name="VTF")
-    # log.info("Testing...")
     # log.debug("Testing...")  # this should display if log_level == 10
+    # log.info("Testing...")
     # log.warning("Testing...")
     # log.error("Testing...")
     # log.critical("Testing...\n")
