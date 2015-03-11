@@ -4,31 +4,31 @@ import sys
 import importlib
 import pprint
 
+import tool.utilities as utils
 from tool.testrail import *
+
 
 from tool.vlog import VLog
 # TODO: have the ability to set level as a command line arg.
-log = VLog(name="vtf", level=10, log_name="VTF")  # set to debug level 10
+# log = VLog(name="vtf", level=10, log_name="VTF")  # set to debug level 10
+log = None
 
 
-def arguments_parser(args):
+def arguments_parser(arguments):
     """
     Return only the path for now.
     """
-    log.info("Script's file name: {0}".format(args[0]))
-    log.info("Number of arguments: {0}".format(len(args)))
+    print(" Script's file name: {0}".format(arguments[0]))
+    print(" Number of arguments: {0}".format(len(arguments)))
     counter = 0
-    arguments = {}
-    for arg in args:
+    args_dict = {}
+    for arg in arguments:
         counter += 1
         if arg.find(".\\") == 0:
-            log.debug("Found path argument")
-            arguments['path'] = arg
-        elif arg.find("--log-level=") == 0:
-            log.debug("Found level argument")
-            arguments['logLevel'] = arg[arg.find("=")+1:]
-        log.debug("Argument index[{0}] : {1}".format(counter, arg))
-    return arguments
+            print(" Found path argument")
+            args_dict['path'] = arg
+
+    return args_dict
 
 
 # Get the arguments passed in at the command line.
@@ -36,14 +36,27 @@ def arguments_parser(args):
 if len(sys.argv) > 1:
     args = arguments_parser(sys.argv[1:])  # send args only
     if 'path' not in args:
-        log.critical("vtf <path> <-- You are missing the path argument")
+        print("vtf <path> <-- You are missing the path argument")
         raise Exception
-    if 'logLevel' in args:  # TODO: still not working
-        print("INSIDE logLevel")
-        log_level = int(args['logLevel'])
-        log = VLog(name="start", level=log_level, log_name="start")
-        log.info("Testing...")
-        log.debug("Testing...")  # this should display if log_level == 10
+
+    config = utils.get_configurations()
+    log_level = config.get("DEFAULT", "log_level")
+    log_level_value = VLog.INFO  # default log level
+    if log_level == 'DEBUG':
+        log_level_value = VLog.DEBUG
+    elif log_level == 'WARNING':
+        log_level_value = VLog.WARNING
+    elif log_level == 'ERROR':
+        log_level_value = VLog.ERROR
+    elif log_level == 'CRITICAL':
+        log_level_value = VLog.CRITICAL
+    log = VLog(name="vtf", level=log_level_value, log_name="VTF")
+    # log.info("Testing...")
+    # log.debug("Testing...")  # this should display if log_level == 10
+    # log.warning("Testing...")
+    # log.error("Testing...")
+    # log.critical("Testing...\n")
+
     path = args['path']
     full_path = path
     if path.find('.py') is -1:
@@ -71,7 +84,7 @@ if len(sys.argv) > 1:
     path = path.replace('/', '.')  # for unix paths
     path = path.replace('.py', '')
     # The path should now be 'case.testcase'
-    log.info("New altered path: {0}".format(path,))
+    log.info("new, altered path: {0}".format(path,))
     # Import the passed in module - executes it.
     try:
         # See link for alternative:

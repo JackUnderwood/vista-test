@@ -6,12 +6,7 @@ import time
 from colorama import init, Fore, Back
 from selenium.webdriver.remote.remote_connection import LOGGER
 
-CRITICAL = 50
-ERROR = 40
-WARNING = 30
-INFO = 20
-TRACE = 15  # TODO: Add another level
-DEBUG = 10
+import tool.utilities as utils
 
 
 class VLog(logging.Logger):
@@ -21,6 +16,13 @@ class VLog(logging.Logger):
     add new debug levels. TODO: Also, provides options to write to file and
     display on the console simultaneously.
     """
+    CRITICAL = 50
+    ERROR = 40
+    WARNING = 30
+    INFO = 20
+    TRACE = 15  # TODO: Add another level
+    DEBUG = 10
+
     def __init__(self, name="VTF", level=logging.INFO, log_name="vtf"):
         init()  # initialize colorama
         LOGGER.setLevel(logging.WARNING)  # for Selenium - prevent verbose
@@ -28,7 +30,9 @@ class VLog(logging.Logger):
         dt = datetime.datetime.fromtimestamp(time.time())
         lname = "{0}{1}{2}{3}{4}{5}".format(dt.year, dt.month, dt.day, dt.hour,
                                             dt.minute, dt.second)
-        fname = "log/vtf{}.log".format(lname, )  # python asctime milliseconds
+        config = utils.get_configurations()
+        log_path = config.get("DEFAULT", "log_path")
+        fname = "{0}/vtf{1}.log".format(log_path, lname, )
         structure = '%(asctime)s.%(levelno)-2d:%(message)s'
         logging.basicConfig(filename=fname, filemode='w',
                             level=level, format=structure)
