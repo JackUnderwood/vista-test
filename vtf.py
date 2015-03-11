@@ -25,9 +25,7 @@ def arguments_parser(arguments):
     for arg in arguments:
         counter += 1
         if arg.find(".\\") == 0:
-            print(" Found path argument")
             args_dict['path'] = arg
-
     return args_dict
 
 
@@ -84,7 +82,7 @@ if len(sys.argv) > 1:
     path = path.replace('/', '.')  # for unix paths
     path = path.replace('.py', '')
     # The path should now be 'case.testcase'
-    log.info("new, altered path: {0}".format(path,))
+    log.info("The new, altered path: {0}".format(path,))
     # Import the passed in module - executes it.
     try:
         # See link for alternative:
