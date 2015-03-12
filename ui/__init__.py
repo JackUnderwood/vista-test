@@ -13,6 +13,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.action_chains import ActionChains
 
 from tool.vlog import VLog
 
@@ -69,6 +70,8 @@ class UI:
                 self.select(element, value)
             elif command == "Wait":
                 self.wait_for_element(element, value)
+            elif command == "Chain":
+                self.chain(element)
             elif command == "Unknown":
                 print("This command is unknown - throw an error")
             else:
@@ -77,9 +80,34 @@ class UI:
             time.sleep(1)
         # self.driver.quit() # JNU have driver quit during teardown
 
-    def chain(self, paths):
-
-        pass
+    def chain(self, elements):
+        """
+        Builds an action chain - may need to add more actions - see link
+        'http://selenium.googlecode.com/svn/trunk/docs/api/py/webdriver/
+            selenium.webdriver.common.action_chains.html'
+        :param elements: Contains a list of tuples; tuple structure is
+        (action, {param1:p1, param2:p1}, (etc.), etc.)
+        :return: void
+        """
+        actions = ActionChains(self.driver)
+        # Build the actions chain
+        for elem in elements:
+            action, params = elem
+            if action == "click":
+                on_element = self.find_element(params['on_element'])
+                actions.click(on_element)
+            elif action == "click_and_hold":
+                on_element = self.find_element(params['on_element'])
+                actions.click_and_hold(on_element)
+            elif action == "drag_and_drop":
+                source = self.find_element(params['source'])
+                target = self.find_element(params['target'])
+                actions.drag_and_drop(source, target)
+            elif action == "move_to_element":
+                to_element = self.find_element(params['to_element'])
+                actions.move_to_element(to_element)
+            log.info("Chained action: {0}".format(action))
+        actions.perform()
 
     def click(self, elem):
         # value = "nicely done"
@@ -95,10 +123,10 @@ class UI:
 
     def find(self, elem, value):
         """
-        Special 'Type' case for Find... that requires no submit()
-        :param elem:
-        :param value:
-        :return:
+        Special 'Type' case for the 'Find...' that requires no submit()
+        :param elem: the 'Find...' DOM element
+        :param value: the search string
+        :return: void
         """
         log.info("Type Command for Find... - PATH: \'{0}\' - VALUE: {1}".
                  format(elem, value))

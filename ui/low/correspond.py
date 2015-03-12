@@ -10,12 +10,14 @@ class CorrespondBegin(UI):
         log.info("__init__() called")
 
         runtime = {
-            'correspond': ("Click", '//*[@id="yw1"]/li[5]/a/i', ""),
-            'waitSub': ("Wait", "yt0", 5),
-            'corrSend': ("Click", '//*[@id="yt0"]/li[2]/a', ""),
+            'correspond': ("Chain", [
+                ('click', {'on_element': '//*[@id="yw1"]/li[5]/a/i'}),
+                ('move_to_element', {'to_element': '//*[@id="yt0"]/li[2]/a'}),
+                ('click', {'on_element': '//*[@id="yt0"]/li[2]/a'}),
+            ], ""),
         }
         process = UI(override)
         process.update(runtime)
-        order = ('correspond', 'waitSub', 'corrSend')
+        order = ('correspond', )
         process.execute(order)
 
