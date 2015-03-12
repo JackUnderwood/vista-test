@@ -58,17 +58,17 @@ class UI:
         for item in items:
             t = self.runtime.get(item, ("Unknown", "Unknown", "Unknown"))
             # print(t)
-            command, path, value = t
+            command, element, value = t
             if command == "Click":
-                self.click(path)
+                self.click(element)
             elif command == "Type":
-                self.type(path, value)
+                self.type(element, value)
             elif command == "Find":
-                self.find(path, value)
+                self.find(element, value)
             elif command == "Select":
-                self.select(path, value)
+                self.select(element, value)
             elif command == "Wait":
-                self.wait_for_element(path, value)
+                self.wait_for_element(element, value)
             elif command == "Unknown":
                 print("This command is unknown - throw an error")
             else:
@@ -77,40 +77,44 @@ class UI:
             time.sleep(1)
         # self.driver.quit() # JNU have driver quit during teardown
 
-    def click(self, path):
+    def chain(self, paths):
+
+        pass
+
+    def click(self, elem):
         # value = "nicely done"
-        log.info("Click Command - PATH: \'{0}\'".format(path))
-        element = self.find_element(path)
+        log.info("Click Command - PATH: \'{0}\'".format(elem))
+        element = self.find_element(elem)
         element.click()
 
-    def type(self, path, value):
-        log.info("Type Command - PATH: \'{0}\' - VALUE: {1}".format(path, value))
-        element = self.find_element(path)
+    def type(self, elem, value):
+        log.info("Type Command - PATH: \'{0}\' - VALUE: {1}".format(elem, value))
+        element = self.find_element(elem)
         element.send_keys(value)
         element.submit()
 
-    def find(self, path, value):
+    def find(self, elem, value):
         """
         Special 'Type' case for Find... that requires no submit()
-        :param path:
+        :param elem:
         :param value:
         :return:
         """
         log.info("Type Command for Find... - PATH: \'{0}\' - VALUE: {1}".
-                 format(path, value))
-        element = self.find_element(path)
+                 format(elem, value))
+        element = self.find_element(elem)
         element.send_keys(value)
 
-    def select(self, path, value):
+    def select(self, elem, value):
         """
         May want to add the other options such as by value and by index.
         See http://selenium-python.readthedocs.org/en/latest/api.html
-        :param path: holds the xpath, id, or class
+        :param elem: holds the xpath, id, or class
         :param value: visible text inside the list
         :return: void
         """
-        log.info("Select Command - PATH: {0} - VALUE: {1}".format(path, value))
-        element = self.find_element(path)
+        log.info("Select Command - PATH: {0} - VALUE: {1}".format(elem, value))
+        element = self.find_element(elem)
         select = Select(element)
         select.select_by_visible_text(value)
 
@@ -126,19 +130,19 @@ class UI:
         finally:
             pass
 
-    def find_element(self, path):
+    def find_element(self, elem):
         """
-        :param path: a valid selector type, ie. xpath, class, or id
+        :param elem: a valid selector type, ie. xpath, class, or id
         :return: the DOM's element
         """
-        first_element = path[0]
+        first_element = elem[0]
         if first_element == '/':  # xpath
-            return self.driver.find_element_by_xpath(path)
+            return self.driver.find_element_by_xpath(elem)
         elif first_element == '.':  # class
-            _class = path[1:]
+            _class = elem[1:]
             return self.driver.find_element_by_class_name(_class)
         elif first_element == '#':  # id
-            _id = path[1:]
+            _id = elem[1:]
             return self.driver.find_element_by_id(_id)
         else:
             # TODO: need to throw excp
