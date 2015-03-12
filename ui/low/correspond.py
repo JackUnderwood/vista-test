@@ -20,4 +20,3 @@ class CorrespondBegin(UI):
         process.update(runtime)
         order = ('correspond', )
         process.execute(order)
-

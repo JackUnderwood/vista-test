@@ -1,7 +1,7 @@
 __author__ = 'John Underwood'
 """
 This class will setup the selenium driver and process all commands from
-subclasses. This class drives the user interface testing framework.
+subclasses. This class drives the user interface (UI) testing framework.
 
 Selectors Reference:
 //xpath
@@ -15,12 +15,12 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.action_chains import ActionChains
 
+import tool.utilities as utils
 from tool.vlog import VLog
 
 log = VLog(name="vtf", log_name="UI")
 
 
-# TODO: fix selenium logging to not display at DEBUG level
 # from selenium.webdriver.remote.remote_connection import LOGGER
 # LOGGER.setLevel(log.WARNING)
 
@@ -31,7 +31,9 @@ class UI:
     driver = webdriver.Chrome('C:/Common/chromedriver',
                               chrome_options=chrome_options)
     driver.implicitly_wait(5)  # seconds
-    driver.get('http://oasslcvswebt01')  # http://dev.com
+    config = utils.get_configurations()
+    test_url = config.get("DEFAULT", "test_url")
+    driver.get(test_url)  # http://oasslcvswebt01/
     assert "INDY" in driver.title
 
     runtime = {}
@@ -103,6 +105,11 @@ class UI:
                 source = self.find_element(params['source'])
                 target = self.find_element(params['target'])
                 actions.drag_and_drop(source, target)
+            elif action == "drag_and_drop_by_offset":
+                source = self.find_element(params['source'])
+                xoffset = self.find_element(params['xoffset'])
+                yoffset = self.find_element(params['yoffset'])
+                actions.drag_and_drop(source, xoffset, yoffset)
             elif action == "move_to_element":
                 to_element = self.find_element(params['to_element'])
                 actions.move_to_element(to_element)
@@ -160,6 +167,9 @@ class UI:
 
     def find_element(self, elem):
         """
+        '//' for xpath
+        '.' for class
+        '#' for id
         :param elem: a valid selector type, ie. xpath, class, or id
         :return: the DOM's element
         """
