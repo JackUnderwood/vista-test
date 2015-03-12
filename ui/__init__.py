@@ -84,7 +84,7 @@ class UI:
 
     def chain(self, elements):
         """
-        Builds an action chain - may need to add more actions - see link
+        Builds an 'action chain' - may need to add more actions - see link
         'http://selenium.googlecode.com/svn/trunk/docs/api/py/webdriver/
             selenium.webdriver.common.action_chains.html'
         :param elements: Contains a list of tuples; tuple structure is
@@ -113,7 +113,7 @@ class UI:
             elif action == "move_to_element":
                 to_element = self.find_element(params['to_element'])
                 actions.move_to_element(to_element)
-            log.info("Chained action: {0}".format(action))
+            log.info("Chained action: {0}".format(action, ))
         actions.perform()
 
     def click(self, elem):
@@ -154,6 +154,12 @@ class UI:
         select.select_by_visible_text(value)
 
     def wait_for_element(self, elem_id, wait_time):
+        """
+        Waits for elements with the id attribute; id only
+        :param elem_id: a string that holds the element's id
+        :param wait_time: wait time in seconds
+        :return: void
+        """
         log.info("Wait Command - wait for id=\"{0}\"".format(elem_id))
         from selenium.webdriver.support import expected_conditions as ec
         from selenium.webdriver.support.ui import WebDriverWait
