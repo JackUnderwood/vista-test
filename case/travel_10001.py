@@ -19,5 +19,5 @@ class Travel10001(UI):
         'selectSpecialty': ("Click", '//*[@id="content"]/div[6]/div', ""),
         'selectAssign': ("Click", '//*[@id="138861"]/div[1]', "")}
     TravelSpecialty(runtime)
-    TravelMiddleInitial()
+    TravelMiddleInitial()  # TODO: Travel..Initial(override={'enterMi': 'N'})
     UI().teardown()
