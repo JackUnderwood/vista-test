@@ -4,14 +4,12 @@ import sys
 import importlib
 import pprint
 
-import tool.utilities as utils
 from tool.testrail import *
 
-
+import tool.utilities as utils
 from tool.vlog import VLog
-# TODO: have the ability to set level as a command line arg.
-# log = VLog(name="vtf", level=10, log_name="VTF")  # set to debug level 10
-log = None
+
+log = None  # TODO: have the ability to set level as a command line arg.
 
 
 def arguments_parser(arguments):

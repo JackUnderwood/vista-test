@@ -21,10 +21,6 @@ from tool.vlog import VLog
 log = VLog(name="vtf", log_name="UI")
 
 
-# from selenium.webdriver.remote.remote_connection import LOGGER
-# LOGGER.setLevel(log.WARNING)
-
-
 class UI:
     chrome_options = Options()
     chrome_options.add_argument("--start-maximized")
