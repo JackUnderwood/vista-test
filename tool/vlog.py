@@ -30,8 +30,7 @@ class VLog(logging.Logger):
         dt = datetime.datetime.fromtimestamp(time.time())
         lname = "{0}{1}{2}{3}{4}{5}".format(dt.year, dt.month, dt.day, dt.hour,
                                             dt.minute, dt.second)
-        config = utils.get_configurations()
-        log_path = config.get("DEFAULT", "log_path")
+        log_path = utils.get_configurations("DEFAULT", "log_path")
         fname = "{0}/vtf{1}.log".format(log_path, lname, )
         structure = '%(asctime)s.%(levelno)-2d:%(message)s'
         logging.basicConfig(filename=fname, filemode='w',

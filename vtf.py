@@ -37,8 +37,7 @@ if len(sys.argv) > 1:
         print("vtf <path> <-- The path argument is incorrectly written")
         raise Exception
 
-    config = utils.get_configurations()
-    log_level = config.get("DEFAULT", "log_level")
+    log_level = utils.get_configurations("DEFAULT", "log_level")
     log_level_value = VLog.INFO  # default log level
     if log_level == 'DEBUG':
         log_level_value = VLog.DEBUG

@@ -31,8 +31,7 @@ class UI:
     driver = webdriver.Chrome('C:/Common/chromedriver',
                               chrome_options=chrome_options)
     driver.implicitly_wait(5)  # seconds
-    config = utils.get_configurations()
-    test_url = config.get("DEFAULT", "test_url")
+    test_url = utils.get_configurations("DEFAULT", "test_url")
     driver.get(test_url)  # http://oasslcvswebt01/
     assert "INDY" in driver.title
 
