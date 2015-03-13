@@ -60,7 +60,6 @@ class UI:
         log.debug("execute()")
         for item in items:
             t = self.runtime.get(item, ("Unknown", "Unknown", "Unknown"))
-            # print(t)
             command, element, value = t
             if command == "Click":
                 self.click(element)
@@ -78,13 +77,11 @@ class UI:
                 print("This command is unknown - throw an error")
             else:
                 print("Throw an error")
-            # print()
             time.sleep(1)
-        # self.driver.quit() # JNU have driver quit during teardown
 
     def chain(self, elements):
         """
-        Builds an 'action chain' - may need to add more actions - see link
+        Builds an 'action chain' - add more actions as needed - see link
         'http://selenium.googlecode.com/svn/trunk/docs/api/py/webdriver/
             selenium.webdriver.common.action_chains.html'
         :param elements: Contains a list of tuples; tuple structure is
@@ -107,8 +104,8 @@ class UI:
                 actions.drag_and_drop(source, target)
             elif action == "drag_and_drop_by_offset":
                 source = self.find_element(params['source'])
-                xoffset = self.find_element(params['xoffset'])
-                yoffset = self.find_element(params['yoffset'])
+                xoffset = params['xoffset']
+                yoffset = params['yoffset']
                 actions.drag_and_drop(source, xoffset, yoffset)
             elif action == "move_to_element":
                 to_element = self.find_element(params['to_element'])
