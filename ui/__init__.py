@@ -37,7 +37,6 @@ class UI:
 
     runtime = {}
     override = {}
-    element = None  # TODO: the driver's element
 
     def __init__(self, override=None):
         self.override = override
@@ -193,7 +192,7 @@ class UI:
     def teardown(self):
         # TODO: this should also be in the launch file vtf
         log.info("Teardown")
-        self.wait(1)  # Remove later JNU!!!
+        self.wait(1)  # TODO: Remove later JNU!!!
         self.driver.quit()
 
     @staticmethod
