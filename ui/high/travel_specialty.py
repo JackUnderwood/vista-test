@@ -6,17 +6,17 @@ class TravelSpecialty(UI):
     """
     NOT IN A USABLE STATE - see TODOs.
     Pre-requirement: needs to be on the Travel page - execute low.travel first.
-    Case test goes to EM.
+    Case test goes to EM. //*[@id="143545"]/div[1]
     """
     def __init__(self, override=None):
-        super().__init__()
+        super().__init__(override)
 
-        runtime = {  # specialty default EM
-            'selectSpecialty': ("Click", '//*[@id="content"]/div[1]/div', ""),
-            'provider': '123456',  # TODO: __OVERRIDE__ provider id
-            'selectAssign': ("Click", '//*[@id="#provider"]/div[1]', ""),
-        }  # TODO: create a placeholder routine in vtf - see #89432718
-        process = UI(override)
+        runtime = {
+            'selectSpecialty': ("Click", '//*[@id="content"]/div[5]/div', ""),
+            'provider': '143545',
+            'selectAssign': ("Click", '//*[@id="&provider;"]/div[1]', ""),
+        }
+        process = UI()
         process.update(runtime)
-        order = ('selectSpecialty', )
+        order = ('selectSpecialty', 'selectAssign')
         process.execute(order)

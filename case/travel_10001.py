@@ -16,12 +16,12 @@ class Travel10001(UI):
     Change the runtime to use specialty IMHSP and select specific assignment.
     """
     TravelBegin()
-    runtime = {  # specialty IMHSP
-        'selectSpecialty': ("Click", '//*[@id="content"]/div[6]/div', ""),
-        'selectAssign': ("Click", '//*[@id="138861"]/div[1]', "")}
+    # runtime = {  # specialty IMHSP
+    #     'selectSpecialty': ("Click", '//*[@id="content"]/div[6]/div', ""),
+    #     'selectAssign': ("Click", '//*[@id="138861"]/div[1]', "")}
     process = UI()
-    process.update(runtime)
+    # process.update(runtime)
     TravelSpecialty()
 
-    TravelMiddleInitial()
+    # TravelMiddleInitial()
     process.teardown()

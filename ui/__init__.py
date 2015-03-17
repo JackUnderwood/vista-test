@@ -58,10 +58,8 @@ class UI:
         for item in items:
             t = self.runtime.get(item, ("Unknown", "Unknown", "Unknown"))
             command, element, value = t
-            if self.override and item in self.override:
-                value = self.override.get(item, value)
-                log.debug("Replace key '{0}' with override value of '{1}'".
-                          format(item, value,))
+            value = self.check_for_override(item, value)
+            element = self.check_for_placeholder(command, element)
 
             if command == "Click":
                 self.click(element)
@@ -191,6 +189,34 @@ class UI:
             log.exception("no correct element found")
 
         return None
+
+    def check_for_override(self, item, value):
+        if self.override and item in self.override:
+            value = self.override.get(item, value)
+            log.debug("Replace key '{0}' with override value of '{1}'".
+                      format(item, value,))
+        return value
+
+    def check_for_placeholder(self, command, element):
+        """
+        Allows a placeholder inside an xpath, e.g. {
+            'provider': '123456',
+            'selectAssign': ("Click", '//*[@id="#provider;"]/div[1]', "")}
+        :param command: string - command type, e.g. 'Click', 'Select', 'Chain'
+        :param element: string - the element's location or xpath
+        :return: string - element
+        """
+        # TODO: need a way to handle xpaths inside the Chain command, #90548734
+        if command != 'Chain' and element.find('&') is not -1:
+            # Look for placeholder key
+            log.debug("------ ELEMENT: {}".format(element,))
+            key = element[element.find('&') + 1: element.find(';')]
+            log.debug("-- REPLACE KEY: {}".format(key, ))
+            if key in self.runtime:
+                element = element.replace(
+                    '&{};'.format(key,), self.runtime[key])
+                log.debug("-- NEW ELEMENT: {}".format(element, ))
+        return element
 
     def teardown(self):
         # TODO: this should also be in the launch file vtf
