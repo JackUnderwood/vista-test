@@ -60,8 +60,8 @@ class UI:
             command, element, value = t
             if self.override and item in self.override:
                 value = self.override.get(item, value)
-                log.info("Replace key '{0}' with override value of '{1}'".
-                         format(item, value,))
+                log.debug("Replace key '{0}' with override value of '{1}'".
+                          format(item, value,))
 
             if command == "Click":
                 self.click(element)
