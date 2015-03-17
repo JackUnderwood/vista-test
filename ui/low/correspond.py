@@ -12,8 +12,8 @@ class CorrespondBegin(UI):
         runtime = {
             'correspond': ("Chain", [
                 ('click', {'on_element': '//*[@id="yw1"]/li[5]/a/i'}),
-                ('move_to_element', {'to_element': '//*[@id="yt0"]/li[2]/a'}),
-                ('click', {'on_element': '//*[@id="yt0"]/li[2]/a'}),
+                ('move_to_element', {'to_element': '//*[@id="yt1"]/li[2]/a'}),
+                ('click', {'on_element': '//*[@id="yt1"]/li[2]/a'}),
             ], ""),
         }
         process = UI(override)

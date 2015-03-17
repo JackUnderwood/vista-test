@@ -4,6 +4,7 @@ from ui import UI
 
 class TravelMiddleInitial(UI):
     """
+    NOT IN A USABLE STATE - see TODOs.
     Pre-requirement: needs to be on the Travel's Provider Profile
     Case test goes to Provider Profile, changes Middle Initial.
     """

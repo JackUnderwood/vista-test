@@ -16,7 +16,7 @@ class Corr10002(UI):
             '#board_id',
             'American Board Of Anesthesiology - NC - Raleigh'
         ),
-        'find': ('Find', '#desc_provider_id', "campbell"),
+        'find': ('Find', '#desc_provider_id', "marvin"),
         'waitResult': ('Wait', 'display_box_container', 5),
         'provider': ('Click', '//span[@item_id="402355"]', ''),
         # 'provider': ('Click', '//*[contains(., "Aaron Lessen")]', ''),
@@ -37,4 +37,4 @@ class Corr10002(UI):
     # order = ('provider', )
     # process.execute(order)
     # process.wait(8)  # JNU!!! remove later
-    # process.teardown()
+    process.teardown()

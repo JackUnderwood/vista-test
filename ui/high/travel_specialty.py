@@ -4,7 +4,7 @@ from ui import UI
 
 class TravelSpecialty(UI):
     """
-    NOT IN A USABLE STATE.
+    NOT IN A USABLE STATE - see TODOs.
     Pre-requirement: needs to be on the Travel page - execute low.travel first.
     Case test goes to EM.
     """

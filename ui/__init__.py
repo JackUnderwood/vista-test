@@ -35,14 +35,17 @@ class UI:
     override = {}
 
     def __init__(self, override=None):
+        """
+        Takes a dictionary where its key(s) overrides a given key(s) inside
+        'runtime' and the value replaces runtime's field set to '__OVERRIDE__'
+        :param override: dict
+        :return: void
+        """
         self.override = override
         log.debug("UI __init__()")
 
     def update(self, runtime):
         log.debug("update()")
-        if self.override:
-            # override the 'passed in' runtime data
-            runtime.update(self.override)
         self.runtime.update(runtime)
 
     def execute(self, items):
@@ -55,6 +58,11 @@ class UI:
         for item in items:
             t = self.runtime.get(item, ("Unknown", "Unknown", "Unknown"))
             command, element, value = t
+            if self.override and item in self.override:
+                value = self.override.get(item, value)
+                log.info("Replace key '{0}' with override value of '{1}'".
+                         format(item, value,))
+
             if command == "Click":
                 self.click(element)
             elif command == "Type":
@@ -108,7 +116,6 @@ class UI:
         actions.perform()
 
     def click(self, elem):
-        # value = "nicely done"
         log.info("Click Command - PATH: \'{0}\'".format(elem))
         element = self.find_element(elem)
         element.click()
