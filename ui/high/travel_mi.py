@@ -21,9 +21,9 @@ class TravelMiddleInitial(UI):
                 "Type",
                 '//*[@id="provider_profile_sub"]/div[2]/div[1]/label[3]/div/'
                 'div[2]/div/form/div/div[1]/div[1]/input',
-                '__OVERRIDE__'
-                # TODO: need to implement '__OVERRIDE__' for this value 'N'
+                'A'
             ),
+            'results': (),
         }
         process = UI(override)
         process.update(runtime)

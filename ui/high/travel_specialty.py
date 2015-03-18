@@ -4,7 +4,6 @@ from ui import UI
 
 class TravelSpecialty(UI):
     """
-    NOT IN A USABLE STATE - see TODOs.
     Pre-requirement: needs to be on the Travel page - execute low.travel first.
     Case test goes to EM. //*[@id="143545"]/div[1]
     """
@@ -12,7 +11,9 @@ class TravelSpecialty(UI):
         super().__init__()
 
         runtime = {
-            'selectSpecialty': ("Click", '//*[@id="content"]/div[5]/div', ""),
+            'div': '5',
+            'selectSpecialty': (
+                "Click", '//*[@id="content"]/div[&div;]/div', ""),
             'provider': '143545',
             'selectAssign': ("Click", '//*[@id="&provider;"]/div[1]', ""),
         }

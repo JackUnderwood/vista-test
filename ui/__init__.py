@@ -228,6 +228,9 @@ class UI:
                 log.debug("-- NEW ELEMENT: {}".format(element, ))
         return element
 
+    def results(self, expected):  # TODO: create results log
+        pass
+
     def teardown(self):
         # TODO: this should also be in the launch file vtf
         log.info("Teardown")
