@@ -9,7 +9,6 @@ Selectors Reference:
 #id
 """
 import time
-import pprint
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -32,8 +31,6 @@ class UI:
     driver.get(test_url)  # http://oasslcvswebt01/
     assert "INDY" in driver.title
 
-    pp = pprint.PrettyPrinter(indent=3)
-
     runtime = {}
     override = {}
 
@@ -46,7 +43,6 @@ class UI:
         """
         self.override = override
         log.debug("UI __init__()")
-        self.pp.pprint("OVERRIDE-> {}".format(self.override))
 
     def update(self, runtime):
         log.debug("update()")
@@ -195,6 +191,7 @@ class UI:
         return None
 
     def check_override(self):
+        log.debug("check_override() current runtime: {}".format(self.runtime,))
         if self.override is None:
             log.debug("check_override() is NONE")
             return
