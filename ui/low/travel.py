@@ -3,7 +3,7 @@ from ui import UI
 from tool.vlog import VLog
 
 
-class TravelBegin(UI):
+class Travel(UI):
     """
     Begins at the main page and branches to the Travel page.
     """

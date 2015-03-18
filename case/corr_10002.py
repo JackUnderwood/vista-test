@@ -1,11 +1,11 @@
 __author__ = 'John Underwood'
 
 from ui import UI
-from ui.low.correspond import CorrespondBegin
+from ui.low.correspond import Correspond
 
 
 class Corr10002(UI):
-    CorrespondBegin()
+    Correspond()
 
     runtime = {
         'category': ('Select', '#category', 'Provider Licensing'),

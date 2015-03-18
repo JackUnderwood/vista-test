@@ -3,7 +3,7 @@ from ui import UI
 from tool.vlog import VLog
 
 
-class LyrisBegin(UI):
+class Lyris(UI):
     """
     Begins at the main page and branches to the Lyris dialog.
     """

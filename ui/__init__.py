@@ -9,6 +9,7 @@ Selectors Reference:
 #id
 """
 import time
+import pprint
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -31,6 +32,8 @@ class UI:
     driver.get(test_url)  # http://oasslcvswebt01/
     assert "INDY" in driver.title
 
+    pp = pprint.PrettyPrinter(indent=3)
+
     runtime = {}
     override = {}
 
@@ -43,10 +46,12 @@ class UI:
         """
         self.override = override
         log.debug("UI __init__()")
+        self.pp.pprint("OVERRIDE-> {}".format(self.override))
 
     def update(self, runtime):
         log.debug("update()")
         self.runtime.update(runtime)
+        self.check_override()
 
     def execute(self, items):
         """
@@ -58,7 +63,7 @@ class UI:
         for item in items:
             t = self.runtime.get(item, ("Unknown", "Unknown", "Unknown"))
             command, element, value = t
-            value = self.check_for_override(item, value)
+            # value = self.check_for_override(item, value)
             element = self.check_for_placeholder(command, element)
 
             if command == "Click":
@@ -190,11 +195,27 @@ class UI:
 
         return None
 
-    def check_for_override(self, item, value):
-        if self.override and item in self.override:
-            value = self.override.get(item, value)
+    def check_override(self):
+        if self.override is None:
+            log.debug("check_override() is NONE")
+            return
+        for key in self.override:
+            log.debug("check_override() KEY: {}".format(key, ))
+            if key in self.runtime:
+                if type(self.runtime[key]) is tuple:
+                    # Replace the 'value' portion
+                    self.runtime[key] = (self.runtime[key][0],
+                                         self.runtime[key][1],
+                                         self.override[key])
+                elif type(self.runtime[key]) is str:
+                    self.runtime[key] = self.override[key]
+        log.debug("check_override() new runtime: {}".format(self.runtime,))
+
+    def check_for_override(self, key, value):  # TODO: not sure this is needed
+        if self.override and key in self.override:
+            value = self.override.get(key, value)
             log.debug("Replace key '{0}' with override value of '{1}'".
-                      format(item, value,))
+                      format(key, value,))
         return value
 
     def check_for_placeholder(self, command, element):

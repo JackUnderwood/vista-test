@@ -3,16 +3,16 @@ from ui import UI
 from tool.vlog import VLog
 
 
-class FileBegin(UI):
+class File(UI):
     """
     Begins at the main page and branches to the File page.
     Other sibling files might be:
-    - HomeBegin
-    - TravelBegin
-    - CorrTemplateCreatorBegin
-    - CorrSendBegin
-    - LyrisBegin
-    - NotifyBegin
+    - Home
+    - Travel
+    - CorrespondCreator
+    - Correspond
+    - Lyris
+    - Notify
     """
     def __init__(self, override=None):
         super().__init__()

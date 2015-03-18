@@ -9,14 +9,14 @@ class TravelSpecialty(UI):
     Case test goes to EM. //*[@id="143545"]/div[1]
     """
     def __init__(self, override=None):
-        super().__init__(override)
+        super().__init__()
 
         runtime = {
             'selectSpecialty': ("Click", '//*[@id="content"]/div[5]/div', ""),
             'provider': '143545',
             'selectAssign': ("Click", '//*[@id="&provider;"]/div[1]', ""),
         }
-        process = UI()
+        process = UI(override)
         process.update(runtime)
         order = ('selectSpecialty', 'selectAssign')
         process.execute(order)

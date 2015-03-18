@@ -3,7 +3,7 @@ from ui import UI
 from tool.vlog import VLog
 
 
-class CorrespondBegin(UI):
+class Correspond(UI):
     def __init__(self, override=None):
         super().__init__()
         log = VLog(name="vtf", log_name="CORRESPD")
