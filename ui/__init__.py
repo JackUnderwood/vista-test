@@ -63,7 +63,6 @@ class UI:
         for item in items:
             t = self.runtime.get(item, ("Unknown", "Unknown", "Unknown"))
             command, element, value = t
-            # value = self.check_for_override(item, value)
             element = self.check_for_placeholder(command, element)
 
             if command == "Click":
@@ -210,13 +209,6 @@ class UI:
                 elif type(self.runtime[key]) is str:
                     self.runtime[key] = self.override[key]
         log.debug("check_override() new runtime: {}".format(self.runtime,))
-
-    def check_for_override(self, key, value):  # TODO: not sure this is needed
-        if self.override and key in self.override:
-            value = self.override.get(key, value)
-            log.debug("Replace key '{0}' with override value of '{1}'".
-                      format(key, value,))
-        return value
 
     def check_for_placeholder(self, command, element):
         """
