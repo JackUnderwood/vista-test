@@ -23,7 +23,11 @@ class TravelMiddleInitial(UI):
                 'div[2]/div/form/div/div[1]/div[1]/input',
                 'A'
             ),
-            'results': (),
+            'results': (
+                'Expected',
+                '//*[@id="provider_profile_sub"]/div[2]/div[1]/fake_xpath',
+                'the expected result string'
+            ),
         }
         process = UI(override)
         process.update(runtime)

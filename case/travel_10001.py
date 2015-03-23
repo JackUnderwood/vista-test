@@ -25,5 +25,6 @@ class Travel10001(UI):
 
     override = {'enterMi': 'N', }
     TravelMiddleInitial(override)
+    
     process.wait(3)
     process.teardown()
