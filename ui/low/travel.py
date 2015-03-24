@@ -12,9 +12,9 @@ class Travel(UI):
         log = VLog(name="vtf", log_name="TRAVEL")
         log.info("__init__() called")
         runtime = {
-            'travel': ("Click", '//*[@id="yw1"]/li[4]/a/i', ""),
+            'travel': ("Click", '//*[@id="slide-out"]/li[2]/a', ""),
         }
-        process = UI()
+        process = UI(override)
         process.update(runtime)
         order = ('travel',)
         process.execute(order)
