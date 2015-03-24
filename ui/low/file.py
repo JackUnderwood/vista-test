@@ -7,12 +7,12 @@ class File(UI):
     """
     Begins at the main page and branches to the File page.
     Other sibling files might be:
-    - Home
-    - Travel
-    - CorrespondCreator
-    - Correspond
-    - Lyris
-    - Notify
+        - Home
+        - Travel
+        - CorrespondCreator
+        - Correspond
+        - Lyris
+        - Notify
     """
     def __init__(self, override=None):
         super().__init__()
