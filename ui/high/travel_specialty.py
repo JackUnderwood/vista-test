@@ -13,9 +13,9 @@ class TravelSpecialty(UI):
         runtime = {
             'div': '5',
             'selectSpecialty': (
-                "Click", '//*[@id="content"]/div[&div;]/div', ""),
+                "Click", '//*[@id="content"]/div[&div;]/div',),
             'provider': '143545',
-            'selectAssign': ("Click", '//*[@id="&provider;"]/div[1]', ""),
+            'selectAssign': ("Click", '//*[@id="&provider;"]/div[1]',),
         }
         process = UI(override)
         process.update(runtime)

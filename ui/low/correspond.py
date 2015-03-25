@@ -10,15 +10,13 @@ class Correspond(UI):
         log.info("__init__() called")
 
         runtime = {
-            'correspond': ("Click", '//*[@id="slide-out"]/li[3]/ul/li/a', ""),
-            'send': ("Click", '//*[@id="slide-out"]/li[3]/ul/li/div/ul/li[2]/a', ""),
+            'correspond': ("Click", '//*[@id="slide-out"]/li[3]/ul/li/a'),
+            'send': ("Click", '//*[@id="slide-out"]/li[3]/ul/li/div/ul/li[2]/a'),
 
             # 'correspond': ("Chain", [
-            #     ('click',
-            # {'on_element': '//*[@id="slide-out"]/li[3]/ul/li/a'}),
-            #     ('click',
-            # {'on_element': '//*[@id="slide-out"]/li[3]/ul/li/div/ul/li[2]/a'})
-            # ], ""),
+            #     ('click', {'on_element': '//*[@id="slide-out"]/li[3]/ul/li/a'}),
+            #     ('click', {'on_element': '//*[@id="slide-out"]/li[3]/ul/li/div/ul/li[2]/a'})
+            # ]),
         }
         process = UI(override)
         process.update(runtime)
