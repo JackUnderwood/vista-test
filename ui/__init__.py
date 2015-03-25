@@ -21,7 +21,7 @@ from tool.vlog import VLog
 log = VLog(name="vtf", log_name="UI")
 
 
-class UI:
+class UI():
     chrome_options = Options()
     chrome_options.add_argument("--start-maximized")
     driver = webdriver.Chrome('C:/Common/chromedriver',
@@ -53,12 +53,14 @@ class UI:
         """
         :param items: a dictionary of tuples
         :return: void
-        Note: 'item' always expects a tuple of three elements
+        Note: 'item' always expects a tuple of two elements with an optional
+        third element for 'value'.
         """
         log.debug("execute()")
         for item in items:
-            t = self.runtime.get(item, ("Unknown", "Unknown", "Unknown"))
-            command, element, value = t
+            u = ("Unknown", "Unknown", "Unknown")
+            t = self.runtime.get(item, u)
+            command, element, value = t if (len(t) == len(u)) else t + ("",)
             element = self.check_for_placeholder(command, element)
 
             if command == "Click":
