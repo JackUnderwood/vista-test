@@ -85,7 +85,7 @@ if len(sys.argv) > 1:
         # See link for alternative:
         # https://docs.python.org/3/reference/import.html
         importlib.import_module(path)
-        log.debug("Try importlib {}".format(path,))
+        log.debug("Successfully tried importlib {}".format(path,))
         # command_module = __import__("%s" % path)
     except ImportError as ie:
         #  TODO: test this throw an exception
