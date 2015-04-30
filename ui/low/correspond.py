@@ -1,5 +1,7 @@
 __author__ = 'John Underwood'
 """
+This file is out-of-date as of 4/30/2015
+
 Sample of the Chain:
 'correspond': ("Chain", [
     ('click', {'on_element': '//*[@id="slide-out"]/li[3]/ul/li/a'}),
