@@ -5,13 +5,24 @@ from ui import UI
 
 class CorrSelections(UI):
     """
-    Pre-requirement: needs to be on the Send Correspondence page -
+    Pre-requirement: needs to be on the Correspondence page -
     execute low.correspond first.
+
+    Currently not in a fully working state, since adding new UI skin.
     """
-    def __init__(self, override=None):
+    def __init__(self):
         super().__init__()
+        # //*[@id="correspond_form"]/div[1]/div[1]/div[2]/div[2]
         runtime = {
-            'category': ('Select', '#category', 'Provider Licensing'),
+            'selectCat': (  # //*[@id="category"]
+                'Click',
+                '//*[@id="button_notification"]/div[2]/div',
+            ),
+            # Broken from here down.
+            'category': (
+                'Click',
+                '//*[@id="slide-out"]/li[3]/ul/li/div/ul/li[2]',
+            ),
             'template': ('Select', '#template_id', 'ECFMG request'),
             'waitBoard': ('Wait', 'board_id', 5),
             'board': (
@@ -23,8 +34,8 @@ class CorrSelections(UI):
             'waitResult': ('Wait', 'display_box_container', 5),
         }
 
-        process = UI(override)
+        process = UI()
         process.update(runtime)
-        order = ('category', 'template', 'waitBoard', 'board', 'find',
-                 'waitResult', )
+        order = ('selectCat', )
+        # 'category', 'template', 'waitBoard', 'board', 'find', 'waitResult', )
         process.execute(order)

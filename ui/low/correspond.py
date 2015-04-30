@@ -1,4 +1,11 @@
 __author__ = 'John Underwood'
+"""
+Sample of the Chain:
+'correspond': ("Chain", [
+    ('click', {'on_element': '//*[@id="slide-out"]/li[3]/ul/li/a'}),
+    ('click', {'on_element': '//*[@id="slide-out"]/li[3]/ul/li)
+]),
+"""
 from ui import UI
 from tool.vlog import VLog
 
@@ -9,16 +16,15 @@ class Correspond(UI):
         log = VLog(name="vtf", log_name="CORRESPD")
         log.info("__init__() called")
 
-        runtime = {
-            'correspond': ("Click", '//*[@id="slide-out"]/li[3]/ul/li/a'),
-            'send': ("Click", '//*[@id="slide-out"]/li[3]/ul/li/div/ul/li[2]/a'),
-
-            # 'correspond': ("Chain", [
-            #     ('click', {'on_element': '//*[@id="slide-out"]/li[3]/ul/li/a'}),
-            #     ('click', {'on_element': '//*[@id="slide-out"]/li[3]/ul/li/div/ul/li[2]/a'})
-            # ]),
+        runtime = {  # //*[@id="slide-out"]/li[3]
+            'correspond': ("Click", '//*[@id="slide-out"]/li[2]/a/i'),
         }
         process = UI(override)
         process.update(runtime)
-        order = ('correspond', 'send', )
+        order = ('correspond', )
         process.execute(order)
+        # self.results('Available')
+
+    # def results(self, expected):  # TODO: create a log specific to this test
+    #     super().results(expected)
+    #     pass
