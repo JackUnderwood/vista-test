@@ -28,7 +28,7 @@ class UI():
                               chrome_options=chrome_options)
     driver.implicitly_wait(5)  # seconds
     test_url = utils.get_configurations("DEFAULT", "test_url")
-    driver.get(test_url)  # http://oasslcvswebt01/
+    driver.get(test_url)
     assert "INDY" in driver.title
 
     runtime = {}
@@ -75,11 +75,23 @@ class UI():
                 self.wait_for_element(element, value)
             elif command == "Chain":
                 self.chain(element)
+            elif command == "Loop":  # temporarily for testing tables JNU!!!
+                self.loop(element)
             elif command == "Unknown":
                 print("This command is unknown - throw an error")
             else:
                 print("Throw an error")
             time.sleep(1)
+
+    def loop(self, elements):  # temporarily for testing tables JNU!!!
+        import xml.etree.ElementTree as ETree
+        log.info("Elements: {}".format(elements))
+        element = self.find_element(elements)
+        log.info("Element: {}".format(element))
+
+        # log.info("Loop Command - PATH: \'{0}\'".format(elements))
+        # element = self.find_element(elements)
+        # element.click()
 
     def chain(self, elements):
         """
@@ -89,6 +101,11 @@ class UI():
         :param elements: Contains a list of tuples; tuple structure is
         (action, {param1:p1, param2:p1}, (etc.), etc.)
         :return: void
+        Sample of the Chain:
+            'correspond': ("Chain", [
+                ('click', {'on_element': '//*[@id="slide-out"]/li[3]/ul/li/a'}),
+                ('click', {'on_element': '//*[@id="slide-out"]/li[3]/ul/li)'}),
+            ]),
         """
         actions = ActionChains(self.driver)
         # Build the actions chain
@@ -124,7 +141,7 @@ class UI():
         log.info("Type Command - PATH: \'{0}\' - VALUE: {1}".format(elem, value))
         element = self.find_element(elem)
         element.send_keys(value)
-        element.submit()
+        # element.submit()
 
     def find(self, elem, value):
         """
@@ -179,7 +196,8 @@ class UI():
         """
         first_element = elem[0]
         if first_element == '/':  # xpath
-            return self.driver.find_element_by_xpath(elem)
+            temp = self.driver.find_element_by_xpath(elem)
+            return temp  # self.driver.find_element_by_xpath(elem)
         elif first_element == '.':  # class
             _class = elem[1:]
             return self.driver.find_element_by_class_name(_class)

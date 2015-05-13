@@ -2,7 +2,7 @@ __author__ = 'John Underwood'
 
 from ui import UI
 from ui.low.file import File
-from ui.high.file_my_queue import FileMyQueue
+from ui.high.file_my_file import FileMyFile
 
 
 class File10001(UI):
@@ -13,6 +13,6 @@ class File10001(UI):
     tests how to handle setup and teardown (should it use vtf base file), etc.
     """
     File()
-    FileMyQueue()
-
+    FileMyFile()
+    UI().wait(4)
     UI().teardown()
