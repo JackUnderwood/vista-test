@@ -10,8 +10,8 @@ class CorrSelections(UI):
 
     Currently not in a fully working state, since adding new UI skin.
     """
-    def __init__(self):
-        super().__init__()
+    def __init__(self, override=None):
+        super().__init__(override)
         # //*[@id="correspond_form"]/div[1]/div[1]/div[2]/div[2]
         runtime = {
             'selectCat': (  # //*[@id="category"]
@@ -34,7 +34,7 @@ class CorrSelections(UI):
             'waitResult': ('Wait', 'display_box_container', 5),
         }
 
-        process = UI()
+        process = UI(override)
         process.update(runtime)
         order = ('selectCat', )
         # 'category', 'template', 'waitBoard', 'board', 'find', 'waitResult', )

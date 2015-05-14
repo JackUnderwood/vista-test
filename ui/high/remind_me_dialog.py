@@ -10,7 +10,7 @@ class RemindMeDialog(UI):
     Test case goes into Remind Me.
     """
     def __init__(self, override=None):
-        super().__init__(override)
+        super().__init__()
         runtime = {
             'refer': (
                 'Click',
@@ -25,12 +25,9 @@ class RemindMeDialog(UI):
                 '#notifyNotes',
                 'Lorem ipsum dolor sit amet, in pro summo contentiones. In sea.'
             ),
-            'button': (  # Submit button
-                'Click',
-                '//*[@for="widgetNotification"]/div/div[3]/a[1]'
-            ),
+            'button': ('Click', '//*[@button="save"]'),
         }
-        process = UI()
+        process = UI(override)
         process.update(runtime)
         order = ('refer', 'type', 'in', 'timePeriod', 'subject',
                  'notes', 'button', )

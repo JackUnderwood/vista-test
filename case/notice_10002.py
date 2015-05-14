@@ -7,7 +7,9 @@ from ui.high.remind_me_dialog import RemindMeDialog
 
 class Notice10002(UI):
     RemindMe()
-    override = {
-        'button': ('Click', '//*[@@for="widgetNotification"]/div/div[3]/a[2]')
+    override = {  # Cancel button
+        'button': ('Click', '//*[@button="close"]')
     }
     RemindMeDialog(override)
+    RemindMeDialog.wait(2)
+    UI().teardown()

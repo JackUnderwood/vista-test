@@ -42,7 +42,7 @@ class UI():
         :return: void
         """
         self.override = override
-        log.debug("UI __init__()")
+        log.debug("UI __init__() override: []".format(override,))
 
     def update(self, runtime):
         log.debug("update()")
@@ -211,21 +211,24 @@ class UI():
         return None
 
     def check_override(self):
-        log.debug("check_override() current runtime: {}".format(self.runtime,))
+        log.debug("check_override() override: {}".format(self.override,))
         if self.override is None:
             log.debug("check_override() is NONE")
             return
         for key in self.override:
             log.debug("check_override() KEY: {}".format(key, ))
             if key in self.runtime:
-                if type(self.runtime[key]) is tuple:
+                if type(self.runtime[key]) is str:
                     # Replace the 'value' portion
-                    log.de
+                    log.debug("key is [{}] AND runtime[key]: {}".format(key, self.runtime[key], ))
                     self.runtime[key] = (self.runtime[key][0],
                                          self.runtime[key][1],
                                          self.override[key])
-                elif type(self.runtime[key]) is str:
+                elif type(self.runtime[key]) is tuple:
                     self.runtime[key] = self.override[key]
+                else:
+                    log.exception("incorrect data structure")
+
         log.debug("check_override() new runtime: {}".format(self.runtime,))
 
     def check_for_placeholder(self, command, element):
