@@ -2,19 +2,12 @@ __author__ = 'John Underwood'
 
 from ui import UI
 from ui.low.license import License
+from ui.high.checklist import Checklist
 
 
-class Lic10001(UI):
-    runtime = {
-        'provider': (
-            'Click',
-            '//*[@id="licenseRequestsGrid_grid"]/tbody/tr[1]/td[8]/a',
-        ),
-    }
+class Lic10002(UI):
+    """
+    May want to remove this test since 'new_license.py' does the same thing.
+    """
     License()
-    process = UI()
-    process.update(runtime)
-    order = ('provider', )
-    process.execute(order)
-    process.wait(5)
-    process.teardown()
+    Checklist()

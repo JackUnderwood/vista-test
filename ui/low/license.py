@@ -16,7 +16,6 @@ class License(UI):
         log.info("License __init__() called")
         runtime = {
             'license': ('Click', '//*[@id="slide-out"]/li[2]/ul/li/a/i', ),
-            'waitSlide': ('Wait', 'slide-out', 5),
             'landing': (
                 'Click',
                 '//*[@id="slide-out"]/li[2]/ul/li/div/ul/li[1]/a', ),
@@ -24,5 +23,5 @@ class License(UI):
         }
         process = UI(override)
         process.update(runtime)
-        order = ('license', 'waitSlide', 'landing', )
+        order = ('license', 'landing', )
         process.execute(order)
