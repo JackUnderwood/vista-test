@@ -16,7 +16,7 @@ class Lic10001(UI):
         'findUser': ('Type', '#requester_id_desc', 'john underwood'),
         'selectUser': ('Click', '#1515'),
         'licensor': ('Select', '#owner_id', 'Crystal Liebl'),
-        'stateOfLicense': ('Select', '#state_code_id', 'Virginia'),
+        'stateOfLicense': ('Select', '#state_code_id', 'Arizona'),
         'credentialType': ('Select', '#credential_id', 'Medical Doctor', ),
         'licenseType': ('Select', '#license_type_id', 'Permanent'),
         'team': ('Select', '#team_id', 'Family Practice'),
@@ -39,4 +39,3 @@ class Lic10001(UI):
     process.execute(order)
     process.wait(5)
     process.teardown()
-
