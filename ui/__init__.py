@@ -21,7 +21,7 @@ from tool.vlog import VLog
 log = VLog(name="vtf", log_name="UI")
 
 
-class UI():
+class UI:
     chrome_options = Options()
     chrome_options.add_argument("--start-maximized")
     driver = webdriver.Chrome('C:/Common/chromedriver',
@@ -136,6 +136,7 @@ class UI():
         log.info("Click Command - PATH: \'{0}\'".format(elem))
         element = self.find_element(elem)
         element.click()
+        self.check_for_new_window()
 
     def type(self, elem, value):
         log.info("Type Command - PATH: \'{0}\' - VALUE: {1}".format(elem, value))
@@ -209,6 +210,13 @@ class UI():
             log.exception("no correct element found")
 
         return None
+
+    def check_for_new_window(self):
+        """
+        Get the window handle of the new window and switch to that.
+        """
+        for handle in self.driver.window_handles:
+            self.driver.switch_to.window(handle)
 
     def check_override(self):
         log.debug("check_override() override: {}".format(self.override,))

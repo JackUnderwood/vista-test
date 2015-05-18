@@ -4,7 +4,7 @@ from ui import UI
 from ui.low.license import License
 
 
-class Lic10001(UI):
+class AddRequest(UI):
     runtime = {
         'addRequest': (
             'Click',
