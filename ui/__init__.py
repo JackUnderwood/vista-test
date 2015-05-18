@@ -27,7 +27,7 @@ class UI:
     driver = webdriver.Chrome('C:/Common/chromedriver',
                               chrome_options=chrome_options)
     driver.implicitly_wait(5)  # seconds
-    test_url = utils.get_configurations("DEFAULT", "test_url")
+    test_url = utils.get_configurations("DEFAULT", "test_url")  # dev_url
     driver.get(test_url)
     assert "INDY" in driver.title
 
@@ -261,7 +261,11 @@ class UI:
         return element
 
     def results(self, expected):  # TODO: create results log
-        pass
+        html_source = self.driver.page_source
+        if expected in html_source:
+            log.debug("-- PASSED TEST CASE!!! ---")
+        else:
+            log.debug("-- FAILED TEST CASE!!! --")
 
     def teardown(self):
         # TODO: this should also be in the launch file vtf

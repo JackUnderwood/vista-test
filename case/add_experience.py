@@ -1,0 +1,37 @@
+__author__ = 'John Underwood'
+
+from ui import UI
+from ui.low.license import License
+from ui.high.checklist import Checklist
+
+
+class AddExperience(UI):
+    License()
+    Checklist()
+
+    runtime = {
+        'experience': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),
+        'addExperience': ('Click', '//*[@id="experience_form"]/a[1]'),
+        'findClient': ('Type', '#client_id_number_desc', 'car'),
+        'selectClient': ('Click', '#315711'),
+        'check': ('Click', '//*[@id="entityExperience_form"]/label[4]'),
+        'description': ('Type', '#description', 'Genetics research'),
+        'startDate': ('Type', '#start_date', '01042015'),
+        'endDate': ('Type', '#end_date', '05172015'),
+        'department': ('Type', '#department', 'Urology'),
+        'departmentChair': ('Type', '#department_chair', 'Jack Shoop'),
+        'capacity': ('Type', '#capacity', 'Rare Genetic Diseases'),
+        'notes': ('Type', '#notes', 'Notes on rare genetic diseases'),
+        'save': ('Click', '//*[@id="entityExperience_form"]/div[4]/a[1]')
+    }
+    expected = "Experienced saved"
+    process = UI()
+    process.update(runtime)
+    order = ('experience', 'addExperience', 'findClient', 'selectClient',
+             'check', 'description', 'startDate', 'endDate', 'department',
+             'departmentChair', 'capacity', 'notes', 'save', )
+    process.execute(order)
+    process.results(expected)
+    process.wait(3)
+    process.teardown()
+

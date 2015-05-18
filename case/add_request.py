@@ -6,10 +6,7 @@ from ui.low.license import License
 
 class AddRequest(UI):
     runtime = {
-        'addRequest': (
-            'Click',
-            '//*[@id="licenseRequestsGrid_form"]/a',
-        ),
+        'addRequest': ('Click', '//*[@id="licenseRequestsGrid_form"]/a'),
         'findEntity': ('Type', '#entity_id_number_desc', 'matt lambert'),
         'selectEntity': ('Click', '#91273'),  # lambert's unique id
         'wait': ('Wait', 'user_name', 5),
@@ -28,6 +25,8 @@ class AddRequest(UI):
         'save': ('Click', '#license-change-confirm'),
 
         # result: "Saved Request and notification sent to Licensing User"
+        # //*[@id="toast-container"]/div
+        # # "This would create a duplicate license."
     }
     License()
     process = UI()
@@ -37,5 +36,7 @@ class AddRequest(UI):
              'licenseType', 'team', 'status', 'assignmentStatus', 'dateDesired',
              'notes', 'save', )
     process.execute(order)
-    process.wait(5)
+    process.wait(2)
+    process.results("This would create a duplicate license")
+    process.wait(3)
     process.teardown()

@@ -5,7 +5,10 @@ from ui.low.license import License
 from ui.high.checklist import Checklist
 
 
-class NewLicense(UI):
+class NewLicenseNoExpire(UI):
+    """
+    Very similar to NewLicense
+    """
     License()
     Checklist()
 
@@ -25,18 +28,16 @@ class NewLicense(UI):
         'selectState': ('Select', '#state_issued', 'Idaho'),
         'dateGranted': ('Type', '#date_granted', '05042015'),
         'dateEffective': ('Type', '#date_effective', '05182015'),
-        'dateExpires': ('Type', '#date_expires', '10102016'),
         'licenseNumber': ('Type', '#license_number', 'n2676961'),
         'save': ('Click', '//*[@id="entityLicense_form"]/div[2]/a[1]')
     }
-    expected = "Licenses Updated"  # "Licenses Updated Comment Created"
+    expected = "Experation Date"  # should be "Expiration Date"
     process = UI()
     process.update(runtime)
     order = ('expandRibbon', 'licenseIcon', 'newLicense', 'selectCredential',
              'selectLicenseType', 'selectLicenseStanding', 'selectState',
-             'dateGranted', 'dateEffective', 'dateExpires', 'licenseNumber',
-             'save', )
+             'dateGranted', 'dateEffective', 'licenseNumber', 'save', )
     process.execute(order)
     process.results(expected)
-    process.wait(3)
+    process.wait(10)
     process.teardown()
