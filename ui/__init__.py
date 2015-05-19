@@ -31,6 +31,8 @@ class UI:
     driver.get(test_url)
     assert "INDY" in driver.title
 
+    max_size = int(utils.get_configurations("LOGGING", "max_string_size"))
+
     runtime = {}
     override = {}
 
@@ -139,7 +141,12 @@ class UI:
         self.check_for_new_window()
 
     def type(self, elem, value):
-        log.info("Type Command - PATH: \'{0}\' - VALUE: {1}".format(elem, value))
+        # Remove large string input for simpler logging.
+        temp = value
+        if len(value) > self.max_size:
+            ellipsis = "..."
+            temp = value[:self.max_size-len(ellipsis)].rstrip() + ellipsis
+        log.info("Type Command - PATH: \'{0}\' - VALUE: {1}".format(elem, temp))
         element = self.find_element(elem)
         element.send_keys(value)
         # element.submit()
