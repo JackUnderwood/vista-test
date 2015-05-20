@@ -8,10 +8,8 @@ class File(UI):
     Begins at the main page and branches to the File page.
     Other sibling files might be:
         - Home
-        - Travel
-        - CorrespondCreator
         - Correspond
-        - Lyris
+        - License
         - Notify
     """
     def __init__(self, override=None):
@@ -19,9 +17,9 @@ class File(UI):
         log = VLog(name="vtf", log_name="FILE")
         log.info("__init__() called")
         runtime = {
-            'file': ('Click', '//*[@id="slide-out"]/li[4]/a', ''),
+            'file': ('Click', '//*[@id="slide-out"]/li[3]/a/i', ''),
         }
         process = UI(override)
         process.update(runtime)
-        order = ('file',)
+        order = ('file', )
         process.execute(order)

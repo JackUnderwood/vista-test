@@ -14,14 +14,9 @@ class FileMyFile(UI):
             'subNav': ("Wait", "vsubnav", 5),
             'category': (
                 "Click",
-                '//*[@id="vsubnav"]/div/div[2]/ul',
+                '//*[@id="vsubnav"]/div/div[6]/span',
                 ""
             ),
-            'cat': {
-                "Click",
-                '///*[@id="vsubnav"]/div/div[2]/ul/ul/li[2]',
-                ""
-            },
         }
         process = UI()
         process.update(runtime)
