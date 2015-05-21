@@ -235,7 +235,8 @@ class UI:
             if key in self.runtime:
                 if type(self.runtime[key]) is str:
                     # Replace the 'value' portion
-                    log.debug("KEY is [{}] AND runtime[key]: {}".format(key, self.runtime[key], ))
+                    log.debug("KEY is [{}] AND runtime[key]: {}".format(
+                        key, self.runtime[key], ))
                     self.runtime[key] = (self.runtime[key][0],
                                          self.runtime[key][1],
                                          self.override[key])

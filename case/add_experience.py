@@ -12,8 +12,8 @@ class AddExperience(UI):
     runtime = {
         'experience': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),
         'addExperience': ('Click', '//*[@id="experience_form"]/a[1]'),
-        'findClient': ('Type', '#client_id_number_desc', 'car'),
-        'selectClient': ('Click', '#315711'),
+        'findClient': ('Type', '#client_id_number_desc', 'acute family'),
+        'selectClient': ('Click', '#user_name'),
         'check': ('Click', '//*[@id="entityExperience_form"]/label[4]'),
         'description': ('Type', '#description', 'Genetics research'),
         'startDate': ('Type', '#start_date', '01042015'),
