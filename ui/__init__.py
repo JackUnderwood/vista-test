@@ -80,9 +80,9 @@ class UI:
             elif command == "Loop":  # temporarily for testing tables JNU!!!
                 self.loop(element)
             elif command == "Unknown":
-                print("This command is unknown - throw an error")
+                print("Execute - This command is unknown - throw an error")
             else:
-                print("Throw an error")
+                print("Execute - Throw an error")
             time.sleep(1)
 
     def loop(self, elements):  # temporarily for testing tables JNU!!!
@@ -148,6 +148,7 @@ class UI:
             temp = value[:self.max_size-len(ellipsis)].rstrip() + ellipsis
         log.info("Type Command - PATH: \'{0}\' - VALUE: {1}".format(elem, temp))
         element = self.find_element(elem)
+        element.clear()
         element.send_keys(value)
         # element.submit()
 
@@ -268,9 +269,11 @@ class UI:
                 log.debug("-- NEW ELEMENT: {}".format(element, ))
         return element
 
-    def results(self, expected):  # TODO: create results log
-        html_source = self.driver.page_source
-        if expected in html_source:
+    def results(self, expected, elem_id=None, wait_time=1):
+        if elem_id:
+            self.wait_for_element(elem_id, wait_time)
+        html_source = self.driver.page_source.lower()
+        if expected.lower() in html_source:  # TODO: create results log
             log.debug("-- PASSED TEST CASE!!! ---")
         else:
             log.debug("-- FAILED TEST CASE!!! --")

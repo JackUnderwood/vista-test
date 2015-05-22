@@ -28,14 +28,17 @@ class EditEntity(UI):
         'city': ('Type', '#city', 'Geneva'),
         'state': ('Select', '#state', 'Utah'),
         'zipCode': ('Type', '#zip_code', '84056'),
-        'save': ('Click', '//*[@id="editEntityInformation_form"]/div[4]/a[1]')
+        'save': ('Click', '//*[@id="editEntityInformation_form"]/div[4]/a[1]'),
+        # 'expectedError': ('Wait', '//*[@id="toast-container"]/div', 10),
+        # has a class called "toast red"
     }
-    expected = "Cannot Be Blank"
+    # TODO: results(<text to look for>, [<xpath>, <wait time>])
+    expected = 'Cannot Be Blank'
     process = UI()
     process.update(runtime)
-    order = ('expandRibbon', 'providerId', 'addressDescription',
-             'addressType', 'address', 'city', 'state', 'zipCode', 'save', )
+    order = ('expandRibbon', 'providerId', 'addressDescription', 'addressType',
+             'address', 'city', 'state', 'zipCode', 'save', )  # 'expectedError'
     process.execute(order)
-    process.results(expected)
-    process.wait(5)
+    process.results(expected, 'toast-container', 8)
+    process.wait(3)
     process.teardown()
