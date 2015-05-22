@@ -148,7 +148,13 @@ class UI:
             temp = value[:self.max_size-len(ellipsis)].rstrip() + ellipsis
         log.info("Type Command - PATH: \'{0}\' - VALUE: {1}".format(elem, temp))
         element = self.find_element(elem)
-        element.clear()
+        try:
+            element.clear()
+        except Exception:
+            """invalid element state: Element must be user-editable in
+            order to clear it."""
+            log.warning("Element is not user-editable; unable to clear()")
+
         element.send_keys(value)
         # element.submit()
 
