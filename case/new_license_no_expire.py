@@ -31,7 +31,7 @@ class NewLicenseNoExpire(UI):
         'licenseNumber': ('Type', '#license_number', 'n2676961'),
         'save': ('Click', '//*[@id="entityLicense_form"]/div[2]/a[1]')
     }
-    expected = "Experation Date"  # should be "Expiration Date"
+    expected = "Expiration Date"  # should be "Expiration Date"; was Experation
     process = UI()
     process.update(runtime)
     order = ('expandRibbon', 'licenseIcon', 'newLicense', 'selectCredential',
@@ -39,5 +39,5 @@ class NewLicenseNoExpire(UI):
              'dateGranted', 'dateEffective', 'licenseNumber', 'save', )
     process.execute(order)
     process.results(expected)
-    process.wait(10)
+    process.wait(1)
     process.teardown()
