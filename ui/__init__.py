@@ -29,6 +29,7 @@ class UI:
     driver.implicitly_wait(5)  # seconds
     test_url = utils.get_configurations("DEFAULT", "test_url")  # dev_url
     driver.get(test_url)
+    log.debug("TEST Uniform Resource Locator: {}".format(test_url,))
     assert "INDY" in driver.title
 
     max_size = int(utils.get_configurations("LOGGING", "max_string_size"))
@@ -44,7 +45,7 @@ class UI:
         :return: void
         """
         self.override = override
-        log.debug("UI __init__() override: []".format(override,))
+        log.debug("UI __init__() override: {}".format(override,))
 
     def update(self, runtime):
         log.debug("update()")
@@ -143,7 +144,7 @@ class UI:
     def type(self, elem, value):
         # Remove large string input for simpler logging.
         temp = value
-        if len(value) > self.max_size:
+        if len(value) > self.max_size and self.max_size is not 0:
             ellipsis = "..."
             temp = value[:self.max_size-len(ellipsis)].rstrip() + ellipsis
         log.info("Type Command - PATH: \'{0}\' - VALUE: {1}".format(elem, temp))
@@ -275,7 +276,7 @@ class UI:
                 log.debug("-- NEW ELEMENT: {}".format(element, ))
         return element
 
-    def results(self, expected, elem_id=None, wait_time=1):
+    def results(self, expected, elem_id=None, wait_time=5):
         if elem_id:
             self.wait_for_element(elem_id, wait_time)
         html_source = self.driver.page_source.lower()

@@ -11,7 +11,7 @@ class AddCarrier(UI):
 
     runtime = {
         'malpractice': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[4]'),
-        'addCarrier': ('Click', '//*[@id="malpractice_form"]/a[2]'),
+        'addCarrier': ('Click', '//*[@id="malpracticeGrid_form"]/a[2]'),
         'findInsuranceProvider': ('Type', '#insurance_provider_id_desc', 'ame'),
         'selectInsuranceProvider': ('Click', '#167224'),  # Neurology
         'startDate': ('Type', '#start_date', '01072015'),

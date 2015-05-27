@@ -11,10 +11,10 @@ class AddExperience(UI):
 
     runtime = {
         'experience': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),
-        'addExperience': ('Click', '//*[@id="experience_form"]/a[1]'),
+        'addExperience': ('Click', '//*[@id="experienceGrid_form"]/a[1]'),
         'findClient': ('Type', '#client_id_number_desc', 'acute family'),
         'selectClient': ('Click', '#user_name'),
-        'check': ('Click', '//*[@id="entityExperience_form"]/label[4]'),
+        'check': ('Click', '//*[@id="ExperienceEdit_form"]/label[4]'),
         'description': ('Type', '#description', 'Genetics research'),
         'startDate': ('Type', '#start_date', '01042015'),
         'endDate': ('Type', '#end_date', '05172015'),
@@ -22,7 +22,7 @@ class AddExperience(UI):
         'departmentChair': ('Type', '#department_chair', 'Jack Shoop'),
         'capacity': ('Type', '#capacity', 'Rare Genetic Diseases'),
         'notes': ('Type', '#notes', 'Notes on rare genetic diseases'),
-        'save': ('Click', '//*[@id="entityExperience_form"]/div[4]/a[1]')
+        'save': ('Click', '//*[@button="save"]')
     }
     expected = "Experienced saved"
     process = UI()

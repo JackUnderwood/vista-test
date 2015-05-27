@@ -18,7 +18,7 @@ class AddClaim(UI):
 
     runtime = {
         'malpractice': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[4]'),
-        'addClaim': ('Click', '//*[@id="malpractice_form"]/a[1]'),
+        'addClaim': ('Click', '//*[@id="malpracticeGrid_form"]/a[1]'),
         'findInsuranceProvider': ('Type', '#insurance_provider_id_desc', 'ame'),
         'selectInsuranceProvider': ('Click', '#62963'),  # Orthopaedic Surgeons
         'status': ('Select', '#claim_status_id', 'Open'),

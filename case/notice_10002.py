@@ -11,5 +11,5 @@ class Notice10002(UI):
         'button': ('Click', '//*[@button="close"]')
     }
     RemindMeDialog(override)
-    RemindMeDialog.wait(2)
+    UI().wait(2)
     UI().teardown()
