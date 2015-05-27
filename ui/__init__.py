@@ -59,8 +59,8 @@ class UI:
         Note: 'item' always expects a tuple of two elements with an optional
         third element for 'value'.
         """
-        log.debug("execute()")
         for item in items:
+            log.debug("Execute KEY:[{}]".format(item,))
             u = ("Unknown", "Unknown", "Unknown")
             t = self.runtime.get(item, u)
             command, element, value = t if (len(t) == len(u)) else t + ("",)
