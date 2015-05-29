@@ -22,24 +22,24 @@ class SendCorrespond(UI):
             'Click',
             '//*[@id="correspondenceChooser_form"]/p[2]/p[7]/a'
         ),
+        'licenseStanding': ('Select', '#license_id', 'AZ - P - 2145 - A'),
 
-        'licenseStanding': ('Select', '#license_id', 'Good'),
-        'selectState': ('Select', '#state_code_id', 'Idaho'),
-        'credentialType': ('Select', '#credential_id', 'Medical Doctor'),
-        'licenseType': ('Select', '#license_type_id', 'Permanent'),
-        'dateGranted': ('Type', '#date_granted', '05042015'),
-        'dateEffective': ('Type', '#date_effective', '05182015'),
-        'dateExpires': ('Type', '#date_expires', '10102016'),
-        'licenseNumber': ('Type', '#license_number', 'n2676961'),
-        'save': ('Click', '//*[@button="save"]')
+        # 'selectState': ('Select', '#state_code_id', 'Idaho'),
+        # 'credentialType': ('Select', '#credential_id', 'Medical Doctor'),
+        # 'licenseType': ('Select', '#license_type_id', 'Permanent'),
+        # 'dateGranted': ('Type', '#date_granted', '05042015'),
+        # 'dateEffective': ('Type', '#date_effective', '05182015'),
+        # 'dateExpires': ('Type', '#date_expires', '10102016'),
+        # 'licenseNumber': ('Type', '#license_number', 'n2676961'),
+        # 'save': ('Click', '//*[@button="save"]')
     }
-    expected = "Licenses Updated"  # "Licenses Updated Comment Created"
+    expected = "Attachments"
     process = UI()
     process.update(runtime)
     order = ('expandRibbon', 'correspondIcon', 'selectTemplate',
-             'licenseStanding',
-             'selectState', 'credentialType', 'licenseType', 'dateGranted',
-             'dateEffective', 'dateExpires', 'licenseNumber', 'save', )
+             'licenseStanding', )
+    # 'selectState', 'credentialType', 'licenseType', 'dateGranted',
+    # 'dateEffective', 'dateExpires', 'licenseNumber', 'save', )
     process.execute(order)
     process.results(expected)
     process.wait(3)
