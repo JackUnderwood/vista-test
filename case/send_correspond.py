@@ -13,11 +13,28 @@ class SendCorrespond(UI):
 
     runtime = {
         'licenseStanding': ('Select', '#license_id', 'AZ - P - 2145 - A'),
+        'entity': ('Click', '//*[@id="add-recipient-container"]/span[1]'),
+        'findEntity': (
+            'Type',
+            '//*[@id="client_id_1_desc_5568b9eecbc2e"]',  # tripping up on this
+            'care'
+        ),
+        'selectEntity': ('Click', '//*[@item_id="108206"]'),
+        'checkAddress': (
+            'Click',
+            '//*[@id="delivery-locations"]/form/div[1]/p/label'
+        ),
+        'saveDeliveryMethod': (
+            'Click',
+            '//*[@id="delivery-locations"]/form/div[5]/a[1]'
+        ),
+        'send': ('Click', '#corr_send')
     }
-    expected = "Attachments"
+    expected = "Your message was successfully sent"
     process = UI()
     process.update(runtime)
-    order = ('licenseStanding', )
+    order = ('licenseStanding', 'entity', 'findEntity', 'selectEntity',
+             'checkAddress', 'saveDeliveryMethod', 'send')
     process.execute(order)
     process.results(expected)
     process.wait(3)
