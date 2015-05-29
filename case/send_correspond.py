@@ -3,25 +3,27 @@ __author__ = 'John Underwood'
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
+from ui.high.ribbon_corr import RibbonToCorrespondence
 
 
 class SendCorrespond(UI):
     License()
     Checklist()
+    RibbonToCorrespondence()
 
     runtime = {
-        'expandRibbon': (
-            'Click',
-            '//*[@id="ribbon_form"]/ul/li[1]/div[1]/div/div[1]'
-        ),
-        'correspondIcon': (
-            'Click',
-            '//*[@id="ribbon_form"]/ul/li/div[2]/div[3]/div/a[1]/i'
-        ),
-        'selectTemplate': (
-            'Click',
-            '//*[@id="correspondenceChooser_form"]/p[2]/p[7]/a'
-        ),
+        # 'expandRibbon': (
+        #     'Click',
+        #     '//*[@id="ribbon_form"]/ul/li[1]/div[1]/div/div[1]'
+        # ),
+        # 'correspondIcon': (
+        #     'Click',
+        #     '//*[@id="ribbon_form"]/ul/li/div[2]/div[3]/div/a[1]/i'
+        # ),
+        # 'selectTemplate': (
+        #     'Click',
+        #     '//*[@id="correspondenceChooser_form"]/p[2]/p[7]/a'
+        # ),
         'licenseStanding': ('Select', '#license_id', 'AZ - P - 2145 - A'),
 
         # 'selectState': ('Select', '#state_code_id', 'Idaho'),
@@ -36,8 +38,8 @@ class SendCorrespond(UI):
     expected = "Attachments"
     process = UI()
     process.update(runtime)
-    order = ('expandRibbon', 'correspondIcon', 'selectTemplate',
-             'licenseStanding', )
+    # order = ('expandRibbon', 'correspondIcon', 'selectTemplate',
+    order = ('licenseStanding', )
     # 'selectState', 'credentialType', 'licenseType', 'dateGranted',
     # 'dateEffective', 'dateExpires', 'licenseNumber', 'save', )
     process.execute(order)

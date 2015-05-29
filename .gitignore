@@ -20,6 +20,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Vim swap files
+*.swp
 
 ### PyCharm ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
