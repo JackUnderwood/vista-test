@@ -11,15 +11,15 @@ class RibbonToCorrespondence(UI):
             'expandRibbon': (
                 'Click',
                 '//*[@id="ribbon_form"]/ul/li[1]/div[1]/div/div[1]'
-             ),
-             'correspondIcon': (
-                 'Click',
-                 '//*[@id="ribbon_form"]/ul/li/div[2]/div[3]/div/a[1]/i'
-             ),
-             'selectTemplate': (  # override
-                 'Click',
-                 '//*[@id="correspondenceChooser_form"]/p[2]/p[7]/a'
-    	        ),
+            ),
+            'correspondIcon': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[2]/div[3]/div/a[1]/i'
+            ),
+            'selectTemplate': (  # override
+                'Click',
+                '//*[@id="correspondenceChooser_form"]/p[2]/p[7]/a'
+            ),
         }
         process = UI()
         process.update(runtime)
