@@ -128,7 +128,7 @@ class UI:
                 source = self.find_element(params['source'])
                 xoffset = params['xoffset']
                 yoffset = params['yoffset']
-                actions.drag_and_drop(source, xoffset, yoffset)
+                actions.drag_and_drop_by_offset(source, xoffset, yoffset)
             elif action == "move_to_element":
                 to_element = self.find_element(params['to_element'])
                 actions.move_to_element(to_element)
