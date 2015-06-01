@@ -6,6 +6,9 @@ from ui.high.corr_selections import CorrSelections
 
 
 class Corr10003(UI):
+    """
+    This is a sample class to show how 'override' is used.
+    """
     Correspond()
     override = {
         'board': 'AHPRA - ACT - Canberra',
