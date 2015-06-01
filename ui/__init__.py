@@ -259,7 +259,7 @@ class UI:
         """
         Allows a placeholder inside an xpath, e.g. {
             'provider': '123456',
-            'selectAssign': ("Click", '//*[@id="#provider;"]/div[1]', "")}
+            'selectAssign': ("Click", '//*[@id="&provider;"]/div[1]', "")}
         :param command: string - command type, e.g. 'Click', 'Select', 'Chain'
         :param element: string - the element's location or xpath
         :return: string - element
