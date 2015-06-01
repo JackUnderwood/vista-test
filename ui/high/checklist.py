@@ -12,13 +12,15 @@ class Checklist(UI):
     def __init__(self, override=None):
         super().__init__()
 
-        runtime = {  # Clicks on grids first row.
+        runtime = {
+            'doAll': ('Click', '//*[@id="checklist-form-container"]/div[1]/a'),
+            'rowNum': '1',  # Clicks on grids first row.
             'provider': (
                 'Click',
-                '//*[@id="licenseRequestsGrid_grid"]/tbody/tr[1]/td[8]/a',
+                '//*[@id="licenseRequestsGrid_grid"]/tbody/tr[&rowNum;]/td[8]/a',
             ),
         }
         process = UI(override)
         process.update(runtime)
-        order = ('provider', )
+        order = ('doAll', 'provider', )
         process.execute(order)

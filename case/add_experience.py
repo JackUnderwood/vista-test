@@ -7,7 +7,9 @@ from ui.high.checklist import Checklist
 
 class AddExperience(UI):
     License()
-    Checklist()
+
+    override = {'rowNum': '3'}
+    Checklist(override)
 
     runtime = {
         'experience': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),

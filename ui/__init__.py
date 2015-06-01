@@ -241,14 +241,14 @@ class UI:
         for key in self.override:
             log.debug("check_override() KEY: [{}]".format(key, ))
             if key in self.runtime:
-                if type(self.runtime[key]) is str:
+                if type(self.runtime[key]) is tuple:
                     # Replace the 'value' portion
                     log.debug("KEY is [{}] AND runtime[key]: {}".format(
                         key, self.runtime[key], ))
                     self.runtime[key] = (self.runtime[key][0],
                                          self.runtime[key][1],
                                          self.override[key])
-                elif type(self.runtime[key]) is tuple:
+                elif type(self.runtime[key]) is str:
                     self.runtime[key] = self.override[key]
                 else:
                     log.exception("override has incorrect data structure")
