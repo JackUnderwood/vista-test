@@ -13,7 +13,7 @@ class Checklist(UI):
         super().__init__()
 
         runtime = {
-            'doAll': ('Click', '//*[@id="checklist-form-container"]/div[1]/a'),
+            'showAll': ('Click', '//*[@id="checklist-form-container"]/div[1]/a'),
             'rowNum': '1',  # Clicks on grids first row.
             'provider': (
                 'Click',
@@ -22,5 +22,5 @@ class Checklist(UI):
         }
         process = UI(override)
         process.update(runtime)
-        order = ('doAll', 'provider', )
+        order = ('showAll', 'provider', )
         process.execute(order)
