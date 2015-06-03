@@ -8,7 +8,11 @@ from ui.high.ribbon_corr import RibbonToCorrespondence
 
 class SendCorrespond(UI):
     License()
-    Checklist()
+    override = {
+        'showAll': ("Unknown", "Unknown", "Unknown"),
+    }
+    Checklist(override)
+    UI().wait(10)
     RibbonToCorrespondence()
 
     runtime = {
