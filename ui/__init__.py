@@ -24,10 +24,12 @@ log = VLog(name="vtf", log_name="UI")
 class UI:
     chrome_options = Options()
     chrome_options.add_argument("--start-maximized")
-    driver = webdriver.Chrome('C:/Common/chromedriver',
+    if utils.is_pdf:
+        chrome_options.add_experimental_option('excludeSwitches', ['test-type'])
+    driver = webdriver.Chrome(executable_path='C:/Common/chromedriver',
                               chrome_options=chrome_options)
     driver.implicitly_wait(5)  # seconds
-    test_url = utils.get_configurations("DEFAULT", "test_url")  # dev_url
+    test_url = utils.get_configurations("DEFAULT", "test_url")
     driver.get(test_url)
     log.debug("TEST Uniform Resource Locator: {}".format(test_url,))
     assert "INDY" in driver.title

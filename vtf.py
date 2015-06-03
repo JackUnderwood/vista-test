@@ -80,6 +80,9 @@ if len(sys.argv) > 1:
     path = path.replace('.py', '')
     # The path should now be 'case.testcase'
     log.info("The new, altered path: {0}".format(path,))
+    # Test for the file chrome pdf viewer exception; determines whether an
+    #   option is added or not; see UI() chrome_options variable
+    utils.is_pdf = False if (path.find('pdf') is -1) else True
     # Import the passed in module - executes it.
     try:
         # See link for alternative:
