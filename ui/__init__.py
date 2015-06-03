@@ -50,7 +50,7 @@ class UI:
     def update(self, runtime):
         log.debug("update()")
         self.runtime.update(runtime)
-        self.check_override()
+         self.check_override()
 
     def execute(self, items):
         """
