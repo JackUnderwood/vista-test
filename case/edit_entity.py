@@ -33,7 +33,7 @@ class EditEntity(UI):
         # has a class called "toast red"
     }
     # TODO: results(<text to look for>, [<xpath>, <wait time>])
-    expected = 'Cannot Be Blank'
+    expected = 'Saved information'
     process = UI()
     process.update(runtime)
     order = ('expandRibbon', 'providerId', 'addressDescription', 'addressType',
