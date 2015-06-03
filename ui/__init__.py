@@ -24,7 +24,7 @@ log = VLog(name="vtf", log_name="UI")
 class UI:
     chrome_options = Options()
     chrome_options.add_argument("--start-maximized")
-    if utils.is_pdf:
+    if utils.is_pdf:  # file name has 'pdf' in it, then use this option
         chrome_options.add_experimental_option('excludeSwitches', ['test-type'])
     driver = webdriver.Chrome(executable_path='C:/Common/chromedriver',
                               chrome_options=chrome_options)
