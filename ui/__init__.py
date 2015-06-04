@@ -24,8 +24,12 @@ log = VLog(name="vtf", log_name="UI")
 class UI:
     chrome_options = Options()
     chrome_options.add_argument("--start-maximized")
-    if utils.is_pdf:  # file name has 'pdf' in it, then use this option
-        chrome_options.add_experimental_option('excludeSwitches', ['test-type'])
+    # This option takes care of a known issue in the browser, where the
+    # PDF viewer does not function, but downloads the file.
+    chrome_options.add_experimental_option(
+        'excludeSwitches',
+        ['test-type', 'ignore-certificate-errors']
+    )
     driver = webdriver.Chrome(executable_path='C:/Common/chromedriver',
                               chrome_options=chrome_options)
     driver.implicitly_wait(5)  # seconds

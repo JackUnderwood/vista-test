@@ -7,9 +7,6 @@ import configparser
 
 CONFIG_FILE = 'config.ini'
 
-# Set when 'pdf' is in the file's name, e.g. file_basic_pdf.py
-is_pdf = False
-
 
 def get_configurations(section, option):
     config = configparser.ConfigParser()
