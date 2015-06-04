@@ -251,9 +251,12 @@ class UI:
                     # Replace the 'value' portion
                     log.debug("KEY is [{}] AND runtime[key]: {}".format(
                         key, self.runtime[key], ))
-                    self.runtime[key] = (self.runtime[key][0],
-                                         self.runtime[key][1],
-                                         self.override[key])
+                    if len(self.runtime[key]) > 1:  # value portion
+                        self.runtime[key] = (self.runtime[key][0],
+                                             self.runtime[key][1],
+                                             self.override[key])
+                    else:
+                        self.runtime[key] = self.override[key]  # placeholder
                 elif type(self.override[key]) is tuple:
                     self.runtime[key] = self.override[key]
                 else:
