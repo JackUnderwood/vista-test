@@ -5,6 +5,11 @@ from ui.low.remind_me import RemindMe
 from ui.high.remind_me_dialog import RemindMeDialog
 
 
-class Notice10001(UI):
+class CreateNotification(UI):
     RemindMe()
     RemindMeDialog()
+
+    process = UI()
+    process.results('Notification Created')
+    process.wait(3)
+    process.teardown()
