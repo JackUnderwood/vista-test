@@ -16,7 +16,8 @@ add_experimental_option(
 from ui import UI
 
 
-class FileBasic(UI):
+class FileSelect(UI):
+    # May want to add placeholders for Category and Subcategory.
 
     def __init__(self, override=None):
         super().__init__(override)
