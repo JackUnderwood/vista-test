@@ -1,17 +1,17 @@
 __author__ = 'John Underwood'
 """
-This file's name must have the 'pdf' char combination to use the viewer,
-e.g. file_basic_pdf.py
-
-This test  uses the Chrome PDF Viewer, so it needs the following driver's option
-added add_experimental_option('excludeSwitches', ['test-type'])
-The vtf.py file reads in the file's name and does a find for 'pdf' in the file's
-name. If it sees that char combination, then it will set utils.is_pdf to True,
-which then allows the option 'excludeSwitches' to be set.
+This test uses the Chrome PDF Viewer, so it needs the following driver's option
+added; see UI() class: add_experimental_option('excludeSwitches', ['test-type'])
 
 An infobar warning banner will display, "You are using an unsupported
 command-line flag: --ignore-certificate-errors. Stability and security will
 suffer."
+
+Alter the above to avoid the banner:
+add_experimental_option(
+    'excludeSwitches',
+    ['test-type', 'ignore-certificate-errors']
+)
 """
 from ui import UI
 from ui.low.file import File
