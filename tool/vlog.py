@@ -60,8 +60,8 @@ class VLog(logging.Logger):
         self.logger.error(msg, *args, **kwargs)
 
     def exception(self, msg, *args, **kwargs):  # Use error()
-        msg = " " + Fore.RED + Back.YELLOW + msg + Back.RESET + Fore.RESET
-        self.logger.exception(msg, *args, **kwargs)
+        msg = " " + Fore.BLACK + Back.YELLOW + msg + Back.RESET + Fore.RESET
+        self.logger.error(msg, *args, **kwargs)
 
     def critical(self, msg, *args, **kwargs):
         msg = " " + Fore.WHITE + Back.RED + msg + Back.RESET + Fore.RESET

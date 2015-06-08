@@ -87,10 +87,12 @@ class UI:
             elif command == "Loop":  # temporarily for testing tables JNU!!!
                 self.loop(element)
             elif command == "Unknown":
-                print("Execute - This command is unknown - throw an error")
+                log.warning("""Execute - This command is unknown or
+                unavailable - throw a warning""")
             else:
-                print("Execute - Throw an error")
-            time.sleep(1)
+                log.exception("""Execute - No command is available -
+                throw an error""")
+            # time.sleep(1)
 
     def loop(self, elements):  # temporarily for testing tables JNU!!!
         import xml.etree.ElementTree as ETree
