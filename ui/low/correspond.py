@@ -25,8 +25,3 @@ class Correspond(UI):
         process.update(runtime)
         order = ('correspond', )
         process.execute(order)
-        # self.results('Available')
-
-    # def results(self, expected):  # TODO: create a log specific to this test
-    #     super().results(expected)
-    #     pass

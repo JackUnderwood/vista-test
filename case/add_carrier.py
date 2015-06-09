@@ -7,7 +7,8 @@ from ui.high.checklist import Checklist
 
 class AddCarrier(UI):
     License()
-    Checklist()
+    override = {'showAll': ('Unknown', 'Unknown', 'Unknown')}
+    Checklist(override)
 
     runtime = {
         'malpractice': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[4]'),
@@ -28,5 +29,5 @@ class AddCarrier(UI):
              'coverageAmount', 'policyNumber', 'save', )
     process.execute(order)
     process.results(expected)
-    process.wait(3)
+    process.wait(2)
     process.teardown()

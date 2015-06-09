@@ -12,30 +12,16 @@ class CorrSelections(UI):
     """
     def __init__(self, override=None):
         super().__init__(override)
-        # //*[@id="correspond_form"]/div[1]/div[1]/div[2]/div[2]
+
         runtime = {
-            'selectCat': (  # //*[@id="category"]
-                'Click',
-                '//*[@id="button_notification"]/div[2]/div',
-            ),
-            # Broken from here down.
-            'category': (
-                'Click',
-                '//*[@id="slide-out"]/li[3]/ul/li/div/ul/li[2]',
-            ),
-            'template': ('Select', '#template_id', 'ECFMG request'),
-            'waitBoard': ('Wait', 'board_id', 5),
-            'board': (
-                'Select',
-                '#board_id',
-                'American Board Of Anesthesiology - NC - Raleigh'  # override
-            ),
-            'find': ('Find', '#desc_provider_id', 'campbell'),  # override
-            'waitResult': ('Wait', 'display_box_container', 5),
+            'category': ('Select', '#category', 'Provider Licensing'),
+            'template': ('Select', '#template_id', 'License Renewal'),
+
+            # override key 'providerLicense' value
+            'providerLicense': ('Select', '#license_id', 'MD - P - D36976 - E'),
         }
 
         process = UI(override)
         process.update(runtime)
-        order = ('selectCat', )
-        # 'category', 'template', 'waitBoard', 'board', 'find', 'waitResult', )
+        order = ('category', 'template', 'providerLicense', )
         process.execute(order)
