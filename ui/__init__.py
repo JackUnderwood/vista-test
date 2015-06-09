@@ -92,7 +92,7 @@ class UI:
             else:
                 log.exception("""Execute - No command is available -
                 throw an error""")
-            # time.sleep(1)
+            time.sleep(1)
 
     def loop(self, elements):  # temporarily for testing tables JNU!!!
         import xml.etree.ElementTree as ETree
