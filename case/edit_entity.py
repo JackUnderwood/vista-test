@@ -3,17 +3,15 @@ __author__ = 'John Underwood'
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
+from ui.high.expand_ribbon import ExpandRibbon
 
 
 class EditEntity(UI):
     License()
     Checklist()
+    ExpandRibbon()
 
     runtime = {
-        'expandRibbon': (
-            'Click',
-            '//*[@id="ribbon_form"]/ul/li[1]/div[1]/div/div[1]'
-        ),
         'providerId': (
             'Click',
             '//*[@id="ribbon_form"]/ul/li[1]/div[2]/div[1]/div[6]/a[1]'
@@ -36,7 +34,7 @@ class EditEntity(UI):
     expected = 'Saved information'
     process = UI()
     process.update(runtime)
-    order = ('expandRibbon', 'providerId', 'addressDescription', 'addressType',
+    order = ('providerId', 'addressDescription', 'addressType',
              'address', 'city', 'state', 'zipCode', 'save', )  # 'expectedError'
     process.execute(order)
     process.results(expected, 'toast-container', 8)

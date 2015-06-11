@@ -3,6 +3,7 @@ __author__ = 'John Underwood'
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
+from ui.high.expand_ribbon import ExpandRibbon
 from ui.high.ribbon_corr import RibbonToCorrespondence
 
 
@@ -16,6 +17,7 @@ class SendCorrespond(UI):
         'showAll': ('Unknown', 'Unknown', 'Unknown'),
     }
     Checklist(override)
+    ExpandRibbon()
     UI().wait(6)
     RibbonToCorrespondence()
 
