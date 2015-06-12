@@ -35,7 +35,7 @@ class UI:
     driver.implicitly_wait(5)  # seconds
     test_url = utils.get_configurations("DEFAULT", "test_url")
     driver.get(test_url)
-    log.debug("TEST Uniform Resource Locator: {}".format(test_url,))
+    log.debug("TEST Uniform Resource Locator --------->>> {}".format(test_url,))
     assert "INDY" in driver.title
 
     max_size = int(utils.get_configurations("LOGGING", "max_string_size"))
