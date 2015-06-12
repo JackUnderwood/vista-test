@@ -28,7 +28,6 @@ class EditPhone(UI):
     process.update(runtime)
     order = ('phone', 'editPhone', 'revisePhone', 'save')
     process.execute(order)
+    process.results(expected, 'toast-container', 8)
     process.wait(2)
-    process.results(expected)
-    process.wait(1)
     process.teardown()
