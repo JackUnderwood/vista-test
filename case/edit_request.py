@@ -14,12 +14,12 @@ class EditRequest(UI):
         'notes': ('Type', '#note', 'Lorem ipsum dolor sit amet , mea ne ipsum'),
         'save': ('Click', '#license-change-confirm'),
     }
+    expected = "Saved Request"
     License()
     process = UI()
     process.update(runtime)
     order = ('editRequest', 'dateDesired', 'dateCompleted', 'notes', 'save', )
     process.execute(order)
-    process.wait(1)
-    process.results("Saved Request")
+    process.results(expected, 'toast-container', 8)
     process.wait(3)
     process.teardown()
