@@ -17,7 +17,8 @@ class AddCarrier(UI):
         'selectInsuranceProvider': ('Click', '#167224'),  # Neurology
         'startDate': ('Type', '#start_date', '01072015'),
         'endDate': ('Type', '#end_date', '05182015'),
-        'coverageAmount': ('Type', '#coverage_amount', '2000000'),
+        'occurrenceAmount': ('Type', '#per_occurrence_amount', '2000000'),
+        'aggregateAmount': ('Type', '#aggregate_amount', '2000000'),
         'policyNumber': ('Type', '#policy_number', 'WWF42BAR69'),
         'save': ('Click', '//*[@button="save"]')
     }
@@ -26,7 +27,7 @@ class AddCarrier(UI):
     process.update(runtime)
     order = ('malpractice', 'addCarrier', 'findInsuranceProvider',
              'selectInsuranceProvider', 'startDate', 'endDate',
-             'coverageAmount', 'policyNumber', 'save', )
+             'occurrenceAmount', 'aggregateAmount', 'policyNumber', 'save', )
     process.execute(order)
     process.results(expected)
     process.wait(2)
