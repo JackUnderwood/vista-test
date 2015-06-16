@@ -12,7 +12,7 @@ class MyWorkspace(UI):
         log = VLog(name="vtf", log_name="MYWORKSP")
         log.info("My Workspace __init__() called")
         runtime = {
-            'workspace': ('Click', '//*[@id="previous-results no-print"]', ),
+            'workspace': ('Click', '#previous-results', ),
         }
         process = UI(override)
         process.update(runtime)
