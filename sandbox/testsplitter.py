@@ -6,7 +6,7 @@ import sandbox.splitter as splitter
 # Unit Test
 class TestSplitFunction(unittest.TestCase):
     def setUp(self):
-        """Executes after every test"""
+        """Executes before every test"""
         pass
 
     def tearDown(self):
