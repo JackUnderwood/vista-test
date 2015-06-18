@@ -291,10 +291,13 @@ class UI:
         if elem_id:
             self.wait_for_element(elem_id, wait_time)
         html_source = self.driver.page_source.lower()
+        res = True
         if expected.lower() in html_source:  # TODO: create results log
             log.debug("-- PASSED TEST CASE!!! ---")
         else:
             log.debug("-- FAILED TEST CASE!!! --")
+            res = False
+        return res
 
     def teardown(self):
         # TODO: this should also be in the launch file vtf
