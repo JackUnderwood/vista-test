@@ -1,7 +1,13 @@
 #! python
+"""
+Reserve words for the Vista Testing Framework:
+• suite - files that are test suites must reside inside the ./suite/ dir
+• test - used in test function names
+"""
 import os
 import sys
 import importlib
+import unittest
 import pprint
 
 from tool.testrail import *
@@ -82,18 +88,31 @@ if len(sys.argv) > 1:
     # The path should now be 'case.testcase'
     log.info("The new, altered path: {0}".format(path,))
 
-    # Import the passed in module - executes it.
-    try:
-        # See link for alternative:
-        # https://docs.python.org/3/reference/import.html
-        importlib.import_module(path)
-        log.debug("Successfully tried importlib {}".format(path,))
-        # command_module = __import__("%s" % path)
-    except ImportError as ie:
-        #  TODO: test this throw an exception
-        log.exception("Thrown exception error: unable to __import__(): {0}".
-                      format(ie))
-        tb = sys.exc_info()[2]
-        raise ImportError().with_traceback(tb)
+    if path.find('suite') is not -1:
+        log.info("This is a SUITE!")
+        suite = unittest.TestSuite()
+        try:
+            mod = __import__(path, globals(), locals(), ['suite'])
+            suite_function = getattr(mod, 'suite')
+            suite.addTest(suite_function)
+            print("Try: was successful")
+        except (ImportError, AttributeError):
+            suite.addTest(unittest.defaultTestLoader.loadTestsFromName(path))
+        unittest.TextTestRunner().run(suite)
+
+    else:
+        # Import the passed in module - executes it.
+        try:
+            # See link for alternative:
+            # https://docs.python.org/3/reference/import.html
+            importlib.import_module(path)
+            log.debug("Successfully tried importlib {}".format(path,))
+            # command_module = __import__("%s" % path)
+        except ImportError as ie:
+            #  TODO: test this throw an exception
+            log.exception("Thrown exception error: unable to __import__(): {0}".
+                          format(ie))
+            tb = sys.exc_info()[2]
+            raise ImportError().with_traceback(tb)
 else:
     log.critical("vtf <path> <-- You are missing the path argument")

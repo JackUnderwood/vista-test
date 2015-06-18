@@ -6,16 +6,11 @@ from tool.vlog import VLog
 class File(UI):
     """
     Begins at the main page and branches to the File page.
-    Other sibling files might be:
-        - Home
-        - Correspond
-        - License
-        - Notify
     """
     def __init__(self, override=None):
         super().__init__()
         log = VLog(name="vtf", log_name="FILE")
-        log.info("__init__() called")
+        log.info("File __init__() called")
         runtime = {
             'file': ('Click', '//*[@id="slide-out"]/li[3]/a/i', ''),
         }
