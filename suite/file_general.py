@@ -7,13 +7,10 @@ from ui.high.file_select import FileSelect
 
 
 # Note: may want to put tests that use FileSelect class in a separate suite.
+# Reason is so setUp() can set File() and FileSelect() once
 class TestSuiteFile(unittest.TestCase):
     print(">> Inside TestSuiteFile class")
     process = UI()
-
-    # def __init__(self, override=None):
-    #     super().__init__(override)
-    #     self.process = UI()
 
     def setUp(self):
         File()
