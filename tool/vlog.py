@@ -20,7 +20,7 @@ class VLog(logging.Logger):
     ERROR = 40
     WARNING = 30
     INFO = 20
-    TRACE = 15  # TODO: Add another level
+    TRACE = 15  # TODO: Add another level - TRACE
     DEBUG = 10
 
     def __init__(self, name="VTF", level=logging.INFO, log_name="vtf"):
