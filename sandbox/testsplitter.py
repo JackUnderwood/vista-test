@@ -25,7 +25,15 @@ class TestSplitFunction(unittest.TestCase):
         r = splitter.split('GOOG,100,490.90', delimiter=',')
         self.assertEqual(r, ['GOOG', '100', '490.90'])
 
+    def test_with_extra_spaces(self):
+        r = splitter.split('GOOG 100   490.90')
+        self.assertEqual(r, ['GOOG', '100', '490.90'])
+
     def test_delimiter_with_spaces(self):
+        r = splitter.split('GOOG 100  490.90', delimiter=' ')
+        self.assertEqual(r, ['GOOG', '100', '', '490.90'])
+
+    def test_comma_delimiter_with_spaces(self):
         r = splitter.split('GOOG, 100,  490.90', delimiter=',')
         self.assertEqual(r, ['GOOG', '100', '490.90'])
 
@@ -36,4 +44,6 @@ class TestSplitFunction(unittest.TestCase):
         self.assertEqual(r, ['GOOG', 100, 490.9])
 
 if __name__ is '__main__':
+    module = __import__('__main__')
+    print("\r---- {}".format(module, ))
     unittest.main()
