@@ -82,7 +82,7 @@ if len(sys.argv) > 1:
     # The path should now be 'case.testcase'
     log.info("The new, altered path: {0}".format(path,))
 
-    # Import the passed in module - executes it.
+    # Import the passed-in module & executes it.
     try:
         # See link for alternative:
         # https://docs.python.org/3/reference/import.html
