@@ -3,14 +3,13 @@ import unittest
 
 from ui import UI
 from ui.low.file import File
-from ui.high.file_select import FileSelect
+import tool.utilities as utils
 
 
-# Note: may want to put tests that use FileSelect class in a separate suite.
-# Reason is so setUp() can set File() and FileSelect() once
 class TestSuiteFile(unittest.TestCase):
     print(">> Inside TestSuiteFile class")
     process = UI()
+    user_name = utils.get_configurations("USER", "name")
 
     def setUp(self):
         File()
@@ -18,6 +17,11 @@ class TestSuiteFile(unittest.TestCase):
     def tearDown(self):
         pass
 
+    @classmethod
+    def tearDownClass(cls):
+        UI().teardown()
+
+    # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
     def test_file_reset(self):
         print(">>> Inside function test_file_reset()")
         runtime = {
@@ -29,84 +33,13 @@ class TestSuiteFile(unittest.TestCase):
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
-    def test_file_rename(self):
-        print(">>> Inside function test_file_rename()")
-        FileSelect()
-
+    def test_my_files(self):
+        print(">>> Inside function test_my_files()")
         runtime = {
-            'rename': ('Click', '#rename'),
-            'execRename': ('Click', '//*[@button="rename"]')
+            'myfile': ('Click', '//*[@id="vsubnav"]/div/div[6]/span', )
         }
-        expected = "Document Description Updated"
+        expected = self.user_name
         self.process.update(runtime)
-        order = ('rename', 'execRename')
-        self.process.execute(order)
+        self.process.execute(('myfile', ))
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
-
-    def test_file_reassign(self):
-        print(">>> Inside function test_file_reassign()")
-        FileSelect()
-
-        runtime = {
-            'reassign': ('Click', '#reassign'),
-            'inputProvider': (
-                'Type',
-                '#reassigneSearchDescription',
-                'lambert matt st:wv'
-            ),
-            'selectProvider': ('Click', '#user_name'),
-            'category': ('Click', '//*[@id="reassignObjectContainer"]/ul'),
-            'catLicenses': ('Click', '//*[@title="Licenses"]'),
-            'subcategory': ('Click', '//*[@id="reassignCategoryContainer"]/ul'),
-            'subcatStateLicense': ('Click', '//*[@title="State License"]'),
-            'copy': ('Click', '#reassignCopy')
-        }
-
-        expected = "File move successful"
-        self.process.update(runtime)
-        order = ('reassign', 'inputProvider', 'selectProvider', 'category',
-                 'catLicenses', 'subcategory', 'subcatStateLicense', 'copy')
-        self.process.execute(order)
-        self.process.results(expected)
-        result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
-
-    def test_file_delete(self):
-        print(">>> Inside function test_file_delete()")
-        FileSelect()
-
-        runtime = {
-            'delete': ('Click', '#delete'),
-            'deactivate': ('Click', '//*[@button="delete"]'),
-        }
-        expected = "Status updated successfully"
-        self.process.update(runtime)
-        order = ('delete', 'deactivate')
-        self.process.execute(order)
-        result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
-
-    def test_file_rotate(self):
-        print(">>> Inside function test_file_rotate()")
-        FileSelect()
-
-        runtime = {
-            'rotate': ('Click', '#rotate'),
-            'selectPage': (
-                'Click',
-                '//*[@id="toolPanelContainer"]/div[2]/div/div/div[2]/div[2]',
-            ),
-            'rotateLeft': ('Click', '#rotateLeft'),
-        }
-
-        expected = "Rotate was successful"
-        self.process.update(runtime)
-        order = ('rotate', 'selectPage', 'rotateLeft', )
-        self.process.execute(order)
-        result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
-
-    @classmethod
-    def tearDownClass(cls):
-        UI().teardown()

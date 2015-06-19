@@ -5,7 +5,7 @@ from tool.vlog import VLog
 
 class File(UI):
     """
-    Begins at the main page and branches to the File page.
+    Click on the File link from the Nav bar, branches to the File page.
     """
     def __init__(self, override=None):
         super().__init__()
