@@ -6,8 +6,8 @@ from ui.low.file import File
 from ui.high.file_select import FileSelect
 
 
-class TestSuiteFile(unittest.TestCase):
-    print(">> Inside TestSuiteFile class")
+class TestSuiteFileTool(unittest.TestCase):
+    print(">> Inside TestSuiteFileTool class")
     process = UI()
 
     def setUp(self):

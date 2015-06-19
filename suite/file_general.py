@@ -6,8 +6,8 @@ from ui.low.file import File
 import tool.utilities as utils
 
 
-class TestSuiteFile(unittest.TestCase):
-    print(">> Inside TestSuiteFile class")
+class TestSuiteFileGeneral(unittest.TestCase):
+    print(">> Inside TestSuiteFileGeneral class")
     process = UI()
     user_name = utils.get_configurations("USER", "name")
 
