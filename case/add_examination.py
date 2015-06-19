@@ -10,8 +10,8 @@ class AddExamination(UI):
     Checklist()
 
     runtime = {
-        'examinations': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[3]'),
-        'addExperience': ('Click', '//*[@id="examinationGrid_form"]/a[1]'),
+        'exam': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[3]'),
+        'addExam': ('Click', '//*[@id="examinationGrid_form"]/a[1]'),
         'checkPassed': ('Click', '//*[@for="passed"]', ),
         'selectExamination': (
             'Select',
@@ -26,8 +26,8 @@ class AddExamination(UI):
     expected = "Examination saved"
     process = UI()
     process.update(runtime)
-    order = ('examinations', 'addExperience', 'checkPassed',
-             'selectExamination', 'selectState', 'examDate', 'score', 'save', )
+    order = ('exam', 'addExam', 'checkPassed', 'selectExamination',
+             'selectState', 'examDate', 'score', 'save', )
     process.execute(order)
     process.results(expected)
     process.wait(3)
