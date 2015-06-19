@@ -98,14 +98,14 @@ if len(sys.argv) > 1:
             print("Try: was successful")
         except (ImportError, AttributeError):
             suite.addTest(unittest.defaultTestLoader.loadTestsFromName(path))
-        unittest.TextTestRunner().run(suite)
+        unittest.TextTestRunner().run(suite)  # RUN the suite
 
     else:
         # Import the passed-in module & executes it.
         try:
             # See link for alternative:
             # https://docs.python.org/3/reference/import.html
-            importlib.import_module(path)
+            importlib.import_module(path)  # RUN the test case
             log.debug("Successfully tried importlib {}".format(path,))
             # command_module = __import__("%s" % path)
         except ImportError as ie:
