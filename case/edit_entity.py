@@ -30,7 +30,6 @@ class EditEntity(UI):
         # 'expectedError': ('Wait', '//*[@id="toast-container"]/div', 10),
         # has a class called "toast red"
     }
-    # TODO: results(<text to look for>, [<xpath>, <wait time>])
     expected = 'Saved information'
     process = UI()
     process.update(runtime)

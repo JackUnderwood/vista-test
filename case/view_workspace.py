@@ -5,9 +5,9 @@ from ui.low.my_workspace import MyWorkspace
 
 class ViewWorkspace(UI):
     MyWorkspace()
-    # TODO: still need to view the workspace and test for a result
     runtime = {}
     
     process = UI()
+    process.results('Use Find... to load your workspace.')
     process.wait(3)
     process.teardown()
