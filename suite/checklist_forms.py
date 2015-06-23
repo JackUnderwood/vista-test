@@ -21,7 +21,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
 
     def setUp(self):
         License()
-        Checklist()
+        Checklist({'rowNum': '4'})
 
     def tearDown(self):
         pass
