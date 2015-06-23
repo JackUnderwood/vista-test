@@ -25,7 +25,7 @@ class UI:
     chrome_options = Options()
     chrome_options.add_argument("--start-maximized")
     # This option takes care of a known issue in the browser, where the
-    # PDF viewer does not function, but downloads the file.
+    # PDF viewer does not function as expected--it downloads the file.
     chrome_options.add_experimental_option(
         'excludeSwitches',
         ['test-type', 'ignore-certificate-errors']
@@ -33,9 +33,9 @@ class UI:
     driver = webdriver.Chrome(executable_path='C:/Common/chromedriver',
                               chrome_options=chrome_options)
     driver.implicitly_wait(5)  # seconds
-    test_url = utils.get_configurations("DEFAULT", "test_url")
-    driver.get(test_url)
-    log.debug("TEST Uniform Resource Locator --------->>> {}".format(test_url,))
+    url = utils.url
+    driver.get(url)
+    log.debug("TEST Uniform Resource Locator --------->>> {}".format(url,))
     assert "INDY" in driver.title
 
     max_size = int(utils.get_configurations("LOGGING", "max_string_size"))
