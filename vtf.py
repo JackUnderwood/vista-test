@@ -60,8 +60,9 @@ if len(sys.argv) > 1:
         log_level_value = VLog.CRITICAL
     print(" Log level is {}".format(log_level_value, ))
     log = VLog(name="vtf", level=log_level_value, log_name="VTF")
-    # log.debug("Testing debug...")  # this displays if log_level == 10
-    # log.info("Testing info...")
+    log.debug("Testing debug...")  # this displays if log_level == 10
+    log.info("Testing info...")
+    log.trace("Testing trace...")
     # log.warning("Testing warning...")
     # log.error("Testing error...")
     # log.exception("Testing exception...")

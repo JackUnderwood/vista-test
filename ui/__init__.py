@@ -54,7 +54,7 @@ class UI:
         log.debug("UI __init__() override: {}".format(override,))
 
     def update(self, runtime):
-        log.debug("update()")
+        log.trace("update()")
         self.runtime.update(runtime)
         self.check_override()
 

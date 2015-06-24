@@ -47,6 +47,10 @@ class VLog(logging.Logger):
         msg = " " + Fore.GREEN + msg + Fore.RESET
         self.logger.debug(msg, *args, **kwargs)
 
+    def trace(self, msg, *args, **kwargs):  # Use info()
+        msg = " " + Fore.WHITE + msg + Fore.RESET
+        self.logger.info(msg, *args, **kwargs)
+
     def info(self, msg, *args, **kwargs):
         msg = " " + Fore.CYAN + msg + Fore.RESET
         self.logger.info(msg, *args, **kwargs)
