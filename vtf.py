@@ -15,7 +15,7 @@ from tool.testrail import *
 import tool.utilities as utils
 from tool.vlog import VLog
 
-log = None  # TODO: have the ability to set level as a command line arg.
+log = None
 # url = None
 
 

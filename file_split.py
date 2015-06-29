@@ -6,10 +6,8 @@ from ui.high.file_select import FileSelect
 
 
 class FileSplit(UI):
-    """
-    Still needs work
-    """
     # TODO: Need feedback message for Create split
+
     File()
     FileSelect()
 
