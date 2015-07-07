@@ -17,11 +17,11 @@ utamur inimicus mei."""
 class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
-    debug = 'all'
+    debug = 'all'  # use this to test individual test case methods below
 
     def setUp(self):
         License()
-        Checklist({'rowNum': '4'})
+        Checklist({'rowNum': '6'})
 
     def tearDown(self):
         pass
@@ -127,10 +127,12 @@ class TestSuiteChecklistForms(unittest.TestCase):
                          "testing {}".format(debug,))
     def test_add_examination(self):
         print(">>> Inside function test_add_examination()")
-        runtime = {
+        runtime = {          #
             'exam': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[3]'),
             'addExam': ('Click', '//*[@id="examinationGrid_form"]/a[1]'),
-            'checkPassed': ('Click', '//*[@for="passed"]', ),
+            'checkPassed': (
+                'Click',
+                '//*[@id="examinationEdit_form"]/div[1]/div/div[1]/div/label',),
             'sExamination': (
                 'Select',
                 '#examination_id',

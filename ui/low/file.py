@@ -12,7 +12,8 @@ class File(UI):
         log = VLog(name="vtf", log_name="FILE")
         log.info("File __init__() called")
         runtime = {
-            'file': ('Click', '//*[@id="slide-out"]/li[3]/a/i', ''),
+            'level': '3',
+            'file': ('Click', '//*[@id="slide-out"]/li[&level;]/a/i', ''),
         }
         process = UI(override)
         process.update(runtime)

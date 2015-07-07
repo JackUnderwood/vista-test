@@ -17,7 +17,7 @@ class Checklist(UI):
             'rowNum': '1',  # Clicks on grids first row.
             'provider': (
                 'Click',
-                '//*[@id="licenseRequestsGrid_grid"]/tbody/tr[&rowNum;]/td[8]/a',
+                '//*[@id="licenseRequestsGrid_grid"]/tbody/tr[&rowNum;]/td[3]/a',
             ),
         }
         process = UI(override)
