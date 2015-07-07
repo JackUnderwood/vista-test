@@ -16,7 +16,7 @@ class AddExperience(UI):
         'addExperience': ('Click', '//*[@id="experienceGrid_form"]/a[1]'),
         'findClient': ('Type', '#client_id_number_desc', 'acute family'),
         'selectClient': ('Click', '#user_name'),
-        'check': ('Click', '//*[@id="ExperienceEdit_form"]/label[4]'),
+        'check': ('Click', '//*[@id="ExperienceEdit_form"]/div[4]/div[4]/label'),
         'description': ('Type', '#description', 'Genetics research'),
         'startDate': ('Type', '#start_date', '01042015'),
         'endDate': ('Type', '#end_date', '05172015'),

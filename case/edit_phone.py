@@ -18,7 +18,7 @@ class EditPhone(UI):
         ),
         'editPhone': (
             'Click',
-            '//*[@id="phoneGrid_grid"]/tbody/tr[1]/td[14]/a/i'
+            '//*[@id="phoneGrid_grid"]/tbody/tr/td[14]/a/i'
         ),
         'revisePhone': ('Type', '#phone', '8012251155'),
         'save': ('Click', '//*[@button="save"]')

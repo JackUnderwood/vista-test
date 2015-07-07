@@ -26,7 +26,7 @@ class EditEntity(UI):
         'city': ('Type', '#city', 'Geneva'),
         'state': ('Select', '#state', 'Utah'),
         'zipCode': ('Type', '#zip_code', '84056'),
-        'save': ('Click', '//*[@id="editEntityInformation_form"]/div[4]/a[1]'),
+        'save': ('Click', '//*[@button="save"]'),
         # 'expectedError': ('Wait', '//*[@id="toast-container"]/div', 10),
         # has a class called "toast red"
     }
