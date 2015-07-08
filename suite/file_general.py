@@ -13,8 +13,7 @@ class TestSuiteFileGeneral(unittest.TestCase):
     user_name = utils.get_configurations("USER", "name")
 
     def setUp(self):
-        override = {'level': '4'}
-        File(override)
+        File()
 
     def tearDown(self):
         pass
