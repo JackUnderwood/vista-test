@@ -287,13 +287,26 @@ class UI:
                 log.debug("-- NEW ELEMENT: {}".format(element, ))
         return element
 
-    def results(self, expected, elem_id=None, wait_time=5):
+    def results(self, expected, elem_id=None, wait_time=5, negative=False):
+        """
+        Search the DOM for the expected string.
+        :param expected: expected results search string
+        :param elem_id: look in a DOM specific area by 'id' attribute
+        :param wait_time: the total tolerance time
+        :param negative: True - do NOT expect to see the expected
+        :return:
+        """
         if elem_id:
             self.wait_for_element(elem_id, wait_time)
         html_source = self.driver.page_source.lower()
         res = True
-        if expected.lower() in html_source:  # TODO: create results log
+        if expected.lower() in html_source and not negative:
             log.debug("-- PASSED TEST CASE!!! ---")
+        elif expected.lower() in html_source and negative:
+            log.debug("-- FAILED NEGATIVE TEST CASE!!! ---")
+            res = False
+        elif expected.lower() not in html_source and negative:
+            log.debug("-- PASSED NEGATIVE TEST CASE!!! ---")
         else:
             log.debug("-- FAILED TEST CASE!!! --")
             res = False
