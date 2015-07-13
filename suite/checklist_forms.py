@@ -21,7 +21,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
 
     def setUp(self):
         License()
-        Checklist({'rowNum': '6'})
+        Checklist({'rowNum': '5'})
 
     def tearDown(self):
         pass
@@ -156,4 +156,3 @@ class TestSuiteChecklistForms(unittest.TestCase):
     def test_add_experience(self):
         print(">>> Inside function test_add_experience()")
         pass
-

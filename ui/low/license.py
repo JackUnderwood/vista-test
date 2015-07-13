@@ -15,10 +15,11 @@ class License(UI):
         log = VLog(name="vtf", log_name="LICENSE")
         log.info("License __init__() called")
         runtime = {
-            'license': ('Click', '//*[@id="slide-out"]/li[2]/ul/li/a/i', ),
+            'level': '3',
+            'license': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i', ),
             'landing': (
                 'Click',
-                '//*[@id="slide-out"]/li[2]/ul/li/div/ul/li[1]/a', ),
+                '//*[@id="slide-out"]/li[3]/ul/li/div/ul/li[1]/a', ),
             # 'license': ('Loop', '//*[@id="licenseRequestsGrid_grid"]/tbody'),
         }
         process = UI(override)
