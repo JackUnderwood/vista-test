@@ -3,6 +3,10 @@
 Reserve words for the Vista Testing Framework:
 • suite - files that are test suites must reside inside the ./suite/ dir
 • test - used in test function names
+
+Using powershell terminal, path shows: .\vtf.py .\case\testcase
+Command line arguments: platform=test log=warning anything=else
+platform may equal 'test' or 'dev'
 """
 import os
 import sys
@@ -16,14 +20,11 @@ from tool.testrail import *
 import tool.utilities as utils
 from tool.vlog import VLog
 
-# Get the arguments passed in at the command line.
-# Using powershell terminal, path shows: .\vtf.py .\case\testcase
-# Command line arguments: platform=test log=warning anything=else
-# platform may equal 'test' or 'dev'
+# ^*^*^*^*^*^* Get the arguments passed in at the command line *^*^*^*^*^*^
 parser = argparse.ArgumentParser()
-parser.add_argument("path", help="provides path to test case or suite", type=str)
-parser.add_argument("-p", "--platform", help="determines test or dev", type=str)
-parser.add_argument("-g", "--log_level", help="sets the log level", type=str)
+parser.add_argument("path", type=str, help="provides path to test case or suite")
+parser.add_argument("-p", "--platform", type=str, help="determines test or dev")
+parser.add_argument("-g", "--log_level",  type=str, help="sets the log level")
 args = parser.parse_args()
 
 # ^*^*^*^*^*^* Set up the logging *^*^*^*^*^*^
@@ -53,6 +54,7 @@ log = VLog(name="vtf", level=log_level_value, log_name="VTF")
 # log.exception("Testing exception...")
 # log.critical("Testing critical...")
 
+# ^*^*^*^*^*^* Set up the test environment *^*^*^*^*^*^
 url = utils.get_configurations("DEFAULT", "test_url")
 if args.platform:
     if args.platform == 'test':
@@ -63,6 +65,7 @@ if args.platform:
         log.warning("Unrecognizable platform: {}".format(args['platform'],))
 utils.url = url  # set the global only once, and only here
 
+# ^*^*^*^*^*^* Launch the test case or suite *^*^*^*^*^*^
 path = args.path
 full_path = path
 if path.find('.py') is -1:
@@ -76,12 +79,10 @@ if os.path.exists(full_path):
     # pp = pprint.PrettyPrinter(indent=4)
     # pp.pprint(case)
 else:
-    #  TODO: throw an exception here - needs improvement
-    log.error("path '{0}' does not exist".
-              format(full_path, ))
+    log.error("path '{0}' does not exist".format(full_path, ))
     raise Exception
 
-# Need replace to make path friendly for __import__()
+# Need replacement to make path friendly for __import__()
 # Change path '.\case\testcase' to 'case.testcase'
 if path.find('.') == 0:
     # Using powershell, path shows: '.\case\testcase' to 'case\testcase'
@@ -113,7 +114,6 @@ else:
         log.debug("Successfully tried importlib {}".format(path,))
         # command_module = __import__("%s" % path)
     except ImportError as ie:
-        #  TODO: test this throw an exception
         log.exception("Thrown exception error: unable to __import__(): {0}".
                       format(ie))
         tb = sys.exc_info()[2]

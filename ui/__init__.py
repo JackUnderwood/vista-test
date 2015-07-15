@@ -313,7 +313,6 @@ class UI:
         return res
 
     def teardown(self):
-        # TODO: this should also be in the launch file vtf
         log.info("Teardown")
         self.wait(1)  # TODO: Remove later JNU!!!
         self.driver.quit()
