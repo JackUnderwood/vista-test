@@ -12,7 +12,10 @@ class AddExamination(UI):
     runtime = {
         'exam': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[3]'),
         'addExam': ('Click', '//*[@id="examinationGrid_form"]/a[1]'),
-        'checkPassed': ('Click', '//*[@for="passed"]', ),
+        'checkPassed': (
+            'Click',
+            '//*[@id="examinationEdit_form"]/div[1]/div/div[1]/div/label',
+        ),
         'selectExamination': (
             'Select',
             '#examination_id',
