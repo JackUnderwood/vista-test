@@ -314,7 +314,7 @@ class UI:
 
     def teardown(self):
         log.info("Teardown")
-        # self.wait(1)
+        self.wait(1)
         self.driver.quit()
 
     @staticmethod
