@@ -229,7 +229,7 @@ class UI:
             _id = elem[1:]
             return self.driver.find_element_by_id(_id)
         else:
-            # TODO: need to throw excp
+            # TODO: need to throw exception
             log.exception("no correct element found")
 
         return None
@@ -314,7 +314,7 @@ class UI:
 
     def teardown(self):
         log.info("Teardown")
-        self.wait(1)  # TODO: Remove later JNU!!!
+        # self.wait(1)
         self.driver.quit()
 
     @staticmethod
