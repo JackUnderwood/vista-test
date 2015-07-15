@@ -1,7 +1,6 @@
 __author__ = 'John Underwood'
 from ui import UI
-from ui.low.goals_corporate import GoalsCorporate
-
+from ui.low.goals_team_revenue_bonus import GoalsTeamRevenueBonus
 
 class Check(UI):
     """
@@ -9,6 +8,7 @@ class Check(UI):
     Change the import statement above.
     Change the class call below.
     """
-    GoalsCorporate()
+    GoalsTeamRevenueBonus()
 
+    UI().wait(5)
     UI().teardown()

@@ -10,7 +10,7 @@ class GoalsCommissionReport(UI):
         super().__init__()
 
         runtime = {
-            'level': '3',
+            'level': '4',
             'goals': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
             'commReport': (
                 'Click',
