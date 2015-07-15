@@ -6,9 +6,6 @@ from tool.vlog import VLog
 class License(UI):
     """
     Begins at the main page and branches to the Licensing landing page.
-    Other sibling files might be:
-        - Home
-        - File
     """
     def __init__(self, override=None):
         super().__init__()
@@ -19,8 +16,7 @@ class License(UI):
             'license': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i', ),
             'landing': (
                 'Click',
-                '//*[@id="slide-out"]/li[3]/ul/li/div/ul/li[1]/a', ),
-            # 'license': ('Loop', '//*[@id="licenseRequestsGrid_grid"]/tbody'),
+                '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[1]/a', ),
         }
         process = UI(override)
         process.update(runtime)
