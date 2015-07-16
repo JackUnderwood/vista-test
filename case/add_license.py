@@ -5,7 +5,7 @@ from ui.low.license import License
 from ui.high.checklist import Checklist
 
 
-class NewLicense(UI):
+class AddLicense(UI):
     License()
     Checklist()
 

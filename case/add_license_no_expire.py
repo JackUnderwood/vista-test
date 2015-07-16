@@ -5,9 +5,9 @@ from ui.low.license import License
 from ui.high.checklist import Checklist
 
 
-class NewLicenseNoExpire(UI):
+class AddLicenseNoExpire(UI):
     """
-    Very similar to NewLicense
+    Very similar to AddLicense
     """
     License()
     Checklist()
