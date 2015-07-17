@@ -4,9 +4,8 @@ Test module
 """
 
 def fib(n):
-    a = 0
     if n > 0:
-        b = 1
+        a, b = 0, 1
         i = 0
         while i < n:
             i += 1
@@ -15,4 +14,4 @@ def fib(n):
 
 
 if __name__  == "__main__":
-    print(fib(6))
+    print(fib(8))
