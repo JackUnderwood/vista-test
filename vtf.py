@@ -111,10 +111,10 @@ else:
         # See link for alternative:
         # https://docs.python.org/3/reference/import.html
         importlib.import_module(path)  # RUN the test case
-        log.debug("Successfully tried importlib {}".format(path,))
+        # log.debug("Successfully tried importlib {}".format(path,))
         # command_module = __import__("%s" % path)
     except ImportError as ie:
-        log.exception("Thrown exception error: unable to __import__(): {0}".
-                      format(ie))
+        log.exception("Thrown exception error: unable to __import__(): {}: {}".
+                      format(ie, path, ))
         tb = sys.exc_info()[2]
         raise ImportError().with_traceback(tb)
