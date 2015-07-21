@@ -5,7 +5,7 @@ from ui.low.license import License
 from ui.high.checklist import Checklist
 
 
-class AddExperience(UI):
+class AddEducation(UI):
     License()
     Checklist()
 
