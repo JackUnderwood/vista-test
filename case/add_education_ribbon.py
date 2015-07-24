@@ -38,5 +38,3 @@ class AddEducationRibbon(UI):
     process.results(expected)
     process.wait(3)
     process.teardown()
-
-
