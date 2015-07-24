@@ -188,6 +188,7 @@ class UI:
         :return: void
         """
         log.info("Select Command - PATH: {0} - VALUE: {1}".format(elem, value))
+        self.wait(1)  # compensate for on-screen shifting of the element
         element = self.find_element(elem)
         select = Select(element)
         select.select_by_visible_text(value)
