@@ -17,17 +17,19 @@ utamur inimicus mei."""
 class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
-    debug = 'all'  # use this to test individual test case methods below
+    debug = 'carrier'  # use this to test individual test case methods below
 
     def setUp(self):
         License()
         Checklist({'rowNum': '5'})
+        self.process.wait(5)  # delay so ribbon has time to display
 
     def tearDown(self):
         pass
 
     @classmethod
     def tearDownClass(cls):
+        UI().wait(3)
         UI().teardown()
 
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
