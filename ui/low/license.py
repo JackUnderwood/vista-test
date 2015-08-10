@@ -12,7 +12,7 @@ class License(UI):
         log = VLog(name="vtf", log_name="LICENSE")
         log.info("License __init__() called")
         runtime = {
-            'level': '3',
+            'level': '5',
             'license': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i', ),
             'landing': (
                 'Click',
