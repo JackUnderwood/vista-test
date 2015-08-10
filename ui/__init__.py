@@ -145,9 +145,9 @@ class UI:
 
     def click(self, elem):
         log.info("Click Command - PATH: \'{0}\'".format(elem))
+        self.check_for_new_window()
         element = self.find_element(elem)
         element.click()
-        self.check_for_new_window()
 
     def type(self, elem, value):
         # Remove large string input for simpler logging.
@@ -241,6 +241,7 @@ class UI:
         """
         for handle in self.driver.window_handles:
             self.driver.switch_to.window(handle)
+        self.wait(0.5)
 
     def check_override(self):
         log.debug("check_override() override: {}".format(self.override,))

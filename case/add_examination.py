@@ -17,9 +17,10 @@ class AddExamination(UI):
             '//*[@id="examinationEdit_form"]/div[1]/div/div[1]/div/label',
         ),
         'selectExamination': (
+            # Comprehensive Osteopathic Medical Achievement Test (COMAT)
             'Select',
             '#examination_id',
-            'Comprehensive Osteopathic Medical Achievement Test'
+            'COMAT'
         ),
         'selectState': ('Select', '#state_code_id', 'Colorado'),
         'examDate': ('Type', '#exam_date', '01052015'),
