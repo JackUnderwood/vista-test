@@ -13,7 +13,7 @@ class License(UI):
         log.info("License __init__() called")
         runtime = {
             'level': '5',
-            'license': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i', ),
+            'license': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i',),
             'landing': (
                 'Click',
                 '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[1]/a', ),
