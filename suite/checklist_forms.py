@@ -17,7 +17,7 @@ utamur inimicus mei."""
 class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
-    debug = 'carrier'  # use this to test individual test case methods below
+    debug = 'all'  # use this to test individual test case methods below
 
     def setUp(self):
         License()
@@ -138,7 +138,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
             'sExamination': (
                 'Select',
                 '#examination_id',
-                'Comprehensive Osteopathic Medical Achievement Test'
+                'COMAT'
             ),
             'sState': ('Select', '#state_code_id', 'Colorado'),
             'examDate': ('Type', '#exam_date', '01052015'),
