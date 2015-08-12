@@ -14,7 +14,7 @@ class AddExamination(UI):
         'addExam': ('Click', '//*[@id="examinationGrid_form"]/a[1]'),
         'checkPassed': (
             'Click',
-            '//*[@id="examinationEdit_form"]/div[1]/div/div[1]/div/label',
+            '//*[@id="examinationEdit_form"]/div[1]/div/label',
         ),
         'selectExamination': (
             # Comprehensive Osteopathic Medical Achievement Test (COMAT)
