@@ -3,6 +3,7 @@ __author__ = 'John Underwood'
 from ui import UI
 from ui.low.my_workspace import MyWorkspace
 
+
 class ViewWorkspace(UI):
     MyWorkspace()
     runtime = {}
