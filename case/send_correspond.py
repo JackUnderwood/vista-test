@@ -25,22 +25,19 @@ class SendCorrespond(UI):
     runtime = {
         'licenseStanding': ('Select', '#license_id', ),
         'entity': ('Click', '//*[@id="add-recipient-container"]/span[1]'),
-        'findEntity': ('Type', '<input>', 'care', ),  # tripping up on this
-        'selectEntity': ('Click', '//*[@item_id="108206"]'),
-        'checkAddress': (
-            'Click',
-            '//*[@id="delivery-locations"]/form/div[1]/p/label', ),
-        'saveDeliveryMethod': (
-            'Click',
-            '//*[@id="delivery-locations"]/form/div[5]/a[1]', ),
+        'findEntity': ('Type', '<input>', 'matt lambert st:wv', ),
+        'selectEntity': ('Click', '//*[@item_id="91273"]'),
+        'checkAddress': ('Click', '//span[text()="Payroll Address"]'),
+        'saveDeliveryMethod': ('Click', '//a[@button="save"]', ),
+        'cya': ('Click', '//body', ),
         'send': ('Click', '#corr_send')
     }
     expected = "Your message was successfully sent"
     process = UI()
     process.update(runtime)
-    order = ('licenseStanding', 'entity', 'findEntity', )
-    # 'selectEntity', 'checkAddress', 'saveDeliveryMethod', 'send')
+    order = ('licenseStanding', 'entity', 'findEntity', 'selectEntity',
+             'checkAddress', 'saveDeliveryMethod', 'cya', 'send')
     process.execute(order)
-    process.results(expected)
+    process.results(expected, 'toast-container')
     process.wait(3)
     process.teardown()
