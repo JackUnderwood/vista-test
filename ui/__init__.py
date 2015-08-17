@@ -7,6 +7,7 @@ Selectors Reference:
 //xpath
 .class
 #id
+<tag_name>
 """
 import time
 
@@ -54,13 +55,13 @@ class UI:
         log.debug("UI __init__() override: {}".format(override,))
 
     def update(self, runtime):
-        log.trace("update()")
+        log.trace("UI update()")
         self.runtime.update(runtime)
         self.check_override()
 
     def execute(self, items):
         """
-        :param items: a dictionary of tuples
+        :param items: a tuple of dictionary keys
         :return: void
         Note: 'item' always expects a tuple of two elements with an optional
         third element for 'value'.
@@ -93,6 +94,62 @@ class UI:
                 log.exception("""Execute - No command is available -
                 throw an error""")
             time.sleep(1)
+
+    def click(self, elem):
+        log.info("Click Command - PATH: \'{0}\'".format(elem))
+        self.check_for_new_window()
+        element = self.find_element(elem)
+        element.click()
+
+    def type(self, elem, value):
+        # Remove large string input for simpler logging.
+        temp = value
+        if len(value) > self.max_size and self.max_size is not 0:
+            ellipsis = "..."
+            temp = value[:self.max_size-len(ellipsis)].rstrip() + ellipsis
+        log.info("Type Command - PATH: \'{0}\' - VALUE: {1}".format(elem, temp))
+        self.check_for_new_window()
+        element = self.find_element(elem)
+        try:
+            element.clear()
+        except Exception:
+            """invalid element state: Element must be user-editable in
+            order to clear it."""
+            log.warning("Element is not user-editable; unable to clear()")
+
+        element.send_keys(value)
+        # element.submit()
+
+    def find(self, elem, value):
+        """
+        Special 'Type' case for the 'Find...' that requires no submit()
+        :param elem: the 'Find...' DOM element
+        :param value: the search string
+        :return: void
+        """
+        log.info("Type Command for Find... - PATH: \'{0}\' - VALUE: {1}".
+                 format(elem, value))
+        self.check_for_new_window()
+        element = self.find_element(elem)
+        element.send_keys(value)
+
+    def select(self, elem, value):
+        """
+        May want to add the other options such as by value and by index.
+        See http://selenium-python.readthedocs.org/en/latest/api.html
+        :param elem: holds the xpath, id, or class
+        :param value: visible text inside the list
+        :return: void
+        """
+        log.info("Select Command - PATH: {0} - VALUE: {1}".format(elem, value))
+        self.wait(1)  # compensate for on-screen shifting of the element
+        self.check_for_new_window()
+        element = self.find_element(elem)
+        select = Select(element)
+        if value == "":
+            select.select_by_index(1)
+        else:
+            select.select_by_visible_text(value)
 
     def loop(self, elements):  # temporarily for testing tables JNU!!!
         import xml.etree.ElementTree as ETree
@@ -143,56 +200,6 @@ class UI:
             log.info("Chained action: {0}".format(action, ))
         actions.perform()
 
-    def click(self, elem):
-        log.info("Click Command - PATH: \'{0}\'".format(elem))
-        self.check_for_new_window()
-        element = self.find_element(elem)
-        element.click()
-
-    def type(self, elem, value):
-        # Remove large string input for simpler logging.
-        temp = value
-        if len(value) > self.max_size and self.max_size is not 0:
-            ellipsis = "..."
-            temp = value[:self.max_size-len(ellipsis)].rstrip() + ellipsis
-        log.info("Type Command - PATH: \'{0}\' - VALUE: {1}".format(elem, temp))
-        element = self.find_element(elem)
-        try:
-            element.clear()
-        except Exception:
-            """invalid element state: Element must be user-editable in
-            order to clear it."""
-            log.warning("Element is not user-editable; unable to clear()")
-
-        element.send_keys(value)
-        # element.submit()
-
-    def find(self, elem, value):
-        """
-        Special 'Type' case for the 'Find...' that requires no submit()
-        :param elem: the 'Find...' DOM element
-        :param value: the search string
-        :return: void
-        """
-        log.info("Type Command for Find... - PATH: \'{0}\' - VALUE: {1}".
-                 format(elem, value))
-        element = self.find_element(elem)
-        element.send_keys(value)
-
-    def select(self, elem, value):
-        """
-        May want to add the other options such as by value and by index.
-        See http://selenium-python.readthedocs.org/en/latest/api.html
-        :param elem: holds the xpath, id, or class
-        :param value: visible text inside the list
-        :return: void
-        """
-        log.info("Select Command - PATH: {0} - VALUE: {1}".format(elem, value))
-        self.wait(1)  # compensate for on-screen shifting of the element
-        element = self.find_element(elem)
-        select = Select(element)
-        select.select_by_visible_text(value)
-
     def wait_for_element(self, elem_id, wait_time):
         """
         Waits for elements with the id attribute; id only
@@ -216,8 +223,11 @@ class UI:
         '//' for xpath
         '.' for class
         '#' for id
-        :param elem: a valid selector type, ie. xpath, class, or id
+        '<' for tag  JNU!!!
+        :param elem: a valid selector type, ie. xpath, class, id, or tag
         :return: the DOM's element
+        JNU!!! Special case '<' looks for many elements; helps get around the display
+        of items that have dynamic id attribute; e.g. id="client_5568b9eecbc2e"
         """
         first_element = elem[0]
         if first_element == '/':  # xpath
@@ -229,6 +239,10 @@ class UI:
         elif first_element == '#':  # id
             _id = elem[1:]
             return self.driver.find_element_by_id(_id)
+        elif first_element == '<':  # tag - special case that looks for many
+            # Returns the last element in the list JNU!!! ASSUMPTION
+            _tag = elem[1:-1]
+            return self.driver.find_elements_by_tag_name(_tag)[-1]
         else:
             # TODO: need to throw exception
             log.exception("no correct element found")

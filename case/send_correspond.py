@@ -13,38 +13,33 @@ class SendCorrespond(UI):
     ids that are dynamic; they need to be static or constant.
     """
     License()
-    override = {
-        'showAll': ('Unknown', 'Unknown', 'Unknown'),
-    }
+    override = {'showAll': ('Unknown', 'Unknown', 'Unknown'), }
     Checklist(override)
     ExpandRibbon()
-    UI().wait(6)
-    RibbonToCorrespondence()
+    UI().wait(2)
+    override = {  # select 'License renewal'
+        'selectTemplate':
+            ('Click', '//*[@id="correspondenceChooser_form"]/p[2]/p[9]/a')}
+    RibbonToCorrespondence(override)
 
     runtime = {
-        'licenseStanding': ('Select', '#license_id', 'AZ - P - 2145 - A'),
+        'licenseStanding': ('Select', '#license_id', ),
         'entity': ('Click', '//*[@id="add-recipient-container"]/span[1]'),
-        'findEntity': (
-            'Type',
-            '//*[@id="client_id_1_desc_5568b9eecbc2e"]',  # tripping up on this
-            'care'
-        ),
+        'findEntity': ('Type', '<input>', 'care', ),  # tripping up on this
         'selectEntity': ('Click', '//*[@item_id="108206"]'),
         'checkAddress': (
             'Click',
-            '//*[@id="delivery-locations"]/form/div[1]/p/label'
-        ),
+            '//*[@id="delivery-locations"]/form/div[1]/p/label', ),
         'saveDeliveryMethod': (
             'Click',
-            '//*[@id="delivery-locations"]/form/div[5]/a[1]'
-        ),
+            '//*[@id="delivery-locations"]/form/div[5]/a[1]', ),
         'send': ('Click', '#corr_send')
     }
     expected = "Your message was successfully sent"
     process = UI()
     process.update(runtime)
-    order = ('licenseStanding', 'entity', 'findEntity', 'selectEntity',
-             'checkAddress', 'saveDeliveryMethod', 'send')
+    order = ('licenseStanding', 'entity', 'findEntity', )
+    # 'selectEntity', 'checkAddress', 'saveDeliveryMethod', 'send')
     process.execute(order)
     process.results(expected)
     process.wait(3)
