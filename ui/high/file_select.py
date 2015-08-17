@@ -20,7 +20,7 @@ class FileSelect(UI):
     # May want to add placeholders for Category and Subcategory.
 
     def __init__(self, override=None):
-        super().__init__(override)
+        super().__init__()
         runtime = {
             'category': ('Click', '//*[@id="vsubnav"]/div/div[2]/ul', ),
             'selectCategory': (
@@ -37,7 +37,7 @@ class FileSelect(UI):
                 '//*[@id="fileList"]/div[2]/div/div[2]/div[2]'
             )
         }
-        process = UI()
+        process = UI(override)
         process.update(runtime)
         order = ('category', 'selectCategory', 'subcategory',
                  'selectSubcategory', 'selectFile', )

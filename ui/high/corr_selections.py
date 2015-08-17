@@ -11,7 +11,7 @@ class CorrSelections(UI):
     Currently not in a fully working state, since adding new UI skin.
     """
     def __init__(self, override=None):
-        super().__init__(override)
+        super().__init__()
 
         runtime = {
             'category': ('Select', '#category', 'Provider Licensing'),

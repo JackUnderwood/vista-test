@@ -6,7 +6,7 @@ from ui import UI
 class RibbonToCorrespondence(UI):
 
     def __init__(self, override=None):
-        super().__init__(override)
+        super().__init__()
         runtime = {
             'correspondIcon': (
                 'Click',
@@ -17,7 +17,7 @@ class RibbonToCorrespondence(UI):
                 '//*[@id="correspondenceChooser_form"]/p[2]/p[7]/a'
             ),
         }
-        process = UI()
+        process = UI(override)
         process.update(runtime)
         order = ('correspondIcon', 'selectTemplate', )
         process.execute(order)

@@ -8,7 +8,7 @@ class FileMyFile(UI):
     Test case goes into MyQueue.
     """
     def __init__(self, override=None):
-        super().__init__(override)
+        super().__init__()
 
         runtime = {
             'subNav': ("Wait", "vsubnav", 5),
@@ -18,7 +18,7 @@ class FileMyFile(UI):
                 ""
             ),
         }
-        process = UI()
+        process = UI(override)
         process.update(runtime)
         order = ('subNav', 'category', 'cat', )
         process.execute(order)
