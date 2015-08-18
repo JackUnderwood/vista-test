@@ -2,8 +2,9 @@ __author__ = 'John Underwood'
 from ui import UI
 # from ui.low.goals_team_revenue_bonus import GoalsTeamRevenueBonus
 # from ui.low.goals_commission_rates import GoalsCommissionRates
-from ui.low.goals_commission_report import GoalsCommissionReport
+# from ui.low.goals_commission_report import GoalsCommissionReport
 # from ui.low.goals_sales_base import GoalsSalesBase
+from ui.low.license import License
 
 
 class Check(UI):
@@ -13,14 +14,18 @@ class Check(UI):
     Change the class call below.
     """
     process = UI()
+
+    License()
+    process.results("License Request")
+
     # GoalsTeamRevenueBonus()  # currently the page is blank
     # process.results("")
 
     # GoalsCommissionRates()
     # process.results("Commission Rates")
 
-    GoalsCommissionReport()
-    process.results("Commission Report")
+    # GoalsCommissionReport()
+    # process.results("Commission Report")
 
     # GoalsSalesBase()
     # process.results("Standard Sales Base")

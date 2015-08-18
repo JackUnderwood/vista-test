@@ -4,7 +4,7 @@ from ui import UI
 
 class Checklist(UI):
     """
-    Pre-requirement: needs to display Licensing landing page - execute
+    Pre-requirement: needs to start from Licensing landing page - execute
     low.license first.
 
     Test case goes into the Checklists.
