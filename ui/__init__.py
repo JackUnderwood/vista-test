@@ -96,7 +96,7 @@ class UI:
             time.sleep(1)
 
     def click(self, elem):
-        log.info("Click Command - PATH: \'{0}\'".format(elem))
+        log.info("Click Command - PATH: {0}".format(elem))
         self.check_for_new_window()
         element = self.find_element(elem)
         element.click()
@@ -107,7 +107,7 @@ class UI:
         if len(value) > self.max_size and self.max_size is not 0:
             ellipsis = "..."
             temp = value[:self.max_size-len(ellipsis)].rstrip() + ellipsis
-        log.info("Type Command - PATH: \'{0}\' - VALUE: \'{1}\'".
+        log.info("Type Command - PATH: {0} - VALUE: \'{1}\'".
                  format(elem, temp))
         self.check_for_new_window()
         element = self.find_element(elem)
@@ -128,7 +128,7 @@ class UI:
         :param value: the search string
         :return: void
         """
-        log.info("Type Command for Find... - PATH: \'{0}\' - VALUE: {1}".
+        log.info("Type Command for Find... - PATH: {0} - VALUE: \'{1}\'".
                  format(elem, value))
         self.check_for_new_window()
         element = self.find_element(elem)
@@ -142,7 +142,7 @@ class UI:
         :param value: visible text inside the list
         :return: void
         """
-        log.info("Select Command - PATH: {0} - VALUE: {1}".format(elem, value))
+        log.info("Select Command - PATH: {0} - VALUE: \'{1}\'".format(elem, value))
         self.wait(1)  # compensate for on-screen shifting of the element
         self.check_for_new_window()
         element = self.find_element(elem)
