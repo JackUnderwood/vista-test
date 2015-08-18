@@ -107,7 +107,8 @@ class UI:
         if len(value) > self.max_size and self.max_size is not 0:
             ellipsis = "..."
             temp = value[:self.max_size-len(ellipsis)].rstrip() + ellipsis
-        log.info("Type Command - PATH: \'{0}\' - VALUE: {1}".format(elem, temp))
+        log.info("Type Command - PATH: \'{0}\' - VALUE: \'{1}\'".
+                 format(elem, temp))
         self.check_for_new_window()
         element = self.find_element(elem)
         try:
