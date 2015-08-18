@@ -12,16 +12,9 @@ class AddExamination(UI):
     runtime = {
         'exam': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[3]'),
         'addExam': ('Click', '//*[@id="examinationGrid_form"]/a[1]'),
-        'checkPassed': (
-            'Click',
-            '//*[@id="examinationEdit_form"]/div[1]/div/label',
-        ),
-        'selectExamination': (
-            # Comprehensive Osteopathic Medical Achievement Test (COMAT)
-            'Select',
-            '#examination_id',
-            'COMAT'
-        ),
+        'checkPassed': ('Click', '//label[@for="passed"]', ),
+        # Comprehensive Osteopathic Medical Achievement Test (COMAT)
+        'selectExamination': ('Select', '#examination_id', 'COMAT'),
         'selectState': ('Select', '#state_code_id', 'Colorado'),
         'examDate': ('Type', '#exam_date', '01052015'),
         'score': ('Type', '#score', '94'),
