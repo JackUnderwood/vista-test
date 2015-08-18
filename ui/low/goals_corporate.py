@@ -10,7 +10,7 @@ class GoalsCorporate(UI):
         super().__init__()
 
         runtime = {
-            'level': '4',
+            'level': '6',
             'goals': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
             'corporate': (
                 'Click',
