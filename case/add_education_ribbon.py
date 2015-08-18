@@ -14,8 +14,9 @@ class AddEducationRibbon(UI):
     ExpandRibbon()
 
     runtime = {
-        'education': ('Click',
-                      '//*[@id="ribbon_form"]/ul/li/div[2]/div[3]/div[2]/a[4]/i'),
+        'education': (
+            'Click',
+            '//*[@id="ribbon_form"]/ul/li/div[2]/div[3]/div[2]/a[4]/i'),
         'addEducation': ('Click', '//*[@id="educationGrid_form"]/a[1]'),
         'findEducation': ('Type', '#education_entity_id_desc', 'Tulane'),
         'selectEducation': ('Click', '#user_name'),
