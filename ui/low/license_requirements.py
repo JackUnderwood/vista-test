@@ -13,7 +13,8 @@ class LicenseRequirements(UI):
         log = VLog(name="vtf", log_name="LICENSE")
         log.info("License Requirements __init__() called")
         runtime = {
-            'license': ('Click', '//*[@id="slide-out"]/li[2]/ul/li/a/span', ),
+            'level': '5',
+            'license': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i',),
             'requirements': (
                 'Click',
                 '//*[@id="slide-out"]/li[2]/ul/li/div/ul/li[3]/a', ),

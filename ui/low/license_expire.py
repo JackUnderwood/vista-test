@@ -12,7 +12,8 @@ class LicenseExpire(UI):
         log = VLog(name="vtf", log_name="LICENSE")
         log.info("Expiring License __init__() called")
         runtime = {
-            'license': ('Click', '//*[@id="slide-out"]/li[2]/ul/li/a/span', ),
+            'level': '5',
+            'license': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i',),
             'expiring': (
                 'Click',
                 '//*[@id="slide-out"]/li[2]/ul/li/div/ul/li[2]/a', ),
