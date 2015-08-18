@@ -8,7 +8,8 @@ from ui.high.checklist import Checklist
 class AddEntity(UI):
     """
     The following are unable to access element: address, city, state,
-    zipcode, emailType, phoneType
+    zipcode, phone, phone type
+    Appears to be the 'type' attribute is set to 'hidden'
     """
     License()
     Checklist()
@@ -16,32 +17,30 @@ class AddEntity(UI):
     runtime = {
         'experience': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),
         'addExperience': ('Click', '//*[@id="experienceGrid_form"]/a[1]'),
-        'addEntity': ('Click', '//*[@display="drawer"]/div/a'),
-        'name': ('Type', '#entity_name', 'Sierra Medicine'),
+        'addEntity': ('Click', '//*[@id="ExperienceEdit_form"]/div[1]/div/a'),
+        'name': ('Type', '#entity_name', 'Sierra Medicine Three'),
         'addressDesc': ('Type', '#address_description', 'Home Office'),
-        'addressType': ('Select', '#address_correspondence_method_type_id', 'Work'),
-        'address': ('Type', '//*[@id="address_3"]', '123 State Street'),
+        'addressType': (
+            'Select', '#address_correspondence_method_type_id', 'Work'),
+        'address1': ('Type', '//*[@name="address_1"]', '123 State Street'),
+        'address2': ('Type', '#address_2', 'Suite 400'),
         'city': ('Type', '#city', 'Portland'),
         'state': ('Select', '#state', 'Oregon'),
         'zipcode': ('Type', '#zip_code', '65432'),
-        'email': ('Type', '#email_address', 'staff@sierramed.com'),
+        'email': ('Type', '#email_address', 'staff@sierramed3.com'),
         'emailType': ('Select', '#email_correspondence_method_type_id', 'Work'),
         'phone': ('Type', '#phone', '5051236789'),
         'phoneType': ('Select', 'phone_correspondence_method_type_id', 'Other'),
         'save': ('Click', '//*[@id="editEntityInformation_form"]/div[2]/a[1]'),
     }
 
-    expected = "Information saved"
-    expected = "Cannot be blank"
+    expected = "Saved information"
     process = UI()
     process.update(runtime)
     order = ('experience', 'addExperience', 'addEntity', 'name', 'addressDesc',
-             'addressType', 'address', 'city', 'state', 'zipcode', 'email',
-             'emailType', 'phone', 'phoneType', 'save')
-    order = ('experience', 'addExperience', 'addEntity', 'name', 'addressDesc',
-             'addressType', 'address',
-             'email', 'save')
+             'addressType',  # 'address1','address2','city','state','zipcode',
+             'email', 'emailType', 'save', )
     process.execute(order)
-    process.results(expected)
+    process.results(expected, 'toast-container', 8)
     process.wait(3)
     process.teardown()
