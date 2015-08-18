@@ -9,7 +9,8 @@ class AddEntity(UI):
     """
     The following are unable to access element: address, city, state,
     zipcode, phone, phone type
-    Appears to be the 'type' attribute is set to 'hidden'
+    Appears to be the 'type' attribute is set to 'hidden' and selenium is
+    getting confused by the two <input> tags.
     """
     License()
     Checklist()
