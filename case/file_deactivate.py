@@ -5,7 +5,7 @@ from ui.low.file import File
 from ui.high.file_select import FileSelect
 
 
-class FileDelete(UI):
+class FileDeactivate(UI):
     File()
     FileSelect()
 
