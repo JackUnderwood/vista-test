@@ -39,10 +39,8 @@ class AddEntity(UI):
         'city': ('Type', '#city', 'Portland'),
         'state': ('Select', '#state', 'Oregon'),
         'zipcode': ('Type', '#zip_code', '65432'),
-        'email': ('Type', '#email_address', 'staff@sierramed4.com'),
+        'email': ('Type', '#email_address', 'staff@sierramed7.com'),
         'emailType': ('Select', '#email_correspondence_method_type_id', 'Work'),
-        'phone': ('Type', '#phone', '5051236789'),
-        'phoneType': ('Select', 'phone_correspondence_method_type_id', 'Other'),
         'save': ('Click', '//*[@id="editEntityInformation_form"]/div[2]/a[1]'),
     }
 
@@ -53,6 +51,6 @@ class AddEntity(UI):
              'addressType',  # 'address1','address2','city','state','zipcode',
              'email', 'emailType', 'save', )
     process.execute(order)
-    process.results(expected, 'toast-container', 8)
+    process.results(expected, 'toast-container', 5)
     process.wait(3)
-    process.teardown()
+    # process.teardown()
