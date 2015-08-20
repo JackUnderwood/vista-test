@@ -5,9 +5,9 @@ from ui.low.license import License
 from ui.high.checklist import Checklist
 
 
-class AddLicenseNoExpire(UI):
+class AddLicenseNoLicenseType(UI):
     """
-    Very similar to AddLicense
+    Very similar to AddLicense, but looking for a 'Cannot be blank' warning
     """
     License()
     Checklist()
@@ -19,11 +19,11 @@ class AddLicenseNoExpire(UI):
         ),
         'licenseIcon': (
             'Click',
-            '//*[@id="ribbon_form"]/ul/li[1]/div[2]/div[3]/div/a[7]'
+            '//*[@id="ribbon_form"]/ul/li/div[2]/div[3]/div[2]/a[1]/span'
         ),
         'newLicense': ('Click', '//*[@id="licenseGrid_form"]/a'),
         'licenseStanding': ('Select', '#license_standing', 'Good'),
-        'selectState': ('Select', '#state_code_id', 'Idaho'),
+        'selectState': ('Select', '#state_code_id', 'Oregon'),
         'credentialType': ('Select', '#credential_id', 'Medical Doctor'),
         'licenseType': ('Select', '#license_type_id', 'Permanent'),
         'dateGranted': ('Type', '#date_granted', '05042015'),
@@ -31,12 +31,11 @@ class AddLicenseNoExpire(UI):
         'licenseNumber': ('Type', '#license_number', 'n2676961'),
         'save': ('Click', '//*[@button="save"]')
     }
-    expected = "Expiration Date"  # should be "Expiration Date"; was Experation
+    expected = "License Type"  # 'Cannot be blank'
     process = UI()
     process.update(runtime)
-    order = ('expandRibbon', 'licenseIcon', 'newLicense', 'licenseStanding',
-             'selectState', 'credentialType', 'licenseType', 'dateGranted',
-             'dateEffective', 'licenseNumber', 'save', )
+    order = ('expandRibbon', 'licenseIcon', 'newLicense',
+             'selectState', 'credentialType', 'save', )
     process.execute(order)
     process.results(expected)
     process.wait(3)

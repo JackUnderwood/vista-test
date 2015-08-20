@@ -10,6 +10,6 @@ class CreateNotification(UI):
     RemindMeDialog()
 
     process = UI()
-    process.results('Notification Created')
+    process.results('New Notification Received')
     process.wait(3)
     process.teardown()

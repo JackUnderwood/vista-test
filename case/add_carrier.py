@@ -14,7 +14,7 @@ class AddCarrier(UI):
         'malpractice': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[4]'),
         'addCarrier': ('Click', '//*[@id="malpracticeGrid_form"]/a[2]'),
         'findInsuranceProvider': ('Type', '#insurance_provider_id_desc', 'ame'),
-        'selectInsuranceProvider': ('Click', '#167224'),  # Neurology
+        'selectInsuranceProvider': ('Click', '#47512'),  # Neurology 167224
         'startDate': ('Type', '#start_date', '01072015'),
         'endDate': ('Type', '#end_date', '05182015'),
         'occurrenceAmount': ('Type', '#per_occurrence_amount', '2000000'),

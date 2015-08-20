@@ -17,11 +17,11 @@ class AddEntity(UI):
     Selenium determines an element is visible or not by the following criteria
     (use a DOM inspector to determine what css applies to your element, make
     sure you look at 'Computed' style):
-        • visibility != hidden
-        • display != none (is also checked against every parent element)
-        • opacit0y != 0 (this is not checked for clicking an element)
-        • height and width are both > 0
-        • for an input, the attribute type != hidden
+        - visibility != hidden
+        - display != none (is also checked against every parent element)
+        - opacit0y != 0 (this is not checked for clicking an element)
+        - height and width are both > 0
+        - for an input, the attribute type != hidden
     """
     License()
     Checklist()
@@ -39,7 +39,7 @@ class AddEntity(UI):
         'city': ('Type', '#city', 'Portland'),
         'state': ('Select', '#state', 'Oregon'),
         'zipcode': ('Type', '#zip_code', '65432'),
-        'email': ('Type', '#email_address', 'staff@sierramed3.com'),
+        'email': ('Type', '#email_address', 'staff@sierramed4.com'),
         'emailType': ('Select', '#email_correspondence_method_type_id', 'Work'),
         'phone': ('Type', '#phone', '5051236789'),
         'phoneType': ('Select', 'phone_correspondence_method_type_id', 'Other'),

@@ -32,5 +32,5 @@ class AddEducation(UI):
     process.execute(order)
     process.results(expected)
     process.wait(3)
-    process.teardown()
+    # process.teardown()
 

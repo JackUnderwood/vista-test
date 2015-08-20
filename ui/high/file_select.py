@@ -23,14 +23,16 @@ class FileSelect(UI):
         super().__init__()
         runtime = {
             'category': ('Click', '//*[@id="vsubnav"]/div/div[2]/ul', ),
+            'cat': '2',
             'selectCategory': (
                 'Click',
-                '//*[@id="vsubnav"]/div/div[2]/ul/ul/li[2]'
+                '//*[@id="vsubnav"]/div/div[2]/ul/ul/li[&cat;]'
             ),
             'subcategory': ('Click', '//*[@id="vsubnav"]/div/div[3]/ul', ),
+            'sub': '12',
             'selectSubcategory': (
                 'Click',
-                '//*[@id="vsubnav"]/div/div[3]/ul/ul/li[12]'
+                '//*[@id="vsubnav"]/div/div[3]/ul/ul/li[&sub;]'
             ),
             'selectFile': (
                 'Click',

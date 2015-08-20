@@ -1,6 +1,8 @@
 __author__ = 'John Underwood'
 from ui import UI
 
+from tool.utilities import todays_date, todays_time
+
 
 class RemindMeDialog(UI):
     """
@@ -12,23 +14,22 @@ class RemindMeDialog(UI):
     def __init__(self, override=None):
         super().__init__()
         runtime = {
-            'refer': (
-                'Click',
-                '//*[@id="widgetNotification_form"]/div[2]/div/label',
-            ),
-            'type': ('Click', '//*[@id="type"]/div/i[3]'),
-            'in': ('Click', '//*[@id="count"]/span[3]'),
-            'timePeriod': ('Click', '//*[@id="time"]/span[3]'),
-            'subject': ('Type', '#notifySubject', 'Test Subject'),
+            'dueDate': ('Type', '#due_datetime', todays_date()),
+            'dueTime': ('Type', '#notification_time', todays_time()),
+            'waitForDrawer': ('Wait', 'notifyRegardingDesc', 5),
+            'findIcon': ('Click', '//*[@id="who"]/div/div/div[1]/i[2]'),
+            'selectProvider': ('Click', '//*[@id="who"]/div/div/div[1]/div/a[2]'),
+            'find': ('Type', '#notifyRegardingDesc', 'matt lambert st:wv'),
+            'select': ('Click', '//*[@item_id="91273"]'),
             'notes': (
                 'Type',
-                '#notifyNotes',
+                '#message_body',
                 'Lorem ipsum dolor sit amet, in pro summo contentiones. In sea.'
             ),
-            'button': ('Click', '//*[@button="save"]'),
+            'submit': ('Click', '//*[@button="save"]'),
         }
         process = UI(override)
         process.update(runtime)
-        order = ('refer', 'type', 'in', 'timePeriod', 'subject',
-                 'notes', 'button', )
+        order = ('findIcon', 'selectProvider', 'find', 'select',
+                 'notes', 'submit')
         process.execute(order)

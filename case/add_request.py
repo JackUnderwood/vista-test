@@ -7,13 +7,13 @@ from ui.low.license import License
 class AddRequest(UI):
     runtime = {
         'addRequest': ('Click', '//*[@id="licenseRequestsGrid_form"]/a'),
-        'findEntity': ('Type', '#entity_id_number_desc', 'matt lambert'),
-        'selectEntity': ('Click', '#91273'),  # lambert's unique id
+        'findEntity': ('Type', '#entity_id_number_desc', 'Peter Bertolozzi'),
+        'selectEntity': ('Click', '#567754'),  # bertolozzi's unique id
         'wait': ('Wait', 'user_name', 5),
         'findUser': ('Type', '#requester_id_desc', 'john underwood'),
         'selectUser': ('Click', '#1515'),
         'licensor': ('Select', '#owner_id', 'Crystal Liebl'),
-        'stateOfLicense': ('Select', '#state_code_id', 'Arizona'),
+        'stateOfLicense': ('Select', '#state_code_id', 'Vermont'),
         'credentialType': ('Select', '#credential_id', 'Medical Doctor', ),
         'licenseType': ('Select', '#license_type_id', 'Permanent'),
         'team': ('Select', '#team_id', 'Family Practice'),
@@ -28,6 +28,7 @@ class AddRequest(UI):
         # //*[@id="toast-container"]/div
         # # "This would create a duplicate license."
     }
+    expected = "This would create a duplicate license"
     License()
     process = UI()
     process.update(runtime)
@@ -37,6 +38,6 @@ class AddRequest(UI):
              'notes', 'save', )
     process.execute(order)
     process.wait(2)
-    process.results("This would create a duplicate license")
+    process.results(expected)
     process.wait(3)
     process.teardown()

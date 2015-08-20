@@ -15,8 +15,8 @@ class AddExperience(UI):
         'experience': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),
         'addExperience': ('Click', '//*[@id="experienceGrid_form"]/a[1]'),
         'findClient': ('Type', '#client_id_number_desc', 'acute family'),
-        'selectClient': ('Click', '#user_name'),
-        'check': ('Click', '//*[@id="ExperienceEdit_form"]/div[4]/div[4]/label'),
+        'selectClient': ('Click', '//*[@item_id="315711"]'),  # Acute Family
+        'check': ('Click', '//*[@id="ExperienceEdit_form"]/div[5]/div[2]/label'),
         'description': ('Type', '#description', 'Genetics research'),
         'startDate': ('Type', '#start_date', '01042015'),
         'endDate': ('Type', '#end_date', '05172015'),
@@ -30,7 +30,7 @@ class AddExperience(UI):
     process = UI()
     process.update(runtime)
     order = ('experience', 'addExperience', 'findClient', 'selectClient',
-             'check', 'description', 'startDate', 'endDate', 'department',
+             'description', 'check', 'startDate', 'endDate', 'department',
              'departmentChair', 'capacity', 'notes', 'save', )
     process.execute(order)
     process.results(expected)

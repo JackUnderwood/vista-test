@@ -16,11 +16,11 @@ class AddLicense(UI):
         ),
         'licenseIcon': (
             'Click',
-            '//*[@id="ribbon_form"]/ul/li[1]/div[2]/div[3]/div/a[7]'
+            '//*[@id="ribbon_form"]/ul/li/div[2]/div[3]/div[2]/a[1]/span'
         ),
         'newLicense': ('Click', '//*[@id="licenseGrid_form"]/a'),
         'licenseStanding': ('Select', '#license_standing', 'Good'),
-        'selectState': ('Select', '#state_code_id', 'Idaho'),
+        'selectState': ('Select', '#state_code_id', 'Oregon'),
         'credentialType': ('Select', '#credential_id', 'Medical Doctor'),
         'licenseType': ('Select', '#license_type_id', 'Permanent'),
         'dateGranted': ('Type', '#date_granted', '05042015'),

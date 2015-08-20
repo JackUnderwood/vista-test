@@ -14,7 +14,7 @@ class Checklist(UI):
 
         runtime = {
             'showAll': ('Click', '//*[@id="checklist-form-container"]/div[1]/a'),
-            'rowNum': '3',  # Clicks on grid's first row.
+            'rowNum': '5',  # Clicks on grid's first row.
             'provider': (
                 'Click',
                 '//*[@id="licenseRequestsGrid_grid"]/tbody/tr[&rowNum;]/td[4]/a',
