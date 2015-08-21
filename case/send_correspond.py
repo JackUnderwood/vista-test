@@ -8,10 +8,6 @@ from ui.high.ribbon_corr import RibbonToCorrespondence
 
 
 class SendCorrespond(UI):
-    """
-    Incomplete test case; has issues with multiple delivery methods using
-    ids that are dynamic; they need to be static or constant.
-    """
     License()
     override = {'showAll': ('Unknown', 'Unknown', 'Unknown'), }
     Checklist(override)
