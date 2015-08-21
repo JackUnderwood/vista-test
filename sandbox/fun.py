@@ -1,6 +1,7 @@
 __author__ = 'John'
 """
 Test module
+This module is more efficient than using recursion.
 """
 
 def fib(n):
