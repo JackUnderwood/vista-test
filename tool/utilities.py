@@ -39,7 +39,8 @@ def todays_date():
 
 def todays_time():
     """
-    Get the current time in the HH:MM <AM or PM> format
+    Get the current time in the HH:MM <period> format
+    Note: AM or PM is the 'period' of time in the day
     :return: e.g. '10:27 AM'
     """
     return time.strftime("%I:%M %p")
