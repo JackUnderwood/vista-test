@@ -2,16 +2,16 @@ __author__ = 'John Underwood'
 from ui import UI
 
 
-class GoalsTeamRevenueBonus(UI):
+class SalesTeamRevenueBonus(UI):
     """
-    Click on the Goals | Manage Team Revenue Bonus link from the Nav bar.
+    Click on the Sales | Manage Team Revenue Bonus link from the Nav bar.
     """
     def __init__(self, override=None):
         super().__init__()
 
         runtime = {
             'level': '6',
-            'goals': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
+            'sales': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
             'bonus': (
                 'Click',
                 '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[5]/a'
@@ -20,5 +20,5 @@ class GoalsTeamRevenueBonus(UI):
 
         process = UI(override)
         process.update(runtime)
-        order = ('goals', 'bonus', )
+        order = ('sales', 'bonus', )
         process.execute(order)

@@ -2,23 +2,23 @@ __author__ = 'John Underwood'
 from ui import UI
 
 
-class GoalsSalesBase(UI):
+class SalesCommissionRates(UI):
     """
-    Click on the Goals | Manage Sales Base link from the Nav bar.
+    Click on the Sales | Manage Commission Rates link from the Nav bar.
     """
     def __init__(self, override=None):
         super().__init__()
 
         runtime = {
             'level': '6',
-            'goals': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
-            'sales': (
+            'sales': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
+            'rates': (
                 'Click',
-                '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[4]/a'
+                '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[3]/a'
             ),
         }
 
         process = UI(override)
         process.update(runtime)
-        order = ('goals', 'sales', )
+        order = ('sales', 'rates', )
         process.execute(order)

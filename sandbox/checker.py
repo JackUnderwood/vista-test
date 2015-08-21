@@ -1,10 +1,5 @@
 __author__ = 'John Underwood'
 from ui import UI
-# from ui.low.goals_team_revenue_bonus import GoalsTeamRevenueBonus
-# from ui.low.goals_commission_rates import GoalsCommissionRates
-# from ui.low.goals_commission_report import GoalsCommissionReport
-# from ui.low.goals_sales_base import GoalsSalesBase
-from ui.low.license import License
 
 
 class Check(UI):
@@ -15,19 +10,24 @@ class Check(UI):
     """
     process = UI()
 
-    License()
-    process.results("License Request")
+    # from ui.low.license import License
+    # License()
+    # process.results("License Request")
 
-    # GoalsTeamRevenueBonus()  # currently the page is blank
+    # from ui.low.sales_team_revenue_bonus import SalesTeamRevenueBonus
+    # SalesTeamRevenueBonus()  # currently the page is blank
     # process.results("")
 
-    # GoalsCommissionRates()
+    # from ui.low.sales_commission_rates import SalesCommissionRates
+    # SalesCommissionRates()
     # process.results("Commission Rates")
 
-    # GoalsCommissionReport()
-    # process.results("Commission Report")
+    from ui.low.sales_commission_report import SalesCommissionReport
+    SalesCommissionReport()
+    process.results("Commission Report")
 
-    # GoalsSalesBase()
+    # from ui.low.sales_base import SalesBase
+    # SalesBase()
     # process.results("Standard Sales Base")
 
     # Reserve - do not alter anything below
