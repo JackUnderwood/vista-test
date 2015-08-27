@@ -19,7 +19,7 @@ class AddEntity(UI):
     sure you look at 'Computed' style):
         - visibility != hidden
         - display != none (is also checked against every parent element)
-        - opacit0y != 0 (this is not checked for clicking an element)
+        - opacity != 0 (this is not checked for clicking an element)
         - height and width are both > 0
         - for an input, the attribute type != hidden
     """
