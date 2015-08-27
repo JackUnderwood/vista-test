@@ -232,11 +232,12 @@ class UI:
         '//' for xpath
         '.' for class
         '#' for id
-        '<' for tag  JNU!!!
+        '<' for tag
         :param locator: a valid selector type, ie. xpath, class, id, or tag
         :return: the DOM's element
-        JNU!!! Special case '<' looks for many elements; helps get around the display
-        of items that have dynamic id attribute; e.g. id="client_5568b9eecbc2e"
+        Special case '<' looks for many tag elements; this helps get around
+        the display of items that have dynamic id attribute,
+        i.e. id="client_5568b9eecbc2e"
         """
         first_element = locator[0]
         if first_element == '/':  # xpath
@@ -249,7 +250,8 @@ class UI:
             _id = locator[1:]
             return self.driver.find_element_by_id(_id)
         elif first_element == '<':  # tag - special case that looks for many
-            # Returns the last element in the list JNU!!! ASSUMPTION
+            # Returns the last element in the list; assumes the last element
+            # is the desired element.
             _tag = locator[1:-1]
             return self.driver.find_elements_by_tag_name(_tag)[-1]
         else:
