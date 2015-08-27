@@ -7,7 +7,7 @@ from ui.high.checklist import Checklist
 
 class AddCarrier(UI):
     License()
-    override = {'showAll': ('Unknown', 'Unknown', 'Unknown')}
+    override = {'showAll': None}
     Checklist(override)
 
     runtime = {

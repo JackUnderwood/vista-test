@@ -3,7 +3,7 @@ __author__ = 'John Underwood'
 This class will setup the selenium driver and process all commands from
 subclasses. This class drives the user interface (UI) testing framework.
 
-Selectors Reference:
+Locator's Reference:
 //xpath
 .class
 #id
@@ -29,8 +29,7 @@ class UI:
     # PDF viewer does not function as expected--it downloads the file.
     chrome_options.add_experimental_option(
         'excludeSwitches',
-        ['test-type', 'ignore-certificate-errors']
-    )
+        ['test-type', 'ignore-certificate-errors'])
     driver = webdriver.Chrome(executable_path='C:/Common/chromedriver',
                               chrome_options=chrome_options)
     driver.implicitly_wait(5)  # seconds
@@ -40,6 +39,7 @@ class UI:
     assert "INDY" in driver.title
 
     max_size = int(utils.get_configurations("LOGGING", "max_string_size"))
+    UNKNOWN = ("Unknown", "Unknown", "Unknown")  # (action, locator, value)
 
     runtime = {}
     override = {}
@@ -49,7 +49,7 @@ class UI:
         Takes a dictionary where its key(s) overrides a given key(s) inside
         'runtime' and the value replaces runtime's field set to '__OVERRIDE__'
         :param override: dict
-        :return: void
+        :return: None
         """
         self.override = override
         log.debug("UI __init__() override: {}".format(override,))
@@ -61,56 +61,64 @@ class UI:
 
     def execute(self, items):
         """
-        :param items: a tuple of dictionary keys
-        :return: void
-        Note: 'item' always expects a tuple of two elements with an optional
-        third element for 'value'.
+        :param items: a tuple of keys; the keys reference 'override' dict
+        :return: None
+        Note: 'key' always expects a tuple of two elements with an optional
+        third element for 'value'. (<action>, <locator>[, <value])
+        Note: <locator> is an //xpath, .class, #id
         """
-        for item in items:
-            log.debug("Execute KEY:[{}]".format(item,))
-            u = ("Unknown", "Unknown", "Unknown")
-            t = self.runtime.get(item, u)
-            command, element, value = t if (len(t) == len(u)) else t + ("",)
-            element = self.check_for_placeholder(command, element)
+        for key in items:
+            log.debug("Execute KEY:[{}]".format(key,))
+            content = self.runtime.get(key, self.UNKNOWN)
+            if content is not None:  # for this: override = {'showAll': None}
+                self.exec_commands(content)
 
-            if command == "Click":
-                self.click(element)
-            elif command == "Type":
-                self.type(element, value)
-            elif command == "Find":
-                self.find(element, value)
-            elif command == "Select":
-                self.select(element, value)
-            elif command == "Wait":
-                self.wait_for_element(element, value)
-            elif command == "Chain":
-                self.chain(element)
-            elif command == "Loop":  # temporarily for testing tables JNU!!!
-                self.loop(element)
-            elif command == "Unknown":
-                log.warning("""Execute - This command is unknown or
-                unavailable - throw a warning""")
-            else:
-                log.exception("""Execute - No command is available -
-                throw an error""")
-            time.sleep(1)
+    def exec_commands(self, content):
+        if len(content) == len(self.UNKNOWN):
+            command, locator, value = content
+        else:
+            command, locator, value = content + ("", )
 
-    def click(self, elem):
-        log.info("Click Command - PATH: {0}".format(elem))
+        locator = self.check_for_placeholder(command, locator)
+
+        if command == "Click":
+            self.click(locator)
+        elif command == "Type":
+            self.type(locator, value)
+        elif command == "Find":
+            self.find(locator, value)
+        elif command == "Select":
+            self.select(locator, value)
+        elif command == "Wait":
+            self.wait_for_element(locator, value)
+        elif command == "Chain":
+            self.chain(locator)
+        elif command == "Loop":  # temporarily for testing tables JNU!!!
+            self.loop(locator)
+        elif command == "Unknown":
+            log.warning("""Execute - This command is unknown or
+            unavailable""")
+        else:
+            log.exception("""Execute - No command is available -
+            throw an error""")
+        time.sleep(1)
+
+    def click(self, locator):
+        log.info("Click Command - PATH: {0}".format(locator))
         self.check_for_new_window()
-        element = self.find_element(elem)
+        element = self.find_element(locator)
         element.click()
 
-    def type(self, elem, value):
+    def type(self, locator, value):
         # Remove large string input for simpler logging.
         temp = value
         if len(value) > self.max_size and self.max_size is not 0:
             ellipsis = "..."
             temp = value[:self.max_size-len(ellipsis)].rstrip() + ellipsis
         log.info("Type Command - PATH: {0} - VALUE: \'{1}\'".
-                 format(elem, temp))
+                 format(locator, temp))
         self.check_for_new_window()
-        element = self.find_element(elem)
+        element = self.find_element(locator)
         try:
             element.clear()
         except Exception:
@@ -121,31 +129,31 @@ class UI:
         element.send_keys(value)
         # element.submit()
 
-    def find(self, elem, value):
+    def find(self, locator, value):
         """
         Special 'Type' case for the 'Find...' that requires no submit()
-        :param elem: the 'Find...' DOM element
+        :param locator: the 'Find...' DOM element
         :param value: the search string
-        :return: void
+        :return: None
         """
         log.info("Type Command for Find... - PATH: {0} - VALUE: \'{1}\'".
-                 format(elem, value))
+                 format(locator, value))
         self.check_for_new_window()
-        element = self.find_element(elem)
+        element = self.find_element(locator)
         element.send_keys(value)
 
-    def select(self, elem, value):
+    def select(self, locator, value):
         """
         May want to add the other options such as by value and by index.
         See http://selenium-python.readthedocs.org/en/latest/api.html
-        :param elem: holds the xpath, id, or class
+        :param locator: holds the xpath, id, or class
         :param value: visible text inside the list
-        :return: void
+        :return: None
         """
-        log.info("Select Command - PATH: {0} - VALUE: \'{1}\'".format(elem, value))
+        log.info("Select Command - PATH: {0} - VALUE: \'{1}\'".format(locator, value))
         self.wait(1)  # compensate for on-screen shifting of the element
         self.check_for_new_window()
-        element = self.find_element(elem)
+        element = self.find_element(locator)
         select = Select(element)
         if value == "":
             select.select_by_index(1)
@@ -169,7 +177,7 @@ class UI:
             selenium.webdriver.common.action_chains.html'
         :param elements: Contains a list of tuples; tuple structure is
         (action, {param1:p1, param2:p1}, (etc.), etc.)
-        :return: void
+        :return: None
         Sample of the Chain:
             'correspond': ("Chain", [
                 ('click', {'on_element': '//*[@id="slide-out"]/li[3]/ul/li/a'}),
@@ -206,7 +214,7 @@ class UI:
         Waits for elements with the id attribute; id only
         :param elem_id: a string that holds the element's id
         :param wait_time: wait time in seconds
-        :return: void
+        :return: None
         """
         log.info("Wait Command - wait for id=\"{0}\"".format(elem_id))
         from selenium.webdriver.support import expected_conditions as ec
@@ -219,30 +227,30 @@ class UI:
         finally:
             pass
 
-    def find_element(self, elem):
+    def find_element(self, locator):
         """
         '//' for xpath
         '.' for class
         '#' for id
         '<' for tag  JNU!!!
-        :param elem: a valid selector type, ie. xpath, class, id, or tag
+        :param locator: a valid selector type, ie. xpath, class, id, or tag
         :return: the DOM's element
         JNU!!! Special case '<' looks for many elements; helps get around the display
         of items that have dynamic id attribute; e.g. id="client_5568b9eecbc2e"
         """
-        first_element = elem[0]
+        first_element = locator[0]
         if first_element == '/':  # xpath
-            temp = self.driver.find_element_by_xpath(elem)
+            temp = self.driver.find_element_by_xpath(locator)
             return temp  # self.driver.find_element_by_xpath(elem)
         elif first_element == '.':  # class
-            _class = elem[1:]
+            _class = locator[1:]
             return self.driver.find_element_by_class_name(_class)
         elif first_element == '#':  # id
-            _id = elem[1:]
+            _id = locator[1:]
             return self.driver.find_element_by_id(_id)
         elif first_element == '<':  # tag - special case that looks for many
             # Returns the last element in the list JNU!!! ASSUMPTION
-            _tag = elem[1:-1]
+            _tag = locator[1:-1]
             return self.driver.find_elements_by_tag_name(_tag)[-1]
         else:
             # TODO: need to throw exception
@@ -259,6 +267,10 @@ class UI:
         self.wait(0.5)
 
     def check_override(self):
+        """
+        Override the key values inside runtime data
+        :return: None
+        """
         log.debug("check_override() override: {}".format(self.override,))
         if self.override is None:
             log.debug("check_override() is NONE")
@@ -267,42 +279,47 @@ class UI:
             log.debug("check_override() KEY: [{}]".format(key, ))
             if key in self.runtime:
                 if type(self.override[key]) is str:
-                    # Replace the 'value' portion
+                    # Replace the 'value' portion of the tuple
+                    # Example: override = {'selectType': 'Doctorate Degree'}
                     log.debug("KEY is [{}] AND runtime[key]: {}".format(
                         key, self.runtime[key], ))
                     if len(self.runtime[key]) > 1:  # value portion
-                        self.runtime[key] = (self.runtime[key][0],
-                                             self.runtime[key][1],
-                                             self.override[key])
+                        self.runtime[key] = (self.runtime[key][0],  # action
+                                             self.runtime[key][1],  # locator
+                                             self.override[key])    # value
                     else:
                         self.runtime[key] = self.override[key]  # placeholder
                 elif type(self.override[key]) is tuple:
                     self.runtime[key] = self.override[key]
+                elif self.override[key] is None or self.override[key] == '':
+                    # For this situation: override = {'showAll': None}
+                    self.runtime[key] = None
                 else:
                     log.exception("override has incorrect data structure")
-
+            else:
+                log.warning("The 'override' key is not found in 'runtime'")
         log.debug("check_override() new runtime: {}".format(self.runtime,))
 
-    def check_for_placeholder(self, command, element):
+    def check_for_placeholder(self, command, locator):
         """
         Allows a placeholder inside an xpath, e.g. {
             'provider': '123456',
             'selectAssign': ("Click", '//*[@id="&provider;"]/div[1]', "")}
         :param command: string - command type, e.g. 'Click', 'Select', 'Chain'
-        :param element: string - the element's location or xpath
-        :return: string - element
+        :param locator: string - the element's location in the DOM
+        :return: string - locator
         """
         # TODO: need a way to handle xpaths inside the Chain command, #90548734
-        if command != 'Chain' and element.find('&') is not -1:
+        if command != 'Chain' and locator.find('&') is not -1:
             # Look for placeholder key
-            log.debug("------ ELEMENT: {}".format(element,))
-            key = element[element.find('&') + 1: element.find(';')]
+            log.debug("------ ELEMENT: {}".format(locator,))
+            key = locator[locator.find('&') + 1: locator.find(';')]
             log.debug("-- REPLACE KEY: {}".format(key, ))
             if key in self.runtime:
-                element = element.replace(
+                locator = locator.replace(
                     '&{};'.format(key,), self.runtime[key])
-                log.debug("-- NEW ELEMENT: {}".format(element, ))
-        return element
+                log.debug("-- NEW ELEMENT: {}".format(locator, ))
+        return locator
 
     def results(self, expected, elem_id=None, wait_time=5, negative=False):
         """
