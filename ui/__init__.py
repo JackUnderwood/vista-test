@@ -146,7 +146,7 @@ class UI:
         """
         May want to add the other options such as by value and by index.
         See http://selenium-python.readthedocs.org/en/latest/api.html
-        :param locator: holds the xpath, id, or class
+        :param locator: holds the xpath, id, class, or tag
         :param value: visible text inside the list
         :return: None
         """
@@ -347,6 +347,16 @@ class UI:
             log.debug("-- FAILED TEST CASE!!! --")
             res = False
         return res
+
+    def get(self, locator, value):
+        """
+        Get an on-screen value
+        :param locator: holds the xpath, id, class, or tag
+        :param value: attribute name, i.e. innerHTML, value, name, etc.
+        :return: string - value
+        """
+        element = self.find_element(locator)
+        return element.get_attribute(value)
 
     def teardown(self):
         log.info("Teardown")
