@@ -1,11 +1,14 @@
 __author__ = 'John Underwood'
+import re
 
 from ui import UI
 from ui.low.sales_commission_report import SalesCommissionReport
+from tool.utilities import strip_alpha
 
 
 class ViewCommissionReport(UI):
     SalesCommissionReport()
+    amount = 25000
 
     runtime = {
         'find': ('Type', '#user_key_id_desc', 'Catherine Dotson'),
@@ -27,7 +30,7 @@ class ViewCommissionReport(UI):
         'amount': (
             'Type',
             '//*[@id="revenue-table"]/tbody[2]/tr[9]/td[4]/input',
-            '25000'),
+            str(amount)),
         'save': (
             'Click',
             '//*[@id="revenue-table"]/tbody[2]/tr[9]/td[5]/a[1]/i'),
@@ -35,11 +38,33 @@ class ViewCommissionReport(UI):
     expected = "Saved adjustment"
     process = UI()
     process.update(runtime)
-    order = ('find', 'result', 'month', 'year', 'addAdjustment',
-             'assignNumber', 'findClient', 'selectCare', 'findProvider',
-             'selectProvider', 'amount', 'save')
+    order = ('find', 'result', 'month', 'year', )
     process.execute(order)
     process.wait(2)
+
+    primary_total = process.get(
+        '//*[@id="revenue-table"]/tbody[12]/tr[1]/td[9]', 'innerHTML')
+    print("PRIMARY {}".format(primary_total, ))
+    primary_total = strip_alpha(primary_total)
+    print("PRIMARY NUMERIC {}".format(primary_total, ))
+
+    order = ('addAdjustment', 'assignNumber', 'findClient', 'selectCare',
+             'findProvider', 'selectProvider', 'amount', 'save')
+    process.execute(order)
+
+    rate = process.get(
+        '//*[@id="revenue-table"]/tbody[1]/tr/td[1]/div', 'innerHTML')
+    print("VALUE {}".format(rate, ))
+    rate = strip_alpha(rate)
+
+    adjusted_subtotal = rate * amount
+    adjusted_total = process.get(
+        '//*[@id="revenue-table"]/tbody[12]/tr[1]/td[9]', 'innerHTML')
+    adjusted_total = strip_alpha(adjusted_total)
+    print("ADJUSTED {}".format(adjusted_total, ))
+    print("DIFFERENCE {}".format(adjusted_total - primary_total))
+    print("COMPARISON {}".
+          format(adjusted_subtotal - (adjusted_total-primary_total)))
     process.results(expected)
     process.wait(2)
     process.teardown()
