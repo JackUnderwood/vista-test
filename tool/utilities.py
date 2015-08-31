@@ -5,6 +5,7 @@ Provides global constants & variables
 """
 import configparser
 import time
+import re
 
 # Constants
 CONFIG_FILE = 'config.ini'
@@ -44,3 +45,13 @@ def todays_time():
     :return: e.g. '10:27 AM'
     """
     return time.strftime("%I:%M %p")
+
+
+def strip_alpha(value):
+    """
+    Takes in a string, strips all chars, except digits and decimal point
+    :param value: string of characters, e.g. "$16,234.67"
+    :return: float number, e.g. 16234.67
+    """
+    value = re.sub('[^0-9.]', '', value)
+    return float(value)
