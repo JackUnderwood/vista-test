@@ -364,5 +364,16 @@ class UI:
         self.driver.quit()
 
     @staticmethod
+    def compare(expected, actual):
+        if actual == expected:
+            log.debug("PASSED: The actual '{}' is same as expected '{}'".
+                      format(actual, expected, ))
+            return True
+        else:
+            log.debug("FAILED: The actual '{}' is different from expected '{}'".
+                      format(actual, expected, ))
+            return False
+
+    @staticmethod
     def wait(seconds):
         time.sleep(seconds)

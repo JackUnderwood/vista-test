@@ -65,6 +65,7 @@ class ViewCommissionReport(UI):
     print("DIFFERENCE {}".format(adjusted_total - primary_total))
     print("COMPARISON {}".
           format(adjusted_subtotal - (adjusted_total-primary_total)))
+    process.compare(adjusted_subtotal, adjusted_total-primary_total)
     process.results(expected)
     process.wait(2)
     process.teardown()
