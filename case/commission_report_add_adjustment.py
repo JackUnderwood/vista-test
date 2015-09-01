@@ -1,6 +1,6 @@
 __author__ = 'John Underwood'
-import re
 
+import ui
 from ui import UI
 from ui.low.sales_commission_report import SalesCommissionReport
 from tool.utilities import strip_alpha
@@ -34,7 +34,7 @@ class ViewCommissionReport(UI):
         'save': (
             'Click',
             '//*[@id="revenue-table"]/tbody[2]/tr[9]/td[5]/a[1]/i'),
-    }  #
+    }
     expected = "Saved adjustment"
     process = UI()
     process.update(runtime)
@@ -44,9 +44,9 @@ class ViewCommissionReport(UI):
 
     primary_total = process.get(
         '//*[@id="revenue-table"]/tbody[12]/tr[1]/td[9]', 'innerHTML')
-    print("PRIMARY {}".format(primary_total, ))
+    ui.log.info("PRIMARY {}".format(primary_total, ))
     primary_total = strip_alpha(primary_total)
-    print("PRIMARY NUMERIC {}".format(primary_total, ))
+    ui.log.info("PRIMARY NUMERIC {}".format(primary_total, ))
 
     order = ('addAdjustment', 'assignNumber', 'findClient', 'selectCare',
              'findProvider', 'selectProvider', 'amount', 'save')
@@ -54,17 +54,17 @@ class ViewCommissionReport(UI):
 
     rate = process.get(
         '//*[@id="revenue-table"]/tbody[1]/tr/td[1]/div', 'innerHTML')
-    print("VALUE {}".format(rate, ))
+    ui.log.info("RATE VALUE {}".format(rate, ))
     rate = strip_alpha(rate)
 
     adjusted_subtotal = rate * amount
     adjusted_total = process.get(
         '//*[@id="revenue-table"]/tbody[12]/tr[1]/td[9]', 'innerHTML')
     adjusted_total = strip_alpha(adjusted_total)
-    print("ADJUSTED {}".format(adjusted_total, ))
-    print("DIFFERENCE {}".format(adjusted_total - primary_total))
-    print("COMPARISON {}".
-          format(adjusted_subtotal - (adjusted_total-primary_total)))
+    ui.log.info("ADJUSTED {}".format(adjusted_total, ))
+    ui.log.info("DIFFERENCE {}".format(adjusted_total - primary_total))
+    ui.log.info("COMPARISON {}".
+                format(adjusted_subtotal - (adjusted_total-primary_total)))
     process.compare(adjusted_subtotal, adjusted_total-primary_total)
     process.results(expected)
     process.wait(2)
