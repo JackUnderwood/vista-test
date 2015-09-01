@@ -366,11 +366,11 @@ class UI:
     @staticmethod
     def compare(expected, actual):
         if actual == expected:
-            log.debug("PASSED: The actual '{}' is same as expected '{}'".
+            log.debug("PASSED: actual '{}' is same as expected '{}'".
                       format(actual, expected, ))
             return True
         else:
-            log.debug("FAILED: The actual '{}' is different from expected '{}'".
+            log.debug("FAILED: actual '{}' is different from expected '{}'".
                       format(actual, expected, ))
             return False
 
