@@ -330,7 +330,7 @@ class UI:
         :param elem_id: look in a DOM specific area by 'id' attribute
         :param wait_time: the total tolerance time
         :param negative: True - do NOT expect to see the expected
-        :return:
+        :return: boolean
         """
         if elem_id:
             self.wait_for_element(elem_id, wait_time)
