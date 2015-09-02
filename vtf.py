@@ -4,8 +4,8 @@ Reserve words for the Vista Testing Framework:
 • suite - files that are test suites must reside inside the ./suite/ dir
 • test - used in test function names
 
-Using powershell terminal, path shows: .\vtf.py .\case\testcase
-Command line arguments: platform=test log=warning anything=else
+Using powershell terminal, path shows: .\vtf.py .\case\<testcase>
+Command line arguments: --platform=test --log=warning --<anything=else>
 platform may equal 'test' or 'dev'
 """
 import os
