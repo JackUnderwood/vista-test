@@ -57,15 +57,15 @@ class ViewCommissionReport(UI):
     ui.log.info("RATE VALUE {}".format(rate, ))
     rate = strip_alpha(rate)
 
-    adjusted_subtotal = rate * amount
+    adjusted_amount = rate * amount
     adjusted_total = process.get(
         '//*[@id="revenue-table"]/tbody[12]/tr[1]/td[9]', 'innerHTML')
     adjusted_total = strip_alpha(adjusted_total)
+    difference_amount = adjusted_total - primary_total
     ui.log.info("ADJUSTED {}".format(adjusted_total, ))
-    ui.log.info("DIFFERENCE {}".format(adjusted_total - primary_total))
-    ui.log.info("COMPARISON {}".
-                format(adjusted_subtotal - (adjusted_total-primary_total)))
-    process.compare(adjusted_subtotal, adjusted_total-primary_total)
+    ui.log.info("DIFFERENCE {}".format(difference_amount))
+
+    process.compare(adjusted_amount, difference_amount)
     process.results(expected)
     process.wait(2)
     process.teardown()

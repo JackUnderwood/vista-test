@@ -55,3 +55,12 @@ def strip_alpha(value):
     """
     value = re.sub('[^0-9.]', '', value)
     return float(value)
+
+
+def digits_only(value):
+    """
+    Takes in a string, and strips all chars except digits
+    :param value: string of characters, e.g. "123-12-1234"
+    :return: string, e.g. "123121234"
+    """
+    return re.sub('[^0-9]', '', value)
