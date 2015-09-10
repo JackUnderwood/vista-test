@@ -312,7 +312,7 @@ class UI:
         :return: string - locator
         """
         # TODO: need a way to handle xpaths inside the Chain command, #90548734
-        if command != 'Chain' and locator.find('&') is not -1:
+        while command != 'Chain' and locator.find('&') is not -1:
             # Look for placeholder key
             log.debug("------ ELEMENT: {}".format(locator,))
             key = locator[locator.find('&') + 1: locator.find(';')]
