@@ -34,6 +34,7 @@ class EntityAddSsn(UI):
              'lastName', 'ssn', 'save')
     process.execute(order)
     process.wait(3)
+
     order = ('find', 'select', 'editEntity', )
     process.execute(order)
     actual = process.get('#ssn', 'value')
