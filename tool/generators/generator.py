@@ -3,7 +3,14 @@ __author__ = 'John Underwood'
 TODO: Create a set of generators,
 i.e. phone number generator, address generator, etc.
 """
+import random
+
 from names import get_full_name
+
+# Note: custom domains make up for a third of email accounts, so every
+# third email account should be 'other'.
+COMMON_EMAIL_DOMAINS = ('gmail', 'yahoo', 'aol', 'comcast', 'hotmail', 'msn',
+                        'sbcglobal', 'verizon', 'roadrunner', 'optimum')
 
 
 def gen_name(gender=None):
@@ -36,7 +43,9 @@ def gen_email(full_name):
     :return: string 'firstlast@<domain>.com'
     """
     first, last = split_name(full_name)
-    email = first + last + '@gmail.com'
+    domain = COMMON_EMAIL_DOMAINS[
+        random.randrange(0, len(COMMON_EMAIL_DOMAINS), 1)]
+    email = first[:2] + last + '@' + domain + '.com'
     return email.lower()
 
 
