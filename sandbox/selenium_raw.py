@@ -16,34 +16,62 @@ driver.implicitly_wait(5)
 
 # Optional argument, if not specified will search path.
 # driver = webdriver.Chrome('C:/Common/chromedriver')
-driver.get('http://indytest/correspondence/sendCorrespondence')
+
+# driver.get(
+#     'http://indytest/checklist/checklist/checklist/71/entity/156942/inline/1/')
+driver.get(
+    'http://172.23.8.5/checklist/checklist/checklist/71/entity/156942/inline/1/')
 print(driver.title)
-assert "INDY - Sendcorrespondence Correspondence" in driver.title
-time.sleep(3)  # Let the user actually see something!
-
-element = driver.find_element_by_id('category')
-select = Select(element)
-select.select_by_visible_text('Provider Licensing')
-time.sleep(1)
-
-element = driver.find_element_by_id('template_id')
-select = Select(element)
-select.select_by_visible_text('License renewal')
-time.sleep(1)
-
-element = driver.find_element_by_id('desc_provider_id')
-element.send_keys('matt lambert st:wv')
 
 time.sleep(3)
-# click provider's name in Results
-element = driver.find_element_by_id('91273')
+
+element = driver.find_element_by_xpath(  # click the ribbon
+    '//*[@id="ribbon_form"]/ul/li/div[1]/div')
 element.click()
 time.sleep(1)
 
-element = driver.find_element_by_id('license_id')
-select = Select(element)
-select.select_by_index(1)  # One-base index
+element = driver.find_element_by_xpath(  # click email address icon
+    '//*[@id="ribbon_form"]/ul/li/div[2]/div[3]/div[1]/a[3]/i')
+element.click()
 time.sleep(1)
+
+table = driver.find_element_by_id('emailGrid_grid')
+rows = table.find_elements_by_tag_name('tr')
+
+
+
+
+
+
+
+
+
+
+
+
+
+# select = Select(element)
+# select.select_by_visible_text('Provider Licensing')
+# time.sleep(1)
+#
+# element = driver.find_element_by_id('template_id')
+# select = Select(element)
+# select.select_by_visible_text('License renewal')
+# time.sleep(1)
+#
+# element = driver.find_element_by_id('desc_provider_id')
+# element.send_keys('matt lambert st:wv')
+#
+# time.sleep(3)
+# # click provider's name in Results
+# element = driver.find_element_by_id('91273')
+# element.click()
+# time.sleep(1)
+#
+# element = driver.find_element_by_id('license_id')
+# select = Select(element)
+# select.select_by_index(1)  # One-base index
+# time.sleep(1)
 
 # elements = driver.find_elements_by_xpath(
 #     '//div[@id="add-recipient-container" and contains(@class, "find-form")]')
@@ -59,53 +87,53 @@ time.sleep(1)
 # //div[contains(@class, 'Caption') and text()='Model saved']
 # elements = driver.find_elements_by_class_name('find-form')
 
-element = driver.find_element_by_xpath(
-    '//*[@id="add-recipient-container"]/span[1]')  # Entity button
-element.click()
-time.sleep(1)
-
-elements = driver.find_elements_by_tag_name('input')  # too many objects
-
-element = elements[-1]
-print("AFTERWARDS")
-
-element.send_keys('matt lambert st:wv')
-time.sleep(2)
-
-element = driver.find_element_by_id('91273')
-element.click()
-time.sleep(1)
-
-element = driver.find_element_by_xpath(  # Delivery Method
-    '//span[contains(@class, "type-title") and text()="Payroll Address"]')
-element.click()
-time.sleep(1)
-
-element = driver.find_element_by_xpath(  # Save the delivery method
-    '//a[@button="save"]')
-element.click()
-time.sleep(1)
-
-# Add a User
-element = driver.find_element_by_xpath(
-    '//*[@id="add-recipient-container"]/span[2]')  # User button
-element.click()
-time.sleep(1)
-
-elements = driver.find_elements_by_tag_name('input')  # too many objects
-
-element = elements[-1]
-element.send_keys('Underwood')
-time.sleep(2)
-
-element = driver.find_element_by_id('1515')
-element.click()
-time.sleep(1)
-
-element = driver.find_element_by_xpath(  # Save the delivery method
-    '//a[@button="save"]')
-element.click()
-time.sleep(1)
+# element = driver.find_element_by_xpath(
+#     '//*[@id="add-recipient-container"]/span[1]')  # Entity button
+# element.click()
+# time.sleep(1)
+#
+# elements = driver.find_elements_by_tag_name('input')  # too many objects
+#
+# element = elements[-1]
+# print("AFTERWARDS")
+#
+# element.send_keys('matt lambert st:wv')
+# time.sleep(2)
+#
+# element = driver.find_element_by_id('91273')
+# element.click()
+# time.sleep(1)
+#
+# element = driver.find_element_by_xpath(  # Delivery Method
+#     '//span[contains(@class, "type-title") and text()="Payroll Address"]')
+# element.click()
+# time.sleep(1)
+#
+# element = driver.find_element_by_xpath(  # Save the delivery method
+#     '//a[@button="save"]')
+# element.click()
+# time.sleep(1)
+#
+# # Add a User
+# element = driver.find_element_by_xpath(
+#     '//*[@id="add-recipient-container"]/span[2]')  # User button
+# element.click()
+# time.sleep(1)
+#
+# elements = driver.find_elements_by_tag_name('input')  # Here is the solution
+#
+# element = elements[-1]
+# element.send_keys('Underwood')
+# time.sleep(2)
+#
+# element = driver.find_element_by_id('1515')
+# element.click()
+# time.sleep(1)
+#
+# element = driver.find_element_by_xpath(  # Save the delivery method
+#     '//a[@button="save"]')
+# element.click()
+# time.sleep(1)
 
 
 # element = driver.find_element_by_xpath(

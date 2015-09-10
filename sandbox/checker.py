@@ -9,6 +9,11 @@ class Check(UI):
     Change the class call below.
     """
     process = UI()
+    from ui.low.file import File
+    from ui.high.file_select import FileSelect
+    File()
+    process.results("John Underwood")
+    FileSelect()
 
     # from ui.low.license import License
     # License()
@@ -22,9 +27,9 @@ class Check(UI):
     # SalesCommissionRates()
     # process.results("Commission Rates")
 
-    from ui.low.sales_commission_report import SalesCommissionReport
-    SalesCommissionReport()
-    process.results("Commission Report")
+    # from ui.low.sales_commission_report import SalesCommissionReport
+    # SalesCommissionReport()
+    # process.results("Commission Report")
 
     # from ui.low.sales_base import SalesBase
     # SalesBase()
