@@ -8,6 +8,18 @@ Locator's Reference:
 .class
 #id
 <tag_name>
+
+Note:
+This test uses the Chrome PDF Viewer, so it needs the following driver's option
+added; see UI() class: add_experimental_option('excludeSwitches', ['test-type'])
+
+An infobar warning banner will display, "You are using an unsupported
+command-line flag: --ignore-certificate-errors. Stability and security will
+suffer."
+
+Alter the above to avoid the banner:
+add_experimental_option(
+    'excludeSwitches', ['test-type', 'ignore-certificate-errors'])
 """
 import time
 
