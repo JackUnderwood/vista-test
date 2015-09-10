@@ -53,4 +53,4 @@ class AddEntity(UI):
     process.execute(order)
     process.results(expected, 'toast-container', 5)
     process.wait(3)
-    # process.teardown()
+    process.teardown()
