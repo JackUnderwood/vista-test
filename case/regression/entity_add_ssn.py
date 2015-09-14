@@ -10,7 +10,7 @@ class EntityAddSsn(UI):
     """
     Regression test for story #102370974
     """
-    ssn = '123-12-1234'
+    ssn = '333-22-4444'
     full, first, last = gen_name()
 
     ui.log.info("First name: {0} & Last name: {1}".format(first, last,))
