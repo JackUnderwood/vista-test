@@ -9,7 +9,7 @@ class RemindMeDialog(UI):
     Pre-requirement: needs to display Remind Me dialog - execute low.remind_me
     first.
 
-    Test case goes into Remind Me.
+    Test case goes into the Remind Me drawer.
     """
     def __init__(self, override=None):
         super().__init__()
