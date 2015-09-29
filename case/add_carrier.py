@@ -7,8 +7,8 @@ from ui.high.checklist import Checklist
 
 class AddCarrier(UI):
     License()
-    override = {'showAll': None}
-    Checklist(override)
+    # override = {'showAll': None}
+    Checklist()
 
     runtime = {
         'malpractice': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[4]'),
