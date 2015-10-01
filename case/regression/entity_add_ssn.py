@@ -24,14 +24,15 @@ class EntityAddSsn(UI):
         'lastName': ('Type', '#entity_name', last),
         'ssn': ('Type', '#ssn', digits_only(ssn)),
         'save': ('Click', '//*[@id="editEntityInformation_form"]/div[3]/a[1]'),
-        'select': ('Click', '//*[@id="user_name"]'),
+        'addressCheck': ('Click', 'ci.fa.fa-save.left'),
+        'select': ('Click', '#user_name'),
         'editEntity': (
             'Click', '//*[@id="ribbon_form"]/ul/li/div[2]/div[1]/div[6]/a'),
     }
     process = UI()
     process.update(runtime)
     order = ('find', 'addNewEntity', 'entityType', 'firstName',
-             'lastName', 'ssn', 'save')
+             'lastName', 'ssn', 'save', )
     process.execute(order)
     process.wait(3)
 

@@ -255,17 +255,21 @@ class UI:
         if first_element == '/':  # xpath
             temp = self.driver.find_element_by_xpath(locator)
             return temp  # self.driver.find_element_by_xpath(elem)
-        elif first_element == '.':  # class
+        elif first_element == '.':  # ".<class>"
             _class = locator[1:]
             return self.driver.find_element_by_class_name(_class)
-        elif first_element == '#':  # id
+        elif first_element == '#':  # "#<id>"
             _id = locator[1:]
             return self.driver.find_element_by_id(_id)
-        elif first_element == '<':  # tag - special case that looks for many
+        elif first_element == '<':  # "<<tag>>" - special case that looks for many
             # Returns the last element in the list; assumes the last element
             # is the desired element.
             _tag = locator[1:-1]
             return self.driver.find_elements_by_tag_name(_tag)[-1]
+        elif first_element == 'c':  # "c<css selector>"
+            _css = locator[1:]
+            log.info("First Element: {0}".format(_css))
+            return self.driver.find_element_by_css_selector(_css)
         else:
             # TODO: need to throw exception
             log.exception("no correct element found")
