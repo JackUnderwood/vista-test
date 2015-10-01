@@ -24,10 +24,9 @@ class EntityAddSsn(UI):
         'lastName': ('Type', '#entity_name', last),
         'ssn': ('Type', '#ssn', digits_only(ssn)),
         'save': ('Click', '//*[@id="editEntityInformation_form"]/div[3]/a[1]'),
-        'addressCheck': ('Click', 'ci.fa.fa-save.left'),
         'select': ('Click', '#user_name'),
-        'editEntity': (
-            'Click', '//*[@id="ribbon_form"]/ul/li/div[2]/div[1]/div[6]/a'),
+        'displaySsn': ('Click', '//*[@id="ribbon_form"]/ul/li/div[2]/div[1]/div[3]/span[1]/a'),
+        'continue': ('Click', '//*[@button="continue"]'),
     }
     process = UI()
     process.update(runtime)
@@ -36,9 +35,9 @@ class EntityAddSsn(UI):
     process.execute(order)
     process.wait(3)
 
-    order = ('find', 'select', 'editEntity', )
+    order = ('find', 'select', 'displaySsn', 'continue', )
     process.execute(order)
-    actual = process.get('#ssn', 'value')
+    actual = process.get('//*[@id="ribbon_form"]/ul/li/div[2]/div[1]/div[3]/span[1]', 'innerHTML', )
     ui.log.info('SSN value is {}'.
                 format(actual if actual is not '' else 'None',))
     process.compare(ssn, actual)
