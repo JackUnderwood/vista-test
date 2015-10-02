@@ -3,14 +3,14 @@ __author__ = 'John Underwood'
 import ui
 from ui import UI
 from tool.utilities import digits_only
-from tool.generators.generator import gen_name
+from tool.generators.generator import gen_name, gen_ssn
 
 
 class EntityAddSsn(UI):
     """
     Regression test for story #102370974
     """
-    ssn = '333-22-4444'
+    ssn = gen_ssn()
     full, first, last = gen_name()
 
     ui.log.info("First name: {0} & Last name: {1}".format(first, last,))
