@@ -23,8 +23,12 @@ class EntityAddSsn(UI):
         'firstName': ('Type', '#entity_first_name', first),
         'lastName': ('Type', '#entity_name', last),
         'ssn': ('Type', '#ssn', digits_only(ssn)),
+        'fullName': full,
         'save': ('Click', '//*[@id="editEntityInformation_form"]/div[3]/a[1]'),
-        'select': ('Click', '#user_name'),
+        # '//span[contains(@id, "user_name") and text()="&fullName;"]'
+        # '//span[@id="user_name" and contains(., "&fullName;")]'
+        'select': ('Click', '//span[@id="user_name" and contains(., "&fullName;")]'),
+        # 'select': ('Click', '#user_name'),
         'displaySsn': ('Click', '//*[@id="ribbon_form"]/ul/li/div[2]/div[1]/div[3]/span[1]/a'),
         'continue': ('Click', '//*[@button="continue"]'),
     }
