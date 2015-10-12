@@ -1,3 +1,14 @@
+import time
+
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import InvalidElementStateException
+
+import tool.utilities as utils
+from tool.vlog import VLog
+
 __author__ = 'John Underwood'
 """
 This class will setup the selenium driver and process all commands from
@@ -21,15 +32,6 @@ Alter the above to avoid the banner:
 add_experimental_option(
     'excludeSwitches', ['test-type', 'ignore-certificate-errors'])
 """
-import time
-
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.common.action_chains import ActionChains
-
-import tool.utilities as utils
-from tool.vlog import VLog
 
 log = VLog(name="vtf", log_name="UI")
 
@@ -37,6 +39,8 @@ log = VLog(name="vtf", log_name="UI")
 class UI:
     chrome_options = Options()
     chrome_options.add_argument("--start-maximized")
+    # TODO: disable hardware acceleration setting - this doesn't work
+    chrome_options.add_argument("--disable-gpu")
     # This option takes care of a known issue in the browser, where the
     # PDF viewer does not function as expected--it downloads the file.
     chrome_options.add_experimental_option(
@@ -133,7 +137,7 @@ class UI:
         element = self.find_element(locator)
         try:
             element.clear()
-        except Exception:
+        except InvalidElementStateException:
             """invalid element state: Element must be user-editable in
             order to clear it."""
             log.warning("Element is not user-editable; unable to clear()")
@@ -162,7 +166,8 @@ class UI:
         :param value: visible text inside the list
         :return: None
         """
-        log.info("Select Command - PATH: {0} - VALUE: \'{1}\'".format(locator, value))
+        log.info("Select Command - PATH: {0} - VALUE: \'{1}\'"
+                 .format(locator, value))
         self.wait(1)  # compensate for on-screen shifting of the element
         self.check_for_new_window()
         element = self.find_element(locator)
