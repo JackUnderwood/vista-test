@@ -1,9 +1,8 @@
-__author__ = 'John Underwood'
-
 import ui
 from ui import UI
 from tool.utilities import digits_only
 from tool.generators.generator import gen_name, gen_ssn
+__author__ = 'John Underwood'
 
 
 class EntityAddSsn(UI):

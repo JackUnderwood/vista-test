@@ -18,7 +18,7 @@ class RemindMeDialog(UI):
             'dueTime': ('Type', '#notification_time', todays_time()),
             'waitForDrawer': ('Wait', 'notifyRegardingDesc', 5),
             'findIcon': ('Click', '//*[@id="who"]/div/div/div[1]/i[2]'),
-            'selectProvider': ('Click', '//*[@id="who"]/div/div/div[1]/div/a[2]'),
+            'selectProvider': ('Click', '//*[@id="who"]/div/div/div[1]/div/a[1]'),
             'find': ('Type', '#notifyRegardingDesc', 'matt lambert st:wv'),
             'select': ('Click', '//*[@item_id="91273"]'),
             'notes': (

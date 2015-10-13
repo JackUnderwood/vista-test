@@ -13,7 +13,7 @@ class ViewCommissionReport(UI):
         'month': ('Select', '#month', 'March'),
         'year': ('Select', '#year', '2015'),
     }
-    expected = "16,674.67"
+    expected = "19,987.20"
     process = UI()
     process.update(runtime)
     order = ('find', 'result', 'month', 'year', )

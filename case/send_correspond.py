@@ -9,13 +9,12 @@ from ui.high.ribbon_corr import RibbonToCorrespondence
 
 class SendCorrespond(UI):
     License()
-    override = {'showAll': ('Unknown', 'Unknown', 'Unknown'), }
-    Checklist(override)
+    Checklist()
     ExpandRibbon()
     UI().wait(2)
     override = {  # select 'License renewal'
         'selectTemplate':
-            ('Click', '//*[@id="correspondenceChooser_form"]/p[2]/p[9]/a')}
+            ('Click', '//*[@id="correspondenceChooser_form"]/p[2]/p[11]/a')}
     RibbonToCorrespondence(override)
 
     runtime = {
@@ -23,7 +22,7 @@ class SendCorrespond(UI):
         'entity': ('Click', '//*[@id="add-recipient-container"]/span[1]'),
         'findEntity': ('Type', '<input>', 'matt lambert st:wv', ),
         'selectEntity': ('Click', '//*[@item_id="91273"]'),
-        'checkAddress': ('Click', '//span[text()="Payroll Address"]'),
+        'checkAddress': ('Click', '//span[text()="Personal"]'),
         'saveDeliveryMethod': ('Click', '//a[@button="save"]', ),
         'cya': ('Click', '//body', ),
         'send': ('Click', '#corr_send')

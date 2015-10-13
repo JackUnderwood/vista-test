@@ -16,7 +16,7 @@ class AddLicense(UI):
         ),
         'licenseIcon': (
             'Click',
-            '//*[@id="ribbon_form"]/ul/li/div[2]/div[3]/div[2]/a[1]/span'
+            '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[2]/a[1]/span'
         ),
         'newLicense': ('Click', '//*[@id="licenseGrid_form"]/a'),
         'licenseStanding': ('Select', '#license_standing', 'Good'),

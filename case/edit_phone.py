@@ -14,19 +14,20 @@ class EditPhone(UI):
     runtime = {
         'phone': (
             'Click',
-            '//*[@id="ribbon_form"]/ul/li/div[2]/div[3]/div[1]/a[4]',
+            '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[4]/i',
         ),
         'editPhone': (
             'Click',
             '//*[@id="phoneGrid_grid"]/tbody/tr[1]/td[15]/a/i'
         ),
         'revisePhone': ('Type', '#phone', '8012251155'),
+        'phoneType': ('Select', '#phone_correspondence_method_type_id', 'Other'),
         'save': ('Click', '//*[@button="save"]')
     }
     expected = 'Phone number saved!'
     process = UI()
     process.update(runtime)
-    order = ('phone', 'editPhone', 'revisePhone', 'save')
+    order = ('phone', 'editPhone', 'revisePhone', 'phoneType', 'save')
     process.execute(order)
     process.results(expected, 'toast-container', 8)
     process.wait(2)

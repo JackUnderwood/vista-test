@@ -12,7 +12,7 @@ class EditEntity(UI):
     ExpandRibbon()
 
     runtime = {
-        'providerId': (
+        'editEntity': (
             'Click',
             '//*[@id="ribbon_form"]/ul/li[1]/div[2]/div[1]/div[6]/a[1]'
         ),
@@ -22,20 +22,20 @@ class EditEntity(UI):
             '#address_correspondence_method_type_id',
             'Work'
         ),
-        'address': ('Type', '#address_1', '123 Main St.'),
-        'city': ('Type', '#city', 'Geneva'),
+        'address': ('Type', '#address_1', '123 N Main St'),
+        'city': ('Type', '#city', 'Lindon'),
         'state': ('Select', '#state', 'Utah'),
-        'zipCode': ('Type', '#zip_code', '84056'),
-        'save': ('Click', '//*[@button="save"]'),
-        # 'expectedError': ('Wait', '//*[@id="toast-container"]/div', 10),
+        'zipCode': ('Type', '#zip_code', '84042'),
+        'save': ('Click', '#save-n-check'),
+        # 'expectedError': ('Wait', '//*[@id="toast-container"]/div', 10),    123 N Main St, Lindon, UT 84042
         # has a class called "toast red"
     }
     expected = 'Saved information'
     process = UI()
     process.update(runtime)
-    order = ('providerId', 'addressDescription', 'addressType',
+    order = ('editEntity', 'addressDescription', 'addressType',
              'address', 'city', 'state', 'zipCode', 'save', )  # 'expectedError'
     process.execute(order)
-    process.results(expected, 'toast-container', 8)
+    process.results(expected, 'toast-container', 5)
     process.wait(3)
     process.teardown()

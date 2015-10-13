@@ -38,12 +38,12 @@ class ViewCommissionReport(UI):
     expected = "Saved adjustment"
     process = UI()
     process.update(runtime)
-    order = ('find', 'result', 'month', 'year', )
+    order = ('find', 'result', 'month', )  # 'year', )
     process.execute(order)
     process.wait(2)
 
     primary_total = process.get(
-        '//*[@id="revenue-table"]/tbody[12]/tr[1]/td[9]', 'innerHTML')
+        '//*[@id="revenue-table"]/tbody[10]/tr[1]/td[9]', 'innerHTML')  # Commission Total
     ui.log.info("PRIMARY {}".format(primary_total, ))
     primary_total = strip_alpha(primary_total)
     ui.log.info("PRIMARY NUMERIC {}".format(primary_total, ))
@@ -59,7 +59,7 @@ class ViewCommissionReport(UI):
 
     adjusted_amount = rate * amount
     adjusted_total = process.get(
-        '//*[@id="revenue-table"]/tbody[12]/tr[1]/td[9]', 'innerHTML')
+        '//*[@id="revenue-table"]/tbody[10]/tr[1]/td[9]', 'innerHTML')
     adjusted_total = strip_alpha(adjusted_total)
     difference_amount = adjusted_total - primary_total
     ui.log.info("ADJUSTED {}".format(adjusted_total, ))

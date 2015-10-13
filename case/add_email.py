@@ -16,7 +16,7 @@ class AddEmail(UI):
         'email': (
             'Click', '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[3]'),
     }
-
+    expected = "Email saved"
     process = UI()
     process.update(runtime)
     order = ('expand', 'email')
@@ -37,5 +37,6 @@ class AddEmail(UI):
     process.update(runtime)
     order = ('addEmail', 'emailAddress', 'emailType', 'save')
     process.execute(order)
+    process.results(expected)
     process.wait(3)
     process.teardown()
