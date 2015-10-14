@@ -24,14 +24,14 @@ class TestSuiteFileGeneral(unittest.TestCase):
 
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
     @unittest.skipIf(debug, "debugging a single test")
-    def test_file_reset(self):
-        print(">>> Inside function test_file_reset()")
+    def test_generic_files(self):
+        print(">>> Inside function test_category()")
         runtime = {
-            'reset': ('Click', '//*[@id="vsubnav"]/div/i', )
+            'generic': ('Click', '//*[@id="vsubnav"]/div/div[6]/a[1]', )
         }
-        expected = 'Options set to default'
+        expected = "System Files"  # can also use 'System Documents'
         self.process.update(runtime)
-        self.process.execute(('reset', ))
+        self.process.execute(('generic', ))
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
@@ -39,51 +39,11 @@ class TestSuiteFileGeneral(unittest.TestCase):
     def test_my_files(self):
         print(">>> Inside function test_my_files()")
         runtime = {
-            'myfile': ('Click', '//*[@id="vsubnav"]/div/div[6]/span', )
+            'myfile': ('Click', '//*[@id="vsubnav"]/div/div[6]/a[2]', )
         }
-        expected = self.user_name
+        expected = self.user_name + "'s Files"
         self.process.update(runtime)
         self.process.execute(('myfile', ))
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
-    @unittest.skipIf(debug, "debugging a single test")
-    def test_category(self):
-        print(">>> Inside function test_category()")
-        runtime = {
-            'category': ('Click', '//*[@id="vsubnav"]/div/div[2]/ul', )
-        }
-        expected = "System Correspondence"  # can also use 'System Documents'
-        self.process.update(runtime)
-        self.process.execute(('category', ))
-        result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
-
-    @unittest.skipIf(debug, "debugging a single test")
-    def test_category_one_selected(self):
-        print(">>> Inside function test_category_one_selected()")
-        runtime = {
-            'category': ('Click', '//*[@id="vsubnav"]/div/div[2]/ul', ),
-            'selectCategoryOption': (
-                'Click',
-                '//*[@id="vsubnav"]/div/div[2]/ul/ul/li[1]'
-            ),
-        }
-        expected = "Category (1)"
-        self.process.update(runtime)
-        self.process.execute(('category', 'selectCategoryOption'))
-        result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
-
-    def test_subcategory(self):
-        # TODO: test_subcategory() gives a false positive result
-        print(""">>> Inside function test_subcategory().
-        This should fail, but doesn't; false positive result.""")
-        runtime = {  # really need to click subcategory
-            'reset': ('Click', '//*[@id="vsubnav"]/div/i', )
-        }
-        expected = 'System Files'
-        self.process.update(runtime)
-        self.process.execute(('reset',))
-        result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
