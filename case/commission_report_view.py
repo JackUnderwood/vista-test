@@ -16,7 +16,7 @@ class ViewCommissionReport(UI):
     expected = "19,987.20"
     process = UI()
     process.update(runtime)
-    order = ('find', 'result', 'month', 'year', )
+    order = ('month', 'find', 'result', 'year', )
     process.execute(order)
     process.wait(2)
     process.results(expected)
