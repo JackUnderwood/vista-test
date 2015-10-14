@@ -16,19 +16,16 @@ class FileReassign(UI):
             '#reassigneSearchDescription',
             'lambert matt st:wv'
         ),
-        'selectProvider': ('Click', '#user_name'),
-        'category': ('Click', '//*[@id="reassignObjectContainer"]/ul'),
-        'catLicenses': ('Click', '//*[@title="Licenses"]'),
-        'subcategory': ('Click', '//*[@id="reassignCategoryContainer"]/ul'),
-        'subcatStateLicense': ('Click', '//*[@title="State License"]'),
+        'selectProvider': ('Click', '//*[@item_id="91273"]'),
+        'subcategory': ('Select', '#reassignCategory', 'Certifications'),
         'copy': ('Click', '#reassignCopy')
     }
 
     expected = "File move successful"
     process = UI()
     process.update(runtime)
-    order = ('reassign', 'inputProvider', 'selectProvider', 'category',
-             'catLicenses', 'subcategory', 'subcatStateLicense', 'copy')
+    order = ('reassign', 'inputProvider', 'selectProvider',
+             'subcategory', 'copy')
     process.execute(order)
     process.results(expected)
     process.wait(3)
