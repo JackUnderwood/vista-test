@@ -1,7 +1,8 @@
-__author__ = 'John Underwood'
 from ui import UI
 
-from tool.utilities import todays_date, todays_time
+from tool.utilities import todays_date
+
+__author__ = 'John Underwood'
 
 
 class RemindMeDialog(UI):
@@ -13,10 +14,10 @@ class RemindMeDialog(UI):
     """
     def __init__(self, override=None):
         super().__init__()
+        month, day, year = (todays_date()[2:4], todays_date()[:2],
+                            todays_date()[4:])
         runtime = {
-            'dueDate': ('Type', '#due_datetime', todays_date()),
-            'dueTime': ('Type', '#notification_time', todays_time()),
-            'waitForDrawer': ('Wait', 'notifyRegardingDesc', 5),
+            'dueDate': ('Type', '#due_datetime', month+day+year),
             'findIcon': ('Click', '//*[@id="who"]/div/div/div[1]/i[2]'),
             'selectProvider': ('Click', '//*[@id="who"]/div/div/div[1]/div/a[1]'),
             'find': ('Type', '#notifyRegardingDesc', 'matt lambert st:wv'),
@@ -30,6 +31,6 @@ class RemindMeDialog(UI):
         }
         process = UI(override)
         process.update(runtime)
-        order = ('findIcon', 'selectProvider', 'find', 'select',
+        order = ('dueDate', 'findIcon', 'selectProvider', 'find', 'select',
                  'notes', 'submit')
         process.execute(order)

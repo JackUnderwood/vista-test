@@ -101,6 +101,8 @@ class UI:
             self.click(locator)
         elif command == "Type":
             self.type(locator, value)
+        elif command == "TypeAndTab":
+            self.type_tab(locator, value)
         elif command == "Find":
             self.find(locator, value)
         elif command == "Select":
@@ -144,6 +146,35 @@ class UI:
 
         element.send_keys(value)
         # element.submit()
+
+    def type_tab(self, locator, value):
+        """ MAY NOT NEED THIS FUNCTION JNU!!!
+        Date or Time fields require a tabbing between sub-fields,
+        i.e. 12 tab 21 tab 2015 OR 01 tab 15 tab pm
+        month, day, year OR hour, minute, period (AM/PM)
+        :param locator: element location in DOM
+        :param value: requires formats "mmddyyyy" OR "hhmmpp"
+        :return: void
+        """
+        log.info("Type Command - PATH: {0} - VALUE: \'{1}\'".
+                 format(locator, value))
+        # Get the three elements of either date or time
+        # Date first = month, second = day, third = year
+        # Time first = hour, second = minute, third = pm or am
+        first, second, third = (value[:2], value[2:4], value[4:])
+        self.check_for_new_window()
+        element = self.find_element(locator)
+
+        log.info("Month:{}".format(first, ))
+        element.send_keys(first)  # month OR hour
+        self.wait(5)
+        log.info("Day:{}".format(second, ))
+        element.send_keys("\t")
+        element.send_keys(second)  # day OR minute
+        self.wait(5)
+        log.info("Year:{}".format(third, ))
+        element.send_keys("\t")
+        element.send_keys(third)  # year OR period
 
     def find(self, locator, value):
         """
