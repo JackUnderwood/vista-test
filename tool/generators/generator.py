@@ -1,11 +1,13 @@
+import random
+import string
+
+from names import get_full_name
+
 __author__ = 'John Underwood'
 """
 TODO: Create a set of generators,
 i.e. phone number generator, address generator, etc.
 """
-import random
-
-from names import get_full_name
 
 # Note: custom domains make up for a third of email accounts, so every
 # third email account should be 'other'.
@@ -55,6 +57,14 @@ def gen_email(full_name):
         random.randrange(0, len(COMMON_EMAIL_DOMAINS), 1)]
     email = first[:2] + last + '@' + domain + '.com'
     return email.lower()
+
+
+def gen_key():
+    """
+    Create a unique key value; use as an identifier for text
+    :return: a 12 character string
+    """
+    return ''.join(random.choice(string.ascii_uppercase) for i in range(12))
 
 
 # ^*^*^*^*^ Private functions ^*^*^*^*^
