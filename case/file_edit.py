@@ -5,7 +5,7 @@ from ui.low.file import File
 from ui.high.file_select import FileSelect
 
 
-class FileSplit(UI):
+class FileEdit(UI):
     # TODO: Need feedback message for Create split
 
     File()
