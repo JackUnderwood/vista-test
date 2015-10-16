@@ -18,10 +18,9 @@ class FileSplit(UI):
         'selectPage1': (
             'Click',
             '//*[@id="toolPanelContainer"]/div[2]/div[4]/div[2]/div[2]'),
-
         'subcategory': ('Select', '#editCategory', 'Provider Licensing'),
         'filename': ('Type', '#editFilename', 'qa_automation.pdf'),
-        # TODO: auto generate file names
+        # TODO: auto generate file names - see above
 
         'create': ('Click', '//*[@id="toolPanelContainer"]/div[2]/div[7]/a[3]')
     }
