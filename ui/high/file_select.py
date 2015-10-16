@@ -18,5 +18,5 @@ class FileSelect(UI):
         }
         process = UI(override)
         process.update(runtime)
-        order = ('generic', 'subcategory', 'selectFile', )
+        order = ('subcategory', 'selectFile', )
         process.execute(order)
