@@ -15,4 +15,7 @@ $ rm -rf vista-test.git
  # Remove the temporary local repository
 
 
+-- Merge that always creates a new commit object - avoids lossing information
+$ git merge --no-ff myfeature
+
 
