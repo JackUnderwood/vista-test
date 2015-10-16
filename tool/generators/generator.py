@@ -39,10 +39,19 @@ def gen_address():
 
 
 def gen_ssn():
-    area = format_area(random.randrange(1, 899))
+    """
+    SSN format is <aaa-gg-ssss> area, group, and serial.
+    - The area portion of ssn--first three digits--000, 666, and 900-999
+    are excluded; includes positive integers from 001-665 667-899.
+    - The group portion of ssn is 01 through 99.
+    - The serial portion of ssn--last four digits--includes positive integers
+    of 1 through 9999
+    :return:
+    """
+    area = num_pad(random.randrange(1, 900), 3)
     g = lambda x: str(x) if x > 9 else '0{}'.format(x,)
     group = g(random.randrange(1, 99))
-    serial = format_serial(random.randrange(1, 9999))
+    serial = num_pad(random.randrange(1, 9999), 4)
     return area + '-' + group + '-' + serial
 
 
@@ -65,6 +74,17 @@ def gen_key():
     :return: a 12 character string
     """
     return ''.join(random.choice(string.ascii_uppercase) for i in range(12))
+
+
+def gen_number(number):
+    """
+    Generate a number 0 through 'number'
+    :param number: integer in the form of a number or string
+    :return: number as type string, e.g. '42'
+    """
+    base_length = len(str(number))
+    str_num = str(random.randrange(0, number, 1))
+    return num_pad(str_num, base_length)
 
 
 # ^*^*^*^*^ Private functions ^*^*^*^*^
@@ -92,37 +112,37 @@ def zip_code():
     pass
 
 
-def format_serial(n):
-    """
-    Provides the serial portion of ssn--last four digits <aaa-gg-ssss>
-    :param n: positive integer of 1 through 9999
-    :return: string of serial portion of ssn
-    """
-    if n > 999:
-        s = str(n)
-    elif n > 99:
-        s = '0{}'.format(n)
-    elif n > 9:
-        s = '00{}'.format(n)
-    else:
-        s = '000{}'.format(n)
-    return s
-
-
-def format_area(n):
-    """
-    Provides formatting for area portion of ssn--first three digits
-    Note: 000, 666, and 900-999 are excluded
-    :param n: positive integer from 001-665 667-899.
-    :return: string of area portion of ssn
-    """
-    if n > 99:
-        a = str(n)
-    elif n > 9:
-        a = '0{}'.format(n)
-    else:
-        a = '00{}'.format(n)
-    return a
+# def format_serial(n):
+#     """
+#     Provides the serial portion of ssn--last four digits <aaa-gg-ssss>
+#     :param n: positive integer of 1 through 9999
+#     :return: string of serial portion of ssn
+#     """
+#     if n > 999:
+#         s = str(n)
+#     elif n > 99:
+#         s = '0{}'.format(n)
+#     elif n > 9:
+#         s = '00{}'.format(n)
+#     else:
+#         s = '000{}'.format(n)
+#     return s
+#
+#
+# def format_area(n):
+#     """
+#     Provides formatting for area portion of ssn--first three digits
+#     Note: 000, 666, and 900-999 are excluded
+#     :param n: positive integer from 001-665 667-899.
+#     :return: string of area portion of ssn
+#     """
+#     if n > 99:
+#         a = str(n)
+#     elif n > 9:
+#         a = '0{}'.format(n)
+#     else:
+#         a = '00{}'.format(n)
+#     return a
 
 
 # ^*^*^*^*^ Helper functions ^*^*^*^*^
@@ -130,3 +150,14 @@ def split_name(full_name):
     name_list = full_name.split(' ')
     first_name, last_name = name_list[0], name_list[1]
     return first_name, last_name
+
+
+def num_pad(num, base_length):
+    num = str(num)
+    done = False
+    while not done:
+        if len(num) < base_length:
+            num = '0' + num
+        else:
+            done = True
+    return num
