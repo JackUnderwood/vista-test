@@ -6,6 +6,9 @@ __author__ = 'John Underwood'
 
 
 class EditDirectory(UI):
+    """
+    Regression test for story #104556112
+    """
     username = get_configurations("USER", "username")
     birth_day = gen_number(29)
     runtime = {
@@ -21,7 +24,7 @@ class EditDirectory(UI):
     expected = "User Configuration Saved!"
     process = UI()
     process.update(runtime)
-    order = ('directory', 'username', 'edit', 'birthday', 'save')
+    order = ('directory', 'username', 'edit', 'birthday', 'save', )
     process.execute(order)
     process.wait(1)
     process.results(expected)
