@@ -37,29 +37,30 @@ class TestSuiteFileTool(unittest.TestCase):
 
     def test_file_reassign(self):
         print(">>> Inside function test_file_reassign()")
+
         runtime = {
             'reassign': ('Click', '#reassign'),
             'inputProvider': (
                 'Type',
                 '#reassigneSearchDescription',
-                'lambert matt st:wv'
-            ),
+                'lambert matt st:wv'),
             'selectProvider': ('Click', '//*[@item_id="91273"]'),
             'subcategory': ('Select', '#reassignCategory', 'Certifications'),
             'copy': ('Click', '#reassignCopy')
         }
-
         expected = "File move successful"
         self.process.update(runtime)
         order = ('reassign', 'inputProvider', 'selectProvider',
                  'subcategory', 'copy')
         self.process.execute(order)
         self.process.results(expected)
+
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
     def test_file_delete(self):
         print(">>> Inside function test_file_delete()")
+
         runtime = {
             'delete': ('Click', '#delete'),
             'deactivate': ('Click', '//*[@button="delete"]'),
@@ -74,6 +75,7 @@ class TestSuiteFileTool(unittest.TestCase):
 
     def test_file_rotate(self):
         print(">>> Inside function test_file_rotate()")
+
         runtime = {
             'rotate': ('Click', '#rotate'),
             'selectPage': (
@@ -89,3 +91,26 @@ class TestSuiteFileTool(unittest.TestCase):
         self.process.execute(order)
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
+
+    def test_file_edit(self):
+        print(">>> Inside function test_file_edit() - splice the file")
+
+        runtime = {
+            'edit': ('Click', '#edit'),
+            'next': ('Click', '//*[@id="toolPanelContainer"]/div[2]/div[7]/a[2]'),
+            'selectPage1': (
+                'Click',
+                '//*[@id="toolPanelContainer"]/div[2]/div[4]/div[2]/div[2]'),
+            'subcategory': ('Select', '#editCategory', 'Provider Licensing'),
+            'filename': ('Type', '#editFilename', 'qa_automation.pdf'),
+            'create': ('Click', '//*[@id="toolPanelContainer"]/div[2]/div[7]/a[3]')
+        }
+        expected = "Files successfully edited"
+        self.process.update(runtime)
+        order = ('edit', 'next', 'selectPage1', 'next', 'subcategory', 'filename',
+                 'next', 'create')
+        self.process.execute(order)
+        self.process.wait(1)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
