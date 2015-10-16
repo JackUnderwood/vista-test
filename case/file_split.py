@@ -13,30 +13,25 @@ class FileSplit(UI):
 
     runtime = {
         'edit': ('Click', '#edit'),
-        'next': '//*[@id="toolPanelContainer"]/div[2]/div[7]/a[2]',
-        'next1': ('Click', '&next;', ),
-        'splitPage': ('Click', '//*[@page="1"]'),
-        'next2': ('Click', '&next;'),
-        'inputProvider': (
-            'Type',
-            '#editSearchDescription',
-            'lambert matt st:wv'
-        ),
-        'selectProvider': ('Click', '#user_name'),
-        'category': ('Click', '#editObjectContainer'),
-        'catLicenses': ('Click', '//*[@title="Licenses"]'),
-        'subcategory': ('Click', '#editCategoryContainer'),
-        'subcatStateLicense': ('Click', '//*[@title="State License"]'),
-        'filename': ('Type', '#editNameContainer', 'qa_automation.pdf'),
-        'next3': ('Click', '&next;'),
+        'next': ('Click', '//*[@id="toolPanelContainer"]/div[2]/div[7]/a[2]'),
+        # 'next1': ('Click', '&next;', ),
+        'selectPage1': (
+            'Click',
+            '//*[@id="toolPanelContainer"]/div[2]/div[4]/div[2]/div[2]'),
+        'subcategory': ('Select', '#editCategory', 'Provider Licensing'),
+        'filename': ('Type', '#editFilename', 'qa_automation.pdf'),
+        # TODO: auto generate file names - see above
+
         'create': ('Click', '//*[@id="toolPanelContainer"]/div[2]/div[7]/a[3]')
     }
 
-    expected = ""
+    expected = "Files successfully edited"
     process = UI()
     process.update(runtime)
-    order = ('', )
+    order = ('edit', 'next', 'selectPage1', 'next', 'subcategory', 'filename',
+             'next', 'create')
     process.execute(order)
+    process.wait(1)
     process.results(expected)
     process.wait(3)
     process.teardown()
