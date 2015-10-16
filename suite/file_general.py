@@ -1,10 +1,11 @@
-__author__ = 'John Underwood'
 import unittest
 
 import ui
 from ui import UI
 from ui.low.file import File
 import tool.utilities as utils
+
+__author__ = 'John Underwood'
 
 
 class TestSuiteFileGeneral(unittest.TestCase):

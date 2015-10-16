@@ -1,13 +1,15 @@
-__author__ = 'John Underwood'
 import unittest
 
+import ui
 from ui import UI
 from ui.low.file import File
 from ui.high.file_select import FileSelect
 
+__author__ = 'John Underwood'
+
 
 class TestSuiteFileTool(unittest.TestCase):
-    print(">> Inside TestSuiteFileTool class")
+    ui.log.info(">>> Inside TestSuiteFileTool class")
     process = UI()
 
     def setUp(self):
@@ -23,7 +25,7 @@ class TestSuiteFileTool(unittest.TestCase):
 
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
     def test_file_rename(self):
-        print(">>> Inside function test_file_rename()")
+        ui.log.info(">>> Inside function test_file_rename()")
         runtime = {
             'rename': ('Click', '#rename'),
             'execRename': ('Click', '//*[@button="rename"]')
@@ -36,7 +38,7 @@ class TestSuiteFileTool(unittest.TestCase):
         self.assertTrue(result, msg=expected)
 
     def test_file_reassign(self):
-        print(">>> Inside function test_file_reassign()")
+        ui.log.info(">>> Inside function test_file_reassign()")
 
         runtime = {
             'reassign': ('Click', '#reassign'),
@@ -59,7 +61,7 @@ class TestSuiteFileTool(unittest.TestCase):
         self.assertTrue(result, msg=expected)
 
     def test_file_delete(self):
-        print(">>> Inside function test_file_delete()")
+        ui.log.info(">>> Inside function test_file_delete()")
 
         runtime = {
             'delete': ('Click', '#delete'),
@@ -74,7 +76,7 @@ class TestSuiteFileTool(unittest.TestCase):
         self.assertTrue(result, msg=expected)
 
     def test_file_rotate(self):
-        print(">>> Inside function test_file_rotate()")
+        ui.log.info(">>> Inside function test_file_rotate()")
 
         runtime = {
             'rotate': ('Click', '#rotate'),
@@ -93,7 +95,7 @@ class TestSuiteFileTool(unittest.TestCase):
         self.assertTrue(result, msg=expected)
 
     def test_file_edit(self):
-        print(">>> Inside function test_file_edit() - splice the file")
+        ui.log.info(">>> Inside function test_file_edit() - splice the file")
 
         runtime = {
             'edit': ('Click', '#edit'),
