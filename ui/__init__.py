@@ -97,6 +97,10 @@ class UI:
 
         locator = self.check_for_placeholder(command, locator)
 
+        if value.find('&') is not -1:
+            log.debug("-- REPLACE a 'value'")
+            value = self.check_for_placeholder(command, value)
+
         if command == "Click":
             self.click(locator)
         elif command == "Type":
@@ -354,26 +358,26 @@ class UI:
                 log.warning("The 'override' key is not found in 'runtime'")
         log.debug("check_override() new runtime: {}".format(self.runtime,))
 
-    def check_for_placeholder(self, command, locator):
+    def check_for_placeholder(self, command, replacer):
         """
         Allows a placeholder inside an xpath, e.g. {
             'provider': '123456',
             'selectAssign': ("Click", '//*[@id="&provider;"]/div[1]', "")}
         :param command: string - command type, e.g. 'Click', 'Select', 'Chain'
-        :param locator: string - the element's location in the DOM
+        :param replacer: string - the element's location in the DOM
         :return: string - locator
         """
         # TODO: need a way to handle xpaths inside the Chain command, #90548734
-        while command != 'Chain' and locator.find('&') is not -1:
+        while command != 'Chain' and replacer.find('&') is not -1:
             # Look for placeholder key
-            log.debug("------ ELEMENT: {}".format(locator,))
-            key = locator[locator.find('&') + 1: locator.find(';')]
+            log.debug("------ ELEMENT: {}".format(replacer,))
+            key = replacer[replacer.find('&') + 1: replacer.find(';')]
             log.debug("-- REPLACE KEY: {}".format(key, ))
             if key in self.runtime:
-                locator = locator.replace(
+                replacer = replacer.replace(
                     '&{};'.format(key,), self.runtime[key])
-                log.debug("-- NEW ELEMENT: {}".format(locator, ))
-        return locator
+                log.debug("-- NEW ELEMENT: {}".format(replacer, ))
+        return replacer
 
     def results(self, expected, elem_id=None, wait_time=5, negative=False):
         """
