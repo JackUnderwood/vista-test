@@ -17,5 +17,3 @@ $ rm -rf vista-test.git
 
 -- Merge that always creates a new commit object - avoids lossing information
 $ git merge --no-ff myfeature
-
-
