@@ -9,11 +9,14 @@ class Check(UI):
     Change the class call below.
     """
     process = UI()
-    from ui.low.file import File
-    from ui.high.file_select import FileSelect
-    File()
-    process.results("John Underwood")
-    FileSelect()
+    from ui.low.user_secret import UserSecret
+
+    UserSecret()
+    # from ui.low.file import File
+    # from ui.high.file_select import FileSelect
+    # File()
+    # process.results("John Underwood")
+    # FileSelect()
 
     # from ui.low.license import License
     # License()
