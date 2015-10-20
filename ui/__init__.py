@@ -310,7 +310,7 @@ class UI:
             return self.driver.find_elements_by_tag_name(_tag)[-1]
         elif first_element == 'c':  # "css=<css selector>"
             _css = locator[4:]
-            log.info("First Element: {0}".format(_css))
+            log.info("CSS Element: {0}".format(_css))
             return self.driver.find_element_by_css_selector(_css)
         else:
             # TODO: need to throw exception
