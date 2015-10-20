@@ -308,10 +308,14 @@ class UI:
             # is the desired element.
             _tag = locator[1:-1]
             return self.driver.find_elements_by_tag_name(_tag)[-1]
-        elif first_element == 'c':  # "css=<css selector>"
+        elif locator[:3] == 'css':  # "css=<target>"
             _css = locator[4:]
-            log.info("CSS Element: {0}".format(_css))
+            log.info("CSS element: {0}".format(_css))
             return self.driver.find_element_by_css_selector(_css)
+        elif locator[:4] == 'name':  # "name=<target>"
+            _name = locator[5:]
+            log.info("'Name' element: {0}".format(_name))
+            return self.driver.find_element_by_name(_name)
         else:
             # TODO: need to throw exception
             log.exception("no correct element found")
