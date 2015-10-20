@@ -19,6 +19,7 @@ Locator's Reference:
 .class
 #id
 <tag_name>
+css=.class
 
 Note:
 This test uses the Chrome PDF Viewer, so it needs the following driver's option
@@ -284,8 +285,9 @@ class UI:
         '//' for xpath
         '.' for class
         '#' for id
+        'css=' for css
         '<' for tag
-        :param locator: a valid selector type, ie. xpath, class, id, or tag
+        :param locator: a valid selector type, ie. xpath, class, id, css, or tag
         :return: the DOM's element
         Special case '<' looks for many tag elements; this helps get around
         the display of items that have dynamic id attribute,
@@ -306,8 +308,8 @@ class UI:
             # is the desired element.
             _tag = locator[1:-1]
             return self.driver.find_elements_by_tag_name(_tag)[-1]
-        elif first_element == 'c':  # "c<css selector>"
-            _css = locator[1:]
+        elif first_element == 'c':  # "css=<css selector>"
+            _css = locator[4:]
             log.info("First Element: {0}".format(_css))
             return self.driver.find_element_by_css_selector(_css)
         else:
