@@ -92,6 +92,7 @@ class TestSuiteFileTool(unittest.TestCase):
             'subcategory': ('Select', '#editCategory', 'Provider Licensing'),
             'filename': ('Type', '#editFilename', 'qa_automation.pdf'),
             'create': ('Click', '//*[@id="toolPanelContainer"]/div[2]/div[7]/a[3]')
+            # TODO: auto generate file names
         }
         expected = "Files successfully edited"
         self.process.update(runtime)
