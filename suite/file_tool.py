@@ -11,11 +11,11 @@ __author__ = 'John Underwood'
 class TestSuiteFileTool(unittest.TestCase):
     ui.log.info(">>> Inside TestSuiteFileTool class")
     process = UI()
-    override = {'cat': '3', }
+    override = {'cat': '3', }  # Correspondence category
 
     def setUp(self):
         File()
-        FileSelect(self.override)  # Correspondence category
+        FileSelect(self.override)
 
     def tearDown(self):
         pass
