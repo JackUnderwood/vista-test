@@ -11,10 +11,11 @@ __author__ = 'John Underwood'
 class TestSuiteFileTool(unittest.TestCase):
     ui.log.info(">>> Inside TestSuiteFileTool class")
     process = UI()
+    override = {'cat': '3', }
 
     def setUp(self):
         File()
-        FileSelect()
+        FileSelect(self.override)  # Correspondence category
 
     def tearDown(self):
         pass
@@ -60,21 +61,6 @@ class TestSuiteFileTool(unittest.TestCase):
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
-    def test_file_delete(self):
-        ui.log.info(">>> Inside function test_file_delete()")
-
-        runtime = {
-            'delete': ('Click', '#delete'),
-            'deactivate': ('Click', '//*[@button="delete"]'),
-        }
-
-        expected = "Status updated successfully"
-        self.process.update(runtime)
-        order = ('delete', 'deactivate')
-        self.process.execute(order)
-        result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
-
     def test_file_rotate(self):
         ui.log.info(">>> Inside function test_file_rotate()")
 
@@ -113,6 +99,39 @@ class TestSuiteFileTool(unittest.TestCase):
                  'next', 'create')
         self.process.execute(order)
         self.process.wait(1)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    def test_file_deactivate(self):
+        ui.log.info(">>> Inside function test_file_deactivate()")
+
+        runtime = {
+            'delete': ('Click', '#delete'),
+            'deactivate': ('Click', '//*[@button="delete"]'),
+        }
+
+        expected = "Status updated successfully"
+        self.process.update(runtime)
+        order = ('delete', 'deactivate')
+        self.process.execute(order)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    def test_file_reactivate(self):
+        ui.log.info(">>> Inside function test_file_reactivate()")
+
+        runtime = {
+            'active': ('Click', 'css=#vsubnav>div>div.fileActiveContainer>label'),
+            'delete': ('Click', '#delete'),
+            'activate': ('Click', '//*[@button="delete"]'),
+        }
+        expected = "Status updated successfully"
+        self.process.update(runtime)
+        order = ('active', )
+        self.process.execute(order)
+        FileSelect(self.override)
+        order = ('delete', 'activate')
+        self.process.execute(order)
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
