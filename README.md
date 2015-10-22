@@ -1,4 +1,5 @@
 ## Vista Testing Framework (VTF)
+Version 1.006
 
 ## Mirror a repository
 Create an exact duplicate of vista_test and mirror to https://github.com/VistaStaff/vtf:
