@@ -18,10 +18,11 @@ class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
     debug = 'all'  # use this to test individual test case methods below
+    override = {'rowNum': '7'}
 
     def setUp(self):
         License()
-        Checklist({'rowNum': '5'})
+        Checklist(self.override)
         self.process.wait(5)  # delay so ribbon has time to display
 
     def tearDown(self):
@@ -95,7 +96,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
         result = self.process.results(expected, 'toast-container', 8)
         self.assertTrue(result, msg=expected)
 
-    @unittest.skipUnless(debug is 'education' or debug is 'never',
+    @unittest.skipUnless(debug is 'education' or debug is 'all',
                          "testing {}".format(debug,))
     def test_add_education(self):
         print(">>> Inside function test_add_education()")
@@ -157,4 +158,31 @@ class TestSuiteChecklistForms(unittest.TestCase):
                          "testing {}".format(debug,))
     def test_add_experience(self):
         print(">>> Inside function test_add_experience()")
-        pass
+
+        runtime = {
+            'experience': (
+                'Click',
+                '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),
+            'addExperience': ('Click', 'css=#experienceGrid_form>a.leaf.btn'),
+            'findClient': ('Type', '#client_id_number_desc', 'acute family'),
+            'selectClient': ('Click', '//*[@item_id="315711"]'),  # Acute Family
+            'check': (
+                'Click',
+                '//*[@id="ExperienceEdit_form"]/div[5]/div[2]/label'),
+            'description': ('Type', 'name=description', 'Genetics research'),
+            'startDate': ('Type', '#start_date', '01042015'),
+            'endDate': ('Type', '#end_date', '05172015'),
+            'department': ('Type', '#department', 'Urology'),
+            'departmentChair': ('Type', '#department_chair', 'Jack Shoop'),
+            'capacity': ('Type', '#capacity', 'Rare Genetic Diseases'),
+            'notes': ('Type', '#notes', 'Notes on rare genetic diseases'),
+            'save': ('Click', '//*[@button="save"]')
+        }
+        expected = "Experienced saved"
+        self.process.update(runtime)
+        order = ('experience', 'addExperience', 'findClient', 'selectClient',
+                 'description', 'check', 'startDate', 'endDate', 'department',
+                 'departmentChair', 'capacity', 'notes', 'save', )
+        self.process.execute(order)
+        result = self.process.results(expected, 'toast-container', )
+        self.assertTrue(result, msg=expected)

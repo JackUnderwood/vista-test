@@ -19,6 +19,7 @@ Locator's Reference:
 .class
 #id
 <tag_name>
+css=.class
 
 Note:
 This test uses the Chrome PDF Viewer, so it needs the following driver's option
@@ -96,6 +97,10 @@ class UI:
             command, locator, value = content + ("", )
 
         locator = self.check_for_placeholder(command, locator)
+
+        if value.find('&') is not -1:
+            log.debug("-- REPLACE a 'value'")
+            value = self.check_for_placeholder(command, value)
 
         if command == "Click":
             self.click(locator)
@@ -280,8 +285,9 @@ class UI:
         '//' for xpath
         '.' for class
         '#' for id
+        'css=' for css
         '<' for tag
-        :param locator: a valid selector type, ie. xpath, class, id, or tag
+        :param locator: a valid selector type, ie. xpath, class, id, css, or tag
         :return: the DOM's element
         Special case '<' looks for many tag elements; this helps get around
         the display of items that have dynamic id attribute,
@@ -302,10 +308,14 @@ class UI:
             # is the desired element.
             _tag = locator[1:-1]
             return self.driver.find_elements_by_tag_name(_tag)[-1]
-        elif first_element == 'c':  # "c<css selector>"
-            _css = locator[1:]
-            log.info("First Element: {0}".format(_css))
+        elif locator[:3] == 'css':  # "css=<target>"
+            _css = locator[4:]
+            log.info("CSS element: {0}".format(_css))
             return self.driver.find_element_by_css_selector(_css)
+        elif locator[:4] == 'name':  # "name=<target>"
+            _name = locator[5:]
+            log.info("'Name' element: {0}".format(_name))
+            return self.driver.find_element_by_name(_name)
         else:
             # TODO: need to throw exception
             log.exception("no correct element found")
@@ -354,26 +364,26 @@ class UI:
                 log.warning("The 'override' key is not found in 'runtime'")
         log.debug("check_override() new runtime: {}".format(self.runtime,))
 
-    def check_for_placeholder(self, command, locator):
+    def check_for_placeholder(self, command, replacer):
         """
         Allows a placeholder inside an xpath, e.g. {
             'provider': '123456',
             'selectAssign': ("Click", '//*[@id="&provider;"]/div[1]', "")}
         :param command: string - command type, e.g. 'Click', 'Select', 'Chain'
-        :param locator: string - the element's location in the DOM
+        :param replacer: string - the element's location in the DOM
         :return: string - locator
         """
         # TODO: need a way to handle xpaths inside the Chain command, #90548734
-        while command != 'Chain' and locator.find('&') is not -1:
+        while command != 'Chain' and replacer.find('&') is not -1:
             # Look for placeholder key
-            log.debug("------ ELEMENT: {}".format(locator,))
-            key = locator[locator.find('&') + 1: locator.find(';')]
+            log.debug("------ ELEMENT: {}".format(replacer,))
+            key = replacer[replacer.find('&') + 1: replacer.find(';')]
             log.debug("-- REPLACE KEY: {}".format(key, ))
             if key in self.runtime:
-                locator = locator.replace(
+                replacer = replacer.replace(
                     '&{};'.format(key,), self.runtime[key])
-                log.debug("-- NEW ELEMENT: {}".format(locator, ))
-        return locator
+                log.debug("-- NEW ELEMENT: {}".format(replacer, ))
+        return replacer
 
     def results(self, expected, elem_id=None, wait_time=5, negative=False):
         """

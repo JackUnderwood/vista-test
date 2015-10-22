@@ -1,18 +1,21 @@
-__author__ = 'John Underwood'
 import unittest
 
+import ui
 from ui import UI
 from ui.low.file import File
 from ui.high.file_select import FileSelect
 
+__author__ = 'John Underwood'
+
 
 class TestSuiteFileTool(unittest.TestCase):
-    print(">> Inside TestSuiteFileTool class")
+    ui.log.info(">>> Inside TestSuiteFileTool class")
     process = UI()
+    override = {'cat': '3', }  # Correspondence category
 
     def setUp(self):
         File()
-        FileSelect()
+        FileSelect(self.override)
 
     def tearDown(self):
         pass
@@ -23,7 +26,7 @@ class TestSuiteFileTool(unittest.TestCase):
 
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
     def test_file_rename(self):
-        print(">>> Inside function test_file_rename()")
+        ui.log.info(">>> Inside function test_file_rename()")
         runtime = {
             'rename': ('Click', '#rename'),
             'execRename': ('Click', '//*[@button="rename"]')
@@ -36,44 +39,31 @@ class TestSuiteFileTool(unittest.TestCase):
         self.assertTrue(result, msg=expected)
 
     def test_file_reassign(self):
-        print(">>> Inside function test_file_reassign()")
+        ui.log.info(">>> Inside function test_file_reassign()")
+
         runtime = {
             'reassign': ('Click', '#reassign'),
             'inputProvider': (
                 'Type',
                 '#reassigneSearchDescription',
-                'lambert matt st:wv'
-            ),
+                'lambert matt st:wv'),
             'selectProvider': ('Click', '//*[@item_id="91273"]'),
             'subcategory': ('Select', '#reassignCategory', 'Certifications'),
             'copy': ('Click', '#reassignCopy')
         }
-
         expected = "File move successful"
         self.process.update(runtime)
         order = ('reassign', 'inputProvider', 'selectProvider',
                  'subcategory', 'copy')
         self.process.execute(order)
         self.process.results(expected)
-        result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
 
-    def test_file_delete(self):
-        print(">>> Inside function test_file_delete()")
-        runtime = {
-            'delete': ('Click', '#delete'),
-            'deactivate': ('Click', '//*[@button="delete"]'),
-        }
-
-        expected = "Status updated successfully"
-        self.process.update(runtime)
-        order = ('delete', 'deactivate')
-        self.process.execute(order)
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
     def test_file_rotate(self):
-        print(">>> Inside function test_file_rotate()")
+        ui.log.info(">>> Inside function test_file_rotate()")
+
         runtime = {
             'rotate': ('Click', '#rotate'),
             'selectPage': (
@@ -89,3 +79,60 @@ class TestSuiteFileTool(unittest.TestCase):
         self.process.execute(order)
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
+
+    def test_file_edit(self):
+        ui.log.info(">>> Inside function test_file_edit() - splice the file")
+
+        runtime = {
+            'edit': ('Click', '#edit'),
+            'next': ('Click', '//*[@id="toolPanelContainer"]/div[2]/div[7]/a[2]'),
+            'selectPage1': (
+                'Click',
+                '//*[@id="toolPanelContainer"]/div[2]/div[4]/div[2]/div[2]'),
+            'subcategory': ('Select', '#editCategory', 'Provider Licensing'),
+            'filename': ('Type', '#editFilename', 'qa_automation.pdf'),
+            'create': ('Click', '//*[@id="toolPanelContainer"]/div[2]/div[7]/a[3]')
+            # TODO: auto generate file names
+        }
+        expected = "Files successfully edited"
+        self.process.update(runtime)
+        order = ('edit', 'next', 'selectPage1', 'next', 'subcategory', 'filename',
+                 'next', 'create')
+        self.process.execute(order)
+        self.process.wait(1)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    def test_file_deactivate(self):
+        ui.log.info(">>> Inside function test_file_deactivate()")
+
+        runtime = {
+            'delete': ('Click', '#delete'),
+            'deactivate': ('Click', '//*[@button="delete"]'),
+        }
+
+        expected = "Status updated successfully"
+        self.process.update(runtime)
+        order = ('delete', 'deactivate')
+        self.process.execute(order)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    def test_file_reactivate(self):
+        ui.log.info(">>> Inside function test_file_reactivate()")
+
+        runtime = {
+            'active': ('Click', 'css=#vsubnav>div>div.fileActiveContainer>label'),
+            'delete': ('Click', '#delete'),
+            'activate': ('Click', '//*[@button="delete"]'),
+        }
+        expected = "Status updated successfully"
+        self.process.update(runtime)
+        order = ('active', )
+        self.process.execute(order)
+        FileSelect(self.override)
+        order = ('delete', 'activate')
+        self.process.execute(order)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+

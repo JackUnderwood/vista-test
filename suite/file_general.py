@@ -1,13 +1,15 @@
-__author__ = 'John Underwood'
 import unittest
 
+import ui
 from ui import UI
 from ui.low.file import File
 import tool.utilities as utils
 
+__author__ = 'John Underwood'
+
 
 class TestSuiteFileGeneral(unittest.TestCase):
-    print(">> Inside TestSuiteFileGeneral class")
+    ui.log.info(">>> Inside TestSuiteFileGeneral class")
     debug = False
     process = UI()
     user_name = utils.get_configurations("USER", "name")
@@ -25,7 +27,7 @@ class TestSuiteFileGeneral(unittest.TestCase):
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
     @unittest.skipIf(debug, "debugging a single test")
     def test_generic_files(self):
-        print(">>> Inside function test_category()")
+        ui.log.info(">>> Inside function test_generic_files()")
         runtime = {
             'generic': ('Click', '//*[@id="vsubnav"]/div/div[6]/a[1]', )
         }
@@ -37,7 +39,7 @@ class TestSuiteFileGeneral(unittest.TestCase):
 
     @unittest.skipIf(debug, "debugging a single test")
     def test_my_files(self):
-        print(">>> Inside function test_my_files()")
+        ui.log.info(">>> Inside function test_my_files()")
         runtime = {
             'myfile': ('Click', '//*[@id="vsubnav"]/div/div[6]/a[2]', )
         }
