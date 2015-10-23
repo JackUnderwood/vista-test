@@ -17,13 +17,12 @@ COMMON_EMAIL_DOMAINS = ('gmail', 'yahoo', 'aol', 'comcast', 'hotmail', 'msn',
 
 def gen_name(gender=None):
     """
-    Wraps the names.get_full_name() and breaks name into pieces
+    Wraps the names.get_full_name(), so user only needs to import
+    this module.
     :param gender: 'male' or 'female' - see names.get_first_name()
-    :return: tuple (<full name>, <first name>, <last name>)
+    :return: string <full name>
     """
-    full_name = get_full_name(gender)
-    first_name, last_name = split_name(full_name)
-    return full_name, first_name, last_name
+    return get_full_name(gender)
 
 
 def gen_phone_number():
@@ -114,6 +113,11 @@ def zip_code():
 
 # ^*^*^*^*^ Helper functions ^*^*^*^*^
 def split_name(full_name):
+    """
+    Split the full name into first and last
+    :param full_name: <full name>
+    :return: tuple of strings (<firstname>, <lastname>)
+    """
     name_list = full_name.split(' ')
     first_name, last_name = name_list[0], name_list[1]
     return first_name, last_name
