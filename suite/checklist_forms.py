@@ -18,7 +18,7 @@ utamur inimicus mei."""
 class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
-    debug = 'email'  # use 'all'; or test individual case methods below
+    debug = 'all'  # use 'all'; or test individual case methods below
     override = {'rowNum': '7'}
 
     def setUp(self):
