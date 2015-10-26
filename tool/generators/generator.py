@@ -3,6 +3,8 @@ import string
 
 from names import get_full_name
 
+__title__ = 'generator'
+__version__ = '0.1.0'
 __author__ = 'John Underwood'
 """
 TODO: Create a set of generators,
@@ -41,10 +43,10 @@ def gen_ssn():
     """
     SSN format is <aaa-gg-ssss> area, group, and serial.
     - The area portion of ssn--first three digits--000, 666, and 900-999
-    are excluded; includes positive integers from 001-665 667-899.
+      are excluded; includes positive integers from 001-665 667-899.
     - The group portion of ssn is 01 through 99.
     - The serial portion of ssn--last four digits--includes positive integers
-    of 1 through 9999
+      of 0001 through 9999
     :return:
     """
     area = num_pad(random.randrange(1, 900), 3)
@@ -87,27 +89,27 @@ def gen_number(number):
 
 
 # ^*^*^*^*^ Private functions ^*^*^*^*^
-def address1():
+def __address1():
     pass
 
 
-def address2():
+def __address2():
     pass
 
 
-def address3():
+def __address3():
     pass
 
 
-def city():
+def __city():
     pass
 
 
-def state():
+def __state():
     pass
 
 
-def zip_code():
+def __zip_code():
     pass
 
 
