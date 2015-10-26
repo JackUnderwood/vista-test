@@ -51,7 +51,7 @@ class AddEntity(UI):
     expected = "Saved information"
     process = UI()
     process.update(runtime)
-    order = ('experience', 'addExperience', 'addEntity', 'name', 'status',
+    order = ('experience', 'addExperience', 'addEntity', 'status', 'name',
              'addressDesc', 'addressType', 'address1', 'address2', 'city',
              'state', 'zipcode', 'email', 'emailType', 'save', )
     process.execute(order)

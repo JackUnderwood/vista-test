@@ -126,11 +126,20 @@ def split_name(full_name):
 
 
 def num_pad(num, base_length):
+    """
+    Pad a number with zeros
+    Example: num may be 42, and base_length is 5, then the return
+    value should be '00042'
+    :param num: number or number as a string
+    :param base_length: integer
+    :return: a number as a string
+    """
     num = str(num)
-    done = False
-    while not done:
-        if len(num) < base_length:
-            num = '0' + num
-        else:
-            done = True
+    # done = False
+    # while not done:
+    #     if len(num) < base_length:
+    #         num = '0' + num
+    #     else:
+    #         done = True
+    num = num.zfill(base_length)  # reduce the above to this single line
     return num
