@@ -1,10 +1,11 @@
-__author__ = 'John Underwood'
 import unittest
 
+import ui
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
 
+__author__ = 'John Underwood'
 NOTES = """Id vix minimum philosophia, pri clita lobortis inimicus ex. Qui
 decore nusquam id. Eum modo electram deseruisse no, eos at clita menandri.
 Vel alii cetero saperet in, mea te erant causae labitur, liber partiendo
@@ -17,7 +18,7 @@ utamur inimicus mei."""
 class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
-    debug = 'all'  # use this to test individual test case methods below
+    debug = 'all'  # use 'all'; or test individual case methods below
     override = {'rowNum': '7'}
 
     def setUp(self):
@@ -185,4 +186,39 @@ class TestSuiteChecklistForms(unittest.TestCase):
                  'departmentChair', 'capacity', 'notes', 'save', )
         self.process.execute(order)
         result = self.process.results(expected, 'toast-container', )
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(debug is 'email' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_add_email(self):
+        print(">>> Inside function test_add_email()")
+        from tool.generators.generator import gen_email
+
+        runtime = {
+            'expand': ('Click', '//*[@id="ribbon_form"]/ul/li/div[1]'),
+            'email': (
+                'Click', '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[3]'),
+        }
+        expected = "Email saved"
+
+        self.process.update(runtime)
+        order = ('expand', 'email')
+        self.process.execute(order)
+        # Spy for the name in the drawers
+        name = self.process.get('/html/body/main/div[2]/div[1]/h3', 'innerHTML')
+        name = name[name.find('(')+1:name.find(')')]
+        ui.log.debug('EXTRACTED NAME {}'.format(name,))
+        email = gen_email(name)
+        ui.log.debug('EMAIL ADDRESS {}'.format(email,))
+
+        runtime = {
+            'addEmail': ('Click', '//*[@id="emailGrid_form"]/a'),
+            'emailAddress': ('Type', '#email_address', email),
+            'emailType': ('Select', '#email_correspondence_method_type_id', 'Work'),
+            'save': ('Click', '//*[@id="editEmail_form"]/div[10]/a[1]')
+        }
+        self.process.update(runtime)
+        order = ('addEmail', 'emailAddress', 'emailType', 'save')
+        self.process.execute(order)
+        result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
