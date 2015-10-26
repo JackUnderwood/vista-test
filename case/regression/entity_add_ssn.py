@@ -29,7 +29,6 @@ class EntityAddSsn(UI):
         # '//span[@id="user_name" and contains(., "&fullName;")]'
         'select': ('Click', '//span[@id="user_name" and '
                             'contains(., "&fullName;")]'),
-        # 'select': ('Click', '#user_name'),
         'displaySsn': ('Click', '//*[@id="ribbon_form"]/ul/li/div[2]/div[1]/'
                                 'div[3]/span[1]/a'),
         'continue': ('Click', '//*[@button="continue"]'),
