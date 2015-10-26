@@ -20,6 +20,7 @@ class EntityAddSsn(UI):
             'Click',
             '/html/body/header/nav/div/ul[1]/li[4]/div/div/div[4]/div/div[1]/a'),
         'entityType': ('Select', '#entity_type', 'Physician'),
+        'status': ('Select', '#entity_status', 'Possible'),
         'firstName': ('Type', '#entity_first_name', first),
         'lastName': ('Type', '#entity_name', last),
         'ssn': ('Type', '#ssn', digits_only(ssn)),
@@ -35,7 +36,7 @@ class EntityAddSsn(UI):
     }
     process = UI()
     process.update(runtime)
-    order = ('find', 'addNewEntity', 'entityType', 'firstName',
+    order = ('find', 'addNewEntity', 'entityType', 'status', 'firstName',
              'lastName', 'ssn', 'save', )
     process.execute(order)
     process.wait(3)

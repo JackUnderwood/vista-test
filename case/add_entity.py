@@ -34,6 +34,7 @@ class AddEntity(UI):
         'addExperience': ('Click', '//*[@id="experienceGrid_form"]/a[1]'),
         'addEntity': ('Click', '//*[@id="ExperienceEdit_form"]/div[1]/div/a'),
         'name': ('Type', '#entity_name', name),
+        'status': ('Select', '#entity_status', 'Possible'),
         'addressDesc': ('Type', '#address_description', 'Home Office'),
         'addressType': (
             'Select', '#address_correspondence_method_type_id', 'Work'),
@@ -50,9 +51,9 @@ class AddEntity(UI):
     expected = "Saved information"
     process = UI()
     process.update(runtime)
-    order = ('experience', 'addExperience', 'addEntity', 'name', 'addressDesc',
-             'addressType', 'address1', 'address2', 'city', 'state', 'zipcode',
-             'email', 'emailType', 'save', )
+    order = ('experience', 'addExperience', 'addEntity', 'name', 'status',
+             'addressDesc', 'addressType', 'address1', 'address2', 'city',
+             'state', 'zipcode', 'email', 'emailType', 'save', )
     process.execute(order)
     process.results(expected, 'toast-container', 5)
     process.wait(3)
