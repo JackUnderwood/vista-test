@@ -135,11 +135,7 @@ def num_pad(num, base_length):
     :return: a number as a string
     """
     num = str(num)
-    # done = False
-    # while not done:
-    #     if len(num) < base_length:
-    #         num = '0' + num
-    #     else:
-    #         done = True
+    # while len(num) < base_length:
+    #     num = '0' + num
     num = num.zfill(base_length)  # reduce the above to this single line
     return num
