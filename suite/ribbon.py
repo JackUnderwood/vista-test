@@ -5,13 +5,14 @@ from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
 from ui.high.expand_ribbon import ExpandRibbon
+from tool.generators.generator import gen_name, gen_email
 
 __author__ = 'John Underwood'
 
 
 class TestSuiteRibbon(unittest.TestCase):
     ui.log.info(">>> Inside TestSuiteFileGeneral class")
-    debug = 'workspace'  # use 'all'; or test individual case methods below
+    debug = 'entity'  # use 'all'; or test individual case methods below
     process = UI()
     override = {'rowNum': '7'}
 
@@ -32,7 +33,8 @@ class TestSuiteRibbon(unittest.TestCase):
     @unittest.skipUnless(debug is 'entity' or debug is 'all',
                          "testing {}".format(debug,))
     def test_edit_entity(self):
-        print(">>> Inside function test_edit_entity()")
+        ui.log.debug(">>> Inside function test_edit_entity()")
+        email = gen_email(gen_name())  # use any name
 
         runtime = {
             'editEntity': (
@@ -49,12 +51,16 @@ class TestSuiteRibbon(unittest.TestCase):
             'city': ('Type', '#city', 'Lindon'),
             'state': ('Select', '#state', 'Utah'),
             'zipCode': ('Type', '#zip_code', '84042'),
+            'email': ('Type', '#email_address', email),
+            'emailType': (
+                'Select', '#email_correspondence_method_type_id', 'Work'),
             'save': ('Click', '#save-n-check'),
         }
         expected = 'Saved information'
         self.process.update(runtime)
         order = ('editEntity', 'addressDescription', 'addressType',
-                 'address', 'city', 'state', 'zipCode', 'save', )
+                 'address', 'city', 'state', 'zipCode', 'email',
+                 'emailType', 'save', )
         self.process.execute(order)
         result = self.process.results(expected, 'toast-container', 5)
         self.assertTrue(result, msg=expected)
@@ -62,7 +68,7 @@ class TestSuiteRibbon(unittest.TestCase):
     @unittest.skipUnless(debug is 'phone' or debug is 'all',
                          "testing {}".format(debug,))
     def test_edit_phone(self):
-        print(">>> Inside function test_edit_phone()")
+        ui.log.debug(">>> Inside function test_edit_phone()")
 
         runtime = {
             'phone': (
@@ -88,7 +94,7 @@ class TestSuiteRibbon(unittest.TestCase):
     @unittest.skipUnless(debug is 'workspace' or debug is 'all',
                          "testing {}".format(debug,))
     def test_workspace(self):
-        print(">>> Inside function test_workspace()")
+        ui.log.debug(">>> Inside function test_workspace()")
 
         expected = self.process.get(
             '//*[@id="ribbon_form"]/ul/li/div[1]/div/div[1]/div', 'innerHTML')
