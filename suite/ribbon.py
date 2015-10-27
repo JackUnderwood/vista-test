@@ -11,12 +11,13 @@ __author__ = 'John Underwood'
 
 class TestSuiteRibbon(unittest.TestCase):
     ui.log.info(">>> Inside TestSuiteFileGeneral class")
-    debug = 'all'  # use 'all'; or test individual case methods below
+    debug = 'workspace'  # use 'all'; or test individual case methods below
     process = UI()
+    override = {'rowNum': '7'}
 
     def setUp(self):
         License()
-        Checklist()
+        Checklist(self.override)
         ExpandRibbon()
 
     def tearDown(self):
@@ -84,4 +85,37 @@ class TestSuiteRibbon(unittest.TestCase):
         result = self.process.results(expected, 'toast-container', 5)
         self.assertTrue(result, msg=expected)
 
+    @unittest.skipUnless(debug is 'workspace' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_workspace(self):
+        print(">>> Inside function test_workspace()")
 
+        expected = self.process.get(
+            '//*[@id="ribbon_form"]/ul/li/div[1]/div/div[1]/div', 'innerHTML')
+        expected = expected.split(' ')[29]
+        # print(">>>>>>>>>>>>>> ENTITY: {}".format(expected,))
+
+        runtime = {
+            'addWorkspace': ('Click', '#save-to-find'),
+            'workspace': ('Click', '//*[@id="previous-results"]/i'),
+        }
+        self.process.update(runtime)
+        order = ('addWorkspace', 'workspace',)
+        self.process.execute(order)
+
+        actual = self.process.get(
+            '//*[@id="ribbon_form"]/ul/li/div[1]/div/div[1]/div', 'title')
+        actual = actual.split(' ')[1]
+        # print(">>>>>>>>>>>>>> TITLE: {}".format(actual))
+        result = self.process.compare(expected, actual)
+        self.assertTrue(result, )
+
+        # Clear out the Workspace
+        runtime = {
+            'id': expected,
+            'clear': (
+                'Click', '//*[@id="extended-results-body-&id;"]/div[2]/a[1]')
+        }
+        self.process.update(runtime)
+        order = ('clear', )
+        self.process.execute(order)
