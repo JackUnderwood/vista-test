@@ -12,7 +12,7 @@ __author__ = 'John Underwood'
 
 class TestSuiteRibbon(unittest.TestCase):
     ui.log.info(">>> Inside TestSuiteFileGeneral class")
-    debug = 'entity'  # use 'all'; or test individual case methods below
+    debug = 'correspond'  # use 'all'; or test individual case methods below
     process = UI()
     override = {'rowNum': '7'}
 
@@ -125,3 +125,67 @@ class TestSuiteRibbon(unittest.TestCase):
         self.process.update(runtime)
         order = ('clear', )
         self.process.execute(order)
+
+    @unittest.skipUnless(debug is 'correspond' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_correspond(self):
+        ui.log.debug(">>> Inside function test_correspond()")
+
+        runtime = {
+            'correspond': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[1]'),
+        }
+        expected = 'Select a Template'
+        self.process.update(runtime)
+        order = ('correspond', )
+        self.process.execute(order)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(debug is 'emailer' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_emailer(self):
+        ui.log.debug(">>> Inside function test_emailer()")
+
+        runtime = {
+            'emailer': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[1]'),
+        }
+        expected = 'Select a Template'
+        self.process.update(runtime)
+        order = ('correspond', )
+        self.process.execute(order)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(debug is 'emails' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_emails(self):
+        ui.log.debug(">>> Inside function test_emails()")
+
+    @unittest.skipUnless(debug is 'phones' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_phones(self):
+        ui.log.debug(">>> Inside function test_phones()")
+
+    @unittest.skipUnless(debug is 'addresses' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_addresses(self):
+        ui.log.debug(">>> Inside function test_addresses()")
+
+    @unittest.skipUnless(debug is 'comments' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_comments(self):
+        ui.log.debug(">>> Inside function test_comments()")
+
+    @unittest.skipUnless(debug is 'contacts' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_contacts(self):
+        ui.log.debug(">>> Inside function test_contacts()")
+
+    @unittest.skipUnless(debug is 'passwords' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_passwords(self):
+        ui.log.debug(">>> Inside function test_passwords()")
