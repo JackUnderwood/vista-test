@@ -11,15 +11,22 @@ __author__ = 'John Underwood'
 
 
 class TestSuiteRibbon(unittest.TestCase):
+    """
+    This test group click on all the buttons inside the ribbon, and checks
+    that each drawer displays as expected. Use this suite as a
+    Build Verification Test - BVT
+    """
     ui.log.info(">>> Inside TestSuiteFileGeneral class")
-    debug = 'correspond'  # use 'all'; or test individual case methods below
+    debug = 'all'  # use 'all'; or test individual case methods below
     process = UI()
     override = {'rowNum': '7'}
+    cl = None
 
     def setUp(self):
         License()
-        Checklist(self.override)
+        self.cl = Checklist(self.override)
         ExpandRibbon()
+        ui.log.info("Entity is '{}'".format(self.cl.entity))
 
     def tearDown(self):
         pass
@@ -151,11 +158,11 @@ class TestSuiteRibbon(unittest.TestCase):
         runtime = {
             'emailer': (
                 'Click',
-                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[1]'),
+                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[2]'),
         }
-        expected = 'Select a Template'
+        expected = '('+self.cl.entity+') Emailer'
         self.process.update(runtime)
-        order = ('correspond', )
+        order = ('emailer', )
         self.process.execute(order)
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
@@ -165,27 +172,99 @@ class TestSuiteRibbon(unittest.TestCase):
     def test_emails(self):
         ui.log.debug(">>> Inside function test_emails()")
 
+        runtime = {
+            'emails': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[3]'),
+        }
+        expected = '('+self.cl.entity+') Emails'
+        self.process.update(runtime)
+        order = ('emails', )
+        self.process.execute(order)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
     @unittest.skipUnless(debug is 'phones' or debug is 'all',
                          "testing {}".format(debug,))
     def test_phones(self):
         ui.log.debug(">>> Inside function test_phones()")
+
+        runtime = {
+            'phones': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[4]'),
+        }
+        expected = '('+self.cl.entity+') Phone Numbers'
+        self.process.update(runtime)
+        order = ('phones', )
+        self.process.execute(order)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'addresses' or debug is 'all',
                          "testing {}".format(debug,))
     def test_addresses(self):
         ui.log.debug(">>> Inside function test_addresses()")
 
+        runtime = {
+            'addresses': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[5]'),
+        }
+        expected = '('+self.cl.entity+') Addresses'
+        self.process.update(runtime)
+        order = ('addresses', )
+        self.process.execute(order)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
     @unittest.skipUnless(debug is 'comments' or debug is 'all',
                          "testing {}".format(debug,))
     def test_comments(self):
         ui.log.debug(">>> Inside function test_comments()")
+
+        runtime = {
+            'comments': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[6]'),
+        }
+        expected = '('+self.cl.entity+') Comments'
+        self.process.update(runtime)
+        order = ('comments', )
+        self.process.execute(order)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'contacts' or debug is 'all',
                          "testing {}".format(debug,))
     def test_contacts(self):
         ui.log.debug(">>> Inside function test_contacts()")
 
+        runtime = {
+            'contacts': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[7]'),
+        }
+        expected = 'Contacts'
+        self.process.update(runtime)
+        order = ('contacts', )
+        self.process.execute(order)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
     @unittest.skipUnless(debug is 'passwords' or debug is 'all',
                          "testing {}".format(debug,))
     def test_passwords(self):
         ui.log.debug(">>> Inside function test_passwords()")
+
+        runtime = {
+            'passwords': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[9]'),
+        }
+        expected = 'Passwords'
+        self.process.update(runtime)
+        order = ('passwords', )
+        self.process.execute(order)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
