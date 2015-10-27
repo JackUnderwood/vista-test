@@ -27,7 +27,8 @@ class EditEntity(UI):
         'state': ('Select', '#state', 'Utah'),
         'zipCode': ('Type', '#zip_code', '84042'),
         'save': ('Click', '#save-n-check'),
-        # 'expectedError': ('Wait', '//*[@id="toast-container"]/div', 10),    123 N Main St, Lindon, UT 84042
+        # 'expectedError': ('Wait', '//*[@id="toast-container"]/div', 10),
+        # 123 N Main St, Lindon, UT 84042
         # has a class called "toast red"
     }
     expected = 'Saved information'
