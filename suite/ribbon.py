@@ -13,7 +13,7 @@ __author__ = 'John Underwood'
 class TestSuiteRibbon(unittest.TestCase):
     """
     This test group click on all the buttons inside the ribbon, and checks
-    that each drawer displays as expected. Use this suite as a
+    that each drawer displays as expected. Use this suite as part of a
     Build Verification Test - BVT
     """
     ui.log.info(">>> Inside TestSuiteFileGeneral class")
