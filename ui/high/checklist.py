@@ -1,5 +1,6 @@
-__author__ = 'John Underwood'
+import ui
 from ui import UI
+__author__ = 'John Underwood'
 
 
 class Checklist(UI):
@@ -13,11 +14,10 @@ class Checklist(UI):
 
     def __init__(self, override=None):
         super().__init__()
-        row = '1'  # Clicks on grid's first row.
 
         runtime = {
             'showAll': ('Click', '//*[@id="checklist-form-container"]/div[1]/a'),
-            'rowNum': row,
+            'rowNum': '1',
             'provider': (
                 'Click',
                 '//*[@id="licenseRequestsGrid_grid"]/tbody/tr[&rowNum;]/td[4]/a',
@@ -28,6 +28,7 @@ class Checklist(UI):
         order = ('showAll', )
         process.execute(order)
 
+        row = process.runtime['rowNum']
         # Provides entity's name for derived classes
         self.entity = process.get(
             '//*[@id="licenseRequestsGrid_grid"]/tbody/tr['+row+']/td[4]/a',
