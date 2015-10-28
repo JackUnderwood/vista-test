@@ -160,7 +160,7 @@ class TestSuiteRibbon(unittest.TestCase):
                 'Click',
                 '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[2]'),
         }
-        expected = '('+self.cl.entity+') Emailer'
+        expected = '({0}) Emailer'.format(self.cl.entity, )
         self.process.update(runtime)
         order = ('emailer', )
         self.process.execute(order)
@@ -177,7 +177,7 @@ class TestSuiteRibbon(unittest.TestCase):
                 'Click',
                 '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[3]'),
         }
-        expected = '('+self.cl.entity+') Emails'
+        expected = '({}) Emails'.format(self.cl.entity, )
         self.process.update(runtime)
         order = ('emails', )
         self.process.execute(order)
@@ -194,7 +194,7 @@ class TestSuiteRibbon(unittest.TestCase):
                 'Click',
                 '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[4]'),
         }
-        expected = '('+self.cl.entity+') Phone Numbers'
+        expected = '({}) Phone Numbers'.format(self.cl.entity, )
         self.process.update(runtime)
         order = ('phones', )
         self.process.execute(order)
@@ -211,7 +211,7 @@ class TestSuiteRibbon(unittest.TestCase):
                 'Click',
                 '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[5]'),
         }
-        expected = '('+self.cl.entity+') Addresses'
+        expected = '({}) Addresses'.format(self.cl.entity, )
         self.process.update(runtime)
         order = ('addresses', )
         self.process.execute(order)
@@ -228,7 +228,7 @@ class TestSuiteRibbon(unittest.TestCase):
                 'Click',
                 '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[6]'),
         }
-        expected = '('+self.cl.entity+') Comments'
+        expected = '({}) Comments'.format(self.cl.entity, )
         self.process.update(runtime)
         order = ('comments', )
         self.process.execute(order)
