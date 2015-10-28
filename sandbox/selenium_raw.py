@@ -20,7 +20,8 @@ driver.implicitly_wait(5)
 # driver.get(
 #     'http://indytest/checklist/checklist/checklist/71/entity/156942/inline/1/')
 driver.get(
-    'http://172.23.8.5/checklist/checklist/checklist/71/entity/156942/inline/1/')
+    'http://oasslcvsweb01.emsc.root01.org/checklist/'
+    'checklist/checklist/71/entity/156942/inline/1/')
 print(driver.title)
 
 time.sleep(3)

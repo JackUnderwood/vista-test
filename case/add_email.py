@@ -23,10 +23,10 @@ class AddEmail(UI):
     process.execute(order)
     # Spy for the name in the drawers
     name = process.get('/html/body/main/div[2]/div[1]/h3', 'innerHTML')
-    name = name[8:-1]  # static length of first eight elements, e.g. 'Emails ('
-    ui.log.debug('EXTRACTED NAME {}'.format(name,))
+    name = name[name.find('(')+1:name.find(')')]
+    ui.log.debug('------EXTRACTED NAME {}'.format(name,))
     email = gen_email(name)
-    ui.log.debug('EMAIL ADDRESS {}'.format(email,))
+    ui.log.debug('-------EMAIL ADDRESS {}'.format(email,))
 
     runtime = {
         'addEmail': ('Click', '//*[@id="emailGrid_form"]/a'),

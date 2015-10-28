@@ -43,7 +43,7 @@ class TestSuiteFileGeneral(unittest.TestCase):
         runtime = {
             'myfile': ('Click', '//*[@id="vsubnav"]/div/div[6]/a[2]', )
         }
-        expected = self.user_name + "'s Files"
+        expected = "{}'s Files".format(self.user_name)
         self.process.update(runtime)
         self.process.execute(('myfile', ))
         result = self.process.results(expected)

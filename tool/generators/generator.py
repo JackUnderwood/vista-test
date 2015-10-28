@@ -3,6 +3,8 @@ import string
 
 from names import get_full_name
 
+__title__ = 'generator'
+__version__ = '0.1.0'
 __author__ = 'John Underwood'
 """
 TODO: Create a set of generators,
@@ -17,13 +19,12 @@ COMMON_EMAIL_DOMAINS = ('gmail', 'yahoo', 'aol', 'comcast', 'hotmail', 'msn',
 
 def gen_name(gender=None):
     """
-    Wraps the names.get_full_name() and breaks name into pieces
+    Wraps the names.get_full_name(), so user only needs to import
+    this module.
     :param gender: 'male' or 'female' - see names.get_first_name()
-    :return: tuple (<full name>, <first name>, <last name>)
+    :return: string <full name>
     """
-    full_name = get_full_name(gender)
-    first_name, last_name = split_name(full_name)
-    return full_name, first_name, last_name
+    return get_full_name(gender)
 
 
 def gen_phone_number():
@@ -42,10 +43,10 @@ def gen_ssn():
     """
     SSN format is <aaa-gg-ssss> area, group, and serial.
     - The area portion of ssn--first three digits--000, 666, and 900-999
-    are excluded; includes positive integers from 001-665 667-899.
+      are excluded; includes positive integers from 001-665 667-899.
     - The group portion of ssn is 01 through 99.
     - The serial portion of ssn--last four digits--includes positive integers
-    of 1 through 9999
+      of 0001 through 9999
     :return:
     """
     area = num_pad(random.randrange(1, 900), 3)
@@ -88,43 +89,53 @@ def gen_number(number):
 
 
 # ^*^*^*^*^ Private functions ^*^*^*^*^
-def address1():
+def __address1():
     pass
 
 
-def address2():
+def __address2():
     pass
 
 
-def address3():
+def __address3():
     pass
 
 
-def city():
+def __city():
     pass
 
 
-def state():
+def __state():
     pass
 
 
-def zip_code():
+def __zip_code():
     pass
 
 
 # ^*^*^*^*^ Helper functions ^*^*^*^*^
 def split_name(full_name):
+    """
+    Split the full name into first and last
+    :param full_name: <full name>
+    :return: tuple of strings (<firstname>, <lastname>)
+    """
     name_list = full_name.split(' ')
     first_name, last_name = name_list[0], name_list[1]
     return first_name, last_name
 
 
 def num_pad(num, base_length):
+    """
+    Pad a number with zeros
+    Example: num may be 42, and base_length is 5, then the return
+    value should be '00042'
+    :param num: number or number as a string
+    :param base_length: integer
+    :return: a number as a string
+    """
     num = str(num)
-    done = False
-    while not done:
-        if len(num) < base_length:
-            num = '0' + num
-        else:
-            done = True
+    # while len(num) < base_length:
+    #     num = '0' + num
+    num = num.zfill(base_length)  # reduce the above to this single line
     return num

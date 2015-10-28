@@ -1,8 +1,8 @@
 ## Vista Testing Framework (VTF)
-Version 1.006
+Version 1.007
 
 ## Mirror a repository
-Create an exact duplicate of vista_test and mirror to https://github.com/VistaStaff/vtf:
+Create an exact duplicate of vista test and mirror to https://github.com/VistaStaff/vtf:
 
 Make a bare clone of the repository
 ```
@@ -23,7 +23,7 @@ $ rm -rf vista-test.git
 
 
 ## Merge
-Merge that always creates a new commit object - avoids lossing information
+Merge always creates a new commit object - avoids losing information
 ```
 $ git merge --no-ff myfeature
 ```

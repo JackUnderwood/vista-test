@@ -1,4 +1,3 @@
-__author__ = 'John Underwood'
 from ui import UI
 
 
@@ -9,17 +8,26 @@ class Check(UI):
     Change the class call below.
     """
     process = UI()
+
+    from ui.low.license import License
+    from ui.high.checklist import Checklist
+
+    License()
+    cl = Checklist()
+
+    print("ENTITY: {}".format(cl.entity))
+
     # from ui.low.user_secret import UserSecret
     # UserSecret()
 
-    from ui.low.file import File
-    from ui.high.file_select import FileSelect
-    File()
-    process.results("John Underwood")
-    override = {
-        'cat': '3',
-    }
-    FileSelect(override)
+    # from ui.low.file import File
+    # from ui.high.file_select import FileSelect
+    # File()
+    # process.results("John Underwood")
+    # override = {
+    #     'cat': '3',
+    # }
+    # FileSelect(override)
 
     # from ui.low.license import License
     # License()
