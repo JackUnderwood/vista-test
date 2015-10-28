@@ -31,8 +31,8 @@ class Checklist(UI):
         row = process.runtime['rowNum']
         # Provides entity's name for derived classes
         self.entity = process.get(
-            '//*[@id="licenseRequestsGrid_grid"]/tbody/tr['+row+']/td[4]/a',
-            'innerHTML')
+            '//*[@id="licenseRequestsGrid_grid"]/tbody/'
+            'tr[{0}]/td[4]/a'.format(row, ), 'innerHTML')
 
         process.update(runtime)
         order = ('provider', )
