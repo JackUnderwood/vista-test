@@ -4,7 +4,7 @@ import string
 from names import get_full_name
 
 __title__ = 'generator'
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 __author__ = 'John Underwood'
 """
 TODO: Create a set of generators,
@@ -28,7 +28,7 @@ def gen_name(gender=None):
 
 
 def gen_phone_number():
-    pass
+    return ''
 
 
 def gen_address():
@@ -38,7 +38,7 @@ def gen_address():
     'address3': <address3>, 'city': <city>, 'state': <state>,
     'zipcode': <zipcode>}
     """
-    pass
+    return ''
 
 
 def gen_ssn():
@@ -92,27 +92,51 @@ def gen_number(number):
 
 # ^*^*^*^*^ Private functions ^*^*^*^*^
 def __address1():
-    pass
+    """
+    STUB
+    :return: string
+    """
+    return ''
 
 
 def __address2():
-    pass
+    """
+    STUB
+    :return: string
+    """
+    return ''
 
 
 def __address3():
-    pass
+    """
+    STUB
+    :return: string
+    """
+    return ''
 
 
 def __city():
-    pass
+    """
+    STUB
+    :return: string
+    """
+    return ''
 
 
 def __state():
-    pass
+    """
+    STUB
+    :return: string
+    """
+    return ''
 
 
 def __zip_code():
-    pass
+    """
+    STUB
+    :return: string
+    """
+    return ''
 
 
 # ^*^*^*^*^ Helper functions ^*^*^*^*^
