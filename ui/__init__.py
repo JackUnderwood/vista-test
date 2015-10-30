@@ -49,6 +49,7 @@ class UI:
         ['test-type', 'ignore-certificate-errors'])
     driver = webdriver.Chrome(executable_path='C:/Common/chromedriver',
                               chrome_options=chrome_options)
+    driver.get('http://jounderwood:Make1tso@indytest/')  # http://indytest/
     driver.implicitly_wait(5)  # seconds
     url = utils.url
     driver.get(url)
