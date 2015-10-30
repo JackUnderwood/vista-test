@@ -33,8 +33,10 @@ def gen_phone_number():
 
 def gen_address():
     """
-    Dict keys are address1, address2, address3, city, state, zipcode
-    :return: dict of address elements
+    Dict keys with full address
+    :return: dict {'address1': <address1>, 'address2': <address2>,
+    'address3': <address3>, 'city': <city>, 'state': <state>,
+    'zipcode': <zipcode>}
     """
     pass
 
@@ -47,7 +49,7 @@ def gen_ssn():
     - The group portion of ssn is 01 through 99.
     - The serial portion of ssn--last four digits--includes positive integers
       of 0001 through 9999
-    :return:
+    :return: string <social security number>
     """
     area = num_pad(random.randrange(1, 900), 3)
     g = lambda x: str(x) if x > 9 else '0{}'.format(x,)
