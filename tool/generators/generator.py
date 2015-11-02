@@ -27,7 +27,22 @@ def gen_name(gender=None):
     return get_full_name(gender)
 
 
-def gen_phone_number():
+def gen_phone_number(state):
+    """
+    Components of a phone number are (i.e. 123-456-9876)
+    Area Code -> 123,
+    Exchange Code, -> 456, and
+    Subscriber Number - > 9876
+    The area code will be determined by the state that is passed in, and
+    randomly selected from the list of associated numbers.
+    The exchange code is generated using [2-9] for first digit, and [0-9]
+    for second and third digits--exception, third digit cannot be 1 if
+    the second digit is 1.
+    The subscriber number is [0-9] for each of the four digits, [0000-9999]
+    See https://en.wikipedia.org/wiki/North_American_Numbering_Plan
+    :param state: string with full state's name, e.g. "New York"
+    :return: string
+    """
     return ''
 
 
