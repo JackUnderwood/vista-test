@@ -13,9 +13,7 @@ full_path = lambda filename: abspath(join(dirname(__file__), filename))
 
 
 FILES = {
-    'first:male': full_path('dist.male.first'),
-    'first:female': full_path('dist.female.first'),
-    'last': full_path('dist.all.last'),
+    'state': full_path('states_codes'),
 }
 
 
@@ -43,3 +41,14 @@ def get_last_name():
 
 def get_full_name(gender=None):
     return "{0} {1}".format(get_first_name(gender), get_last_name())
+
+
+def get_area_code():
+    file = abspath('tool\\generators\\states_codes')
+    # with open(file) as name_file:
+    #     for line in name_file:
+    #         _state, area_codes = line.split('|')
+    #         if _state is state:
+    #             return random.choice(area_codes)
+    print(file)
+    return None

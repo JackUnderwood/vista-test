@@ -43,6 +43,7 @@ def gen_phone_number(state):
     :param state: string with full state's name, e.g. "New York"
     :return: string
     """
+
     return ''
 
 
