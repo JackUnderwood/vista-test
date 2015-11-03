@@ -2,6 +2,7 @@ import random
 import string
 
 from names import get_full_name
+from tool.generators.area_code import get_area_code
 
 __title__ = 'generator'
 __version__ = '0.1.1'
@@ -29,22 +30,30 @@ def gen_name(gender=None):
 
 def gen_phone_number(state):
     """
-    Components of a phone number are (i.e. 123-456-9876)
+    Components of a phone number are (i.e. 123-456-9876):
     Area Code -> 123,
     Exchange Code, -> 456, and
     Subscriber Number - > 9876
-    The area code will be determined by the state that is passed in, and
+    - The 'area code' will be determined by the state that is passed in, and
     randomly selected from the list of associated numbers.
-    The exchange code is generated using [2-9] for first digit, and [0-9]
+    - The 'exchange code' is generated using [2-9] for first digit, and [0-9]
     for second and third digits--exception, third digit cannot be 1 if
     the second digit is 1.
-    The subscriber number is [0-9] for each of the four digits, [0000-9999]
+    - The 'subscriber number' is [0-9] for each of the four digits, [0000-9999]
     See https://en.wikipedia.org/wiki/North_American_Numbering_Plan
     :param state: string with full state's name, e.g. "New York"
-    :return: string
+    :return: string - format ###-###-####
     """
+    area_code = get_area_code(state)
 
-    return ''
+    exchange_code = exchange_number()
+    # The following should be a rare occurrence.
+    while exchange_code[1] == '1' and exchange_code[2] == '1':
+        exchange_code = exchange_number()
+
+    subscriber_number = num_pad(random.randrange(0, 10000), 4)
+
+    return area_code + '-' + exchange_code + '-' + subscriber_number
 
 
 def gen_address():
@@ -156,6 +165,10 @@ def __zip_code():
 
 
 # ^*^*^*^*^ Helper functions ^*^*^*^*^
+def exchange_number():
+    return num_pad(random.randrange(200, 1000), 3)
+
+
 def split_name(full_name):
     """
     Split the full name into first and last
@@ -179,5 +192,5 @@ def num_pad(num, base_length):
     num = str(num)
     # while len(num) < base_length:
     #     num = '0' + num
-    num = num.zfill(base_length)  # reduce the above to this single line
+    num = num.zfill(base_length)  # reduce the 'while' to this single line
     return num
