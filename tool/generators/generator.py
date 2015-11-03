@@ -42,18 +42,18 @@ def gen_phone_number(state):
     - The 'subscriber number' is [0-9] for each of the four digits, [0000-9999]
     See https://en.wikipedia.org/wiki/North_American_Numbering_Plan
     :param state: string with full state's name, e.g. "New York"
-    :return: string - format ###-###-####
+    :return: string - format aaaeeessss (i.e. 1234569876)
     """
     area_code = get_area_code(state)
 
-    exchange_code = exchange_number()
+    exchange = get_exchange_number()
     # The following should be a rare occurrence.
-    while exchange_code[1] == '1' and exchange_code[2] == '1':
-        exchange_code = exchange_number()
+    while exchange[1] == '1' and exchange[2] == '1':
+        exchange = get_exchange_number()
 
     subscriber_number = num_pad(random.randrange(0, 10000), 4)
 
-    return area_code + '-' + exchange_code + '-' + subscriber_number
+    return area_code + exchange + subscriber_number
 
 
 def gen_address():
@@ -165,7 +165,7 @@ def __zip_code():
 
 
 # ^*^*^*^*^ Helper functions ^*^*^*^*^
-def exchange_number():
+def get_exchange_number():
     return num_pad(random.randrange(200, 1000), 3)
 
 
