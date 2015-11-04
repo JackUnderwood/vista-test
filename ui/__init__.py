@@ -399,15 +399,16 @@ class UI:
             self.wait_for_element(elem_id, wait_time)
         html_source = self.driver.page_source.lower()
         res = True
+        log.info("Expected is '{}'".format(expected))
         if expected.lower() in html_source and not negative:
-            log.debug("-- PASSED TEST CASE!!! ---")
+            log.info("-- PASSED TEST CASE!!! ---")
         elif expected.lower() in html_source and negative:
-            log.debug("-- FAILED NEGATIVE TEST CASE!!! ---")
+            log.info("-- FAILED NEGATIVE TEST CASE!!! ---")
             res = False
         elif expected.lower() not in html_source and negative:
-            log.debug("-- PASSED NEGATIVE TEST CASE!!! ---")
+            log.info("-- PASSED NEGATIVE TEST CASE!!! ---")
         else:
-            log.debug("-- FAILED TEST CASE!!! --")
+            log.info("-- FAILED TEST CASE!!! --")
             res = False
         return res
 
