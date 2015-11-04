@@ -1,9 +1,9 @@
-__author__ = 'John Underwood'
-
 from ui import UI
 from ui.low.remind_me import RemindMe
 from ui.high.remind_me_dialog import RemindMeDialog
 from tool.generators.generator import gen_key
+
+__author__ = 'John Underwood'
 
 
 class CreateNotification(UI):
@@ -19,11 +19,24 @@ class CreateNotification(UI):
         'notify': ('Click', '//*[@id="button_notification"]/i'),
         'present': ('Click', '//label[@for="today" and contains(., "Present")]'),
         'showDetails': ('Click', '//*[@id="undefined"]/td[1]'),
+        'cancel': ('Click', '//*[@id="undefined"]/td[31]/i[2]'),
     }
     process = UI()
     process.update(runtime)
-    order = ('notify', 'present', 'showDetails', )
+    order = ('notify', 'present', )
     process.execute(order)
-    process.wait(1)
-    process.results(expected)
+
+    page = process.get('#notifyGrid_grid_info', 'innerHTML')
+    print("PAGE: {}".format(page,))
+    # Expect "Showing page 1 of 1" not 'Showing page 1 of 0'
+    success = process.compare('1', page[-1:])
+
+    if success:
+        order = ('showDetails', )
+        process.execute(order)
+        actual = process.get('#message_body', 'innerHTML')
+        process.compare(expected, actual)
+        order = ('cancel', )  # remove the notice
+        process.execute(order)
+
     process.teardown()
