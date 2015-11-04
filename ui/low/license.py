@@ -1,6 +1,6 @@
-__author__ = 'John Underwood'
 from ui import UI
 from tool.vlog import VLog
+__author__ = 'John Underwood'
 
 
 class License(UI):
@@ -12,13 +12,16 @@ class License(UI):
         log = VLog(name="vtf", log_name="LICENSE")
         log.info("License __init__() called")
         runtime = {
-            'level': '5',
-            'license': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i',),
-            'landing': (
-                'Click',
-                '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[1]/a', ),
+            'level': '5',  # not available in 'chain' commands
+            # TODO: add replacer for chain commands in check_for_placeholder()
+            'license': ("Chain", [
+                ('move_to_element', {
+                    'to_element': '//*[@id="slide-out"]/li[5]/ul/li/a/i[1]'}),
+                ('click', {'on_element': '//*[@id="slide-out"]/li[5]/ul/li/a/i[1]'}),
+                ('click', {'on_element': '//*[@id="slide-out"]/li[5]'
+                                         '/ul/li/div/ul/li[1]/a'}), ]),
         }
         process = UI(override)
         process.update(runtime)
-        order = ('license', 'landing', )
+        order = ('license', )
         process.execute(order)
