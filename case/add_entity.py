@@ -8,21 +8,7 @@ __author__ = 'John Underwood'
 
 class AddEntity(UI):
     """
-    The following are unable to access element: address, city, state,
-    zipcode, phone, phone type
-    Appears to be the 'type' attribute is set to 'hidden' and selenium is
-    getting confused by the two <input> tags.
-
-    See http://stackoverflow.com/questions/6101461/
-    how-to-force-selenium-to-click-on-element-which-is-not-currently-visible
-    Selenium determines an element is visible or not by the following criteria
-    (use a DOM inspector to determine what css applies to your element, make
-    sure you look at 'Computed' style):
-        - visibility != hidden
-        - display != none (is also checked against every parent element)
-        - opacity != 0 (this is not checked for clicking an element)
-        - height and width are both > 0
-        - for an input, the attribute type != hidden
+    Add an Experience type entity.
     """
     License()
     Checklist()
