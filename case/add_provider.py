@@ -8,17 +8,24 @@ __author__ = 'John Underwood'
 
 
 class AddProvider(UI):
+    """
+    Checks for Default Phone inside Workspace
+    """
     state = 'Utah'
     ssn = gen_ssn()
     full = gen_name()
     first, last = split_name(full)
+    ui.log.info("FIRST NAME: {} - LAST NAME: {}".format(first, last,))
+
     email = gen_email(full)
-    phone_number = digits_only(gen_phone_number(state))
-    print("PHONE NUMBER: {}".format(phone_number, ))
+    phone_number = gen_phone_number(state)
     formatted_phone_number = (
         phone_number[:3] + ' ' + phone_number[3:6] + '-' + phone_number[6:])
+    ui.log.info("PHONE NUMBER: {} - FORMATTED: {}".format(
+        phone_number, formatted_phone_number, ))
 
-    ui.log.info("First name: {0} & Last name: {1}".format(first, last,))
+    expected = 'Default Phone: ' + phone_number
+
     runtime = {
         'find': ('Type', '#main_desc', full),
         'addNewEntity': (
@@ -48,8 +55,7 @@ class AddProvider(UI):
         'findModifier': (
             'Type', '#main_desc', full + ' p:' + formatted_phone_number),
         'fullName': full,
-        'select': ('Click', '//span[@id="user_name" and '
-                            'contains(., "&fullName;")]'),
+        'select': ('Click', 'css=#user_name'),
         'displaySsn': ('Click', '//*[@id="ribbon_form"]/ul/li/div[2]/div[1]/'
                                 'div[3]/span[1]/a'),
         'continue': ('Click', '//*[@button="continue"]'),
@@ -64,14 +70,12 @@ class AddProvider(UI):
     process.wait(2)
     success = process.results('Saved information')
     if success:
-        order = ('findModifier', 'select', 'displaySsn', 'continue')
+        order = ('findModifier', )
         process.execute(order)
-        actual = process.get(
-            '//*[@id="ribbon_form"]/ul/li/div[2]/div[1]/div[3]/span[1]',
-            'innerHTML', )
-        ui.log.info('SSN value is {}'.
-                    format(actual if actual is not '' else 'None',))
-        process.compare(ssn, actual)
         process.wait(3)
+        order = ('select', )
+        process.execute(order)
+        process.wait(1)
+        process.results(expected)
 
     process.teardown()
