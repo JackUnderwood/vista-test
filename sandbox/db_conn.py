@@ -14,7 +14,7 @@ conn = pymssql.connect(server, user, book.password, 'VISTA_Test')
 
 cursor = conn.cursor()
 cursor.execute(
-    "SELECT * FROM name_list WHERE entity_id_number={}".format('778784'))
+    'SELECT * FROM name_list WHERE entity_id_number={}'.format('778784'))
 row = cursor.fetchone()
 while row:
     print("ID={}, Name={}, First={}".format(row[0], row[1], row[2]))
