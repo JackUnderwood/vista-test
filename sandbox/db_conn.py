@@ -1,15 +1,28 @@
 import pymssql
+import configparser
 
 import book
-from tool.utilities import get_configurations
+from tool.utilities import CONFIG_FILE
+
+"""
+This file is independent from the VTF, so it requires its
+own configparser. Change ABS_PATH if this project changes
+to a new location.
+"""
 
 __author__ = 'John Underwood'
 
+ABS_PATH = 'C:/Projects/test/'  # UPDATE path if necessary
 
-server = get_configurations('SYSTEM', 'db_server')
-user = get_configurations('USER', 'db_user')
+config = configparser.ConfigParser()
+config.sections()
+config.read(ABS_PATH + CONFIG_FILE)
+server = config.get("SYSTEM", "db_server")
+user = config.get("USER", "db_user")
 
-# Create a book.py file at the root level and add your password.
+
+# You'll need to create a book.py file at the root level and add your password
+# Add a single line >>> password = "myPassword"
 conn = pymssql.connect(server, user, book.password, 'VISTA_Test')
 
 cursor = conn.cursor()
