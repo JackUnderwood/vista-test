@@ -7,6 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import InvalidElementStateException
 
 import tool.utilities as utils
+import book
 from tool.vlog import VLog
 
 __author__ = 'John Underwood'
@@ -47,9 +48,10 @@ class UI:
     chrome_options.add_experimental_option(
         'excludeSwitches',
         ['test-type', 'ignore-certificate-errors'])
+    username = utils.get_configurations('USER', 'username')
     driver = webdriver.Chrome(executable_path='C:/Common/chromedriver',
                               chrome_options=chrome_options)
-    # driver.get('http://jounderwood:{pw}@indytest/')  # http://indytest/
+    driver.get('http://{}:{}@indytest/'.format(username, book.password))
     driver.implicitly_wait(5)  # seconds
     url = utils.url
     driver.get(url)
