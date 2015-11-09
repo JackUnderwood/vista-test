@@ -1,7 +1,7 @@
 import pymssql
 
 import tool.utilities as utils
-import book
+from book import password
 
 """ Everything to do with database access.
 """
@@ -18,7 +18,7 @@ def get_record(sql):
     server = utils.get_configurations('SYSTEM', 'db_server')
     username = utils.get_configurations('USER', 'db_user')
     database = utils.get_configurations('SYSTEM', 'db_test')
-    conn = pymssql.connect(server, username, book.password, database)
+    conn = pymssql.connect(server, username, password, database)
     cursor = conn.cursor()
     cursor.execute(sql)
 
