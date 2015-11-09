@@ -12,7 +12,7 @@ def get_record(sql):
     """
     Takes in an SQL SELECT statement and returns a list of row(s)
     :param sql: string - SELECT statement only
-    :return: list - result of row(s)
+    :return: two dimensional list - rows x columns
     """
     assert "SELECT" in sql
     server = utils.get_configurations('SYSTEM', 'db_server')
