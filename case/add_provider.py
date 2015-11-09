@@ -76,6 +76,6 @@ class AddProvider(UI):
         order = ('select', )
         process.execute(order)
         process.wait(1)
-        process.results(expected)
+        process.results(expected, 'ribbon_form', 5)
 
     process.teardown()
