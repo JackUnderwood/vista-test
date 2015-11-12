@@ -7,10 +7,10 @@ __author__ = 'John Underwood'
 
 
 class BvtBasic(unittest.TestCase):
-    ui.log.debug(">> Inside TestSuiteChecklistForms class")
+    ui.log.debug(">> Inside BvtBasic class")
 
     process = UI()
-    debug = 'all'
+    debug = 'advance'
 
     def setUp(self):
         pass
@@ -27,12 +27,20 @@ class BvtBasic(unittest.TestCase):
     @unittest.skipUnless(debug is 'workspace' or debug is 'all',
                          "testing {}".format(debug,))
     def test_workspace(self):
-        ui.log.debug('>>> Inside function test_add_carrier()')
+        ui.log.debug('>>> Inside function test_workspace()')
+
+        from ui.low.my_workspace import MyWorkspace
+        MyWorkspace()
+        self.process.results('Use Find... to load your workspace.')
 
     @unittest.skipUnless(debug is 'advance' or debug is 'all',
                          "testing {}".format(debug,))
     def test_advance_find(self):
         ui.log.debug('>>> Inside function test_advance_find()')
+
+        from ui.low.advance_find import AdvanceFind
+        AdvanceFind()
+        self.process.results('Advanced Find')
 
     @unittest.skipUnless(debug is 'find' or debug is 'all',
                          "testing {}".format(debug,))
