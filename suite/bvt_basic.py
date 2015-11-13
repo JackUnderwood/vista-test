@@ -24,8 +24,8 @@ class BvtBasic(unittest.TestCase):
         UI().teardown()
 
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
-    @unittest.skipUnless(debug is 'workspace' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'workspace' or debug is 'all', "testing {}".format(debug,))
     def test_workspace(self):
         ui.log.debug('>>> Inside function test_workspace()')
 
@@ -33,8 +33,8 @@ class BvtBasic(unittest.TestCase):
         MyWorkspace()
         self.process.results('Use Find... to load your workspace.')
 
-    @unittest.skipUnless(debug is 'advance' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'advance' or debug is 'all', "testing {}".format(debug,))
     def test_advance_find(self):
         ui.log.debug('>>> Inside function test_advance_find()')
 
