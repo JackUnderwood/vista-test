@@ -10,7 +10,7 @@ class BvtBasic(unittest.TestCase):
     ui.log.debug(">> Inside BvtBasic class")
 
     process = UI()
-    debug = 'home'
+    debug = 'all'
 
     def setUp(self):
         pass
@@ -124,20 +124,23 @@ class BvtBasic(unittest.TestCase):
         Home()
         self.process.results("Let's take a look at how to navigate ")
 
-    @unittest.skipUnless(debug is 'wiki' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'wiki' or debug is 'all', "testing {}".format(debug,))
     def test_wiki(self):
         ui.log.debug('>>> Inside function test_wiki()')
+        from ui.low.wiki import Wiki
+        Wiki()
+        expected = 'Full View'
+        actual = self.process.get('//*[@id="wiki_form"]/a', 'innerHTML')
+        self.process.compare(expected, actual.strip())
+        self.process.update(
+            {'close': ('Click', '//*[@id="wikieditClose"]')})
+        self.process.execute(('close', ))
 
-    @unittest.skipUnless(debug is 'comments' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_comments(self):
-        ui.log.debug('>>> Inside function test_comments()')
-
-    @unittest.skipUnless(debug is 'license' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'license' or debug is 'all', "testing {}".format(debug,))
     def test_license(self):
-        ui.log.debug('>>> Inside function test_license()')
+        ui.log.debug('>>> Inside function test_license() landing page')
 
     @unittest.skipUnless(debug is 'reports' or debug is 'all',
                          "testing {}".format(debug,))
