@@ -45,29 +45,35 @@ class BvtBasic(unittest.TestCase):
     @unittest.skipUnless(debug is 'find' or debug is 'all', "testing {}".format(debug,))
     def test_find(self):
         ui.log.debug('>>> Inside function test_find()')
-        runtime = {'find': ('Type', '#main_desc', 'Matt Lambert st:wv'),
-                   'select': ('Click', '//*[@item_id="91273"]')}
+        runtime = {
+            'find': ('Type', '#main_desc', 'Matt Lambert st:wv'),
+            'select': ('Click', '//*[@item_id="91273"]'),}
         self.process.update(runtime)
         self.process.execute(('find', 'select', ))
         self.process.results(
             ' Matt Lambert', 'extended-results-body-91273')
 
-    @unittest.skipUnless(debug is 'modifiers' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'modifiers' or debug is 'all', "testing {}".format(debug,))
     def test_modifiers(self):
         ui.log.debug('>>> Inside function test_modifiers()')
         self.process.update({'modifiers': ('Click', '#modifierList'), })
         self.process.execute(('modifiers', ))
         self.process.results( 'Available Modifiers:', 'modifiers')
 
-    @unittest.skipUnless(debug is 'suggestion' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'suggestion' or debug is 'all', "testing {}".format(debug,))
     def test_suggestion_box(self):
         ui.log.debug('>>> Inside function test_suggestion_box()')
         self.process.update(
-            {'sbox': ('Click', 'css=body>header>nav>div>ul.right>li:nth-child(2)>a>i')})
+            {'sbox': ('Click', 'css=body>header>nav>div>ul.right>li:nth-child(2)>a>i'),
+             'cancel': (
+                'Click',
+                'css=#suggestionBox_form>'
+                'div.right-align.button-container>a:nth-child(2)')})
         self.process.execute(('sbox', ))
         self.process.results('Suggestion Box')
+        self.process.execute(('cancel', ))  # local clean up
 
     @unittest.skipUnless(debug is 'create_notice' or debug is 'all',
                          "testing {}".format(debug,))
