@@ -10,7 +10,7 @@ class BvtBasic(unittest.TestCase):
     ui.log.debug(">> Inside BvtBasic class")
 
     process = UI()
-    debug = 'suggestion'
+    debug = 'home'
 
     def setUp(self):
         pass
@@ -75,25 +75,54 @@ class BvtBasic(unittest.TestCase):
         self.process.results('Suggestion Box')
         self.process.execute(('cancel', ))  # local clean up
 
-    @unittest.skipUnless(debug is 'create_notice' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'create_notice' or debug is 'all', "testing {}".format(debug,))
     def test_create_notification(self):
         ui.log.debug('>>> Inside function test_create_notification()')
+        self.process.update(
+            {'createNote': ('Click', '#remindMeButton'),
+             'cancel': (
+                 'Click',
+                 'css=#widgetNotification_form>'
+                 'div.right-align.button-container>a:nth-child(2)')})
+        self.process.execute(('createNote', ))
+        self.process.results('Create Notification')
+        self.process.execute(('cancel', ))
 
-    @unittest.skipUnless(debug is 'directory' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'directory' or debug is 'all', "testing {}".format(debug,))
     def test_employee_directory(self):
         ui.log.debug('>>> Inside function test_employee_directory()')
+        self.process.update(
+            {'directory': ('Click', '#button_employee_directory'),
+             'cancel': (
+                 'Click', 'css=#userGrid_form>div.right-align.button-container>a')})
+        self.process.execute(('directory', ))
+        self.process.results('Employee Directory')
+        self.process.wait(1)
+        self.process.execute(('cancel', ))
 
-    @unittest.skipUnless(debug is 'notify' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'notify' or debug is 'all', "testing {}".format(debug,))
     def test_notify(self):
         ui.log.debug('>>> Inside function test_notify()')
+        from tool.utilities import get_configurations
+        user = get_configurations('USER', 'name')
+        self.process.update(
+            {'notify': ('Click', '#button_notification'),
+             'close': ('Click', 'css=#notifyGrid_form>'
+                                'div.right-align.button-container>a')})
+        self.process.execute(('notify', ))
+        self.process.results(' ({}) Notify'.format(user, ))
+        self.process.execute(('close', ))
 
-    @unittest.skipUnless(debug is 'home' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'home' or debug is 'all', "testing {}".format(debug,))
     def test_home(self):
         ui.log.debug('>>> Inside function test_home()')
+        from ui.low.home import Home
+        Home()
+        self.process.results("Let's take a look at how to navigate ")
 
     @unittest.skipUnless(debug is 'wiki' or debug is 'all',
                          "testing {}".format(debug,))
