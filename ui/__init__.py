@@ -271,6 +271,7 @@ class UI:
         :param elem_id: a string that holds the element's id
         :param wait_time: wait time in seconds
         :return: None
+        Note: https://blog.mozilla.org/webqa/2012/07/12/how-to-webdriverwait/
         """
         log.info("Wait Command - wait for id=\"{0}\"".format(elem_id))
         from selenium.webdriver.support import expected_conditions as ec
@@ -278,8 +279,8 @@ class UI:
         from selenium.webdriver.common.by import By
         try:
             WebDriverWait(self.driver, wait_time).until(
-                ec.presence_of_element_located((By.ID, elem_id))
-            )
+                ec.presence_of_element_located((By.ID, elem_id)),
+                "elem_id: {} - wait_time: {}".format(elem_id, wait_time,))
         finally:
             pass
 
@@ -392,13 +393,13 @@ class UI:
         """
         Search the DOM for the expected string.
         :param expected: expected results search string
-        :param elem_id: look in a DOM specific area by 'id' attribute
+        :param elem_id: look in a DOM specific area using 'id' attribute
         :param wait_time: the total tolerance time
         :param negative: True - do NOT expect to see the expected
         :return: boolean
         """
         if elem_id:
-            self.wait_for_element(elem_id, wait_time)
+            self.wait_for_element(elem_id.strip('#'), wait_time)
         html_source = self.driver.page_source.lower()
         res = True
         log.info("Expected is '{}'".format(expected))
