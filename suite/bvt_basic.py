@@ -173,48 +173,71 @@ class BvtBasic(unittest.TestCase):
         LicenseRequirements()
         self.process.results('Manage State License Requirements')
 
-    @unittest.skipUnless(debug is 'sales_report' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'sales_report' or debug is 'all', "testing {}".format(debug,))
     def test_sales_commission_report(self):
         ui.log.debug('>>> Inside function test_sales_commission_report()')
         from ui.low.sales_commission_report import SalesCommissionReport
         SalesCommissionReport()
         self.process.results('Commission Report')
 
-    @unittest.skipUnless(debug is 'goals' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'goals' or debug is 'all', "testing {}".format(debug,))
     def test_sales_corporate_goals(self):
         ui.log.debug('>>> Inside function test_sales_corporate_goals()')
+        from ui.low.sales_corporate import SalesCorporate
+        SalesCorporate()
+        self.process.results('Goals')
 
-    @unittest.skipUnless(debug is 'rates' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'rates' or debug is 'all', "testing {}".format(debug,))
     def test_sales_commission_rates(self):
         ui.log.debug('>>> Inside function test_sales_commission_rates()')
+        from ui.low.sales_commission_rates import SalesCommissionRates
+        SalesCommissionRates()
+        self.process.results('Commission Rates')
 
-    @unittest.skipUnless(debug is 'base' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'base' or debug is 'all', "testing {}".format(debug,))
     def test_sales_base(self):
         ui.log.debug('>>> Inside function test_sales_base()')
+        from ui.low.sales_base import SalesBase
+        SalesBase()
+        self.process.results('Standard Sales Base')
 
-    @unittest.skipUnless(debug is 'file' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'file' or debug is 'all', "testing {}".format(debug,))
     def test_file(self):
         ui.log.debug('>>> Inside function test_file()')
+        from ui.low.file import File
+        from tool.utilities import get_configurations
+        File()
+        user = get_configurations('USER', 'name')
+        self.process.results("{}'s Files".format(user,))
 
-    @unittest.skipUnless(debug is 'watch' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_watch(self):
-        ui.log.debug('>>> Inside function test_watch()')
+    # @unittest.skipUnless(
+    #     debug is 'watch' or debug is 'all', "testing {}".format(debug,))
+    # def test_watch(self):
+    #     ui.log.debug('>>> Inside function test_watch()')
+    #     from ui.low.watch import Watch
+    #     Watch()
+    #     self.process.results('')  # Unknown
+    #
+    # @unittest.skipUnless(
+    #     debug is 'manage' or debug is 'all', "testing {}".format(debug,))
+    # def test_watch_manage(self):
+    #     ui.log.debug('>>> Inside function test_watch_manage()')
+    #     from ui.low.watch_manage import WatchManage
+    #     WatchManage()
+    #     self.process.results('')  # Unknown
 
-    @unittest.skipUnless(debug is 'manage' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_watch_manage(self):
-        ui.log.debug('>>> Inside function test_watch_manage()')
-
-    @unittest.skipUnless(debug is 'user' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'user' or debug is 'all', "testing {}".format(debug,))
     def test_user_config(self):
         ui.log.debug('>>> Inside function test_user_config()')
+        from ui.low.user_config import UserConfig
+        UserConfig()
+        self.process.results('User Information')
 
     @unittest.skipUnless(debug is 'admin' or debug is 'all',
                          "testing {}".format(debug,))
