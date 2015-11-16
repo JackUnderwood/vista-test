@@ -42,7 +42,8 @@ class BvtBasic(unittest.TestCase):
         AdvanceFind()
         self.process.results('Advanced Find')
 
-    @unittest.skipUnless(debug is 'find' or debug is 'all', "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'find' or debug is 'all', "testing {}".format(debug,))
     def test_find(self):
         ui.log.debug('>>> Inside function test_find()')
         runtime = {
@@ -66,7 +67,9 @@ class BvtBasic(unittest.TestCase):
     def test_suggestion_box(self):
         ui.log.debug('>>> Inside function test_suggestion_box()')
         self.process.update(
-            {'sbox': ('Click', 'css=body>header>nav>div>ul.right>li:nth-child(2)>a>i'),
+            {'sbox': (
+                'Click',
+                'css=body>header>nav>div>ul.right>li:nth-child(2)>a>i'),
              'cancel': (
                 'Click',
                 'css=#suggestionBox_form>'
@@ -96,7 +99,8 @@ class BvtBasic(unittest.TestCase):
         self.process.update(
             {'directory': ('Click', '#button_employee_directory'),
              'cancel': (
-                 'Click', 'css=#userGrid_form>div.right-align.button-container>a')})
+                 'Click',
+                 'css=#userGrid_form>div.right-align.button-container>a')})
         self.process.execute(('directory', ))
         self.process.results('Employee Directory')
         self.process.wait(1)
@@ -141,26 +145,41 @@ class BvtBasic(unittest.TestCase):
         debug is 'license' or debug is 'all', "testing {}".format(debug,))
     def test_license(self):
         ui.log.debug('>>> Inside function test_license() landing page')
+        from ui.low.license import License
+        License()
+        self.process.results('License Request')
 
-    @unittest.skipUnless(debug is 'reports' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'reports' or debug is 'all', "testing {}".format(debug,))
     def test_license_reports(self):
         ui.log.debug('>>> Inside function test_license_reports()')
+        from ui.low.license_report import LicenseReport
+        LicenseReport()
+        self.process.results('License Report')
 
-    @unittest.skipUnless(debug is 'expire' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'expire' or debug is 'all', "testing {}".format(debug,))
     def test_license_expire(self):
         ui.log.debug('>>> Inside function test_license_expire()')
+        from ui.low.license_expire import LicenseExpire
+        LicenseExpire()
+        self.process.results('Expiring Licenses')
 
-    @unittest.skipUnless(debug is 'requirements' or debug is 'all',
-                         "testing {}".format(debug,))
+    @unittest.skipUnless(
+        debug is 'requirements' or debug is 'all', "testing {}".format(debug,))
     def test_license_requirements(self):
         ui.log.debug('>>> Inside function test_license_requirements()')
+        from ui.low.license_requirements import LicenseRequirements
+        LicenseRequirements()
+        self.process.results('Manage State License Requirements')
 
     @unittest.skipUnless(debug is 'sales_report' or debug is 'all',
                          "testing {}".format(debug,))
     def test_sales_commission_report(self):
         ui.log.debug('>>> Inside function test_sales_commission_report()')
+        from ui.low.sales_commission_report import SalesCommissionReport
+        SalesCommissionReport()
+        self.process.results('Commission Report')
 
     @unittest.skipUnless(debug is 'goals' or debug is 'all',
                          "testing {}".format(debug,))
