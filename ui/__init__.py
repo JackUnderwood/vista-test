@@ -398,6 +398,7 @@ class UI:
         :param negative: True - do NOT expect to see the expected
         :return: boolean
         """
+        self.check_for_new_window()
         if elem_id:
             self.wait_for_element(elem_id.strip('#'), wait_time)
         html_source = self.driver.page_source.lower()
