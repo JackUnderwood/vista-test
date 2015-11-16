@@ -12,18 +12,17 @@ class License(UI):
         log = VLog(name="vtf", log_name="LICENSE")
         log.info("License __init__() called")
         runtime = {
-            'level': '5',  # not available in 'chain' commands
-            # TODO: add replacer for chain commands in check_for_placeholder()
+            'level': '5',
             'license': ("Chain", [
                 ('move_to_element', {
                     'to_element':
-                        '//*[@id="slide-out"]/li[5]/ul/li/a/i[1]'}),
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/a/i[1]'}),
                 ('click', {
                     'on_element':
-                        '//*[@id="slide-out"]/li[5]/ul/li/a/i[1]'}),
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/a/i[1]'}),
                 ('click', {
                     'on_element':
-                        '//*[@id="slide-out"]/li[5]/ul/li/div/ul/li[1]/a'}), ]),
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[1]/a'}), ]),
         }
         process = UI(override)
         process.update(runtime)

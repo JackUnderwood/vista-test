@@ -9,14 +9,16 @@ class LicenseReport(UI):
         super().__init__()
         runtime = {
             'level': '5',  # not available in 'chain' commands
-            # TODO: add replacer for chain commands in check_for_placeholder()
             'report': ("Chain", [
+                ('move_to_element', {
+                    'to_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/a/i[1]'}),
                 ('click', {
                     'on_element':
-                        '//*[@id="slide-out"]/li[5]/ul/li/a/i[1]'}),
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/a/i[1]'}),
                 ('click', {
                     'on_element':
-                        '//*[@id="slide-out"]/li[5]/ul/li/div/ul/li[2]/a'}), ]),
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[2]/a'}), ]),
         }
         process = UI(override)
         process.update(runtime)
