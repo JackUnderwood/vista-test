@@ -17,7 +17,7 @@ class LicenseRequirements(UI):
             'license': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i',),
             'requirements': (
                 'Click',
-                '//*[@id="slide-out"]/li[2]/ul/li/div/ul/li[3]/a', ),
+                '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[4]/a', ),
         }
         process = UI(override)
         process.update(runtime)
