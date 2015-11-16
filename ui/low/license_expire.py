@@ -16,7 +16,7 @@ class LicenseExpire(UI):
             'license': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i',),
             'expiring': (
                 'Click',
-                '//*[@id="slide-out"]/li[2]/ul/li/div/ul/li[2]/a', ),
+                '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[3]/a', ),
         }
         process = UI(override)
         process.update(runtime)
