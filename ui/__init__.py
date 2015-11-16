@@ -99,8 +99,8 @@ class UI:
         else:
             command, locator, value = content + ("", )
 
+        # The 'locator' and 'value' both may have placeholders
         locator = self.check_for_placeholder(command, locator)
-
         if value.find('&') is not -1:
             log.debug("-- REPLACE a 'value'")
             value = self.check_for_placeholder(command, value)
@@ -235,15 +235,25 @@ class UI:
         (action, {param1:p1, param2:p1}, (etc.), etc.)
         :return: None
         Sample of the Chain:
-            'correspond': ("Chain", [
-                ('click', {'on_element': '//*[@id="slide-out"]/li[3]/ul/li/a'}),
-                ('click', {'on_element': '//*[@id="slide-out"]/li[3]/ul/li)'}),
-            ]),
+          'correspond': ("Chain", [
+              ('click', {
+                  'on_element': '//*[@id="slide-out"]/li[8]/ul/li/a/i'}),
+              ('click', {
+                  'on_element': '//*[@id="slide-out"]/li[8]/ul/li/div/ul/li[1]/a'
+          }),]),
+        locator = self.check_for_placeholder(command, locator)
         """
         actions = ActionChains(self.driver)
         # Build the actions chain
         for elem in elements:
             action, params = elem
+            for k in params:  # only one element should be in dict at this point
+                sub_locator = params.get(k, None)
+                # The first argument 'check_chain' is a phony command;
+                # a command is not necessary for chaining.
+                replacer = self.check_for_placeholder('check_chain', sub_locator)
+                params[k] = replacer
+
             if action == "click":
                 on_element = self.find_element(params['on_element'])
                 actions.click(on_element)
