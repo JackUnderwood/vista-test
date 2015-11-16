@@ -16,10 +16,14 @@ class License(UI):
             # TODO: add replacer for chain commands in check_for_placeholder()
             'license': ("Chain", [
                 ('move_to_element', {
-                    'to_element': '//*[@id="slide-out"]/li[5]/ul/li/a/i[1]'}),
-                ('click', {'on_element': '//*[@id="slide-out"]/li[5]/ul/li/a/i[1]'}),
-                ('click', {'on_element': '//*[@id="slide-out"]/li[5]'
-                                         '/ul/li/div/ul/li[1]/a'}), ]),
+                    'to_element':
+                        '//*[@id="slide-out"]/li[5]/ul/li/a/i[1]'}),
+                ('click', {
+                    'on_element':
+                        '//*[@id="slide-out"]/li[5]/ul/li/a/i[1]'}),
+                ('click', {
+                    'on_element':
+                        '//*[@id="slide-out"]/li[5]/ul/li/div/ul/li[1]/a'}), ]),
         }
         process = UI(override)
         process.update(runtime)
