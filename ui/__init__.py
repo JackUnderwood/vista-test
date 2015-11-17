@@ -387,7 +387,6 @@ class UI:
         :param replacer: string - the element's location in the DOM
         :return: string - locator
         """
-        # TODO: need a way to handle xpaths inside the Chain command, #90548734
         while command != 'Chain' and replacer.find('&') is not -1:
             # Look for placeholder key
             log.debug("------ ELEMENT: {}".format(replacer,))
