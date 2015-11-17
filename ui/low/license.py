@@ -22,7 +22,9 @@ class License(UI):
                         '//*[@id="slide-out"]/li[&level;]/ul/li/a/i[1]'}),
                 ('click', {
                     'on_element':
-                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[1]/a'}), ]),
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[1]/a'}
+                 ),
+            ]),
         }
         process = UI(override)
         process.update(runtime)
