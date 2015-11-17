@@ -14,11 +14,15 @@ class Check(UI):
     from tool.db import get_record
 
     License()
-    cl = Checklist()
-    print("ENTITY: {}".format(cl.entity))
+    # cl = Checklist()
+    # print("ENTITY: {}".format(cl.entity))
 
     # Test the new db module *^*^*^*^*^*
-    sql = 'SELECT * FROM name_list WHERE entity_id_number={}'.format('778784')
+    sql = """
+        SELECT *
+        FROM name_list nl
+        WHERE nl.entity_id_number = 778785
+    """
     results = get_record(sql)
     for row in results:
         print("ID={}, Name={}, First={}".format(row[0], row[1], row[2]))
