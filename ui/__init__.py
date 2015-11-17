@@ -100,10 +100,10 @@ class UI:
             command, locator, value = content + ("", )
 
         # The 'locator' and 'value' both may have placeholders
-        locator = self.check_for_placeholder(command, locator)
+        locator = self.check_for_placeholder(locator)
         if value.find('&') is not -1:
             log.debug("-- REPLACE a 'value'")
-            value = self.check_for_placeholder(command, value)
+            value = self.check_for_placeholder(value)
 
         if command == "Click":
             self.click(locator)
@@ -241,7 +241,6 @@ class UI:
               ('click', {
                   'on_element': '//*[@id="slide-out"]/li[8]/ul/li/div/ul/li[1]/a'
           }),]),
-        locator = self.check_for_placeholder(command, locator)
         """
         actions = ActionChains(self.driver)
         # Build the actions chain
@@ -251,7 +250,7 @@ class UI:
                 sub_locator = params.get(k, None)
                 # The first argument 'check_chain' is a phony command;
                 # a command is not necessary for chaining.
-                replacer = self.check_for_placeholder('check_chain', sub_locator)
+                replacer = self.check_for_placeholder(sub_locator)
                 params[k] = replacer
 
             if action == "click":
@@ -378,16 +377,18 @@ class UI:
                 log.warning("The 'override' key is not found in 'runtime'")
         log.debug("check_override() new runtime: {}".format(self.runtime,))
 
-    def check_for_placeholder(self, command, replacer):
+    def check_for_placeholder(self, replacer):
         """
         Allows a placeholder inside an xpath, e.g. {
             'provider': '123456',
             'selectAssign': ("Click", '//*[@id="&provider;"]/div[1]', "")}
-        :param command: string - command type, e.g. 'Click', 'Select', 'Chain'
+        The replacer param may hold something other than a string, i.e. Chain
         :param replacer: string - the element's location in the DOM
         :return: string - locator
         """
-        while command != 'Chain' and replacer.find('&') is not -1:
+        if not isinstance(replacer, str):
+            return replacer
+        while replacer.find('&') is not -1:
             # Look for placeholder key
             log.debug("------ ELEMENT: {}".format(replacer,))
             key = replacer[replacer.find('&') + 1: replacer.find(';')]
