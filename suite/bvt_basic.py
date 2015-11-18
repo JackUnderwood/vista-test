@@ -2,6 +2,7 @@ import unittest
 
 import ui
 from ui import UI
+from ui.low.home import Home
 
 __author__ = 'John Underwood'
 
@@ -13,7 +14,7 @@ class BvtBasic(unittest.TestCase):
     debug = 'all'
 
     def setUp(self):
-        pass
+        Home()
 
     def tearDown(self):
         pass
@@ -143,8 +144,6 @@ class BvtBasic(unittest.TestCase):
         debug is 'home' or debug is 'all', "testing {}".format(debug,))
     def test_home(self):
         ui.log.debug('>>> Inside function test_home()')
-        from ui.low.home import Home
-        Home()
         expected = "Let's take a look at how to navigate "
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
