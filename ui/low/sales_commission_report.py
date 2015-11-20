@@ -10,7 +10,7 @@ class SalesCommissionReport(UI):
         super().__init__()
 
         runtime = {
-            'level': '6',
+            'level': '7',
             'sales': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
             'commReport': (
                 'Click',

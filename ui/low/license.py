@@ -12,7 +12,7 @@ class License(UI):
         log = VLog(name="vtf", log_name="LICENSE")
         log.info("License __init__() called")
         runtime = {
-            'level': '5',
+            'level': '6',
             'license': ("Chain", [
                 ('move_to_element', {
                     'to_element':

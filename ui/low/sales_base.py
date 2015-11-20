@@ -1,5 +1,6 @@
-__author__ = 'John Underwood'
 from ui import UI
+
+__author__ = 'John Underwood'
 
 
 class SalesBase(UI):
@@ -10,7 +11,7 @@ class SalesBase(UI):
         super().__init__()
 
         runtime = {
-            'level': '6',
+            'level': '7',
             'sales': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
             'base': (
                 'Click',

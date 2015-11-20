@@ -10,7 +10,7 @@ class UserConfig(UI):
         ui.log.debug('Inside UserConfig class')
 
         runtime = {
-            'level': '9',
+            'level': '10',
             'user': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
             'config': (
                 'Click',

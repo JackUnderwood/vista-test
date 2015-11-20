@@ -8,7 +8,7 @@ class LicenseReport(UI):
     def __init__(self, override=None):
         super().__init__()
         runtime = {
-            'level': '5',  # not available in 'chain' commands
+            'level': '6',  # not available in 'chain' commands
             'report': ("Chain", [
                 ('move_to_element', {
                     'to_element':
