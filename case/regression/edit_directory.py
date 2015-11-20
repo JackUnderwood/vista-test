@@ -9,15 +9,17 @@ class EditDirectory(UI):
     """
     Regression test for story #104556112
     """
-    username = get_configurations("USER", "username")
+    username = get_configurations("USER", "name")
     birth_day = gen_number(29)
     runtime = {
         'directory': ('Click', '#button_employee_directory'),
         'username': (
             'Type',
-            '//*[@id="userGrid_grid"]/tfoot/tr/th[12]/input',
+            '//*[@id="employeeDirectoryMini_grid"]/tfoot/tr/th[3]/input',
             username),
-        'edit': ('Click', '//*[@id="userGrid_grid"]/tbody/tr/td[17]/a/i'),
+        'edit': (
+            'Click',
+            '//*[@id="employeeDirectoryMini_grid"]/tbody/tr[1]/td[10]/a/i'),
         'birthday': ('Select', '#birth_day', birth_day),
         'save': ('Click', '//*[@id="manageUser_form"]/div[3]/a[1]')
     }
