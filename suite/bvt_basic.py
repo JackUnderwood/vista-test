@@ -117,7 +117,8 @@ class BvtBasic(unittest.TestCase):
             {'directory': ('Click', '#button_employee_directory'),
              'cancel': (
                  'Click',
-                 'css=#userGrid_form>div.right-align.button-container>a')})
+                 'css=#employeeDirectoryMini_form>'
+                 'div>div.right-align.button-container>a')})
         self.process.execute(('directory', ))
         result = self.process.results(expected)
         self.process.wait(1)
@@ -284,52 +285,52 @@ class BvtBasic(unittest.TestCase):
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
-    @unittest.skipUnless(debug is 'admin' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_admin_home(self):
-        ui.log.debug('>>> Inside function test_admin_home()')
-
-    @unittest.skipUnless(debug is 'status' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_admin_user_status(self):
-        ui.log.debug('>>> Inside function test_admin_user_status()')
-
-    @unittest.skipUnless(debug is 'actions' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_admin_edit_actions(self):
-        ui.log.debug('>>> Inside function test_admin_edit_actions()')
-
-    @unittest.skipUnless(debug is 'policies' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_admin_edit_policies(self):
-        ui.log.debug('>>> Inside function test_admin_edit_policies()')
-
-    @unittest.skipUnless(debug is 'acls' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_admin_assign_acls(self):
-        ui.log.debug('>>> Inside function test_admin_assign_acls()')
-
-    @unittest.skipUnless(debug is 'dash' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_admin_dash(self):
-        ui.log.debug('>>> Inside function test_admin_dash()')
-
-    @unittest.skipUnless(debug is 'send' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_admin_send_notification(self):
-        ui.log.debug('>>> Inside function test_admin_send_notification()')
-
-    @unittest.skipUnless(debug is 'namelist' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_admin_namelist(self):
-        ui.log.debug('>>> Inside function test_admin_namelist()')
-
-    @unittest.skipUnless(debug is 'template' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_admin_template_creator(self):
-        ui.log.debug('>>> Inside function test_admin_template_creator()')
-
-    @unittest.skipUnless(debug is 'checklist' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_admin_checklist_creator(self):
-        ui.log.debug('>>> Inside function test_admin_checklist_creator()')
+    # @unittest.skipUnless(debug is 'admin' or debug is 'all',
+    #                      "testing {}".format(debug,))
+    # def test_admin_home(self):
+    #     ui.log.debug('>>> Inside function test_admin_home()')
+    #
+    # @unittest.skipUnless(debug is 'status' or debug is 'all',
+    #                      "testing {}".format(debug,))
+    # def test_admin_user_status(self):
+    #     ui.log.debug('>>> Inside function test_admin_user_status()')
+    #
+    # @unittest.skipUnless(debug is 'actions' or debug is 'all',
+    #                      "testing {}".format(debug,))
+    # def test_admin_edit_actions(self):
+    #     ui.log.debug('>>> Inside function test_admin_edit_actions()')
+    #
+    # @unittest.skipUnless(debug is 'policies' or debug is 'all',
+    #                      "testing {}".format(debug,))
+    # def test_admin_edit_policies(self):
+    #     ui.log.debug('>>> Inside function test_admin_edit_policies()')
+    #
+    # @unittest.skipUnless(debug is 'acls' or debug is 'all',
+    #                      "testing {}".format(debug,))
+    # def test_admin_assign_acls(self):
+    #     ui.log.debug('>>> Inside function test_admin_assign_acls()')
+    #
+    # @unittest.skipUnless(debug is 'dash' or debug is 'all',
+    #                      "testing {}".format(debug,))
+    # def test_admin_dash(self):
+    #     ui.log.debug('>>> Inside function test_admin_dash()')
+    #
+    # @unittest.skipUnless(debug is 'send' or debug is 'all',
+    #                      "testing {}".format(debug,))
+    # def test_admin_send_notification(self):
+    #     ui.log.debug('>>> Inside function test_admin_send_notification()')
+    #
+    # @unittest.skipUnless(debug is 'namelist' or debug is 'all',
+    #                      "testing {}".format(debug,))
+    # def test_admin_namelist(self):
+    #     ui.log.debug('>>> Inside function test_admin_namelist()')
+    #
+    # @unittest.skipUnless(debug is 'template' or debug is 'all',
+    #                      "testing {}".format(debug,))
+    # def test_admin_template_creator(self):
+    #     ui.log.debug('>>> Inside function test_admin_template_creator()')
+    #
+    # @unittest.skipUnless(debug is 'checklist' or debug is 'all',
+    #                      "testing {}".format(debug,))
+    # def test_admin_checklist_creator(self):
+    #     ui.log.debug('>>> Inside function test_admin_checklist_creator()')
