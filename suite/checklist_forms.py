@@ -2,6 +2,7 @@ import unittest
 
 import ui
 from ui import UI
+from ui.low.home import Home
 from ui.low.license import License
 from ui.high.checklist import Checklist
 
@@ -19,12 +20,13 @@ class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
     debug = 'all'  # use 'all'; or test individual case methods below
-    override = {'rowNum': '5'}
+    override = {'rowNum': '17'}
 
     def setUp(self):
         License()
+        self.process.wait(3)
         Checklist(self.override)
-        self.process.wait(5)  # delay so ribbon has time to display
+        self.process.wait(3)  # delay so ribbon has time to display
 
     def tearDown(self):
         pass
