@@ -1,6 +1,7 @@
-__author__ = 'John Underwood'
 from ui import UI
 from tool.vlog import VLog
+
+__author__ = 'John Underwood'
 
 
 class LicenseExpire(UI):
@@ -12,11 +13,11 @@ class LicenseExpire(UI):
         log = VLog(name="vtf", log_name="LICENSE")
         log.info("Expiring License __init__() called")
         runtime = {
-            'level': '5',
+            'level': '6',
             'license': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i',),
             'expiring': (
                 'Click',
-                '//*[@id="slide-out"]/li[2]/ul/li/div/ul/li[2]/a', ),
+                '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[3]/a', ),
         }
         process = UI(override)
         process.update(runtime)

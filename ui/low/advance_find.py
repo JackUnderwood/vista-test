@@ -1,21 +1,21 @@
+import ui
 from ui import UI
-from tool.vlog import VLog
 
 __author__ = 'John Underwood'
 
 
-class MyWorkspace(UI):
+class AdvanceFind(UI):
     """
     Begins at the main page and opens My Workspace panel.
     """
     def __init__(self, override=None):
         super().__init__()
-        log = VLog(name="vtf", log_name="WORKSPAC")
-        log.info("My Workspace __init__() called")
-        runtime = {
-            'workspace': ('Click', '#previous-results', ),
-        }
+        ui.log.info("Advance Find __init__() called")
+
+        runtime = {'advanceFind': (
+            'Click',
+            'css=body>header>nav>div>ul.left>li:nth-child(2)>a:nth-child(1)>i')}
         process = UI(override)
         process.update(runtime)
-        order = ('workspace', )
+        order = ('advanceFind', )
         process.execute(order)

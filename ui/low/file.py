@@ -1,6 +1,7 @@
-__author__ = 'John Underwood'
 from ui import UI
 from tool.vlog import VLog
+
+__author__ = 'John Underwood'
 
 
 class File(UI):
@@ -12,7 +13,7 @@ class File(UI):
         log = VLog(name="vtf", log_name="FILE")
         log.info("File __init__() called")
         runtime = {
-            'level': '7',
+            'level': '8',
             'file': ('Click', '//*[@id="slide-out"]/li[&level;]/a/i', ''),
         }
         process = UI(override)

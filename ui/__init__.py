@@ -7,6 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import InvalidElementStateException
 
 import tool.utilities as utils
+import book
 from tool.vlog import VLog
 
 __author__ = 'John Underwood'
@@ -47,9 +48,10 @@ class UI:
     chrome_options.add_experimental_option(
         'excludeSwitches',
         ['test-type', 'ignore-certificate-errors'])
+    username = utils.get_configurations('USER', 'username')
     driver = webdriver.Chrome(executable_path='C:/Common/chromedriver',
                               chrome_options=chrome_options)
-    # driver.get('http://jounderwood:{pw}@indytest/')  # http://indytest/
+    driver.get('http://{}:{}@indytest/'.format(username, book.password))
     driver.implicitly_wait(5)  # seconds
     url = utils.url
     driver.get(url)
@@ -97,11 +99,11 @@ class UI:
         else:
             command, locator, value = content + ("", )
 
-        locator = self.check_for_placeholder(command, locator)
-
+        # The 'locator' and 'value' both may have placeholders
+        locator = self.check_for_placeholder(locator)
         if value.find('&') is not -1:
             log.debug("-- REPLACE a 'value'")
-            value = self.check_for_placeholder(command, value)
+            value = self.check_for_placeholder(value)
 
         if command == "Click":
             self.click(locator)
@@ -121,7 +123,7 @@ class UI:
             self.loop(locator)
         elif command == "Unknown":
             log.warning("""Execute - This command is unknown or
-            unavailable""")
+            runtime has not been processed""")
         else:
             log.exception("""Execute - No command is available -
             throw an error""")
@@ -233,15 +235,24 @@ class UI:
         (action, {param1:p1, param2:p1}, (etc.), etc.)
         :return: None
         Sample of the Chain:
-            'correspond': ("Chain", [
-                ('click', {'on_element': '//*[@id="slide-out"]/li[3]/ul/li/a'}),
-                ('click', {'on_element': '//*[@id="slide-out"]/li[3]/ul/li)'}),
-            ]),
+          'correspond': ("Chain", [
+              ('click', {
+                  'on_element': '//*[@id="slide-out"]/li[8]/ul/li/a/i'}),
+              ('click', {
+                  'on_element': '//*[@id="slide-out"]/li[8]/ul/li/div/ul/li[1]/a'
+          }),]),
         """
         actions = ActionChains(self.driver)
         # Build the actions chain
         for elem in elements:
             action, params = elem
+            for k in params:  # only one element should be in dict at this point
+                sub_locator = params.get(k, None)
+                # The first argument 'check_chain' is a phony command;
+                # a command is not necessary for chaining.
+                replacer = self.check_for_placeholder(sub_locator)
+                params[k] = replacer
+
             if action == "click":
                 on_element = self.find_element(params['on_element'])
                 actions.click(on_element)
@@ -269,6 +280,7 @@ class UI:
         :param elem_id: a string that holds the element's id
         :param wait_time: wait time in seconds
         :return: None
+        Note: https://blog.mozilla.org/webqa/2012/07/12/how-to-webdriverwait/
         """
         log.info("Wait Command - wait for id=\"{0}\"".format(elem_id))
         from selenium.webdriver.support import expected_conditions as ec
@@ -276,8 +288,8 @@ class UI:
         from selenium.webdriver.common.by import By
         try:
             WebDriverWait(self.driver, wait_time).until(
-                ec.presence_of_element_located((By.ID, elem_id))
-            )
+                ec.presence_of_element_located((By.ID, elem_id)),
+                "elem_id: {} - wait_time: {}".format(elem_id, wait_time,))
         finally:
             pass
 
@@ -365,17 +377,18 @@ class UI:
                 log.warning("The 'override' key is not found in 'runtime'")
         log.debug("check_override() new runtime: {}".format(self.runtime,))
 
-    def check_for_placeholder(self, command, replacer):
+    def check_for_placeholder(self, replacer):
         """
         Allows a placeholder inside an xpath, e.g. {
             'provider': '123456',
             'selectAssign': ("Click", '//*[@id="&provider;"]/div[1]', "")}
-        :param command: string - command type, e.g. 'Click', 'Select', 'Chain'
+        The replacer param may hold something other than a string, i.e. Chain
         :param replacer: string - the element's location in the DOM
         :return: string - locator
         """
-        # TODO: need a way to handle xpaths inside the Chain command, #90548734
-        while command != 'Chain' and replacer.find('&') is not -1:
+        if not isinstance(replacer, str):
+            return replacer
+        while replacer.find('&') is not -1:
             # Look for placeholder key
             log.debug("------ ELEMENT: {}".format(replacer,))
             key = replacer[replacer.find('&') + 1: replacer.find(';')]
@@ -390,13 +403,14 @@ class UI:
         """
         Search the DOM for the expected string.
         :param expected: expected results search string
-        :param elem_id: look in a DOM specific area by 'id' attribute
+        :param elem_id: look in a DOM specific area using 'id' attribute
         :param wait_time: the total tolerance time
         :param negative: True - do NOT expect to see the expected
         :return: boolean
         """
+        self.check_for_new_window()
         if elem_id:
-            self.wait_for_element(elem_id, wait_time)
+            self.wait_for_element(elem_id.strip('#'), wait_time)
         html_source = self.driver.page_source.lower()
         res = True
         log.info("Expected is '{}'".format(expected))
