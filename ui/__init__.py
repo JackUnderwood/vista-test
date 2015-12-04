@@ -123,7 +123,7 @@ class UI:
             self.loop(locator)
         elif command == "Unknown":
             log.warning("""Execute - This command is unknown or
-            unavailable""")
+            runtime has not been processed""")
         else:
             log.exception("""Execute - No command is available -
             throw an error""")
