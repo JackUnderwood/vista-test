@@ -2,6 +2,7 @@ import unittest
 
 import ui
 from ui import UI
+from ui.low.home import Home
 from ui.low.license import License
 from ui.high.checklist import Checklist
 
@@ -19,12 +20,13 @@ class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
     debug = 'all'  # use 'all'; or test individual case methods below
-    override = {'rowNum': '7'}
+    override = {'rowNum': '17'}
 
     def setUp(self):
         License()
+        self.process.wait(3)
         Checklist(self.override)
-        self.process.wait(5)  # delay so ribbon has time to display
+        self.process.wait(3)  # delay so ribbon has time to display
 
     def tearDown(self):
         pass
@@ -38,7 +40,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     @unittest.skipUnless(debug is 'carrier' or debug is 'all',
                          "testing {}".format(debug,))
     def test_add_carrier(self):
-        print(">>> Inside function test_add_carrier()")
+        ui.log.info(">>> Inside function test_add_carrier()")
         runtime = {
             'malpractice': (
                 'Click',
@@ -66,7 +68,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     @unittest.skipUnless(debug is 'claim' or debug is 'all',
                          "testing {}".format(debug,))
     def test_add_claim(self):
-        print(">>> Inside function test_add_claim()")
+        ui.log.info(">>> Inside function test_add_claim()")
         runtime = {
             'malpractice': (
                 'Click',
@@ -100,7 +102,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     @unittest.skipUnless(debug is 'education' or debug is 'all',
                          "testing {}".format(debug,))
     def test_add_education(self):
-        print(">>> Inside function test_add_education()")
+        ui.log.info(">>> Inside function test_add_education()")
         runtime = {
             'education': (
                 'Click',
@@ -130,7 +132,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     @unittest.skipUnless(debug is 'examination' or debug is 'all',
                          "testing {}".format(debug,))
     def test_add_examination(self):
-        print(">>> Inside function test_add_examination()")
+        ui.log.info(">>> Inside function test_add_examination()")
         runtime = {          #
             'exam': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[3]'),
             'addExam': ('Click', '//*[@id="examinationGrid_form"]/a[1]'),
@@ -158,8 +160,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     @unittest.skipUnless(debug is 'experience' or debug is 'all',
                          "testing {}".format(debug,))
     def test_add_experience(self):
-        print(">>> Inside function test_add_experience()")
-
+        ui.log.info(">>> Inside function test_add_experience()")
         runtime = {
             'experience': (
                 'Click',
@@ -191,7 +192,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     @unittest.skipUnless(debug is 'email' or debug is 'all',
                          "testing {}".format(debug,))
     def test_add_email(self):
-        print(">>> Inside function test_add_email()")
+        ui.log.info(">>> Inside function test_add_email()")
         from tool.generators.generator import gen_email
 
         runtime = {

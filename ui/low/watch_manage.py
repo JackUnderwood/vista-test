@@ -1,19 +1,18 @@
+import ui
 from ui import UI
 
 __author__ = 'John Underwood'
 
 
-class SalesCorporate(UI):
-    """
-    Click on the Sales | Manage Corporate Goals link from the Nav bar.
-    """
+class WatchManage(UI):
     def __init__(self, override=None):
         super().__init__()
+        ui.log.debug("Inside WatchManage class")
 
         runtime = {
-            'level': '7',
-            'sales': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
-            'corporate': (
+            'level': '8',
+            'watch': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
+            'manage': (
                 'Click',
                 '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[2]/a'
             ),
@@ -21,5 +20,5 @@ class SalesCorporate(UI):
 
         process = UI(override)
         process.update(runtime)
-        order = ('sales', 'corporate', )
+        order = ('watch', 'manage', )
         process.execute(order)

@@ -1,6 +1,7 @@
-__author__ = 'John Underwood'
 from ui import UI
 from tool.vlog import VLog
+
+__author__ = 'John Underwood'
 
 
 class LicenseRequirements(UI):
@@ -13,11 +14,11 @@ class LicenseRequirements(UI):
         log = VLog(name="vtf", log_name="LICENSE")
         log.info("License Requirements __init__() called")
         runtime = {
-            'level': '5',
+            'level': '6',
             'license': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i',),
             'requirements': (
                 'Click',
-                '//*[@id="slide-out"]/li[2]/ul/li/div/ul/li[3]/a', ),
+                '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[4]/a', ),
         }
         process = UI(override)
         process.update(runtime)
