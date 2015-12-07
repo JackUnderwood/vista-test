@@ -21,3 +21,7 @@ $ cd ..
 $ rm -rf vista-test.git
 ```
 
+#### Push feature tags to the remote
+```
+$ git push --follow-tags
+```
