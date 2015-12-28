@@ -426,7 +426,17 @@ class UI:
             res = False
         return res
 
-    def get(self, locator, value):
+    def get(self, locator, attribute_name):
+        """
+        Get an on-screen value
+        :param locator: holds the xpath, id, class, or tag
+        :param attribute_name: attribute name, i.e. innerHTML, value, name, etc.
+        :return: string - value
+        """
+        element = self.find_element(locator)
+        return element.get_attribute(attribute_name)
+
+    def get_option(self, locator, value):
         """
         Get an on-screen value
         :param locator: holds the xpath, id, class, or tag
