@@ -14,7 +14,7 @@ class EntityAddSsn(UI):
     ssn = gen_ssn()
     full = "Blane Workman"  # gen_name()
     first, last = split_name(full)
-    pn = gen_phone_number('Utah')
+    pn = gen_phone_number('UT')
     formatted_phone_number = pn[:3] + ' ' + pn[3:6] + '-' + pn[6:]
 
     sql = """
