@@ -436,15 +436,17 @@ class UI:
         element = self.find_element(locator)
         return element.get_attribute(attribute_name)
 
-    def get_option(self, locator, value):
+    def get_selected_option(self, locator):
         """
         Get an on-screen value
         :param locator: holds the xpath, id, class, or tag
         :param value: attribute name, i.e. innerHTML, value, name, etc.
         :return: string - value
+        Select archiveList = new Select(driver.findElement(By.id("BlogArchive1_ArchiveMenu")));
         """
         element = self.find_element(locator)
-        return element.get_attribute(value)
+        select = Select(element)
+        return select.first_selected_option.get_attribute('value')
 
     def teardown(self):
         log.info("Teardown")
