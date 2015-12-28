@@ -1,8 +1,9 @@
 import ui
 from ui import UI
 from tool.utilities import digits_only
-from tool.generators.generator import gen_name, gen_ssn, split_name, \
-    gen_email, gen_phone_number
+from tool.generators.generator import gen_name, gen_ssn, split_name
+from tool.generators.generator import gen_email, gen_phone_number
+from tool.generators.state_codes import get_state_name
 
 __author__ = 'John Underwood'
 
@@ -11,14 +12,15 @@ class AddProvider(UI):
     """
     Checks for Default Phone inside Workspace
     """
-    state = 'Utah'
+    state_iso_code = 'UT'
+    state = get_state_name(state_iso_code)
     ssn = gen_ssn()
     full = gen_name()
     first, last = split_name(full)
     ui.log.info("FIRST NAME: {} - LAST NAME: {}".format(first, last,))
 
     email = gen_email(full)
-    phone_number = gen_phone_number(state)
+    phone_number = gen_phone_number(state_iso_code)
     formatted_phone_number = (
         phone_number[:3] + ' ' + phone_number[3:6] + '-' + phone_number[6:])
     ui.log.info("PHONE NUMBER: {} - FORMATTED: {}".format(
