@@ -2,7 +2,8 @@ import random
 import string
 
 from names import get_full_name
-from tool.generators.area_code import get_area_code
+from tool.generators.state_codes import get_random_area_code
+from tool.generators.state_codes import get_random_state_iso_code
 
 __title__ = 'generator'
 __version__ = '0.1.1'
@@ -28,23 +29,23 @@ def gen_name(gender=None):
     return get_full_name(gender)
 
 
-def gen_phone_number(state):
+def gen_phone_number(state_iso_code):
     """
     Components of a phone number are (i.e. 123-456-9876):
     Area Code -> 123,
     Exchange Code, -> 456, and
     Subscriber Number - > 9876
-    - The 'area code' will be determined by the state that is passed in, and
-    randomly selected from the list of associated numbers.
+    - The 'area code' will be determined by the state_iso_code that is passed in,
+    and randomly selected from the list of associated area codes.
     - The 'exchange code' is generated using [2-9] for first digit, and [0-9]
     for second and third digits--exception, third digit cannot be 1 if
     the second digit is 1.
     - The 'subscriber number' is [0-9] for each of the four digits, [0000-9999]
     See https://en.wikipedia.org/wiki/North_American_Numbering_Plan
-    :param state: string with full state's name, e.g. "New York"
+    :param state_iso_code: string with state_iso_code's name, e.g. "VA"
     :return: string - format aaaeeessss (i.e. 1234569876)
     """
-    area_code = get_area_code(state)
+    area_code = get_random_area_code(state_iso_code)
 
     exchange = get_exchange_number()
     # The following should be a rare occurrence.
@@ -60,10 +61,14 @@ def gen_address():
     """
     Dict keys with full address
     :return: dict {'address1': <address1>, 'address2': <address2>,
-    'address3': <address3>, 'city': <city>, 'state': <state>,
+    'address3': <address3>, 'city': <city>, 'state_iso_code': <state_iso_code>,
     'zipcode': <zipcode>}
     """
-    return ''
+    state_iso_code = get_random_state_iso_code()
+    zip_code = get_random_area_code(state_iso_code)
+    address = {'stateIsoCode': state_iso_code,
+               'zipCode': zip_code, }
+    return address
 
 
 def gen_ssn():
@@ -148,10 +153,10 @@ def __city():
     return ''
 
 
-def __state():
+def __state_iso_code():
     """
     STUB
-    :return: string
+    :return: string - two characters
     """
     return ''
 

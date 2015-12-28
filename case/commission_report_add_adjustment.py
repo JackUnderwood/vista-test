@@ -38,7 +38,7 @@ class ViewCommissionReport(UI):
     expected = "Saved adjustment"
     process = UI()
     process.update(runtime)
-    order = ('find', 'result', 'month', )  # 'year', )
+    order = ('year', 'month', 'find', 'result', ) 
     process.execute(order)
     process.wait(2)
 
