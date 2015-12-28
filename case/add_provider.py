@@ -26,7 +26,8 @@ class AddProvider(UI):
     ui.log.info("PHONE NUMBER: {} - FORMATTED: {}".format(
         phone_number, formatted_phone_number, ))
 
-    expected = 'Default Phone: ' + phone_number
+    expected = '(' + (phone_number[:3] + ') ' + phone_number[3:6] +
+                      '-' + phone_number[6:])
 
     runtime = {
         'find': ('Type', '#main_desc', full),
@@ -70,7 +71,7 @@ class AddProvider(UI):
              'email', 'emailType', 'phoneNumber', 'phoneType', 'ssn', 'save', )
     process.execute(order)
     process.wait(2)
-    success = process.results('Saved information')
+    success = process.results('Saved information', 'toast-container', 8)
     if success:
         order = ('findModifier', )
         process.execute(order)
@@ -81,3 +82,4 @@ class AddProvider(UI):
         process.results(expected, 'ribbon_form', 5)
 
     process.teardown()
+
