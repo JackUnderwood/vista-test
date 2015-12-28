@@ -30,8 +30,11 @@ class DirectorySaveState(UI):
     process.wait(1)
 
     # Spy into the form's State field to check its value
-    state_value = process.get()
-    process.results(expected)
+    order = ('directory', 'username', 'edit', )
+    process.execute(order)
+    state_value = process.get_selected_option('#state')
+
+    process.compare(expected, state_value)
     process.teardown()
 
 
