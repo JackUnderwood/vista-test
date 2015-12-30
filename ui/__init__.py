@@ -51,10 +51,10 @@ class UI:
     username = utils.get_configurations('USER', 'username')
     driver = webdriver.Chrome(executable_path='C:/Common/chromedriver',
                               chrome_options=chrome_options)
-    driver.get('http://{}:{}@indytest/'.format(username, book.password))
+    driver.get('http://{}:{}@indytest/'.format(username, book.password))  # TODO
     driver.implicitly_wait(5)  # seconds
     url = utils.url
-    driver.get(url)
+    driver.get(url)  # TODO: combine the get() func above; hardcoded indytest/
     log.debug("TEST Uniform Resource Locator --------->>> {}".format(url,))
     assert "INDY" in driver.title
 
