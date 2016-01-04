@@ -9,10 +9,11 @@ class AddChecklistFee(UI):
         'checklist': (
             'Click',
             '//*[@id="content"]/div[2]/div[1]/ul/div/div/a'),
+        'feeAmount': '75',
         'fee': (
             'Type',
             '//*[@id="checklist-form-container"]/div[3]/div[3]/input',
-            '75'),
+            '&feeAmount;'),
         'save': ('Click', '//*[@id="checklist-form-container"]/div[3]/div[6]/a')
     }
     expected = 'Saved'
@@ -24,4 +25,6 @@ class AddChecklistFee(UI):
     process.execute(order)
     process.results(expected)
     process.wait(3)
+    process.update({'feeAmount': '', })  # clear
+    process.execute(('fee', 'save', ))
     process.teardown()
