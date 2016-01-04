@@ -135,7 +135,14 @@ class UI:
         element = self.find_element(locator)
         element.click()
 
-    def type(self, locator, value):
+    def type(self, locator, value, char='$'):
+        """
+        Do action of type (typewrite) in a value
+        :param locator: element location in DOM
+        :param value: string - value to type into the element
+        :param char: string - special char that may not clear()
+        :return: void
+        """
         # Remove large string input for simpler logging.
         from selenium.webdriver.common.keys import Keys
         temp = value
@@ -149,7 +156,7 @@ class UI:
         try:
             element.clear()
             entry = self.get(locator, 'value')
-            if '$' in entry:  # TODO: rethink how to abstract this out
+            if char in entry:
                 element.send_keys(Keys.CONTROL, 'a')
                 element.send_keys(Keys.DELETE)
         except InvalidElementStateException:
