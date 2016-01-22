@@ -1,6 +1,6 @@
 from ui import UI
 from tool.utilities import get_configurations
-from tool.generators.state_codes import get_random_state_iso_code
+from tool.generators.state_codes import get_random_fifty_states_iso_code
 __author__ = 'John Underwood'
 
 
@@ -9,7 +9,7 @@ class DirectorySaveState(UI):
     Regression test for story #105687354
     """
     username = get_configurations("USER", "name")
-    state = get_random_state_iso_code()
+    state = get_random_fifty_states_iso_code()
     runtime = {
         'directory': ('Click', '#button_employee_directory'),
         'username': (

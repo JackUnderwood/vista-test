@@ -2,6 +2,11 @@ from os.path import abspath
 import random
 
 PATH = 'tool\\generators\\states_codes'
+FIFTY_STATES = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
+                'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'MI', 'MD',
+                'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
+                'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
+                'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
 
 
 def get_random_area_code(state_iso_code):
@@ -23,6 +28,14 @@ def get_random_state_iso_code():
     """
     iso_codes = get_state_iso_codes()
     return random.choice(iso_codes)
+
+
+def get_random_fifty_states_iso_code():
+    """
+    Gets a random fifty states iso code
+    :return: string - the state_iso_code's 2 digit iso, i.e. Utah's iso is UT
+    """
+    return random.choice(FIFTY_STATES)
 
 
 def get_random_state_name():
