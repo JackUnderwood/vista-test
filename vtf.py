@@ -61,6 +61,8 @@ if args.platform:
         url = utils.get_configurations("DEFAULT", "test_url")
     elif args.platform == 'dev':
         url = utils.get_configurations("DEFAULT", "dev_url")
+    elif args.platform == 'local':
+        url = utils.get_configurations("DEFAULT", "local_url")
     else:
         log.warning("Unrecognizable platform: {}".format(args['platform'],))
 utils.url = url  # set the global only once, and only here

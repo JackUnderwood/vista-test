@@ -11,14 +11,20 @@ class SalesCommissionReport(UI):
 
         runtime = {
             'level': '7',
-            'sales': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
-            'commReport': (
-                'Click',
-                '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[1]/a'
-            ),
+            'sales': ("Chain", [
+                ('move_to_element', {
+                    'to_element': '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
+                ('click', {
+                    'on_element': '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
+                ('click', {
+                    'on_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[1]/a'}
+                 ),
+            ]),
         }
 
         process = UI(override)
         process.update(runtime)
-        order = ('sales', 'commReport', )
+        order = ('sales', )
         process.execute(order)
+

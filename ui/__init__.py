@@ -51,10 +51,10 @@ class UI:
     username = utils.get_configurations('USER', 'username')
     driver = webdriver.Chrome(executable_path='C:/Common/chromedriver',
                               chrome_options=chrome_options)
-    driver.get('http://{}:{}@indytest/'.format(username, book.password))
+    driver.get('http://{}:{}@indytest/'.format(username, book.password))  # TODO
     driver.implicitly_wait(5)  # seconds
     url = utils.url
-    driver.get(url)
+    driver.get(url)  # TODO: combine the get() func above; hardcoded indytest/
     log.debug("TEST Uniform Resource Locator --------->>> {}".format(url,))
     assert "INDY" in driver.title
 
@@ -135,8 +135,16 @@ class UI:
         element = self.find_element(locator)
         element.click()
 
-    def type(self, locator, value):
+    def type(self, locator, value, char='$'):
+        """
+        Do action of type (typewrite) in a value
+        :param locator: element location in DOM
+        :param value: string - value to type into the element
+        :param char: string - special char that may not clear()
+        :return: void
+        """
         # Remove large string input for simpler logging.
+        from selenium.webdriver.common.keys import Keys
         temp = value
         if len(value) > self.max_size and self.max_size is not 0:
             ellipsis = "..."
@@ -147,13 +155,16 @@ class UI:
         element = self.find_element(locator)
         try:
             element.clear()
+            entry = self.get(locator, 'value')
+            if char in entry:
+                element.send_keys(Keys.CONTROL, 'a')
+                element.send_keys(Keys.DELETE)
         except InvalidElementStateException:
             """invalid element state: Element must be user-editable in
             order to clear it."""
             log.warning("Element is not user-editable; unable to clear()")
 
         element.send_keys(value)
-        # element.submit()
 
     def type_tab(self, locator, value):
         """ MAY NOT NEED THIS FUNCTION JNU!!!
@@ -217,7 +228,7 @@ class UI:
             select.select_by_visible_text(value)
 
     def loop(self, elements):  # temporarily for testing tables JNU!!!
-        import xml.etree.ElementTree as ETree
+        # import xml.etree.ElementTree as ETree
         log.info("Elements: {}".format(elements))
         element = self.find_element(elements)
         log.info("Element: {}".format(element))
@@ -316,7 +327,7 @@ class UI:
         elif first_element == '#':  # "#<id>"
             _id = locator[1:]
             return self.driver.find_element_by_id(_id)
-        elif first_element == '<':  # "<<tag>>" - special case that looks for many
+        elif first_element == '<':  # "<<tag>>"-special case that looks for many
             # Returns the last element in the list; assumes the last element
             # is the desired element.
             _tag = locator[1:-1]
@@ -426,15 +437,25 @@ class UI:
             res = False
         return res
 
-    def get(self, locator, value):
+    def get(self, locator, attribute_name):
         """
         Get an on-screen value
         :param locator: holds the xpath, id, class, or tag
-        :param value: attribute name, i.e. innerHTML, value, name, etc.
+        :param attribute_name: attribute name, i.e. innerHTML, value, name, etc.
         :return: string - value
         """
         element = self.find_element(locator)
-        return element.get_attribute(value)
+        return element.get_attribute(attribute_name)
+
+    def get_selected_option(self, locator):
+        """
+        Get an on-screen value
+        :param locator: holds the xpath, id, class, or tag
+        :return: string - value
+        """
+        element = self.find_element(locator)
+        select = Select(element)
+        return select.first_selected_option.get_attribute('value')
 
     def teardown(self):
         log.info("Teardown")

@@ -20,7 +20,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
     debug = 'all'  # use 'all'; or test individual case methods below
-    override = {'rowNum': '17'}
+    override = {'rowNum': '20'}
 
     def setUp(self):
         License()
@@ -167,7 +167,8 @@ class TestSuiteChecklistForms(unittest.TestCase):
                 '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),
             'addExperience': ('Click', 'css=#experienceGrid_form>a.leaf.btn'),
             'findClient': ('Type', '#client_id_number_desc', 'acute family'),
-            'selectClient': ('Click', '//*[@item_id="315711"]'),  # Acute Family
+            'selectClient': ('Click', '#user_name'),  # Acute Family
+            # #user_name
             'check': (
                 'Click',
                 '//*[@id="ExperienceEdit_form"]/div[5]/div[2]/label'),
