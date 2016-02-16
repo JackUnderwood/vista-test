@@ -2,7 +2,6 @@ import unittest
 
 import ui
 from ui import UI
-from ui.low.home import Home
 from ui.low.license import License
 from ui.high.checklist import Checklist
 
@@ -20,7 +19,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
     debug = 'all'  # use 'all'; or test individual case methods below
-    override = {'rowNum': '20'}
+    override = {'rowNum': '21'}
 
     def setUp(self):
         License()
@@ -204,7 +203,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
         expected = "Email saved"
 
         self.process.update(runtime)
-        order = ('expand', 'email')
+        order = ('email', )
         self.process.execute(order)
         # Spy for the name in the drawers
         name = self.process.get('/html/body/main/div[2]/div[1]/h3', 'innerHTML')
@@ -217,7 +216,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
             'addEmail': ('Click', '//*[@id="emailGrid_form"]/a'),
             'emailAddress': ('Type', '#email_address', email),
             'emailType': ('Select', '#email_correspondence_method_type_id', 'Work'),
-            'save': ('Click', '//*[@id="editEmail_form"]/div[10]/a[1]')
+            'save': ('Click', '//*[@id="editEmail_form"]/div[9]/a[1]')
         }
         self.process.update(runtime)
         order = ('addEmail', 'emailAddress', 'emailType', 'save')
