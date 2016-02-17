@@ -4,7 +4,6 @@ import ui
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
-from ui.high.expand_ribbon import ExpandRibbon
 from tool.generators.generator import gen_name, gen_email
 
 __author__ = 'John Underwood'
@@ -25,7 +24,6 @@ class TestSuiteRibbon(unittest.TestCase):
     def setUp(self):
         License()
         self.cl = Checklist(self.override)
-        ExpandRibbon()
         ui.log.info("Entity is '{}'".format(self.cl.entity))
 
     def tearDown(self):
