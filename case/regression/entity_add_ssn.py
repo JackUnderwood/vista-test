@@ -12,7 +12,7 @@ class EntityAddSsn(UI):
     Regression test for story #102370974
     """
     ssn = gen_ssn()
-    full = "Blane Workman"  # gen_name()
+    full = gen_name()
     first, last = split_name(full)
     pn = gen_phone_number('UT')
     formatted_phone_number = pn[:3] + ' ' + pn[3:6] + '-' + pn[6:]
@@ -39,13 +39,17 @@ class EntityAddSsn(UI):
         'ssn': ('Type', '#ssn', digits_only(ssn)),
         'save': ('Click', '//*[@id="editEntityInformation_form"]/div[3]/a[1]'),
         'fullName': full,
+        'addressDescription': ('Type', '#address_description', 'Home Base'),
+        'addressType': (
+            'Select', '#address_correspondence_method_type_id', 'Personal')
         # '//span[contains(@id, "user_name") and text()="&fullName;"]'
         # '//span[@id="user_name" and contains(., "&fullName;")]'
     }
     process = UI()
     process.update(runtime)
     order = ('find', 'addNewEntity', 'entityType', 'status', 'firstName',
-             'lastName', 'phoneNum', 'phoneType', 'ssn', 'save', )
+             'lastName', 'addressDescription', 'addressType', 'phoneNum',
+             'phoneType', 'ssn', 'save', )
     process.execute(order)
     process.wait(3)
     record = get_record(sql)
