@@ -58,17 +58,17 @@ class EntityAddSsn(UI):
             'Type', '#main_desc', 'p:' + formatted_phone_number),
         'userId': str(record[0][0]),
         'select': ('Click', '#&userId;'),
-        'displaySsn': ('Click', '//*[@id="ribbon_form"]/ul/li/div[2]/div[1]/'
-                                'div[3]/span[1]/a'),
+        # 'displaySsn': ('Click', '//*[@id="ribbon_form"]/ul/li/div[2]/div[1]/'
+        #                         'div[3]/span[1]/a'),
+        'displaySsn': ('Click', '#ssn_&userId;'),
         'continue': ('Click', '//*[@button="continue"]'),
     }
 
     process.update(runtime)
     order = ('findPhone', 'select', 'displaySsn', 'continue', )
     process.execute(order)
-    actual = process.get(
-        '//*[@id="ribbon_form"]/ul/li/div[2]/div[1]/div[3]/span[1]',
-        'innerHTML', )
+    process.wait(1)
+    actual = process.get('#ssn_wrapper_&userId;', 'innerHTML')
     ui.log.info('SSN value is {}'.
                 format(actual if actual is not '' else 'None',))
     process.compare(ssn, actual)
