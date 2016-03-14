@@ -201,7 +201,7 @@ class BvtBasic(unittest.TestCase):
         ui.log.info('>>> Inside function test_license_requirements()')
         from ui.low.license_requirements import LicenseRequirements
         LicenseRequirements()
-        expected = 'Manage State License Requirements'
+        expected = 'State License Requirements'
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
