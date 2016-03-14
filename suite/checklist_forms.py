@@ -19,7 +19,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
     debug = 'all'  # use 'all'; or test individual case methods below
-    override = {'rowNum': '21'}
+    override = {'rowNum': '22'}
 
     def setUp(self):
         License()
@@ -166,7 +166,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
                 '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),
             'addExperience': ('Click', 'css=#experienceGrid_form>a.leaf.btn'),
             'findClient': ('Type', '#client_id_number_desc', 'acute family'),
-            'selectClient': ('Click', '#user_name'),  # Acute Family
+            'selectClient': ('Click', '//*[@item_id="315711"]'),  # Acute Family
             # #user_name
             'check': (
                 'Click',
@@ -198,7 +198,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
         runtime = {
             'expand': ('Click', '//*[@id="ribbon_form"]/ul/li/div[1]'),
             'email': (
-                'Click', '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[3]'),
+                'Click', '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[3]'),
         }
         expected = "Email saved"
 

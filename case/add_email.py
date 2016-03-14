@@ -12,14 +12,13 @@ class AddEmail(UI):
     Checklist()
 
     runtime = {
-        'expand': ('Click', '//*[@id="ribbon_form"]/ul/li/div[1]'),
         'email': (
-            'Click', '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[3]'),
+            'Click', '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[3]'),
     }
     expected = "Email saved"
     process = UI()
     process.update(runtime)
-    order = ('expand', 'email')
+    order = ('email', )
     process.execute(order)
     # Spy for the name in the drawers
     name = process.get('/html/body/main/div[2]/div[1]/h3', 'innerHTML')
@@ -32,7 +31,7 @@ class AddEmail(UI):
         'addEmail': ('Click', '//*[@id="emailGrid_form"]/a'),
         'emailAddress': ('Type', '#email_address', email),
         'emailType': ('Select', '#email_correspondence_method_type_id', 'Work'),
-        'save': ('Click', '//*[@id="editEmail_form"]/div[10]/a[1]')
+        'save': ('Click', '//*[@id="editEmail_form"]/div[9]/a[1]')
     }
     process.update(runtime)
     order = ('addEmail', 'emailAddress', 'emailType', 'save')
