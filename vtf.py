@@ -15,10 +15,11 @@ import unittest
 import argparse
 import pprint
 
-from tool.testrail import *
+# from tool.testrail import *  # TestRail API
 
 import tool.utilities as utils
 from tool.vlog import VLog
+# from book import client_password   # Used for TestRail API
 
 # ^*^*^*^*^*^* Get the arguments passed in at the command line *^*^*^*^*^*^
 parser = argparse.ArgumentParser()
@@ -76,7 +77,7 @@ if os.path.exists(full_path):
     log.debug("This is the path: {}".format(full_path, ))
     # client = APIClient('https://vistastaff.testrail.com/')
     # client.user = 'john.underwood@vistastaff.com'
-    # client.password = '********'
+    # client.password = client_password
     # case = client.send_get('get_case/8')
     # pp = pprint.PrettyPrinter(indent=4)
     # pp.pprint(case)
