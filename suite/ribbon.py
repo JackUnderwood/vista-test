@@ -44,7 +44,7 @@ class TestSuiteRibbon(unittest.TestCase):
         runtime = {
             'editEntity': (
                 'Click',
-                '//*[@id="ribbon_form"]/ul/li[1]/div[2]/div[1]/div[6]/a[1]'
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[1]/div[6]/a[1]'
             ),
             'addressDescription': ('Type', '#address_description', 'Business'),
             'addressType': (
@@ -78,7 +78,7 @@ class TestSuiteRibbon(unittest.TestCase):
         runtime = {
             'phone': (
                 'Click',
-                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[4]/i',
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[4]/i',
             ),
             'editPhone': (
                 'Click',
@@ -87,7 +87,8 @@ class TestSuiteRibbon(unittest.TestCase):
             'revisePhone': ('Type', '#phone', '8012251155'),
             'phoneType': (
                 'Select', '#phone_correspondence_method_type_id', 'Other'),
-            'save': ('Click', '//*[@button="save"]')
+            'save': ('Click', 'css=#editPhone_form>div.right-align.'
+                              'button-container>a:nth-child(1)')
         }
         expected = 'Phone number saved!'
         self.process.update(runtime)
@@ -142,7 +143,7 @@ class TestSuiteRibbon(unittest.TestCase):
         runtime = {
             'correspond': (
                 'Click',
-                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[1]'),
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[1]'),
         }
         expected = 'Select a Template'
         self.process.update(runtime)
@@ -159,7 +160,7 @@ class TestSuiteRibbon(unittest.TestCase):
         runtime = {
             'emailer': (
                 'Click',
-                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[2]'),
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[2]'),
         }
         expected = '({0}) Emailer'.format(self.cl.entity, )
         self.process.update(runtime)
@@ -176,7 +177,7 @@ class TestSuiteRibbon(unittest.TestCase):
         runtime = {
             'emails': (
                 'Click',
-                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[3]'),
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[3]'),
         }
         expected = '({}) Emails'.format(self.cl.entity, )
         self.process.update(runtime)
@@ -193,7 +194,7 @@ class TestSuiteRibbon(unittest.TestCase):
         runtime = {
             'phones': (
                 'Click',
-                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[4]'),
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[4]'),
         }
         expected = '({}) Phone Numbers'.format(self.cl.entity, )
         self.process.update(runtime)
@@ -210,7 +211,7 @@ class TestSuiteRibbon(unittest.TestCase):
         runtime = {
             'addresses': (
                 'Click',
-                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[5]'),
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[5]'),
         }
         expected = '({}) Addresses'.format(self.cl.entity, )
         self.process.update(runtime)
@@ -227,7 +228,7 @@ class TestSuiteRibbon(unittest.TestCase):
         runtime = {
             'comments': (
                 'Click',
-                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[6]'),
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[6]'),
         }
         expected = '({}) Comments'.format(self.cl.entity, )
         self.process.update(runtime)
@@ -244,7 +245,7 @@ class TestSuiteRibbon(unittest.TestCase):
         runtime = {
             'contacts': (
                 'Click',
-                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[7]'),
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[7]'),
         }
         expected = 'Contacts'
         self.process.update(runtime)
@@ -261,7 +262,7 @@ class TestSuiteRibbon(unittest.TestCase):
         runtime = {
             'passwords': (
                 'Click',
-                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[9]'),
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[9]'),
         }
         expected = 'Passwords'
         self.process.update(runtime)
