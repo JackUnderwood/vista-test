@@ -1,15 +1,12 @@
-__author__ = 'John Underwood'
-
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
-from ui.high.expand_ribbon import ExpandRibbon
+__author__ = 'John Underwood'
 
 
 class EditEntity(UI):
     License()
     Checklist()
-    ExpandRibbon()
 
     runtime = {
         'editEntity': (
@@ -26,6 +23,7 @@ class EditEntity(UI):
         'city': ('Type', '#city', 'Lindon'),
         'state': ('Select', '#state', 'Utah'),
         'zipCode': ('Type', '#zip_code', '84042'),
+        'emailType': ('Select', '#email_correspondence_method_type_id', 'Other'),
         'save': ('Click', '#save-n-check'),
         # 'expectedError': ('Wait', '//*[@id="toast-container"]/div', 10),
         # 123 N Main St, Lindon, UT 84042
@@ -35,8 +33,9 @@ class EditEntity(UI):
     process = UI()
     process.update(runtime)
     order = ('editEntity', 'addressDescription', 'addressType',
-             'address', 'city', 'state', 'zipCode', 'save', )  # 'expectedError'
+             'address', 'city', 'state', 'zipCode', 'emailType',
+             'save', )  # 'expectedError'
     process.execute(order)
-    process.results(expected, 'toast-container', 5)
+    process.results(expected, 'toast-container', 10)
     process.wait(3)
     process.teardown()

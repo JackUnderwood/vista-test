@@ -2,7 +2,6 @@ import unittest
 
 import ui
 from ui import UI
-from ui.low.home import Home
 from ui.low.license import License
 from ui.high.checklist import Checklist
 
@@ -20,7 +19,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
     debug = 'all'  # use 'all'; or test individual case methods below
-    override = {'rowNum': '20'}
+    override = {'rowNum': '22'}
 
     def setUp(self):
         License()
@@ -167,7 +166,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
                 '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),
             'addExperience': ('Click', 'css=#experienceGrid_form>a.leaf.btn'),
             'findClient': ('Type', '#client_id_number_desc', 'acute family'),
-            'selectClient': ('Click', '#user_name'),  # Acute Family
+            'selectClient': ('Click', '//*[@item_id="315711"]'),  # Acute Family
             # #user_name
             'check': (
                 'Click',
@@ -199,12 +198,12 @@ class TestSuiteChecklistForms(unittest.TestCase):
         runtime = {
             'expand': ('Click', '//*[@id="ribbon_form"]/ul/li/div[1]'),
             'email': (
-                'Click', '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[3]'),
+                'Click', '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[3]'),
         }
         expected = "Email saved"
 
         self.process.update(runtime)
-        order = ('expand', 'email')
+        order = ('email', )
         self.process.execute(order)
         # Spy for the name in the drawers
         name = self.process.get('/html/body/main/div[2]/div[1]/h3', 'innerHTML')
@@ -217,7 +216,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
             'addEmail': ('Click', '//*[@id="emailGrid_form"]/a'),
             'emailAddress': ('Type', '#email_address', email),
             'emailType': ('Select', '#email_correspondence_method_type_id', 'Work'),
-            'save': ('Click', '//*[@id="editEmail_form"]/div[10]/a[1]')
+            'save': ('Click', '//*[@id="editEmail_form"]/div[9]/a[1]')
         }
         self.process.update(runtime)
         order = ('addEmail', 'emailAddress', 'emailType', 'save')

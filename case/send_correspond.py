@@ -1,7 +1,6 @@
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
-from ui.high.expand_ribbon import ExpandRibbon
 from ui.high.ribbon_corr import RibbonToCorrespondence
 from tool.db import get_record
 
@@ -22,7 +21,6 @@ class SendCorrespond(UI):
 
     License()
     Checklist()
-    ExpandRibbon()
     UI().wait(2)
     override = {  # select 'License renewal'
         'selectTemplate':

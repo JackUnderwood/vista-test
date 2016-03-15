@@ -1,9 +1,8 @@
-__author__ = 'John Underwood'
-
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
-from ui.high.expand_ribbon import ExpandRibbon
+
+__author__ = 'John Underwood'
 
 
 class AddEducationRibbon(UI):
@@ -11,7 +10,6 @@ class AddEducationRibbon(UI):
     """
     License()
     Checklist()
-    ExpandRibbon()
 
     runtime = {
         'education': (

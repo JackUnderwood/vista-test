@@ -444,6 +444,7 @@ class UI:
         :param attribute_name: attribute name, i.e. innerHTML, value, name, etc.
         :return: string - value
         """
+        locator = self.check_for_placeholder(locator)
         element = self.find_element(locator)
         return element.get_attribute(attribute_name)
 
