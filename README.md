@@ -1,2 +1,2 @@
 ## Vista Testing Framework (VTF)
-Version 1.010
+Version 1.011
