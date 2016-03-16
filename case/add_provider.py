@@ -12,7 +12,7 @@ class AddProvider(UI):
     """
     Checks for Default Phone inside Workspace
     """
-    state_iso_code = 'UT'
+    state_iso_code = 'CA'
     state = get_state_name(state_iso_code)
     ssn = gen_ssn()
     full = gen_name()
@@ -44,10 +44,10 @@ class AddProvider(UI):
         'addressDesc': ('Type', '#address_description', 'Home Office'),
         'addressType': (
             'Select', '#address_correspondence_method_type_id', 'Work'),
-        'address1': ('Type', 'css=input#address_1.address_1', '275 E 200 S'),
-        'city': ('Type', 'css=input#city.city', 'Salt Lake City'),
+        'address1': ('Type', 'css=input#address_1.address_1', '4972 Verdugo Way'),
+        'city': ('Type', 'css=input#city.city', 'Camarillo'),
         'state': ('Select', 'css=select#state.browser-default', state),
-        'zipcode': ('Type', 'css=input#zip_code.zip_code', '84111'),
+        'zipcode': ('Type', 'css=input#zip_code.zip_code', '93012'),
         'email': ('Type', '#email_address', email),
         'emailType': ('Select', '#email_correspondence_method_type_id', 'Work'),
         'phoneNumber': ('Type', '#phone', phone_number),
