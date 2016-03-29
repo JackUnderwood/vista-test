@@ -137,7 +137,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
         ui.log.info(">>> Inside function test_add_examination()")
         runtime = {          #
             'exam': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[3]'),
-            'addExam': ('Click', '//*[@id="examinationGrid_form"]/a[1]'),
+            'addExam': ('Click', '//*[@id="examinationGrid_form_inline"]/a[1]'),
             'checkPassed': (
                 'Click',
                 '//*[@id="examinationEdit_form"]/div[1]/div/label', ),
