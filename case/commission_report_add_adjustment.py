@@ -45,8 +45,8 @@ class ViewCommissionReport(UI):
     process.execute(order)
     process.wait(2)
 
-    primary_total = process.get(
-        '//*[@id="revenue-table"]/tbody[10]/tr[1]/td[9]', 'innerHTML')  # Commission Total
+    primary_total = process.get(  # Commission Total
+        '//*[@id="revenue-table"]/tbody[10]/tr[1]/td[9]', 'innerHTML')
     ui.log.info("PRIMARY {}".format(primary_total, ))
     primary_total = strip_alpha(primary_total)
     ui.log.info("PRIMARY NUMERIC {}".format(primary_total, ))
