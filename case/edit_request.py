@@ -9,7 +9,7 @@ class EditRequest(UI):
 
     runtime = {
         'showAll': ('Click', '//*[@id="checklist-form-container"]/div[1]/a'),
-        'editRequest': (
+        'editRequest': (  # clicks table's first row's Edit icon--pencil icon
             'Click',
             '//*[@id="licenseRequestsGrid_grid"]/tbody/tr[1]/td[16]/a[2]/i'),
         'licensor': ('Select', '#owner_id', 'Emily McGrath'),
