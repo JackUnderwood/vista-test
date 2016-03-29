@@ -1,7 +1,7 @@
-__author__ = 'John Underwood'
-
 from ui import UI
 from ui.low.my_workspace import MyWorkspace
+
+__author__ = 'John Underwood'
 
 
 class ViewWorkspace(UI):
