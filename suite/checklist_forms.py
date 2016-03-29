@@ -18,7 +18,7 @@ utamur inimicus mei."""
 class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
-    debug = 'all'  # use 'all'; or test individual case methods below
+    debug = 'education'  # use 'all'; or test individual case methods below
     override = {'rowNum': '22'}
 
     def setUp(self):
@@ -107,7 +107,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
                 'Click',
                 '//*[@id="content"]/div[2]/div[1]/ul/div/a[2]'
             ),
-            'addEducation': ('Click', '//*[@id="educationGrid_form"]/a[1]'),
+            'addEducation': ('Click', '//*[@id="educationGrid_form_inline"]/a[1]'),
             'findEducation': ('Type', '#education_entity_id_desc', 'utah'),
             'sEducation': ('Click', '#user_name'),
             'sDegree': ('Select', '#education_degree_id', 'Doctor of Medicine'),

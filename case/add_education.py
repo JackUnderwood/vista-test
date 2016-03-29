@@ -1,8 +1,8 @@
-__author__ = 'John Underwood'
-
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
+
+__author__ = 'John Underwood'
 
 
 class AddEducation(UI):
@@ -11,7 +11,7 @@ class AddEducation(UI):
 
     runtime = {
         'education': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[2]'),
-        'addEducation': ('Click', '//*[@id="educationGrid_form"]/a[1]'),
+        'addEducation': ('Click', '//*[@id="educationGrid_form_inline"]/a[1]'),
         'findEducation': ('Type', '#education_entity_id_desc', 'utah'),
         'selectEducation': ('Click', '#user_name'),
         'selectDegree': ('Select', '#education_degree_id', 'Doctor of Medicine'),
