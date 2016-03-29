@@ -18,8 +18,8 @@ utamur inimicus mei."""
 class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
-    debug = 'education'  # use 'all'; or test individual case methods below
-    override = {'rowNum': '22'}
+    debug = 'all'  # use 'all'; or test individual case methods below
+    override = {'rowNum': '24'}
 
     def setUp(self):
         License()
