@@ -12,7 +12,7 @@ class EditPhone(UI):
     runtime = {
         'phone': (
             'Click',
-            '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[4]/i',
+            '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[4]/i',
         ),
         'editPhone': (
             'Click',
