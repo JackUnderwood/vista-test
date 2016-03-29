@@ -33,4 +33,3 @@ class AddEducation(UI):
     process.results(expected)
     process.wait(3)
     process.teardown()
-

@@ -45,8 +45,10 @@ class TestSuiteChecklistForms(unittest.TestCase):
                 'Click',
                 '//*[@id="content"]/div[2]/div[1]/ul/div/a[4]'
             ),
-            'addCarrier': ('Click', '//*[@id="malpracticeGrid_form_inline"]/a[2]'),
-            'findInsuranceProvider': ('Type', '#insurance_provider_id_desc', 'ame'),
+            'addCarrier': (
+                'Click', '//*[@id="malpracticeGrid_form_inline"]/a[2]'),
+            'findInsuranceProvider': (
+                'Type', '#insurance_provider_id_desc', 'ame'),
             'selectInsuranceProvider': ('Click', '#167224'),  # Neurology
             'startDate': ('Type', '#start_date', '01072015'),
             'endDate': ('Type', '#end_date', '05182015'),
@@ -107,7 +109,8 @@ class TestSuiteChecklistForms(unittest.TestCase):
                 'Click',
                 '//*[@id="content"]/div[2]/div[1]/ul/div/a[2]'
             ),
-            'addEducation': ('Click', '//*[@id="educationGrid_form_inline"]/a[1]'),
+            'addEducation': (
+                'Click', '//*[@id="educationGrid_form_inline"]/a[1]'),
             'findEducation': ('Type', '#education_entity_id_desc', 'utah'),
             'sEducation': ('Click', '#user_name'),
             'sDegree': ('Select', '#education_degree_id', 'Doctor of Medicine'),
@@ -122,7 +125,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
         expected = "Education saved"
         self.process.update(runtime)
         order = ('education', 'addEducation', 'findEducation', 'sEducation',
-                 'sDegree', 'sType', 'startDate', 'endDate','director', 'honor',
+                 'sDegree', 'sType', 'startDate', 'endDate', 'director', 'honor',
                  'checkCv', 'save', )
         self.process.execute(order)
         result = self.process.results(expected, 'toast-container', 8)
@@ -198,7 +201,8 @@ class TestSuiteChecklistForms(unittest.TestCase):
         runtime = {
             'expand': ('Click', '//*[@id="ribbon_form"]/ul/li/div[1]'),
             'email': (
-                'Click', '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[3]'),
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[3]'),
         }
         expected = "Email saved"
 
@@ -215,7 +219,8 @@ class TestSuiteChecklistForms(unittest.TestCase):
         runtime = {
             'addEmail': ('Click', '//*[@id="emailGrid_form"]/a'),
             'emailAddress': ('Type', '#email_address', email),
-            'emailType': ('Select', '#email_correspondence_method_type_id', 'Work'),
+            'emailType': (
+                'Select', '#email_correspondence_method_type_id', 'Work'),
             'save': ('Click', '//*[@id="editEmail_form"]/div[9]/a[1]')
         }
         self.process.update(runtime)
