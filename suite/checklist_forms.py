@@ -45,7 +45,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
                 'Click',
                 '//*[@id="content"]/div[2]/div[1]/ul/div/a[4]'
             ),
-            'addCarrier': ('Click', '//*[@id="malpracticeGrid_form"]/a[2]'),
+            'addCarrier': ('Click', '//*[@id="malpracticeGrid_form_inline"]/a[2]'),
             'findInsuranceProvider': ('Type', '#insurance_provider_id_desc', 'ame'),
             'selectInsuranceProvider': ('Click', '#167224'),  # Neurology
             'startDate': ('Type', '#start_date', '01072015'),
@@ -73,7 +73,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
                 'Click',
                 '//*[@id="content"]/div[2]/div[1]/ul/div/a[4]'
             ),
-            'addClaim': ('Click', '//*[@id="malpracticeGrid_form"]/a[1]'),
+            'addClaim': ('Click', '//*[@id="malpracticeGrid_form_inline"]/a[1]'),
             'findInsuranceProvider': (
                 'Type',
                 '#insurance_provider_id_desc',
