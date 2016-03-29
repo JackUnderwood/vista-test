@@ -167,7 +167,8 @@ class TestSuiteChecklistForms(unittest.TestCase):
             'experience': (
                 'Click',
                 '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),
-            'addExperience': ('Click', 'css=#experienceGrid_form>a.leaf.btn'),
+            'addExperience': (
+                'Click', 'css=#experienceGrid_form_inline>a.leaf.btn'),
             'findClient': ('Type', '#client_id_number_desc', 'acute family'),
             'selectClient': ('Click', '//*[@item_id="315711"]'),  # Acute Family
             # #user_name

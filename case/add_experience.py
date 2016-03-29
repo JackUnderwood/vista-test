@@ -13,7 +13,7 @@ class AddExperience(UI):
     runtime = {
         'experience': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),
         # 'addExperience': ('Click', '//*[@id="experienceGrid_form"]/a[1]'),
-        'addExperience': ('Click', 'css=#experienceGrid_form>a.leaf.btn'),
+        'addExperience': ('Click', 'css=#experienceGrid_form_inline>a.leaf.btn'),
         'findClient': ('Type', '#client_id_number_desc', 'acute family'),
         'selectClient': ('Click', '//*[@item_id="315711"]'),  # Acute Family
         'check': ('Click', '//*[@id="ExperienceEdit_form"]/div[5]/div[2]/label'),
