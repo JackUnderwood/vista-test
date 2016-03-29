@@ -1,12 +1,15 @@
-__author__ = 'John Underwood'
-
 import ui
 from ui import UI
 from ui.low.sales_commission_report import SalesCommissionReport
 from tool.utilities import strip_alpha
 
+__author__ = 'John Underwood'
+
 
 class ViewCommissionReport(UI):
+    """
+    This case is not needed at this time.
+    """
     SalesCommissionReport()
     amount = 25000
 
