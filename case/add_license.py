@@ -1,8 +1,8 @@
-__author__ = 'John Underwood'
-
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
+
+__author__ = 'John Underwood'
 
 
 class AddLicense(UI):
@@ -10,15 +10,11 @@ class AddLicense(UI):
     Checklist()
 
     runtime = {
-        'expandRibbon': (
-            'Click',
-            '//*[@id="ribbon_form"]/ul/li[1]/div[1]/div/div[1]'
-        ),
         'licenseIcon': (
             'Click',
-            '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[2]/a[1]/span'
+            '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[2]/a[1]/span'
         ),
-        'newLicense': ('Click', '//*[@id="licenseGrid_form"]/a'),
+        'newLicense': ('Click', '//*[@id="licenseGrid_form"]/a[1]'),
         'licenseStanding': ('Select', '#license_standing', 'Good'),
         'selectState': ('Select', '#state_code_id', 'Oregon'),
         'credentialType': ('Select', '#credential_id', 'Medical Doctor'),
@@ -32,7 +28,7 @@ class AddLicense(UI):
     expected = "Licenses Updated"  # "Licenses Updated Comment Created"
     process = UI()
     process.update(runtime)
-    order = ('expandRibbon', 'licenseIcon', 'newLicense', 'licenseStanding',
+    order = ('licenseIcon', 'newLicense', 'licenseStanding',
              'selectState', 'credentialType', 'licenseType', 'dateGranted',
              'dateEffective', 'dateExpires', 'licenseNumber', 'save', )
     process.execute(order)
