@@ -1,15 +1,15 @@
-__author__ = 'John Underwood'
-
 from ui import UI
 from ui.low.license import License
+
+__author__ = 'John Underwood'
 
 
 class AddRequest(UI):
     runtime = {
-        'addRequest': ('Click', '//*[@id="licenseRequestsGrid_form"]/a'),
+        'addRequest': (
+            'Click', 'css=#licenseRequestsGrid_form>div.row>div.col.s9>a'),
         'findEntity': ('Type', '#entity_id_number_desc', 'Peter Bertolozzi'),
-        'selectEntity': ('Click', '#567754'),  # bertolozzi's unique id
-        'wait': ('Wait', 'user_name', 5),
+        'selectEntity': ('Click', '#user_name'),  # bertolozzi's unique id
         'findUser': ('Type', '#requester_id_desc', 'john underwood'),
         'selectUser': ('Click', '#1515'),
         'licensor': ('Select', '#owner_id', 'Crystal Liebl'),
@@ -32,7 +32,7 @@ class AddRequest(UI):
     License()
     process = UI()
     process.update(runtime)
-    order = ('addRequest', 'findEntity', 'selectEntity', 'wait', 'findUser',
+    order = ('addRequest', 'findEntity', 'selectEntity', 'findUser',
              'selectUser', 'licensor', 'stateOfLicense', 'credentialType',
              'licenseType', 'team', 'status', 'assignmentStatus', 'dateDesired',
              'notes', 'save', )
