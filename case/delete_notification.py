@@ -19,7 +19,7 @@ class DeleteNotification(UI):
         'cancelNotice': ('Click', '//*[@id="undefined"]/td[31]/i[2]'),
     }
 
-    expected = "Notification deleted"
+    expected = "Notification cancelled"
     process = UI()
     process.update(runtime)
     order = ('notify', 'present', 'cancelNotice', )

@@ -85,19 +85,21 @@ class TestSuiteFileTool(unittest.TestCase):
 
         runtime = {
             'edit': ('Click', '#edit'),
-            'next': ('Click', '//*[@id="toolPanelContainer"]/div[2]/div[7]/a[2]'),
+            'next': (
+                'Click', '//*[@id="toolPanelContainer"]/div[2]/div[7]/a[2]'),
             'selectPage1': (
                 'Click',
                 '//*[@id="toolPanelContainer"]/div[2]/div[4]/div[2]/div[2]'),
             'subcategory': ('Select', '#editCategory', 'Provider Licensing'),
             'filename': ('Type', '#editFilename', 'qa_automation.pdf'),
-            'create': ('Click', '//*[@id="toolPanelContainer"]/div[2]/div[7]/a[3]')
+            'create': (
+                'Click', '//*[@id="toolPanelContainer"]/div[2]/div[7]/a[3]')
             # TODO: auto generate file names
         }
         expected = "Files successfully edited"
         self.process.update(runtime)
-        order = ('edit', 'next', 'selectPage1', 'next', 'subcategory', 'filename',
-                 'next', 'create')
+        order = ('edit', 'next', 'selectPage1', 'next', 'subcategory',
+                 'filename', 'next', 'create')
         self.process.execute(order)
         self.process.wait(1)
         result = self.process.results(expected)
@@ -122,7 +124,8 @@ class TestSuiteFileTool(unittest.TestCase):
         ui.log.info(">>> Inside function test_file_reactivate()")
 
         runtime = {
-            'active': ('Click', 'css=#vsubnav>div>div.fileActiveContainer>label'),
+            'active': (
+                'Click', 'css=#vsubnav>div>div.fileActiveContainer>label'),
             'delete': ('Click', '#delete'),
             'activate': ('Click', '//*[@button="delete"]'),
         }

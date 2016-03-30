@@ -1,12 +1,15 @@
-__author__ = 'John Underwood'
-
 import ui
 from ui import UI
 from ui.low.sales_commission_report import SalesCommissionReport
 from tool.utilities import strip_alpha
 
+__author__ = 'John Underwood'
+
 
 class ViewCommissionReport(UI):
+    """
+    This case is not needed at this time.
+    """
     SalesCommissionReport()
     amount = 25000
 
@@ -42,8 +45,8 @@ class ViewCommissionReport(UI):
     process.execute(order)
     process.wait(2)
 
-    primary_total = process.get(
-        '//*[@id="revenue-table"]/tbody[10]/tr[1]/td[9]', 'innerHTML')  # Commission Total
+    primary_total = process.get(  # Commission Total
+        '//*[@id="revenue-table"]/tbody[10]/tr[1]/td[9]', 'innerHTML')
     ui.log.info("PRIMARY {}".format(primary_total, ))
     primary_total = strip_alpha(primary_total)
     ui.log.info("PRIMARY NUMERIC {}".format(primary_total, ))

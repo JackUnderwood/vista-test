@@ -17,7 +17,7 @@ class AddEntity(UI):
 
     runtime = {
         'experience': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),
-        'addExperience': ('Click', '//*[@id="experienceGrid_form"]/a[1]'),
+        'addExperience': ('Click', '//*[@id="experienceGrid_form_inline"]/a[1]'),
         'addEntity': ('Click', '//*[@id="ExperienceEdit_form"]/div[1]/div/a'),
         'name': ('Type', '#entity_name', name),
         'status': ('Select', '#entity_status', 'Possible'),

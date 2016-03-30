@@ -10,7 +10,7 @@ class RibbonToCorrespondence(UI):
         runtime = {
             'correspondIcon': (
                 'Click',
-                '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[1]/a[1]/i'
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[1]/i'
             ),
             'selectTemplate': (  # override
                 'Click',

@@ -11,7 +11,7 @@ class EditEntity(UI):
     runtime = {
         'editEntity': (
             'Click',
-            '//*[@id="ribbon_form"]/ul/li[1]/div[2]/div[1]/div[6]/a[1]'
+            '//*[@id="ribbon_form"]/ul/li/div[3]/div[1]/div[6]/a[1]'
         ),
         'addressDescription': ('Type', '#address_description', 'Business'),
         'addressType': (

@@ -1,7 +1,7 @@
-__author__ = 'John Underwood'
-
 from ui import UI
 from ui.low.license import License
+
+__author__ = 'John Underwood'
 
 
 class EditRequest(UI):
@@ -9,7 +9,7 @@ class EditRequest(UI):
 
     runtime = {
         'showAll': ('Click', '//*[@id="checklist-form-container"]/div[1]/a'),
-        'editRequest': (
+        'editRequest': (  # clicks table's first row's Edit icon--pencil icon
             'Click',
             '//*[@id="licenseRequestsGrid_grid"]/tbody/tr[1]/td[16]/a[2]/i'),
         'licensor': ('Select', '#owner_id', 'Emily McGrath'),
@@ -21,7 +21,8 @@ class EditRequest(UI):
     expected = "Saved Request"
     process = UI()
     process.update(runtime)
-    order = ('showAll', 'editRequest', 'licensor', 'dateDesired', 'dateReceived', 'notes', 'save', )
+    order = ('showAll', 'editRequest', 'licensor', 'dateDesired', 'dateReceived',
+             'notes', 'save', )
     process.execute(order)
     process.results(expected, 'toast-container', 8)
     process.wait(3)

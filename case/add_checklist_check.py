@@ -1,7 +1,7 @@
-__author__ = 'John Underwood'
-
 from ui.low.license import UI, License
 from ui.high.checklist import Checklist
+
+__author__ = 'John Underwood'
 
 
 class AddChecklistCheck(UI):

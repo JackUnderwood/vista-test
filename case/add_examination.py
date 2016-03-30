@@ -1,8 +1,8 @@
-__author__ = 'John Underwood'
-
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
+
+__author__ = 'John Underwood'
 
 
 class AddExamination(UI):
@@ -11,7 +11,7 @@ class AddExamination(UI):
 
     runtime = {
         'exam': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[3]'),
-        'addExam': ('Click', '//*[@id="examinationGrid_form"]/a[1]'),
+        'addExam': ('Click', '//*[@id="examinationGrid_form_inline"]/a[1]'),
         'checkPassed': ('Click', '//label[@for="passed"]', ),
         # Comprehensive Osteopathic Medical Achievement Test (COMAT)
         'selectExamination': ('Select', '#examination_id', 'COMAT'),

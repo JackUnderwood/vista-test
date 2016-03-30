@@ -14,8 +14,8 @@ class AddEducationRibbon(UI):
     runtime = {
         'education': (
             'Click',
-            '//*[@id="ribbon_form"]/ul/li/div[2]/div[4]/div[2]/a[5]/span'),
-        'addEducation': ('Click', '//*[@id="educationGrid_form"]/a[1]'),
+            '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[2]/a[5]/span'),
+        'addEducation': ('Click', '//*[@id="educationGrid_form_drawer"]/a[1]'),
         'findEducation': ('Type', '#education_entity_id_desc', 'Tulane'),
         'selectEducation': ('Click', '#user_name'),
         'useEducationCv': ('Click', '//label[@for="use_on_cv"]'),

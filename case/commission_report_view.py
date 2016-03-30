@@ -1,10 +1,13 @@
-__author__ = 'John Underwood'
-
 from ui import UI
 from ui.low.sales_commission_report import SalesCommissionReport
 
+__author__ = 'John Underwood'
+
 
 class ViewCommissionReport(UI):
+    """
+    This case is not needed at this time.
+    """
     SalesCommissionReport()
 
     runtime = {

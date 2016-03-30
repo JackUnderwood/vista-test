@@ -1,8 +1,8 @@
-__author__ = 'John Underwood'
-
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
+
+__author__ = 'John Underwood'
 
 NOTES = """Id vix minimum philosophia, pri clita lobortis inimicus ex. Qui
 decore nusquam id. Eum modo electram deseruisse no, eos at clita menandri.
@@ -19,7 +19,7 @@ class AddClaim(UI):
 
     runtime = {
         'malpractice': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[4]'),
-        'addClaim': ('Click', '//*[@id="malpracticeGrid_form"]/a[1]'),
+        'addClaim': ('Click', '//*[@id="malpracticeGrid_form_inline"]/a[1]'),
         'findInsuranceProvider': ('Type', '#insurance_provider_id_desc', 'ame'),
         'selectInsuranceProvider': ('Click', '#62963'),  # Orthopaedic Surgeons
         'status': ('Select', '#claim_status_id', 'Open'),
