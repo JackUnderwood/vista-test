@@ -1,8 +1,8 @@
-__author__ = 'John Underwood'
-
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
+
+__author__ = 'John Underwood'
 
 NOTES = """Id vix minimum philosophia, pri clita lobortis inimicus ex. Qui
 decore nusquam id. Eum modo electram deseruisse no, eos at clita menandri.

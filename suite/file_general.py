@@ -48,4 +48,3 @@ class TestSuiteFileGeneral(unittest.TestCase):
         self.process.execute(('myfile', ))
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
-
