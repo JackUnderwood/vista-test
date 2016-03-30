@@ -1,10 +1,10 @@
-__author__ = 'John Underwood'
-
 import ui
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
-from tool.generators.generator import gen_email, split_name
+from tool.generators.generator import gen_email
+
+__author__ = 'John Underwood'
 
 
 class AddEmail(UI):

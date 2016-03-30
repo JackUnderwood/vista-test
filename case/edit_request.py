@@ -1,7 +1,7 @@
-__author__ = 'John Underwood'
-
 from ui import UI
 from ui.low.license import License
+
+__author__ = 'John Underwood'
 
 
 class EditRequest(UI):
@@ -21,7 +21,8 @@ class EditRequest(UI):
     expected = "Saved Request"
     process = UI()
     process.update(runtime)
-    order = ('showAll', 'editRequest', 'licensor', 'dateDesired', 'dateReceived', 'notes', 'save', )
+    order = ('showAll', 'editRequest', 'licensor', 'dateDesired', 'dateReceived',
+             'notes', 'save', )
     process.execute(order)
     process.results(expected, 'toast-container', 8)
     process.wait(3)

@@ -44,7 +44,8 @@ class AddProvider(UI):
         'addressDesc': ('Type', '#address_description', 'Home Office'),
         'addressType': (
             'Select', '#address_correspondence_method_type_id', 'Work'),
-        'address1': ('Type', 'css=input#address_1.address_1', '4972 Verdugo Way'),
+        'address1': (
+            'Type', 'css=input#address_1.address_1', '4972 Verdugo Way'),
         'city': ('Type', 'css=input#city.city', 'Camarillo'),
         'state': ('Select', 'css=select#state.browser-default', state),
         'zipcode': ('Type', 'css=input#zip_code.zip_code', '93012'),
@@ -82,4 +83,3 @@ class AddProvider(UI):
         process.results(expected, 'ribbon_form', 5)
 
     process.teardown()
-
