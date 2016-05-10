@@ -6,7 +6,7 @@ __author__ = 'John Underwood'
 
 class AddChecklistNote(UI):
     License()
-    Checklist(override={'rowNum': '10'})
+    Checklist(override={'rowNum': '15'})
     runtime = {
         'checklist': (
             'Click',
@@ -15,12 +15,13 @@ class AddChecklistNote(UI):
             'Type',
             '//*[@id="checklist-form-container"]/div[3]/div[2]/input',
             'Some important note from automation'),
-        'save': ('Click', '//*[@id="checklist-form-container"]/div[3]/div[6]/a')
+        'save': ('Click', '//*[@id="checklist-form-container"]/div[3]/div[6]/a'),
+        'wait': ('Wait', '#scratch-pad', '5')
     }
     expected = 'Saved'
     process = UI()
     process.update(runtime)
-    order = ('checklist', 'note', 'save')
+    order = ('checklist', 'wait', 'note', 'save')
     process.execute(order)
     process.results(expected)
     process.wait(3)
