@@ -14,14 +14,15 @@ class AddChecklistFee(UI):
             'Type',
             '//*[@id="checklist-form-container"]/div[3]/div[3]/input',
             '&feeAmount;'),
-        'save': ('Click', '//*[@id="checklist-form-container"]/div[3]/div[6]/a')
+        'save': ('Click', '//*[@id="checklist-form-container"]/div[3]/div[6]/a'),
+        'wait': ('Wait', '#scratch-pad', '5')
     }
     expected = 'Saved'
     License()
-    Checklist(override={'rowNum': '10'})
+    Checklist(override={'rowNum': '15'})
     process = UI()
     process.update(runtime)
-    order = ('checklist', 'fee', 'save')
+    order = ('checklist', 'wait', 'fee', 'save')
     process.execute(order)
     process.results(expected)
     process.wait(3)

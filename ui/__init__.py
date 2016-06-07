@@ -289,18 +289,22 @@ class UI:
         """
         Waits for elements with the id attribute; id only
         :param elem_id: a string that holds the element's id
-        :param wait_time: wait time in seconds
+        :param wait_time: int - wait time in seconds
         :return: None
         Note: https://blog.mozilla.org/webqa/2012/07/12/how-to-webdriverwait/
         """
+        wait_time = int(wait_time)  # will throw error if contains alpha chars
+        _id = elem_id
+        if elem_id[0:1] == "#":
+            _id = elem_id[1:]  # remove the hash sign
         log.info("Wait Command - wait for id=\"{0}\"".format(elem_id))
         from selenium.webdriver.support import expected_conditions as ec
         from selenium.webdriver.support.ui import WebDriverWait
         from selenium.webdriver.common.by import By
         try:
             WebDriverWait(self.driver, wait_time).until(
-                ec.presence_of_element_located((By.ID, elem_id)),
-                "elem_id: {} - wait_time: {}".format(elem_id, wait_time,))
+                ec.presence_of_element_located((By.ID, _id)),
+                "elem_id: {} - wait_time: {}".format(_id, wait_time,))
         finally:
             pass
 
