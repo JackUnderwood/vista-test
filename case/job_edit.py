@@ -13,13 +13,13 @@ class JobEdit(UI):
         'text': "Some text",
         'subtitle': ('Type', '#job_board_subtitle', 'Get Started Right Away'),
         'template': ('Select', '#template', 'Marketing Tab'),
-        'description': ('Type', '#job_board_description', '&text;'),
+        'description': ('Type', '.cke_wysiwyg_frame', '&text;'),
     }
-    expected = "Claim saved"
+    # expected = "<REQUIRED>"
     process = UI()
     process.update(runtime)
     order = ('subtitle', 'template', 'description', )
     process.execute(order)
-    process.results(expected)
+    # process.results(expected)
     process.wait(3)
     process.teardown()
