@@ -422,7 +422,6 @@ class UI:
         :return: Boolean
         """
         if replacer.find('&') is -1:
-            log.debug("!!! Missing the '&' symbol")
             return False
         sub = replacer[replacer.find('&')+1:]
         if sub.find(';') is -1:
