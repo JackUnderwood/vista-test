@@ -403,7 +403,7 @@ class UI:
         """
         if not isinstance(replacer, str):
             return replacer
-        while replacer.find('&') is not -1:
+        while self.test_for_symbols(replacer):
             # Look for placeholder key
             log.debug("------ ELEMENT: {}".format(replacer,))
             key = replacer[replacer.find('&') + 1: replacer.find(';')]
@@ -413,6 +413,21 @@ class UI:
                     '&{};'.format(key,), self.runtime[key])
                 log.debug("-- NEW ELEMENT: {}".format(replacer, ))
         return replacer
+
+    def test_for_symbols(self, replacer):
+        """
+        Test the string for the placeholder, which should be in the
+        format: &placeholder;
+        :param replacer: string
+        :return: Boolean
+        """
+        if replacer.find('&') is -1:
+            return False
+        sub = replacer[replacer.find('&')+1:]
+        if sub.find(';') is -1:
+            log.debug("!!! Missing the ';' symbol")
+            return False
+        return True
 
     def results(self, expected, elem_id=None, wait_time=5, negative=False):
         """
