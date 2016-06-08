@@ -13,7 +13,7 @@ class JobEdit(UI):
         'text': "Some text",
         'subtitle': ('Type', '#job_board_subtitle', 'Get Started Right Away'),
         'template': ('Select', '#template', 'Marketing Tab'),
-        'description': ('Type', '#job_board_subtitle', '&text;'),
+        'description': ('Type', '#job_board_description', '&text;'),
     }
     expected = "Claim saved"
     process = UI()
