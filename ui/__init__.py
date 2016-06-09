@@ -109,6 +109,8 @@ class UI:
             self.click(locator)
         elif command == "Type":
             self.type(locator, value)
+        elif command == "TypeInCkeditor":
+            self.type_in_ckeditor(locator, value)
         elif command == "TypeAndTab":
             self.type_tab(locator, value)
         elif command == "Find":
@@ -135,7 +137,7 @@ class UI:
         element = self.find_element(locator)
         element.click()
 
-    def type(self, locator, value, char='$'):
+    def type(self, locator, value, char='$', **kwargs):
         """
         Do action of type (typewrite) in a value
         :param locator: element location in DOM
@@ -165,6 +167,42 @@ class UI:
             log.warning("Element is not user-editable; unable to clear()")
 
         element.send_keys(value)
+
+    def type_in_ckeditor(self, locator, value):
+        """
+        Do action of type (typewrite) in a value inside the ckeditor
+        :param locator: element location in DOM
+        :param value: string - value to type into the element
+        :param char: string - special char that may not clear()
+        :return: void
+        """
+        # Remove large string input for simpler logging.
+        from selenium.webdriver.common.action_chains import ActionChains
+        from selenium.webdriver.common.keys import Keys
+        temp = value
+        if len(value) > self.max_size and self.max_size is not 0:
+            ellipsis = "..."
+            temp = value[:self.max_size-len(ellipsis)].rstrip() + ellipsis
+        log.info("Type Command - PATH: {0} - VALUE: \'{1}\'".
+                 format(locator, temp))
+        self.check_for_new_window()
+        element = self.find_element(locator)
+
+        self.driver.switch_to.frame(element)  # switch to inside the iframe
+        ck_editor_body = self.driver.find_element_by_tag_name('body')
+        try:
+            # Clear out any data inside the editor
+            actions = ActionChains(self.driver)
+            actions.click(ck_editor_body).key_down(Keys.CONTROL).send_keys(
+                "a").key_up(Keys.CONTROL).perform()
+            actions.send_keys(Keys.BACKSPACE).perform()
+        except InvalidElementStateException:
+            """invalid element state: Element must be user-editable in
+            order to clear it."""
+            log.warning("Element is not user-editable; unable to clear()")
+
+        ck_editor_body.send_keys(value)
+        self.driver.switch_to.default_content()  # get out of the iframe
 
     def type_tab(self, locator, value):
         """ MAY NOT NEED THIS FUNCTION JNU!!!

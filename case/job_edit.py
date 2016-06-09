@@ -11,17 +11,18 @@ class JobEdit(UI):
 
     runtime = {
         'subtitleText': "Get Started Right Away",
-        'text': "Some text",
+        'descText': "Some text",
         'subtitle': ('Type', '#job_board_subtitle', '&subtitleText;'),
         'template': ('Select', '#template', 'Marketing Tab'),
-        'description': ('Type', '.cke_wysiwyg_frame', '&text;'),
+        'description': ('TypeInCkeditor', '.cke_wysiwyg_frame', '&descText;'),
     }
     expected = runtime['subtitleText']
     process = UI()
     process.update(runtime)
     order = ('subtitle', 'template', 'description', )
     process.execute(order)
-    actual = process.get('css=#content>div>div:nth-child(2)>div>p.subtitle')
+    actual = process.get(
+        'css=#content>div>div:nth-child(2)>div>p.subtitle', 'innerHTML')
     process.compare(expected, actual)
     process.wait(1)
     process.teardown()

@@ -17,18 +17,22 @@ driver.implicitly_wait(5)
 
 driver.get(
     'http://indytest/jobs/edit?job_number=12345')
+# Type a string inside the editor
 driver.switch_to.frame(driver.find_element_by_class_name('cke_wysiwyg_frame'))
 ck_editor_body = driver.find_element_by_tag_name('body')
 ck_editor_body.send_keys("<h1>Heading</h1>Yi Zeng")
 
-# from selenium.webdriver.common.action_chains import ActionChains
-# from selenium.webdriver.common.keys import Keys
-# actions = ActionChains(driver)
-# actions.click(ck_editor_body).key_down(Keys.CONTROL).send_keys("a").key_up(Keys.CONTROL).perform()
-
+# Get the value inside the editor
 element = driver.find_element_by_tag_name('body')
 value = element.get_attribute("innerHTML")
 print("TITLE VALUE: {}".format(value, ))
+
+# Remove the value inside the editor
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
+actions = ActionChains(driver)
+actions.click(ck_editor_body).key_down(Keys.CONTROL).send_keys("a").key_up(Keys.CONTROL).perform()
+actions.send_keys(Keys.BACKSPACE).perform()
 
 time.sleep(8)  # Let the user actually see something!
 driver.quit()
