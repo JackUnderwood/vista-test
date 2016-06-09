@@ -14,7 +14,7 @@ class JobEdit(UI):
         'text': "Some text",
         'subtitle': ('Type', '#job_board_subtitle', '&subtitleText;'),
         'template': ('Select', '#template', 'Marketing Tab'),
-        'description': ('Type', '.cke_wysiwyg_frame', '&text;'),
+        'description': ('TypeInCkeditor', '.cke_wysiwyg_frame', '&text;'),
     }
     expected = runtime['subtitleText']
     process = UI()
