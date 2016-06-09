@@ -202,6 +202,7 @@ class UI:
             log.warning("Element is not user-editable; unable to clear()")
 
         ck_editor_body.send_keys(value)
+        self.driver.switch_to.default_content()  # get out of the iframe
 
     def type_tab(self, locator, value):
         """ MAY NOT NEED THIS FUNCTION JNU!!!
