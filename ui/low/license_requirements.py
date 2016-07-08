@@ -15,13 +15,21 @@ class LicenseRequirements(UI):
         log.info("License Requirements __init__() called")
         runtime = {
             'level': '6',
-            'license': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i',),
-            'requirements': (
-                'Click',
-                '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[4]/a', ),
+            'requirements': ("Chain", [
+                ('move_to_element', {
+                    'to_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
+                ('click', {
+                    'on_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
+                ('click', {
+                    'on_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[4]/a'}
+                 ),
+            ]),
         }
         process = UI(override)
         process.update(runtime)
-        order = ('license', 'requirements', )
+        order = ('requirements', )
         process.execute(order)
 

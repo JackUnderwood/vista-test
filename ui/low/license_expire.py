@@ -14,13 +14,21 @@ class LicenseExpire(UI):
         log.info("Expiring License __init__() called")
         runtime = {
             'level': '6',
-            'license': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i',),
-            'expiring': (
-                'Click',
-                '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[3]/a', ),
+            'expire': ("Chain", [
+                ('move_to_element', {
+                    'to_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
+                ('click', {
+                    'on_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
+                ('click', {
+                    'on_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[3]/a'}
+                 ),
+            ]),
         }
         process = UI(override)
         process.update(runtime)
-        order = ('license', 'expiring', )
+        order = ('expire', )
         process.execute(order)
 
