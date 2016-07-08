@@ -19,7 +19,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
     debug = 'all'  # use 'all'; or test individual case methods below
-    override = {'rowNum': '24'}
+    override = {'rowNum': '2'}
 
     def setUp(self):
         License()
