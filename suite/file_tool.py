@@ -11,6 +11,7 @@ __author__ = 'John Underwood'
 class TestSuiteFileTool(unittest.TestCase):
     ui.log.info(">>> Inside TestSuiteFileTool class")
     process = UI()
+    debug = 'reassign'  # use 'all'; or test individual case methods below
     override = {'cat': '3', }  # Correspondence category
 
     def setUp(self):
@@ -25,6 +26,8 @@ class TestSuiteFileTool(unittest.TestCase):
         UI().teardown()
 
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
+    @unittest.skipUnless(debug is 'rename' or debug is 'all',
+                         "testing {}".format(debug,))
     def test_file_rename(self):
         ui.log.info(">>> Inside function test_file_rename()")
         runtime = {
@@ -38,29 +41,40 @@ class TestSuiteFileTool(unittest.TestCase):
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
+    @unittest.skipUnless(debug is 'reassign' or debug is 'all',
+                         "testing {}".format(debug,))
     def test_file_reassign(self):
         ui.log.info(">>> Inside function test_file_reassign()")
 
         runtime = {
             'reassign': ('Click', '#reassign'),
+            'selectType': (
+                'Click',
+                'css=#reassignSearchContainer>div>div.find-form>'
+                'i.vistatt.search-type.fa.fa-user.active'),
+            'select': ('Click', 'css=#reassignSearchContainer>div>'
+                                'div.find-form>div>a:nth-child(3)'),
             'inputProvider': (
                 'Type',
-                '#reassigneSearchDescription',
+                '#reassignSearchDescription',
                 'lambert matt st:wv'),
             'selectProvider': ('Click', '//*[@item_id="91273"]'),
             'subcategory': ('Select', '#reassignCategory', 'Certifications'),
             'copy': ('Click', '#reassignCopy')
         }
-        expected = "File move successful"
+        expected = "File copied successfully"
         self.process.update(runtime)
-        order = ('reassign', 'inputProvider', 'selectProvider',
-                 'subcategory', 'copy')
+        order = ('reassign', 'selectType', 'select', 'inputProvider',
+                 'selectProvider', 'subcategory', 'copy')
         self.process.execute(order)
-        self.process.results(expected)
+        self.process.wait(3)
+        self.process.results(expected, 'toast-container')
 
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
+    @unittest.skipUnless(debug is 'rotate' or debug is 'all',
+                         "testing {}".format(debug,))
     def test_file_rotate(self):
         ui.log.info(">>> Inside function test_file_rotate()")
 
@@ -80,6 +94,8 @@ class TestSuiteFileTool(unittest.TestCase):
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
+    @unittest.skipUnless(debug is 'edit' or debug is 'all',
+                         "testing {}".format(debug,))
     def test_file_edit(self):
         ui.log.info(">>> Inside function test_file_edit() - splice the file")
 
@@ -105,6 +121,8 @@ class TestSuiteFileTool(unittest.TestCase):
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
+    @unittest.skipUnless(debug is 'deactivate' or debug is 'all',
+                         "testing {}".format(debug,))
     def test_file_deactivate(self):
         ui.log.info(">>> Inside function test_file_deactivate()")
 
@@ -120,6 +138,8 @@ class TestSuiteFileTool(unittest.TestCase):
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
+    @unittest.skipUnless(debug is 'reactivate' or debug is 'all',
+                         "testing {}".format(debug,))
     def test_file_reactivate(self):
         ui.log.info(">>> Inside function test_file_reactivate()")
 
