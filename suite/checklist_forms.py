@@ -166,7 +166,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
         runtime = {
             'experience': (
                 'Click',
-                '//*[@id="content"]/div[2]/div[1]/ul/li[2]/a)'),
+                'css=#content>div.row>div.col.s3>ul>li:nth-child(2)>a'),
             'addExperience': (
                 'Click', 'css=#experienceGrid_form_inline>a.leaf.btn'),
             'findClient': ('Type', '#client_id_number_desc', 'acute family'),
