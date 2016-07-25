@@ -6,7 +6,7 @@ __author__ = 'John Underwood'
 
 class AddChecklistCheck(UI):
     License()
-    Checklist(override={'rowNum': '10'})
+    Checklist(override={'rowNum': '1'})
     runtime = {
         'checklist': (
             'Click',
