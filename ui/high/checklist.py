@@ -16,8 +16,11 @@ class Checklist(UI):
         super().__init__()
 
         runtime = {
-            'showAll': ('Click', '//*[@id="checklist-form-container"]/div[1]/a'),
             'rowNum': '1',
+            'showAll': ("Chain", [
+                ('click', {
+                    'on_element':
+                        '//*[@id="checklist-form-container"]/div[1]/a'})]),
             'provider': (
                 'Click',
                 '//*[@id="licenseRequestsGrid_grid"]/tbody/tr[&rowNum;]/td[4]/a',
