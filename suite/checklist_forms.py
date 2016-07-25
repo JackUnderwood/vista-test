@@ -19,7 +19,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
     debug = 'all'  # use 'all'; or test individual case methods below
-    override = {'rowNum': '2'}
+    override = {'rowNum': '3'}
 
     def setUp(self):
         License()
@@ -43,7 +43,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
         runtime = {
             'malpractice': (
                 'Click',
-                '//*[@id="content"]/div[2]/div[1]/ul/div/a[4]'
+                '//*[@id="content"]/div[2]/div[1]/ul/li[5]/a'
             ),
             'addCarrier': (
                 'Click', '//*[@id="malpracticeGrid_form_inline"]/a[2]'),
@@ -73,7 +73,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
         runtime = {
             'malpractice': (
                 'Click',
-                '//*[@id="content"]/div[2]/div[1]/ul/div/a[4]'
+                '//*[@id="content"]/div[2]/div[1]/ul/li[5]/a'
             ),
             'addClaim': ('Click', '//*[@id="malpracticeGrid_form_inline"]/a[1]'),
             'findInsuranceProvider': (
@@ -107,7 +107,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
         runtime = {
             'education': (
                 'Click',
-                '//*[@id="content"]/div[2]/div[1]/ul/div/a[2]'
+                '//*[@id="content"]/div[2]/div[1]/ul/li[3]/a'
             ),
             'addEducation': (
                 'Click', '//*[@id="educationGrid_form_inline"]/a[1]'),
@@ -136,7 +136,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     def test_add_examination(self):
         ui.log.info(">>> Inside function test_add_examination()")
         runtime = {          #
-            'exam': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[3]'),
+            'exam': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/li[4]/a'),
             'addExam': ('Click', '//*[@id="examinationGrid_form_inline"]/a[1]'),
             'checkPassed': (
                 'Click',
@@ -166,7 +166,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
         runtime = {
             'experience': (
                 'Click',
-                '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),
+                '//*[@id="content"]/div[2]/div[1]/ul/li[2]/a)'),
             'addExperience': (
                 'Click', 'css=#experienceGrid_form_inline>a.leaf.btn'),
             'findClient': ('Type', '#client_id_number_desc', 'acute family'),
