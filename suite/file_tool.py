@@ -62,15 +62,12 @@ class TestSuiteFileTool(unittest.TestCase):
             'subcategory': ('Select', '#reassignCategory', 'Certifications'),
             'copy': ('Click', '#reassignCopy')
         }
-        expected = "File copied successfully"
+        expected = "File copied successfully."
         self.process.update(runtime)
         order = ('reassign', 'selectType', 'select', 'inputProvider',
                  'selectProvider', 'subcategory', 'copy')
         self.process.execute(order)
-        self.process.wait(3)
-        self.process.results(expected, 'toast-container')
-
-        result = self.process.results(expected)
+        result = self.process.results(expected, 'toast-container')
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'rotate' or debug is 'all',
