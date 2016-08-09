@@ -25,6 +25,11 @@ class BvtBasic(unittest.TestCase):
         UI().teardown()
 
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
+    # TODO - add Manage Entities | Transfer Follow Up Logs
+    # TODO - add Manage Entities | Comments
+    # TODO - add Jobs Management | Manage Job Posts
+    # TODO - add Jobs Management | Job Board Validation Lookup
+    # TODO - add Jobs Management | Job Description Template Creator
     @unittest.skipUnless(
         debug is 'workspace' or debug is 'all', "testing {}".format(debug,))
     def test_workspace(self):
