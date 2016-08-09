@@ -40,7 +40,8 @@ log = VLog(name="vtf", log_name="UI")
 
 class UI:
     chrome_options = Options()
-    chrome_options.add_argument("--start-maximized")
+    # chrome_options.add_argument("--start-maximized")
+    chrome_options.add_argument("window-size=1280,1024")
     # TODO: disable hardware acceleration setting - this doesn't work
     chrome_options.add_argument("--disable-gpu")
     # This option takes care of a known issue in the browser, where the
