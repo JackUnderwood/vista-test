@@ -6,14 +6,15 @@ __author__ = 'John Underwood'
 
 
 class RequirementInactive(UI):
-    """
+    """ Under construction
     Regression test for story #113028615
     """
     License()
     Checklist()
 
     runtime = {
-        'checklist': ('Click', 'css=#content>div.row>div.col.s3>ul>div>div>a'),
+        'checklist': ('Click', 'css=#content>div.row>div.col.s3>ul>'
+                               'li:nth-child(7)>a'),
         'manage': (
             'Click',
             '//*[@id="checklist-form-container"]/div[3]/div[5]/a/i'),
@@ -34,7 +35,10 @@ class RequirementInactive(UI):
         '//*[@id="checklist-form-container"]/div[3]/div[1]/label',
         'innerHTML', ).strip()
     # Set the first Requirement to Inactive
-    order = ('manage', 'active', 'save', )
+    order = ('manage', )
+    process.execute(order)
+    process.wait(2)  # need time to display the requirement listing
+    order = ('active', 'save', )
     process.execute(order)
     # Comparison should NOT match
     # Add a new Requirement
