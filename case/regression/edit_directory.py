@@ -26,7 +26,10 @@ class EditDirectory(UI):
     expected = "User Configuration Saved!"
     process = UI()
     process.update(runtime)
-    order = ('directory', 'username', 'edit', 'birthday', 'save', )
+    order = ('directory', 'username', 'edit', )
+    process.execute(order)
+    process.wait(4)
+    order = ('birthday', 'save', )
     process.execute(order)
     process.wait(1)
     process.results(expected)
