@@ -8,24 +8,26 @@ class Check(UI):
     Change the class call below.
     """
     process = UI()
+    from ui.low.transfer_ful import TransferFollowUpLogs
+    TransferFollowUpLogs()
 
-    from ui.low.license import License
-    from ui.high.checklist import Checklist
-    from tool.db import get_record
+    # from ui.low.license import License
+    # from ui.high.checklist import Checklist
+    # from tool.db import get_record
 
-    License()
+    # License()
     # cl = Checklist()
     # print("ENTITY: {}".format(cl.entity))
 
     # Test the new db module *^*^*^*^*^*
-    sql = """
-        SELECT *
-        FROM name_list nl
-        WHERE nl.entity_id_number = 778785
-    """
-    results = get_record(sql)
-    for row in results:
-        print("ID={}, Name={}, First={}".format(row[0], row[1], row[2]))
+    # sql = """
+    #     SELECT *
+    #     FROM name_list nl
+    #     WHERE nl.entity_id_number = 778785
+    # """
+    # results = get_record(sql)
+    # for row in results:
+    #     print("ID={}, Name={}, First={}".format(row[0], row[1], row[2]))
 
     # from ui.low.user_secret import UserSecret
     # UserSecret()
