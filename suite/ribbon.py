@@ -35,6 +35,7 @@ class TestSuiteRibbon(unittest.TestCase):
         UI().teardown()
 
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
+    # TODO fix this broken suite of test cases
     @unittest.skipUnless(debug is 'entity' or debug is 'all',
                          "testing {}".format(debug,))
     def test_edit_entity(self):
@@ -105,7 +106,6 @@ class TestSuiteRibbon(unittest.TestCase):
         expected = self.process.get(  # broken -> can't find element
             'css=#ribbon_form>ul>li>div.collapsible-header.active>div>div.col.'
             's5.truncate>div', 'title')
-        # css=#ribbon_form>ul>li>div.collapsible-header.active>div>div.col.s5.truncate>div
         # expected = expected.split(' ')[29]
         expected = expected.strip()
         print(">>>>>>>>>>>>>> ENTITY: {}".format(expected,))
