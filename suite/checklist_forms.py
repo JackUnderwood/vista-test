@@ -19,7 +19,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     print(">> Inside TestSuiteChecklistForms class")
     process = UI()
     debug = 'all'  # use 'all'; or test individual case methods below
-    override = {'rowNum': '3'}
+    override = {'rowNum': '5'}
 
     def setUp(self):
         License()
@@ -133,7 +133,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
 
     @unittest.skipUnless(debug is 'examination' or debug is 'all',
                          "testing {}".format(debug,))
-    def test_add_examination(self):
+    def test_add_an_examination(self):
         ui.log.info(">>> Inside function test_add_examination()")
         runtime = {          #
             'exam': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/li[4]/a'),
