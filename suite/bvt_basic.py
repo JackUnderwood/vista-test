@@ -261,7 +261,7 @@ class BvtBasic(unittest.TestCase):
         expected = "{}'s Files".format(user,)
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
-    #
+
     # @unittest.skipUnless(
     #     debug is 'watch' or debug is 'all', "testing {}".format(debug,))
     # def test_watch(self):
@@ -281,16 +281,6 @@ class BvtBasic(unittest.TestCase):
     #     expected = ''  # Unknown
     #     result = self.process.results(expected)
     #     self.assertTrue(result, msg=expected)
-
-    @unittest.skipUnless(
-        debug is 'user' or debug is 'all', "testing {}".format(debug,))
-    def test_user_config(self):
-        ui.log.info('>>> Inside function test_user_config()')
-        from ui.low.user_config import UserConfig
-        UserConfig()
-        expected = 'User Information'
-        result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
 
     # @unittest.skipUnless(debug is 'admin' or debug is 'all',
     #                      "testing {}".format(debug,))
