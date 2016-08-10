@@ -5,10 +5,12 @@ __author__ = 'John Underwood'
 
 
 class AddChecklistFee(UI):
+    License()
+    Checklist(override={'rowNum': '7'})
     runtime = {
         'checklist': (
             'Click',
-            '//*[@id="content"]/div[2]/div[1]/ul/div/div/a'),
+            '//*[@id="content"]/div[2]/div[1]/ul/li[7]/a'),
         'feeAmount': '75',
         'fee': (
             'Type',
@@ -18,8 +20,6 @@ class AddChecklistFee(UI):
         'wait': ('Wait', '#scratch-pad', '5')
     }
     expected = 'Saved'
-    License()
-    Checklist(override={'rowNum': '15'})
     process = UI()
     process.update(runtime)
     order = ('checklist', 'wait', 'fee', 'save')

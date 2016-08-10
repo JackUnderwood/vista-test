@@ -6,11 +6,11 @@ __author__ = 'John Underwood'
 
 class AddChecklistCheck(UI):
     License()
-    Checklist(override={'rowNum': '1'})
+    Checklist(override={'rowNum': '3'})
     runtime = {
         'checklist': (
             'Click',
-            '//*[@id="content"]/div[2]/div[1]/ul/div/div/a'),
+            '//*[@id="content"]/div[2]/div[1]/ul/li[7]/a'),
         'note': (
             'Type',
             '//*[@id="checklist-form-container"]/div[3]/div[2]/input',
