@@ -10,7 +10,7 @@ class Wiki(UI):
         ui.log.info("Wiki __init__() called")
         runtime = {
             'level': '2',
-            'wiki': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i', ),
+            'wiki': ('Click', '//*[@id="slide-out"]/li[&level;]/a/i', ),
         }
         process = UI(override)
         process.update(runtime)
