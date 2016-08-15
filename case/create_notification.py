@@ -11,13 +11,16 @@ class CreateNotification(UI):
 
     expected = gen_key()
     override = {
+        'selectEntity': ('Click', '//*[@id="who"]/div/div/div[1]/div/a[2]'),
+        'find': ('Type', '#notifyRegardingDesc', 'care'),
+        'select': ('Click', '//*[@item_id="198206"]'),  # Honolulu Health Care
         'notes': ('Type', '#message_body', expected),
     }
     RemindMeDialog(override)
 
     runtime = {
         'notify': ('Click', '//*[@id="button_notification"]/i'),
-        'present': ('Click', '//label[@for="today" and contains(., "Present")]'),
+        'present': ('Click', '//label[@for="future" and contains(., "Future")]'),
         'showDetails': ('Click', '//*[@id="undefined"]/td[1]'),
         'cancel': ('Click', '//*[@id="undefined"]/td[31]/i[2]'),
     }

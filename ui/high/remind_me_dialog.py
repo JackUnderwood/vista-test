@@ -19,7 +19,7 @@ class RemindMeDialog(UI):
         runtime = {
             'dueDate': ('Type', '#due_datetime', month+day+year),
             'findIcon': ('Click', '//*[@id="who"]/div/div/div[1]/i[2]'),
-            'selectProvider': ('Click', '//*[@id="who"]/div/div/div[1]/div/a[1]'),
+            'selectEntity': ('Click', '//*[@id="who"]/div/div/div[1]/div/a[1]'),
             'find': ('Type', '#notifyRegardingDesc', 'matt lambert st:wv'),
             'select': ('Click', '//*[@item_id="91273"]'),
             'notes': (
@@ -31,6 +31,6 @@ class RemindMeDialog(UI):
         }
         process = UI(override)
         process.update(runtime)
-        order = ('dueDate', 'findIcon', 'selectProvider', 'find', 'select',
+        order = ('dueDate', 'findIcon', 'selectEntity', 'find', 'select',
                  'notes', 'submit')
         process.execute(order)
