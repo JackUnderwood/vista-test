@@ -39,6 +39,19 @@ log = VLog(name="vtf", log_name="UI")
 
 
 class UI:
+
+    # Menu - vertical nav bar starts from 1 down to n
+    HOME = '1'
+    WIKI = '2'
+    MANAGE_ENTITIES = '3'
+    MANAGE_JOBS = '4'
+    REPORTS = '5'
+    LICENSING = '6'
+    SALES = '7'
+    FILE = '8'
+    WATCH = '9'
+    ADMIN = '11'
+
     chrome_options = Options()
     # chrome_options.add_argument("--start-maximized")
     chrome_options.add_argument("window-size=1280,1024")
@@ -323,6 +336,7 @@ class UI:
                 to_element = self.find_element(params['to_element'])
                 actions.move_to_element(to_element)
             log.info("Chained action: {0}".format(action, ))
+        self.wait(1)
         actions.perform()
 
     def wait_for_element(self, elem_id, wait_time):
