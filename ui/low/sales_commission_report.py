@@ -10,15 +10,18 @@ class SalesCommissionReport(UI):
         super().__init__()
 
         runtime = {
-            'level': '7',
+            'level': self.SALES,
             'sales': ("Chain", [
                 ('move_to_element', {
                     'to_element': '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
                 ('click', {
                     'on_element': '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
+                ('move_to_element', {  # report
+                    'to_element': '//*[@id="slide-out"]/li[&level;]/ul/li/div/'
+                                  'ul/li[1]/a'}),
                 ('click', {
-                    'on_element':
-                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[1]/a'}
+                    'on_element': '//*[@id="slide-out"]/li[&level;]/ul/li/div/'
+                                  'ul/li[1]/a'}
                  ),
             ]),
         }

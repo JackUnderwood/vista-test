@@ -11,7 +11,7 @@ class Home(UI):
         super().__init__()
         ui.log.info("Home __init__() called")
         runtime = {
-            'level': '1',
+            'level': self.HOME,
             'home': ('Click', '//*[@id="slide-out"]/li[&level;]/a/i'),
         }
         process = UI()

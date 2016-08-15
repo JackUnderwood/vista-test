@@ -11,15 +11,22 @@ class SalesCommissionRates(UI):
         super().__init__()
 
         runtime = {
-            'level': '7',
-            'sales': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
-            'rates': (
-                'Click',
-                '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[3]/a'
-            ),
+            'level': self.SALES,
+            'sales': ("Chain", [
+                ('move_to_element', {
+                    'to_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/a/i[1]'}),
+                ('click', {
+                    'on_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/a/i[1]'}),
+                ('click', {  # rates
+                    'on_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[3]/a'}
+                 ),
+            ]),
         }
 
         process = UI(override)
         process.update(runtime)
-        order = ('sales', 'rates', )
+        order = ('sales', )
         process.execute(order)

@@ -12,7 +12,7 @@ class JobsEdit(UI):
         log = VLog(name="vtf", log_name="JOBS")
         log.info("License __init__() called")
         runtime = {
-            'level': '4',
+            'level': self.MANAGE_JOBS,
             'job':  ("Chain", [
                 ('move_to_element', {
                     'to_element':

@@ -10,7 +10,7 @@ class WatchManage(UI):
         ui.log.debug("Inside WatchManage class")
 
         runtime = {
-            'level': '8',
+            'level': self.WATCH,
             'watch': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
             'manage': (
                 'Click',

@@ -13,7 +13,7 @@ class TransferFollowUpLogs(UI):
         log = VLog(name="vtf", log_name="TRANSFER")
         log.info("TransferFollowUpLogs __init__() called")
         runtime = {
-            'level': '3',
+            'level': self.MANAGE_ENTITIES,
             'transFul': ("Chain", [
                 ('move_to_element', {
                     'to_element':

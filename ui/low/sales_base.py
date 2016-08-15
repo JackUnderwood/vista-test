@@ -11,15 +11,20 @@ class SalesBase(UI):
         super().__init__()
 
         runtime = {
-            'level': '7',
-            'sales': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
-            'base': (
-                'Click',
-                '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[4]/a'
-            ),
+            'level': self.SALES,
+            'sales': ("Chain", [
+                ('move_to_element', {
+                    'to_element': '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
+                ('click', {
+                    'on_element': '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
+                ('click', {  # base
+                    'on_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[4]/a'}
+                 ),
+            ]),
         }
 
         process = UI(override)
         process.update(runtime)
-        order = ('sales', 'base', )
+        order = ('sales', )
         process.execute(order)

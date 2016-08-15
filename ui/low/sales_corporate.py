@@ -11,15 +11,19 @@ class SalesCorporate(UI):
         super().__init__()
 
         runtime = {
-            'level': '7',
-            'sales': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
-            'corporate': (
-                'Click',
-                '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[2]/a'
-            ),
+            'level': self.SALES,
+            'sales': ("Chain", [
+                ('move_to_element', {
+                    'to_element': '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
+                ('click', {
+                    'on_element': '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
+                ('click', {  # corporate
+                    'on_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[2]/a'}
+                 ),
+            ]),
         }
-
         process = UI(override)
         process.update(runtime)
-        order = ('sales', 'corporate', )
+        order = ('sales', )
         process.execute(order)

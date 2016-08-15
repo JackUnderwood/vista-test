@@ -13,7 +13,7 @@ class LicenseExpire(UI):
         log = VLog(name="vtf", log_name="LICENSE")
         log.info("Expiring License __init__() called")
         runtime = {
-            'level': '6',
+            'level': self.LICENSING,
             'expire': ("Chain", [
                 ('move_to_element', {
                     'to_element':

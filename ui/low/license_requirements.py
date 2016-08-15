@@ -14,7 +14,7 @@ class LicenseRequirements(UI):
         log = VLog(name="vtf", log_name="LICENSE")
         log.info("License Requirements __init__() called")
         runtime = {
-            'level': '6',
+            'level': self.LICENSING,
             'requirements': ("Chain", [
                 ('move_to_element', {
                     'to_element':
