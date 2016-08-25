@@ -3,14 +3,14 @@ from tool.vlog import VLog
 __author__ = 'John Underwood'
 
 
-class JobsEdit(UI):
+class JobPosts(UI):
     """
-    Begins at the main page and branches to the Licensing landing page.
+    Begins at the main page and branches to the Manage Job Post page.
     """
     def __init__(self, override=None):
         super().__init__()
         log = VLog(name="vtf", log_name="JOBS")
-        log.info("License __init__() called")
+        log.info("JobPosts __init__() called")
         runtime = {
             'level': self.MANAGE_JOBS,
             'job':  ("Chain", [

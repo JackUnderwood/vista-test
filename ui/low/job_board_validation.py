@@ -1,20 +1,19 @@
 from ui import UI
 from tool.vlog import VLog
-
 __author__ = 'John Underwood'
 
 
-class TransferFollowUpLogs(UI):
+class JobBoardValidation(UI):
     """
-    Begins at the main page and branches to the Transfer Follow Up Logs page.
+    Branches to the Jobs Management | Manage Job Post page.
     """
     def __init__(self, override=None):
         super().__init__()
-        log = VLog(name="vtf", log_name="TRANSFER")
-        log.info("TransferFollowUpLogs __init__() called")
+        log = VLog(name="vtf", log_name="JOBS")
+        log.info("JobBoardValidation __init__() called")
         runtime = {
-            'level': self.MANAGE_ENTITIES,
-            'transFul': ("Chain", [
+            'level': self.MANAGE_JOBS,
+            'validation':  ("Chain", [
                 ('move_to_element', {
                     'to_element':
                         '//*[@id="slide-out"]/li[&level;]/ul/li/a/i[1]'}),
@@ -29,6 +28,6 @@ class TransferFollowUpLogs(UI):
         }
         process = UI(override)
         process.update(runtime)
-        order = ('transFul', )
+        order = ('validation', )
         process.execute(order)
 

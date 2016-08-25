@@ -8,8 +8,8 @@ class Check(UI):
     Change the class call below.
     """
     process = UI()
-    from ui.low.transfer_ful import TransferFollowUpLogs
-    TransferFollowUpLogs()
+    from ui.low.job_templates import JobTemplates
+    JobTemplates()
 
     # from ui.low.license import License
     # from ui.high.checklist import Checklist
@@ -62,5 +62,5 @@ class Check(UI):
     # process.results("Standard Sales Base")
 
     # Reserve - do not alter anything below
-    process.wait(3)
+    process.wait(5)
     process.teardown()

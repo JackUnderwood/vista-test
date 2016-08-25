@@ -11,7 +11,7 @@ class BvtBasic(unittest.TestCase):
     ui.log.info(">> Inside BvtBasic class")
 
     process = UI()
-    debug = 'all'
+    debug = 'templates'
 
     def setUp(self):
         Home()
@@ -25,11 +25,7 @@ class BvtBasic(unittest.TestCase):
         UI().teardown()
 
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
-    # TODO - add Manage Entities | Transfer Follow Up Logs
-    # TODO - add Manage Entities | Comments
-    # TODO - add Jobs Management | Manage Job Posts
-    # TODO - add Jobs Management | Job Board Validation Lookup
-    # TODO - add Jobs Management | Job Description Template Creator
+
     @unittest.skipUnless(
         debug is 'workspace' or debug is 'all', "testing {}".format(debug,))
     def test_workspace(self):
@@ -49,6 +45,28 @@ class BvtBasic(unittest.TestCase):
         from ui.low.advance_find import AdvanceFind
         AdvanceFind()
         expected = 'Advanced Find'
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'comments' or debug is 'all', "testing {}".format(debug,))
+    def test_entity_comments(self):
+        ui.log.info('>>> Inside function test_entity_comments()')
+
+        from ui.low.entity_comments import EntityComments
+        EntityComments()
+        expected = 'Comments'
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'transfer' or debug is 'all', "testing {}".format(debug,))
+    def test_entity_transfer_ful(self):
+        ui.log.info('>>> Inside function test_entity_transfer_ful()')
+
+        from ui.low.entity_transfer_ful import EntityTransferFollowUpLogs
+        EntityTransferFollowUpLogs()
+        expected = 'Transfer Follow Up Logs'
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
@@ -153,6 +171,42 @@ class BvtBasic(unittest.TestCase):
     def test_home(self):
         ui.log.info('>>> Inside function test_home()')
         expected = "Let's take a look at how to navigate "
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'validation' or debug is 'all', "testing {}".format(debug,))
+    def test_job_board_validation(self):
+        ui.log.info('>>> Inside function test_job_posts()')
+
+        from ui.low.job_board_validation import JobBoardValidation
+        JobBoardValidation()
+
+        expected = "Job Board Validation"
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'posts' or debug is 'all', "testing {}".format(debug,))
+    def test_job_posts(self):
+        ui.log.info('>>> Inside function test_job_posts()')
+
+        from ui.low.job_posts import JobPosts
+        JobPosts()
+
+        expected = "Manage Job Posts"
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'templates' or debug is 'all', "testing {}".format(debug,))
+    def test_job_templates(self):
+        ui.log.info('>>> Inside function test_job_posts()')
+
+        from ui.low.job_templates import JobTemplates
+        JobTemplates()
+
+        expected = "Job Description Template Creator"
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 

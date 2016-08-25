@@ -1,12 +1,12 @@
 from ui import UI
-from ui.low.jobs_edit import JobsEdit
+from ui.low.job_posts import JobPosts
 from ui.high.job_search import JobSearch
 
 __author__ = 'John Underwood'
 
 
 class JobEdit(UI):
-    JobsEdit()
+    JobPosts()
     JobSearch()
 
     runtime = {
