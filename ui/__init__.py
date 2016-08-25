@@ -50,7 +50,7 @@ class UI:
     SALES = '7'
     FILE = '8'
     WATCH = '9'
-    ADMIN = '11'
+    ADMIN = '10'
 
     chrome_options = Options()
     # chrome_options.add_argument("--start-maximized")
