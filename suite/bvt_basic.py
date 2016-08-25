@@ -11,7 +11,7 @@ class BvtBasic(unittest.TestCase):
     ui.log.info(">> Inside BvtBasic class")
 
     process = UI()
-    debug = 'templates'
+    debug = 'all'
 
     def setUp(self):
         Home()
