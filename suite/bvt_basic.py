@@ -15,6 +15,7 @@ class BvtBasic(unittest.TestCase):
 
     def setUp(self):
         Home()
+        self.process.wait(1)
 
     def tearDown(self):
         pass
@@ -27,17 +28,6 @@ class BvtBasic(unittest.TestCase):
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
 
     @unittest.skipUnless(
-        debug is 'workspace' or debug is 'all', "testing {}".format(debug,))
-    def test_workspace(self):
-        ui.log.info('>>> Inside function test_workspace()')
-
-        from ui.low.my_workspace import MyWorkspace
-        MyWorkspace()
-        expected = 'Use Find... to load your workspace.'
-        result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
-
-    @unittest.skipUnless(
         debug is 'advance' or debug is 'all', "testing {}".format(debug,))
     def test_advance_find(self):
         ui.log.info('>>> Inside function test_advance_find()')
@@ -46,75 +36,6 @@ class BvtBasic(unittest.TestCase):
         AdvanceFind()
         expected = 'Advanced Find'
         result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
-
-    @unittest.skipUnless(
-        debug is 'comments' or debug is 'all', "testing {}".format(debug,))
-    def test_entity_comments(self):
-        ui.log.info('>>> Inside function test_entity_comments()')
-
-        from ui.low.entity_comments import EntityComments
-        EntityComments()
-        expected = 'Comments'
-        result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
-
-    @unittest.skipUnless(
-        debug is 'transfer' or debug is 'all', "testing {}".format(debug,))
-    def test_entity_transfer_ful(self):
-        ui.log.info('>>> Inside function test_entity_transfer_ful()')
-
-        from ui.low.entity_transfer_ful import EntityTransferFollowUpLogs
-        EntityTransferFollowUpLogs()
-        expected = 'Transfer Follow Up Logs'
-        result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
-
-    @unittest.skipUnless(
-        debug is 'find' or debug is 'all', "testing {}".format(debug,))
-    def test_find(self):
-        ui.log.info('>>> Inside function test_find()')
-        expected = 'Find'
-        runtime = {
-            'find': ('Type', '#main_desc', 'Matt Lambert st:wv'),
-            'select': ('Click', '//*[@item_id="91273"]'),
-            'purge': (
-                'Click', '//*[@id="extended-results-body-91273"]/div[2]/a[1]')}
-        self.process.update(runtime)
-        self.process.execute(('find', 'select', ))
-        self.process.wait(2)  # ribbon needs time to display
-        result = self.process.results(
-            ' Matt Lambert', 'extended-results-body-91273')
-        self.process.wait(1)
-        self.process.execute(('purge', ))
-        self.assertTrue(result, msg=expected)
-
-    @unittest.skipUnless(
-        debug is 'modifiers' or debug is 'all', "testing {}".format(debug,))
-    def test_modifiers(self):
-        ui.log.info('>>> Inside function test_modifiers()')
-        expected = 'Available Modifiers'
-        self.process.update({'modifiers': ('Click', '#modifierList'), })
-        self.process.execute(('modifiers', ))
-        result = self.process.results(expected, 'modifiers')
-        self.assertTrue(result, msg=expected)
-
-    @unittest.skipUnless(
-        debug is 'suggestion' or debug is 'all', "testing {}".format(debug,))
-    def test_suggestion_box(self):
-        ui.log.info('>>> Inside function test_suggestion_box()')
-        expected = 'Suggestion Box'
-        self.process.update(
-            {'sbox': (
-                'Click',
-                'css=body>header>nav>div>ul.right>li:nth-child(2)>a>i'),
-             'cancel': (
-                'Click',
-                'css=#suggestionBox_form>'
-                'div.right-align.button-container>a:nth-child(2)')})
-        self.process.execute(('sbox', ))
-        result = self.process.results(expected)
-        self.process.execute(('cancel', ))  # local clean up
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
@@ -151,19 +72,56 @@ class BvtBasic(unittest.TestCase):
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
-        debug is 'notify' or debug is 'all', "testing {}".format(debug,))
-    def test_notify(self):
-        ui.log.info('>>> Inside function test_notify()')
-        from tool.utilities import get_configurations
-        user = get_configurations('USER', 'name')
-        expected = ' ({}) Notify'.format(user, )
-        self.process.update(
-            {'notify': ('Click', '#button_notification'),
-             'close': ('Click', 'css=#notifyGrid_form>'
-                                'div.right-align.button-container>a')})
-        self.process.execute(('notify', ))
+        debug is 'comments' or debug is 'all', "testing {}".format(debug,))
+    def test_entity_comments(self):
+        ui.log.info('>>> Inside function test_entity_comments()')
+
+        from ui.low.entity_comments import EntityComments
+        EntityComments()
+        expected = 'Comments'
         result = self.process.results(expected)
-        self.process.execute(('close', ))
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'transfer' or debug is 'all', "testing {}".format(debug,))
+    def test_entity_transfer_ful(self):
+        ui.log.info('>>> Inside function test_entity_transfer_ful()')
+
+        from ui.low.entity_transfer_ful import EntityTransferFollowUpLogs
+        EntityTransferFollowUpLogs()
+        expected = 'Transfer Follow Up Logs'
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'file' or debug is 'all', "testing {}".format(debug,))
+    def test_file(self):
+        ui.log.info('>>> Inside function test_file()')
+        from ui.low.file import File
+        from tool.utilities import get_configurations
+        File()
+        user = get_configurations('USER', 'name')
+        expected = "{}'s Files".format(user,)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'find' or debug is 'all', "testing {}".format(debug,))
+    def test_find(self):
+        ui.log.info('>>> Inside function test_find()')
+        expected = 'Find'
+        runtime = {
+            'find': ('Type', '#main_desc', 'Matt Lambert st:wv'),
+            'select': ('Click', '//*[@item_id="91273"]'),
+            'purge': (
+                'Click', '//*[@id="extended-results-body-91273"]/div[2]/a[1]')}
+        self.process.update(runtime)
+        self.process.execute(('find', 'select', ))
+        self.process.wait(2)  # ribbon needs time to display
+        result = self.process.results(
+            ' Matt Lambert', 'extended-results-body-91273')
+        self.process.wait(1)
+        self.process.execute(('purge', ))
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
@@ -211,36 +169,12 @@ class BvtBasic(unittest.TestCase):
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
-        debug is 'wiki' or debug is 'all', "testing {}".format(debug,))
-    def test_wiki(self):
-        ui.log.info('>>> Inside function test_wiki()')
-        from ui.low.wiki import Wiki
-        Wiki()
-        expected = 'Full View'
-        actual = self.process.get('//*[@id="wiki_form"]/a', 'innerHTML')
-        result = self.process.compare(expected, actual.strip())
-        self.process.update(
-            {'close': ('Click', '//*[@id="wikieditClose"]')})
-        self.process.execute(('close', ))
-        self.assertTrue(result, msg=expected)
-
-    @unittest.skipUnless(
         debug is 'license' or debug is 'all', "testing {}".format(debug,))
     def test_license(self):
         ui.log.info('>>> Inside function test_license() landing page')
         from ui.low.license import License
         License()
         expected = 'License Request'
-        result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
-
-    @unittest.skipUnless(
-        debug is 'reports' or debug is 'all', "testing {}".format(debug,))
-    def test_license_reports(self):
-        ui.log.info('>>> Inside function test_license_reports()')
-        from ui.low.license_report import LicenseReport
-        LicenseReport()
-        expected = 'License Report'
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
@@ -255,12 +189,68 @@ class BvtBasic(unittest.TestCase):
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
+        debug is 'reports' or debug is 'all', "testing {}".format(debug,))
+    def test_license_reports(self):
+        ui.log.info('>>> Inside function test_license_reports()')
+        from ui.low.license_report import LicenseReport
+        LicenseReport()
+        expected = 'License Report'
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
         debug is 'requirements' or debug is 'all', "testing {}".format(debug,))
     def test_license_requirements(self):
         ui.log.info('>>> Inside function test_license_requirements()')
         from ui.low.license_requirements import LicenseRequirements
         LicenseRequirements()
         expected = 'State License Requirements'
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'modifiers' or debug is 'all', "testing {}".format(debug,))
+    def test_modifiers(self):
+        ui.log.info('>>> Inside function test_modifiers()')
+        expected = 'Available Modifiers'
+        self.process.update({'modifiers': ('Click', '#modifierList'), })
+        self.process.execute(('modifiers', ))
+        result = self.process.results(expected, 'modifiers')
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'notify' or debug is 'all', "testing {}".format(debug,))
+    def test_notify(self):
+        ui.log.info('>>> Inside function test_notify()')
+        from tool.utilities import get_configurations
+        user = get_configurations('USER', 'name')
+        expected = ' ({}) Notify'.format(user, )
+        self.process.update(
+            {'notify': ('Click', '#button_notification'),
+             'close': ('Click', 'css=#notifyGrid_form>'
+                                'div.right-align.button-container>a')})
+        self.process.execute(('notify', ))
+        result = self.process.results(expected)
+        self.process.execute(('close', ))
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'base' or debug is 'all', "testing {}".format(debug,))
+    def test_sales_base(self):
+        ui.log.info('>>> Inside function test_sales_base()')
+        from ui.low.sales_base import SalesBase
+        SalesBase()
+        expected = 'Standard Sales Base'
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'rates' or debug is 'all', "testing {}".format(debug,))
+    def test_sales_commission_rates(self):
+        ui.log.info('>>> Inside function test_sales_commission_rates()')
+        from ui.low.sales_commission_rates import SalesCommissionRates
+        SalesCommissionRates()
+        expected = 'Commission Rates'
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
@@ -285,36 +275,48 @@ class BvtBasic(unittest.TestCase):
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
-        debug is 'rates' or debug is 'all', "testing {}".format(debug,))
-    def test_sales_commission_rates(self):
-        ui.log.info('>>> Inside function test_sales_commission_rates()')
-        from ui.low.sales_commission_rates import SalesCommissionRates
-        SalesCommissionRates()
-        expected = 'Commission Rates'
+        debug is 'suggestion' or debug is 'all', "testing {}".format(debug,))
+    def test_suggestion_box(self):
+        ui.log.info('>>> Inside function test_suggestion_box()')
+        expected = 'Suggestion Box'
+        self.process.update(
+            {'sbox': (
+                'Click',
+                'css=body>header>nav>div>ul.right>li:nth-child(2)>a>i'),
+             'cancel': (
+                'Click',
+                'css=#suggestionBox_form>'
+                'div.right-align.button-container>a:nth-child(2)')})
+        self.process.execute(('sbox', ))
         result = self.process.results(expected)
+        self.process.execute(('cancel', ))  # local clean up
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
-        debug is 'base' or debug is 'all', "testing {}".format(debug,))
-    def test_sales_base(self):
-        ui.log.info('>>> Inside function test_sales_base()')
-        from ui.low.sales_base import SalesBase
-        SalesBase()
-        expected = 'Standard Sales Base'
-        result = self.process.results(expected)
+        debug is 'wiki' or debug is 'all', "testing {}".format(debug,))
+    def test_wiki(self):
+        ui.log.info('>>> Inside function test_wiki()')
+        from ui.low.wiki import Wiki
+        Wiki()
+        expected = 'Full View'
+        actual = self.process.get('//*[@id="wiki_form"]/a', 'innerHTML')
+        result = self.process.compare(expected, actual.strip())
+        self.process.update(
+            {'close': ('Click', '//*[@id="wikieditClose"]')})
+        self.process.execute(('close', ))
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
-        debug is 'file' or debug is 'all', "testing {}".format(debug,))
-    def test_file(self):
-        ui.log.info('>>> Inside function test_file()')
-        from ui.low.file import File
-        from tool.utilities import get_configurations
-        File()
-        user = get_configurations('USER', 'name')
-        expected = "{}'s Files".format(user,)
+        debug is 'workspace' or debug is 'all', "testing {}".format(debug,))
+    def test_workspace(self):
+        ui.log.info('>>> Inside function test_workspace()')
+
+        from ui.low.my_workspace import MyWorkspace
+        MyWorkspace()
+        expected = 'Use Find... to load your workspace.'
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
+
 
     # @unittest.skipUnless(
     #     debug is 'watch' or debug is 'all', "testing {}".format(debug,))
