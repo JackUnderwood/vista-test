@@ -16,10 +16,10 @@ utamur inimicus mei."""
 
 
 class TestSuiteChecklistForms(unittest.TestCase):
-    print(">> Inside TestSuiteChecklistForms class")
+    ui.log.info(">> Inside TestSuiteChecklistForms class")
     process = UI()
     debug = 'all'  # use 'all'; or test individual case methods below
-    override = {'rowNum': '5'}
+    override = {'rowNum': '1'}
 
     def setUp(self):
         License()
@@ -32,8 +32,8 @@ class TestSuiteChecklistForms(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        UI().wait(3)
-        UI().teardown()
+        cls.process.wait(1)
+        cls.process.teardown()
 
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
     @unittest.skipUnless(debug is 'carrier' or debug is 'all',
