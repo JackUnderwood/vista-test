@@ -8,11 +8,13 @@ class JobSearch(UI):
     def __init__(self, override=None):
         super().__init__()
         runtime = {
-            'jobNum': '54274',  # override={'jobNum': '54274'}
-            'search': ('Type', '#job_number', '&jobNum;'),
-            'submit': ('Click', '//*[@id="content"]/form/input[2]', ),
+            'num': '54274',  # override={'number': '54274'}
+            'job': ('Type', '#s_job_number', '&num;'),
+            'search': (
+                'Click',
+                '//*[@id="job-search-wrap"]/div[2]/div[2]/button', ),
         }
         process = UI(override)
         process.update(runtime)
-        order = ('search', 'submit', )
+        order = ('job', 'search', )
         process.execute(order)
