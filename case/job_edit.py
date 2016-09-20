@@ -6,12 +6,14 @@ __author__ = 'John Underwood'
 
 
 class JobEdit(UI):
+    job_number = '90000'
     JobPosts()
-    JobSearch()
+    JobSearch(override={'num': job_number})
 
     runtime = {
         'subtitleText': "Get Started Right Away",
         'descText': "Some text",
+        'edit': ('Click', '#edit_' + job_number,),
         'subtitle': ('Type', '#job_board_subtitle', '&subtitleText;'),
         'template': ('Select', '#template', 'Marketing Tab'),
         'description': ('TypeInCkeditor', '.cke_wysiwyg_frame', '&descText;'),
@@ -19,10 +21,9 @@ class JobEdit(UI):
     expected = runtime['subtitleText']
     process = UI()
     process.update(runtime)
-    order = ('subtitle', 'template', 'description', )
+    order = ('edit', 'subtitle', 'description', )
     process.execute(order)
-    actual = process.get(
-        'css=#content>div>div:nth-child(2)>div>p.subtitle', 'innerHTML')
+    actual = process.get('#job_board_subtitle', 'value')
     process.compare(expected, actual)
     process.wait(1)
     process.teardown()
