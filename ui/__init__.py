@@ -339,7 +339,7 @@ class UI:
         self.wait(1)
         actions.perform()
 
-    def wait_for_element(self, elem_id, wait_time):
+    def wait_for_element(self, elem_id, wait_time=1):
         """
         Waits for elements with the id attribute; id only
         :param elem_id: a string that holds the element's id
@@ -429,7 +429,7 @@ class UI:
                     # Example: override = {'selectType': 'Doctorate Degree'}
                     log.debug("KEY is [{}] AND runtime[key]: {}".format(
                         key, self.runtime[key], ))
-                    if len(self.runtime[key]) > 1:  # value portion
+                    if len(self.runtime[key]) is tuple:  # value portion
                         self.runtime[key] = (self.runtime[key][0],  # action
                                              self.runtime[key][1],  # locator
                                              self.override[key])    # value
