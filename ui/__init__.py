@@ -516,6 +516,24 @@ class UI:
         select = Select(element)
         return select.first_selected_option.get_attribute('value')
 
+    def dismiss_alert(self):
+        """
+        Dismisses (Cancel) the JavaScript alert dialog box.
+        :return: String - the alert's text
+        """
+        alert_message = self.driver.switch_to.alert.text
+        self.driver.switch_to.alert.dismiss()
+        return alert_message
+
+    def accept_alert(self):
+        """
+        Accepts (OK) the JavaScript alert dialog box.
+        :return: String - the alert's text
+        """
+        alert_message = self.driver.switch_to.alert.text
+        self.driver.switch_to.alert.accept()
+        return alert_message
+
     def teardown(self):
         log.info("Teardown")
         self.wait(1)
