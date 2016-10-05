@@ -64,3 +64,18 @@ def digits_only(value):
     :return: string, e.g. "123121234"
     """
     return re.sub('[^0-9]', '', value)
+
+
+def test_for_symbols(replacer):
+    """
+    Test the string for the placeholder, which should be in the
+    format: &placeholder;
+    :param replacer: string
+    :return: Boolean
+    """
+    if replacer.find('&') is -1:
+        return False
+    sub = replacer[replacer.find('&')+1:]
+    if sub.find(';') is -1:
+        return False
+    return True
