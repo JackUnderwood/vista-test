@@ -17,10 +17,11 @@ Community Benefits:
 * Located just 90 minutes west of Dallas/Fort Worth"""
 
 
-class JobCancelEdit(UI):
+class JobAcceptEdit(UI):
     """
     Check that the JS alert box appears when trying to cancel an edited job.
-    Uses the text in the alert box to compare; result is True
+    Looks for the Reset button element on the screen; if it can see Reset,
+    then the drawer dismissed as expected.
     """
     job_number = '92094'
     JobPosts()
