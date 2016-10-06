@@ -46,7 +46,7 @@ class JobAcceptEdit(UI):
     actual = process.is_available('css=#job-search-wrap>div:nth-child(3)>'
                                   'div:nth-child(3)>button')
     process.compare(True, actual)
-    process.wait(5)
+    process.wait(1)
     process.teardown()
 
 
