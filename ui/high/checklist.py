@@ -33,7 +33,7 @@ class Checklist(UI):
 
         row = process.runtime['rowNum']
         # Provides entity's name for derived classes
-        self.entity = process.get(
+        self.entity = process.spy(
             '//*[@id="licenseRequestsGrid_grid"]/tbody/'
             'tr[{0}]/td[4]/a'.format(row, ), 'innerHTML')
 

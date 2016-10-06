@@ -31,7 +31,7 @@ class RequirementInactive(UI):
     process.execute(order)
 
     # Get the first Requirement's label
-    initial = process.get(
+    initial = process.spy(
         '//*[@id="checklist-form-container"]/div[3]/div[1]/label',
         'innerHTML', ).strip()
     # Set the first Requirement to Inactive

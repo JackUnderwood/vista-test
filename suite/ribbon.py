@@ -103,7 +103,7 @@ class TestSuiteRibbon(unittest.TestCase):
     def test_workspace(self):
         ui.log.debug(">>> Inside function test_workspace()")
 
-        expected = self.process.get(  # broken -> can't find element
+        expected = self.process.spy(  # broken -> can't find element
             'css=#ribbon_form>ul>li>div.collapsible-header.active>div>div.col.'
             's5.truncate>div', 'title')
         # expected = expected.split(' ')[29]
@@ -118,7 +118,7 @@ class TestSuiteRibbon(unittest.TestCase):
         order = ('addWorkspace', 'workspace',)
         self.process.execute(order)
 
-        actual = self.process.get(
+        actual = self.process.spy(
             '//*[@id="ribbon_form"]/ul/li/div[1]/div/div[1]/div', 'title')
         actual = actual.split(' ')[1]
         # print(">>>>>>>>>>>>>> TITLE: {}".format(actual))

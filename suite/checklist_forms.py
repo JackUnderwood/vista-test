@@ -211,7 +211,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
         order = ('email', )
         self.process.execute(order)
         # Spy for the name in the drawers
-        name = self.process.get('/html/body/main/div[2]/div[1]/h3', 'innerHTML')
+        name = self.process.spy('/html/body/main/div[2]/div[1]/h3', 'innerHTML')
         name = name[name.find('(')+1:name.find(')')]
         ui.log.debug('EXTRACTED NAME {}'.format(name,))
         email = gen_email(name)

@@ -45,7 +45,7 @@ class ViewCommissionReport(UI):
     process.execute(order)
     process.wait(2)
 
-    primary_total = process.get(  # Commission Total
+    primary_total = process.spy(  # Commission Total
         '//*[@id="revenue-table"]/tbody[10]/tr[1]/td[9]', 'innerHTML')
     ui.log.info("PRIMARY {}".format(primary_total, ))
     primary_total = strip_alpha(primary_total)
@@ -55,13 +55,13 @@ class ViewCommissionReport(UI):
              'findProvider', 'selectProvider', 'amount', 'save')
     process.execute(order)
 
-    rate = process.get(
+    rate = process.spy(
         '//*[@id="revenue-table"]/tbody[1]/tr/td[1]/div', 'innerHTML')
     ui.log.info("RATE VALUE {}".format(rate, ))
     rate = strip_alpha(rate)
 
     adjusted_amount = rate * amount
-    adjusted_total = process.get(
+    adjusted_total = process.spy(
         '//*[@id="revenue-table"]/tbody[10]/tr[1]/td[9]', 'innerHTML')
     adjusted_total = strip_alpha(adjusted_total)
     difference_amount = adjusted_total - primary_total

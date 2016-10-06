@@ -172,7 +172,7 @@ class UI:
         element = self.find_element(locator)
         try:
             element.clear()
-            entry = self.get(locator, 'value')
+            entry = self.spy(locator, 'value')
             if char in entry:
                 element.send_keys(Keys.CONTROL, 'a')
                 element.send_keys(Keys.DELETE)
@@ -311,7 +311,7 @@ class UI:
         for elem in elements:
             action, params = elem
             for k in params:  # only one element should be in dict at this point
-                sub_locator = params.get(k, None)
+                sub_locator = params.spy(k, None)
                 # The first argument 'check_chain' is a phony command;
                 # a command is not necessary for chaining.
                 replacer = self.check_for_placeholder(sub_locator)
@@ -495,7 +495,7 @@ class UI:
             res = False
         return res
 
-    def get(self, locator, attribute_name):
+    def spy(self, locator, attribute_name):
         """
         Get an on-screen value
         :param locator: holds the xpath, id, class, or tag
