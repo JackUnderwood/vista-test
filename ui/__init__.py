@@ -495,6 +495,14 @@ class UI:
             res = False
         return res
 
+    def get(self, url_path):
+        """
+        Loads a web page in the current browser session.
+        :param url_path: string - partial path, e.g. 'jobs/search'
+        :return: None
+        """
+        self.driver.get(self.url + url_path)
+
     def spy(self, locator, attribute_name):
         """
         Get an on-screen value
