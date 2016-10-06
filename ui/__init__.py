@@ -516,6 +516,21 @@ class UI:
         select = Select(element)
         return select.first_selected_option.get_attribute('value')
 
+    def is_available(self, locator):
+        """
+        Is the action--click--available on the screen
+        :param locator: holds the xpath, id, class, or selector
+        :return: Boolean
+        """
+        from selenium.common.exceptions import WebDriverException
+        element = self.find_element(locator)
+        try:
+            element.click()
+        except WebDriverException as wde:
+            log.info("is_available() exception - {}".format(wde, ))
+            return False
+        return True
+
     def dismiss_alert(self):
         """
         Dismisses (Cancel) the JavaScript alert dialog box.
