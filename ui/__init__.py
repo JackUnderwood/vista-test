@@ -311,7 +311,7 @@ class UI:
         for elem in elements:
             action, params = elem
             for k in params:  # only one element should be in dict at this point
-                sub_locator = params.spy(k, None)
+                sub_locator = params.get(k, None)
                 # The first argument 'check_chain' is a phony command;
                 # a command is not necessary for chaining.
                 replacer = self.check_for_placeholder(sub_locator)
