@@ -172,7 +172,7 @@ class UI:
         element = self.find_element(locator)
         try:
             element.clear()
-            entry = self.get(locator, 'value')
+            entry = self.spy(locator, 'value')
             if char in entry:
                 element.send_keys(Keys.CONTROL, 'a')
                 element.send_keys(Keys.DELETE)
@@ -495,7 +495,15 @@ class UI:
             res = False
         return res
 
-    def get(self, locator, attribute_name):
+    def get(self, url_path):
+        """
+        Loads a web page in the current browser session.
+        :param url_path: string - partial path, e.g. 'jobs/search'
+        :return: None
+        """
+        self.driver.get(self.url + url_path)
+
+    def spy(self, locator, attribute_name):
         """
         Get an on-screen value
         :param locator: holds the xpath, id, class, or tag

@@ -21,7 +21,7 @@ class AddEmail(UI):
     order = ('email', )
     process.execute(order)
     # Spy for the name in the drawers
-    name = process.get('/html/body/main/div[2]/div[1]/h3', 'innerHTML')
+    name = process.spy('/html/body/main/div[2]/div[1]/h3', 'innerHTML')
     name = name[name.find('(')+1:name.find(')')]
     ui.log.debug('------EXTRACTED NAME {}'.format(name,))
     email = gen_email(name)

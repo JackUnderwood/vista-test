@@ -29,7 +29,7 @@ class CreateNotification(UI):
     order = ('notify', 'present', )
     process.execute(order)
 
-    page = process.get('#notifyGrid_grid_info', 'innerHTML')
+    page = process.spy('#notifyGrid_grid_info', 'innerHTML')
     print("PAGE: {}".format(page,))
     # Expect "Showing page 1 of 1" not 'Showing page 1 of 0'
     success = process.compare('1', page[-1:])
@@ -37,7 +37,7 @@ class CreateNotification(UI):
     if success:
         order = ('showDetails', )
         process.execute(order)
-        actual = process.get('#message_body', 'innerHTML')
+        actual = process.spy('#message_body', 'innerHTML')
         process.compare(expected, actual)
         order = ('cancel', )  # remove the notice
         process.execute(order)

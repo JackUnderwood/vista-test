@@ -68,7 +68,7 @@ class EntityAddSsn(UI):
     order = ('findPhone', 'select', 'displaySsn', 'continue', )
     process.execute(order)
     process.wait(1)
-    actual = process.get('#ssn_wrapper_&userId;', 'innerHTML')
+    actual = process.spy('#ssn_wrapper_&userId;', 'innerHTML')
     ui.log.info('SSN value is {}'.
                 format(actual if actual is not '' else 'None',))
     process.compare(ssn, actual)

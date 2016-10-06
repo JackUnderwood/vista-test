@@ -23,7 +23,7 @@ class JobEdit(UI):
     process.update(runtime)
     order = ('edit', 'subtitle', 'description', )
     process.execute(order)
-    actual = process.get('#job_board_subtitle', 'value')
+    actual = process.spy('#job_board_subtitle', 'value')
     process.compare(expected, actual)
     process.wait(1)
     process.teardown()
