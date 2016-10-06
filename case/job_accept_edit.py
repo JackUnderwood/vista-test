@@ -41,7 +41,9 @@ class JobCancelEdit(UI):
     order = ('edit', 'subtitle', 'description', 'cancel', )
     process.execute(order)
     alert_text = process.accept_alert()
-    actual = expected in alert_text
+    # The Job Edit drawer should be gone and we're back to Manage Job Posts page
+    actual = process.is_available('css=#job-search-wrap>div:nth-child(3)>'
+                                  'div:nth-child(3)>button')
     process.compare(True, actual)
     process.wait(5)
     process.teardown()
