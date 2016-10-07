@@ -468,12 +468,15 @@ class UI:
                 log.debug("-- NEW ELEMENT: {}".format(replacer, ))
         return replacer
 
-    def results(self, expected, elem_id=None, wait_time=5, negative=False):
+    def results(self, expected, elem_id=None, wait_time=5, negative=False,
+                message=''):
         """
         Search the DOM for the expected string.
+        :param message:
         :param expected: expected results search string
         :param elem_id: look in a DOM specific area using 'id' attribute
-        :param wait_time: the total tolerance time
+        :param message: string - append more information to log report
+        :param wait_time: int - the total tolerance time
         :param negative: True - do NOT expect to see the expected
         :return: boolean
         """
@@ -482,7 +485,9 @@ class UI:
             self.wait_for_element(elem_id.strip('#'), wait_time)
         html_source = self.driver.page_source.lower()
         res = True
-        log.info("Expected is '{}'".format(expected))
+        addendum = (
+            " ::Addendum:: {}".format(message, ) if (message != '') else message)
+        log.info("Expected is '{}'{}".format(expected, addendum))
         if expected.lower() in html_source and not negative:
             log.info("-- PASSED TEST CASE!!! ---")
         elif expected.lower() in html_source and negative:
@@ -563,14 +568,16 @@ class UI:
         self.driver.quit()
 
     @staticmethod
-    def compare(expected, actual):
+    def compare(expected, actual, message=''):
+        addendum = (
+            " ::Addendum:: {}".format(message, ) if (message != '') else message)
         if actual == expected:
-            log.debug("PASSED: actual '{}' is same as expected '{}'".
-                      format(actual, expected, ))
+            log.debug("PASSED: actual '{}' is same as expected '{}'{}".
+                      format(actual, expected, addendum))
             return True
         else:
-            log.debug("FAILED: actual '{}' is different from expected '{}'".
-                      format(actual, expected, ))
+            log.debug("FAILED: actual '{}' is different from expected '{}'{}".
+                      format(actual, expected, addendum))
             return False
 
     @staticmethod

@@ -68,7 +68,8 @@ class TestSuiteRibbon(unittest.TestCase):
                  'address', 'city', 'state', 'zipCode', 'email',
                  'emailType', 'save', )
         self.process.execute(order)
-        result = self.process.results(expected, 'toast-container', 10)
+        result = self.process.results(expected, elem_id='toast-container',
+                                      wait_time=10)
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'phone' or debug is 'all',
@@ -95,7 +96,7 @@ class TestSuiteRibbon(unittest.TestCase):
         self.process.update(runtime)
         order = ('phone', 'editPhone', 'revisePhone', 'phoneType', 'save')
         self.process.execute(order)
-        result = self.process.results(expected, 'toast-container', 5)
+        result = self.process.results(expected, elem_id='toast-container')
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'workspace' or debug is 'none',
