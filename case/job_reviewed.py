@@ -44,9 +44,10 @@ class JobReviewed(UI):
         'save': ('Click', '#drawer-save', ),
     }
     process.update(runtime)
-    order = ('edit', 'subtitle', 'save', )
+    order = ('edit', 'subtitle', )
     process.execute(order)
-    process.wait(1)
+    process.wait(2)
+    process.execute(('save', ))
 
     # Change back to admin user.
     process.get('site/logout')
@@ -57,10 +58,6 @@ class JobReviewed(UI):
         'view': ('Click', '#view_' + job_number,),
         'reviewed': ('Click', '#review_' + job_number,),
     }
-    # css=#expandable_91846>td>div>div:nth-child(4)>div>p
-    # element contains text:
-    # 'This job was edited after the last approval. Click "Reviewed" to
-    # 'update its approval.'
     process.update(runtime)
     order = ('view', )
     process.execute(order)
@@ -69,13 +66,11 @@ class JobReviewed(UI):
     expected = "Reviewed"
     actual = process.spy('#review_' + job_number, 'innerHTML')
     if process.compare(expected, actual):
-        # Review portion -- should no longer be available
+        # Now, click the "Reviewed" button
         order = ('reviewed', )
         process.execute(order)
-        expected = ''  # the Reviewed button should be gone, but it's still
-        # there in a hidden div TODO: find a 'state' to test against
-        actual = process.spy('#review_' + job_number, 'innerHTML')
-        process.compare(expected, actual)
+        expected = 'Approval Updated for Job {}'.format(job_number, )
+        process.results(expected, 'toast-container', 5)
 
     process.wait(1)
     process.teardown()
