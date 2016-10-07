@@ -118,8 +118,8 @@ class BvtBasic(unittest.TestCase):
         self.process.update(runtime)
         self.process.execute(('find', 'select', ))
         self.process.wait(2)  # ribbon needs time to display
-        result = self.process.results(
-            ' Matt Lambert', 'extended-results-body-91273')
+        result = self.process.results(' Matt Lambert',
+                                      'extended-results-body-91273')
         self.process.wait(1)
         self.process.execute(('purge', ))
         self.assertTrue(result, msg=expected)
@@ -215,7 +215,7 @@ class BvtBasic(unittest.TestCase):
         expected = 'Available Modifiers'
         self.process.update({'modifiers': ('Click', '#modifierList'), })
         self.process.execute(('modifiers', ))
-        result = self.process.results(expected, 'modifiers')
+        result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(

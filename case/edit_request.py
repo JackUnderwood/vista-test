@@ -24,6 +24,6 @@ class EditRequest(UI):
     order = ('showAll', 'editRequest', 'licensor', 'dateDesired', 'dateReceived',
              'notes', 'save', )
     process.execute(order)
-    process.results(expected, 'toast-container', 8)
+    process.results(expected, elem_id='toast-container', wait_time=8)
     process.wait(3)
     process.teardown()

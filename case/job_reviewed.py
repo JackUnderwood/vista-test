@@ -63,14 +63,16 @@ class JobReviewed(UI):
     process.execute(order)
 
     # Spy to see if Reviewed button is available
+    addendum = "This is the first of two possible results"
     expected = "Reviewed"
     actual = process.spy('#review_' + job_number, 'innerHTML')
-    if process.compare(expected, actual):
+    if process.compare(expected, actual, message=addendum):
         # Now, click the "Reviewed" button
+        addendum = "This is the second and final of two results"
+        expected = 'Approval Updated for Job {}'.format(job_number, )
         order = ('reviewed', )
         process.execute(order)
-        expected = 'Approval Updated for Job {}'.format(job_number, )
-        process.results(expected, 'toast-container', 5)
+        process.results(expected, elem_id='toast-container', message=addendum)
 
     process.wait(1)
     process.teardown()
