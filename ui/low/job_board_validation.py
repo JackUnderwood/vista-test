@@ -13,6 +13,7 @@ class JobBoardValidation(UI):
         log.info("JobBoardValidation __init__() called")
         runtime = {
             'level': self.MANAGE_JOBS,
+            'hover': ('Hover', '#slide-out'),
             'validation':  ("Chain", [
                 ('move_to_element', {
                     'to_element':
@@ -28,6 +29,6 @@ class JobBoardValidation(UI):
         }
         process = UI(override)
         process.update(runtime)
-        order = ('validation', )
+        order = ('hover', 'validation', )
         process.execute(order)
 

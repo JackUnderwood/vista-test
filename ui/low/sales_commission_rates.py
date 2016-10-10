@@ -12,6 +12,7 @@ class SalesCommissionRates(UI):
 
         runtime = {
             'level': self.SALES,
+            'hover': ('Hover', '#slide-out'),
             'sales': ("Chain", [
                 ('move_to_element', {
                     'to_element':
@@ -28,5 +29,5 @@ class SalesCommissionRates(UI):
 
         process = UI(override)
         process.update(runtime)
-        order = ('sales', )
+        order = ('hover', 'sales', )
         process.execute(order)

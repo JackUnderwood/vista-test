@@ -132,6 +132,8 @@ class UI:
             self.find(locator, value)
         elif command == "Select":
             self.select(locator, value)
+        elif command == "Hover":
+            self.hover(locator)
         elif command == "Wait":
             self.wait_for_element(locator, value)
         elif command == "Chain":
@@ -280,6 +282,20 @@ class UI:
         else:
             select.select_by_visible_text(value)
 
+    def hover(self, locator):
+        """
+        Move mouse over element and wait there for next action.
+        Note: Uses the ActionChains
+        :param locator: holds the xpath, id, class, or tag
+        :return: None
+        """
+        log.info("Hover Command - PATH: {0}".format(locator, ))
+        self.wait(1)  # critical wait --
+        actions = ActionChains(self.driver)
+        element = self.find_element(locator)
+        actions.move_to_element(element).perform()
+        self.wait(0.5)
+
     def loop(self, elements):  # temporarily for testing tables JNU!!!
         # import xml.etree.ElementTree as ETree
         log.info("Elements: {}".format(elements))
@@ -292,6 +308,7 @@ class UI:
 
     def chain(self, elements):
         """
+        Used to access the navigation menu
         Builds an 'action chain' - add more actions as needed - see link
         'http://selenium.googlecode.com/svn/trunk/docs/api/py/webdriver/
             selenium.webdriver.common.action_chains.html'

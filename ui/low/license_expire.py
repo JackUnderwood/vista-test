@@ -14,6 +14,7 @@ class LicenseExpire(UI):
         log.info("Expiring License __init__() called")
         runtime = {
             'level': self.LICENSING,
+            'hover': ('Hover', '#slide-out'),
             'expire': ("Chain", [
                 ('move_to_element', {
                     'to_element':
@@ -29,6 +30,6 @@ class LicenseExpire(UI):
         }
         process = UI(override)
         process.update(runtime)
-        order = ('expire', )
+        order = ('hover', 'expire', )
         process.execute(order)
 
