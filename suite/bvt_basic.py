@@ -164,7 +164,7 @@ class BvtBasic(unittest.TestCase):
         from ui.low.job_templates import JobTemplates
         JobTemplates()
 
-        expected = "Job Description Template Creator"
+        expected = "Job Description Templates"
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
@@ -293,6 +293,26 @@ class BvtBasic(unittest.TestCase):
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
+        debug is 'watch' or debug is 'all', "testing {}".format(debug,))
+    def test_watch(self):
+        ui.log.info('>>> Inside function test_watch()')
+        from ui.low.watch import Watch
+        Watch()
+        expected = 'Vista TV Slides'
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'watch_manage' or debug is 'all', "testing {}".format(debug,))
+    def test_watch_manage(self):
+        ui.log.info('>>> Inside function test_watch_manage()')
+        from ui.low.watch_manage import WatchManage
+        WatchManage()
+        expected = 'Vista Tv Admin'
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
         debug is 'wiki' or debug is 'all', "testing {}".format(debug,))
     def test_wiki(self):
         ui.log.info('>>> Inside function test_wiki()')
@@ -316,27 +336,6 @@ class BvtBasic(unittest.TestCase):
         expected = 'Use Find... to load your workspace.'
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
-
-
-    # @unittest.skipUnless(
-    #     debug is 'watch' or debug is 'all', "testing {}".format(debug,))
-    # def test_watch(self):
-    #     ui.log.info('>>> Inside function test_watch()')
-    #     from ui.low.watch import Watch
-    #     Watch()
-    #     expected = ''  # Unknown
-    #     result = self.process.results(expected)
-    #     self.assertTrue(result, msg=expected)
-    #
-    # @unittest.skipUnless(
-    #     debug is 'manage' or debug is 'all', "testing {}".format(debug,))
-    # def test_watch_manage(self):
-    #     ui.log.info('>>> Inside function test_watch_manage()')
-    #     from ui.low.watch_manage import WatchManage
-    #     WatchManage()
-    #     expected = ''  # Unknown
-    #     result = self.process.results(expected)
-    #     self.assertTrue(result, msg=expected)
 
     # @unittest.skipUnless(debug is 'admin' or debug is 'all',
     #                      "testing {}".format(debug,))
