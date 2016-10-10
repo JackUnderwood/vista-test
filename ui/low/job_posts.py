@@ -13,6 +13,7 @@ class JobPosts(UI):
         log.info("JobPosts __init__() called")
         runtime = {
             'level': self.MANAGE_JOBS,
+            'hover': ('Hover', '#slide-out'),
             'job':  ("Chain", [
                 ('move_to_element', {
                     'to_element':
@@ -28,5 +29,5 @@ class JobPosts(UI):
         }
         process = UI(override)
         process.update(runtime)
-        order = ('job', )
+        order = ('hover', 'job', )
         process.execute(order)

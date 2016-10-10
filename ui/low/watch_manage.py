@@ -11,6 +11,7 @@ class WatchManage(UI):
 
         runtime = {
             'level': self.WATCH,
+            'hover': ('Hover', '#slide-out'),
             'watch': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
             'manage': (
                 'Click',
@@ -20,5 +21,5 @@ class WatchManage(UI):
 
         process = UI(override)
         process.update(runtime)
-        order = ('watch', 'manage', )
+        order = ('hover', 'watch', 'manage', )
         process.execute(order)

@@ -12,6 +12,7 @@ class SalesCorporate(UI):
 
         runtime = {
             'level': self.SALES,
+            'hover': ('Hover', '#slide-out'),
             'sales': ("Chain", [
                 ('move_to_element', {
                     'to_element': '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
@@ -25,5 +26,5 @@ class SalesCorporate(UI):
         }
         process = UI(override)
         process.update(runtime)
-        order = ('sales', )
+        order = ('hover', 'sales', )
         process.execute(order)

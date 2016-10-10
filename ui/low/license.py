@@ -13,6 +13,7 @@ class License(UI):
         log.info("License __init__() called")
         runtime = {
             'level': self.LICENSING,
+            'hover': ('Hover', '#slide-out'),
             'license': ("Chain", [
                 ('move_to_element', {
                     'to_element':
@@ -28,5 +29,5 @@ class License(UI):
         }
         process = UI(override)
         process.update(runtime)
-        order = ('license', )
+        order = ('hover', 'license', )
         process.execute(order)

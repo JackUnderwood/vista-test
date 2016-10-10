@@ -13,6 +13,7 @@ class JobTemplates(UI):
         log.info("JobTemplates __init__() called")
         runtime = {
             'level': self.MANAGE_JOBS,
+            'hover': ('Hover', '#slide-out'),
             'jobTemplates':  ("Chain", [
                 ('move_to_element', {
                     'to_element':
@@ -28,6 +29,6 @@ class JobTemplates(UI):
         }
         process = UI(override)
         process.update(runtime)
-        order = ('jobTemplates', )
+        order = ('hover', 'jobTemplates', )
         process.execute(order)
 

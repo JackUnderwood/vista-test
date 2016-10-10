@@ -14,6 +14,7 @@ class EntityComments(UI):
         log.info("TransferFollowUpLogs __init__() called")
         runtime = {
             'level': self.MANAGE_ENTITIES,
+            'hover': ('Hover', '#slide-out'),
             'comments': ("Chain", [
                 ('move_to_element', {
                     'to_element':
@@ -29,6 +30,6 @@ class EntityComments(UI):
         }
         process = UI(override)
         process.update(runtime)
-        order = ('comments', )
+        order = ('hover', 'comments', )
         process.execute(order)
 

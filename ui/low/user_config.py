@@ -5,6 +5,9 @@ __author__ = 'John Underwood'
 
 
 class UserConfig(UI):
+    """
+    This menu items has been hidden and is no longer used inside INDY.
+    """
     def __init__(self, override=None):
         super().__init__()
         ui.log.debug('Inside UserConfig class')

@@ -14,6 +14,7 @@ class EntityTransferFollowUpLogs(UI):
         log.info("TransferFollowUpLogs __init__() called")
         runtime = {
             'level': self.MANAGE_ENTITIES,
+            'hover': ('Hover', '#slide-out'),
             'transFul': ("Chain", [
                 ('move_to_element', {
                     'to_element':
@@ -29,6 +30,6 @@ class EntityTransferFollowUpLogs(UI):
         }
         process = UI(override)
         process.update(runtime)
-        order = ('transFul', )
+        order = ('hover', 'transFul', )
         process.execute(order)
 
