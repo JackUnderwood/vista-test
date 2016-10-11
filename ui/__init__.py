@@ -356,26 +356,38 @@ class UI:
         self.wait(1)
         actions.perform()
 
-    def wait_for_element(self, elem_id, wait_time=1):
+    def wait_for_element(self, locator, wait_time=1):
         """
-        Waits for elements with the id attribute; id only
-        :param elem_id: a string that holds the element's id
+        Waits for the element to appear
+        :param locator: a string that holds the element's id, xpath, class,
+        or css selector
         :param wait_time: int - wait time in seconds
         :return: None
         Note: https://blog.mozilla.org/webqa/2012/07/12/how-to-webdriverwait/
         """
-        wait_time = int(wait_time)  # will throw error if contains alpha chars
-        _id = elem_id
-        if elem_id[0:1] == "#":
-            _id = elem_id[1:]  # remove the hash sign
-        log.info("Wait Command - wait for id=\"{0}\"".format(elem_id))
         from selenium.webdriver.support import expected_conditions as ec
         from selenium.webdriver.support.ui import WebDriverWait
         from selenium.webdriver.common.by import By
+
+        wait_time = int(wait_time)  # will throw error if contains alpha chars
+        _locator = locator  # default to element's id, e.g. 'toast-container'
+        _by = By.ID
+        if locator[0] == "#":
+            _locator = locator[1:]  # remove hash sign, e.g. '#toast-container'
+        elif locator[0] == "/":
+            _by = By.XPATH
+        elif locator[0] == ".":
+            _locator = locator[1:]  # remove the full stop
+            _by = By.CLASS_NAME
+        elif locator[0:3] == "css=":
+            _locator = locator[4:]
+            _by = By.CSS_SELECTOR
+        log.info("Wait action: wait_for_element --> \"{0}\"".format(locator))
         try:
-            WebDriverWait(self.driver, wait_time).until(
-                ec.presence_of_element_located((By.ID, _id)),
-                "elem_id: {} - wait_time: {}".format(_id, wait_time,))
+            wait = WebDriverWait(self.driver, wait_time)
+            _message = "Waiting for element: {}".format(_locator, )
+            wait.until(ec.presence_of_element_located((_by, _locator)),
+                       message=_message)
         finally:
             pass
 
