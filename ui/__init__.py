@@ -119,7 +119,7 @@ class UI:
 
         # The 'locator' and 'value' both may have placeholders
         locator = self.check_for_placeholder(locator)
-        if value.find('&') is not -1:
+        if isinstance(value, str) and value.find('&') is not -1:
             log.debug("-- REPLACE a 'value'")
             value = self.check_for_placeholder(value)
 
@@ -138,7 +138,7 @@ class UI:
         elif command == "Hover":
             self.hover(locator)
         elif command == "Wait":
-            self.wait_for_element(locator, value)
+            self.wait_for_element(locator, **value)
         elif command == "Chain":
             self.chain(locator)
         elif command == "Loop":  # temporarily for testing tables JNU!!!
@@ -364,13 +364,17 @@ class UI:
         Waits for the element to appear
         :param locator: a string that holds the element's id, xpath, class,
         or css selector
-        :param value: dict - may contain keys 'wait_time' and 'condition'
+        :param value: dict - may contain keys 'wait_time' and 'condition'; a list
+        of available conditions is found in self.get_expected_condition()
         :return: None
         Note: https://blog.mozilla.org/webqa/2012/07/12/how-to-webdriverwait/
         Note: http://selenium-python.readthedocs.io/waits.html#explicit-waits
         """
         wait_time = value.pop('wait_time', 5)
         condition = value.pop('condition', 'presence_of_element_located')
+        if value:  # all possible keys should be used at this point
+            raise TypeError("Unsupported configuration options {}".format(value,))
+
         _condition = self.get_expected_condition(condition)
         if _condition is None:
             raise ValueError("Unsupported wait condition: {}".format(condition,))
@@ -395,6 +399,8 @@ class UI:
             wait = WebDriverWait(self.driver, wait_time)
             _message = "Waiting for element: {}".format(_locator, )
             wait.until(_condition((_by, _locator)), message=_message)
+        except:
+            log.error("wait_for_element: Expected Condition failed to execute")
         finally:
             pass
 
@@ -508,7 +514,7 @@ class UI:
         """
         Search the DOM for the expected string.
         :param expected: expected results search string
-        :param value: dict - contains several configurations--see following code
+        :param value: dict - contains several configurations--see value.pop code
         :return: boolean
         """
         locator = value.pop('locator', None)
@@ -599,6 +605,10 @@ class UI:
 
     @staticmethod
     def get_expected_condition(condition):
+        """
+        :param condition: string - the condition's name
+        :return: ec object -  expected condition object
+        """
         if condition == "alert_is_present":
             return ec.alert_is_present
         elif condition == "element_located_selection_state_to_be":
