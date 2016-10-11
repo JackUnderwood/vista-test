@@ -373,7 +373,7 @@ class UI:
         condition = value.pop('condition', 'presence_of_element_located')
         _condition = self.get_expected_condition(condition)
         if _condition is None:
-            raise TypeError("Unsupported condition: {}".format(condition,))
+            raise ValueError("Unsupported wait condition: {}".format(condition,))
 
         wait_time = int(wait_time)  # will throw error if contains alpha chars
         _locator = locator  # default to element's id, e.g. 'toast-container'
