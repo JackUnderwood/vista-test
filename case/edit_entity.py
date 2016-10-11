@@ -6,7 +6,7 @@ __author__ = 'John Underwood'
 
 class EditEntity(UI):
     License()
-    Checklist()
+    Checklist({'rowNum': '6'})
 
     runtime = {
         'editEntity': (
@@ -25,7 +25,8 @@ class EditEntity(UI):
         'zipCode': ('Type', '#zip_code', '84042'),
         'emailType': ('Select', '#email_correspondence_method_type_id', 'Other'),
         'save': ('Click', '#save-n-check'),
-        # 'expectedError': ('Wait', '//*[@id="toast-container"]/div', 10),
+        # 'expectedError': (
+        #     'Wait', '//*[@id="toast-container"]/div', {'wait_time': 8}),
         # 123 N Main St, Lindon, UT 84042
         # has a class called "toast red"
     }
