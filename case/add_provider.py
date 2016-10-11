@@ -72,7 +72,7 @@ class AddProvider(UI):
              'email', 'emailType', 'phoneNumber', 'phoneType', 'ssn', 'save', )
     process.execute(order)
     process.wait(2)
-    success = process.results('Saved information', elem_id='toast-container',
+    success = process.results('Saved information', locator='toast-container',
                               wait_time=8)
     if success:
         order = ('findModifier', )
@@ -81,6 +81,6 @@ class AddProvider(UI):
         order = ('select', )
         process.execute(order)
         process.wait(1)
-        process.results(expected, elem_id='ribbon_form', wait_time=5)
+        process.results(expected, locator='ribbon_form', wait_time=5)
 
     process.teardown()

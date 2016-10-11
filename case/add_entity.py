@@ -41,6 +41,6 @@ class AddEntity(UI):
              'addressDesc', 'addressType', 'address1', 'address2', 'city',
              'state', 'zipcode', 'email', 'emailType', 'save', )
     process.execute(order)
-    process.results(expected, elem_id='toast-container', wait_time=5)
+    process.results(expected, locator='toast-container', wait_time=5)
     process.wait(3)
     process.teardown()

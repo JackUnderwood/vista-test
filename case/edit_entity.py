@@ -36,6 +36,6 @@ class EditEntity(UI):
              'address', 'city', 'state', 'zipCode', 'emailType',
              'save', )  # 'expectedError'
     process.execute(order)
-    process.results(expected, elem_id='toast-container', wait_time=10)
+    process.results(expected, locator='toast-container', wait_time=10)
     process.wait(3)
     process.teardown()
