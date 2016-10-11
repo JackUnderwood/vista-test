@@ -72,7 +72,7 @@ class JobReviewed(UI):
         expected = 'Approval Updated for Job {}'.format(job_number, )
         order = ('reviewed', )
         process.execute(order)
-        process.results(expected, elem_id='toast-container', message=addendum)
+        process.results(expected, locator='toast-container', message=addendum)
 
     process.wait(1)
     process.teardown()

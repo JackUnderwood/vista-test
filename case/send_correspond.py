@@ -43,6 +43,6 @@ class SendCorrespond(UI):
     order = ('licenseStanding', 'entity', 'findEntity', 'selectEntity',
              'checkAddress', 'saveDeliveryMethod', 'cya', 'send')
     process.execute(order)
-    process.results(expected, elem_id='toast-container')
+    process.results(expected, locator='toast-container')
     process.wait(3)
     process.teardown()

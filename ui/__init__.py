@@ -5,6 +5,9 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import InvalidElementStateException
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
 
 import tool.utilities as utils
 import book
@@ -116,7 +119,7 @@ class UI:
 
         # The 'locator' and 'value' both may have placeholders
         locator = self.check_for_placeholder(locator)
-        if value.find('&') is not -1:
+        if isinstance(value, str) and value.find('&') is not -1:
             log.debug("-- REPLACE a 'value'")
             value = self.check_for_placeholder(value)
 
@@ -135,7 +138,7 @@ class UI:
         elif command == "Hover":
             self.hover(locator)
         elif command == "Wait":
-            self.wait_for_element(locator, value)
+            self.wait_for_element(locator, **value)
         elif command == "Chain":
             self.chain(locator)
         elif command == "Loop":  # temporarily for testing tables JNU!!!
@@ -356,26 +359,48 @@ class UI:
         self.wait(1)
         actions.perform()
 
-    def wait_for_element(self, elem_id, wait_time=1):
+    def wait_for_element(self, locator, **value):
         """
-        Waits for elements with the id attribute; id only
-        :param elem_id: a string that holds the element's id
-        :param wait_time: int - wait time in seconds
+        Waits for the element to appear
+        :param locator: a string that holds the element's id, xpath, class,
+        or css selector
+        :param value: dict - may contain keys 'wait_time' and 'condition'; a list
+        of available conditions is found in self.get_expected_condition()
         :return: None
         Note: https://blog.mozilla.org/webqa/2012/07/12/how-to-webdriverwait/
+        Note: http://selenium-python.readthedocs.io/waits.html#explicit-waits
         """
+        wait_time = value.pop('wait_time', 5)
+        condition = value.pop('condition', 'presence_of_element_located')
+        if value:  # all possible keys should be used at this point
+            raise TypeError("Unsupported configuration options {}".format(value,))
+
+        _condition = self.get_expected_condition(condition)
+        if _condition is None:
+            raise ValueError("Unsupported wait condition: {}".format(condition,))
+
         wait_time = int(wait_time)  # will throw error if contains alpha chars
-        _id = elem_id
-        if elem_id[0:1] == "#":
-            _id = elem_id[1:]  # remove the hash sign
-        log.info("Wait Command - wait for id=\"{0}\"".format(elem_id))
-        from selenium.webdriver.support import expected_conditions as ec
-        from selenium.webdriver.support.ui import WebDriverWait
-        from selenium.webdriver.common.by import By
+        _locator = locator  # default to element's id, e.g. 'toast-container'
+        _by = By.ID
+        if locator[0] == "#":
+            _locator = locator[1:]  # remove hash sign, e.g. '#toast-container'
+        elif locator[0] == "/":
+            _by = By.XPATH
+        elif locator[0] == ".":
+            _locator = locator[1:]  # remove the full stop
+            _by = By.CLASS_NAME
+        elif locator[0:3] == "css=":
+            _locator = locator[4:]
+            _by = By.CSS_SELECTOR
+
+        log.info("Wait action: wait_for_element --> \"{0}\"".format(locator))
+
         try:
-            WebDriverWait(self.driver, wait_time).until(
-                ec.presence_of_element_located((By.ID, _id)),
-                "elem_id: {} - wait_time: {}".format(_id, wait_time,))
+            wait = WebDriverWait(self.driver, wait_time)
+            _message = "Waiting for element: {}".format(_locator, )
+            wait.until(_condition((_by, _locator)), message=_message)
+        except:
+            log.error("wait_for_element: Expected Condition failed to execute")
         finally:
             pass
 
@@ -485,21 +510,20 @@ class UI:
                 log.debug("-- NEW ELEMENT: {}".format(replacer, ))
         return replacer
 
-    def results(self, expected, elem_id=None, wait_time=5, negative=False,
-                message=''):
+    def results(self, expected, **value):
         """
         Search the DOM for the expected string.
-        :param message:
         :param expected: expected results search string
-        :param elem_id: look in a DOM specific area using 'id' attribute
-        :param message: string - append more information to log report
-        :param wait_time: int - the total tolerance time
-        :param negative: True - do NOT expect to see the expected
+        :param value: dict - contains several configurations--see value.pop code
         :return: boolean
         """
+        locator = value.pop('locator', None)
+        negative = value.pop('negative', False)
+        message = value.pop('message', '')
+
         self.check_for_new_window()
-        if elem_id:
-            self.wait_for_element(elem_id.strip('#'), wait_time)
+        if locator:
+            self.wait_for_element(locator, **value)
         html_source = self.driver.page_source.lower()
         res = True
         addendum = (
@@ -578,6 +602,48 @@ class UI:
         alert_message = self.driver.switch_to.alert.text
         self.driver.switch_to.alert.accept()
         return alert_message
+
+    @staticmethod
+    def get_expected_condition(condition):
+        """
+        :param condition: string - the condition's name
+        :return: ec object -  expected condition object
+        """
+        if condition == "alert_is_present":
+            return ec.alert_is_present
+        elif condition == "element_located_selection_state_to_be":
+            return ec.element_located_selection_state_to_be
+        elif condition == "element_located_to_be_selected":
+            return ec.element_located_to_be_selected
+        elif condition == "element_selection_state_to_be":
+            return ec.element_selection_state_to_be
+        elif condition == "element_to_be_clickable":
+            return ec.element_to_be_clickable
+        elif condition == "element_to_be_selected":
+            return ec.element_to_be_selected
+        elif condition == "frame_to_be_available_and_switch_to_it":
+            return ec.frame_to_be_available_and_switch_to_it
+        elif condition == "invisibility_of_element_located":
+            return ec.invisibility_of_element_located
+        elif condition == "presence_of_all_elements_located":
+            return ec.presence_of_all_elements_located
+        elif condition == "presence_of_element_located":
+            return ec.presence_of_element_located
+        elif condition == "staleness_of":
+            return ec.staleness_of
+        elif condition == "text_to_be_present_in_element":
+            return ec.text_to_be_present_in_element
+        elif condition == "text_to_be_present_in_element_value":
+            return ec.text_to_be_present_in_element_value
+        elif condition == "title_contains":
+            return ec.title_contains
+        elif condition == "title_is":
+            return ec.title_is
+        elif condition == "visibility_of":
+            return ec.visibility_of
+        elif condition == "visibility_of_element_located":
+            return ec.visibility_of_element_located
+        return None
 
     def teardown(self):
         log.info("Teardown")

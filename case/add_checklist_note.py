@@ -16,7 +16,7 @@ class AddChecklistNote(UI):
             '//*[@id="checklist-form-container"]/div[3]/div[2]/input',
             'Some important note from automation'),
         'save': ('Click', '//*[@id="checklist-form-container"]/div[3]/div[6]/a'),
-        'wait': ('Wait', '#scratch-pad', '5')
+        'wait': ('Wait', '#scratch-pad', {'condition': 'element_to_be_clickable'})
     }
     expected = 'Saved'
     process = UI()

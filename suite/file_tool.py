@@ -67,7 +67,7 @@ class TestSuiteFileTool(unittest.TestCase):
         order = ('reassign', 'selectType', 'select', 'inputProvider',
                  'selectProvider', 'subcategory', 'copy')
         self.process.execute(order)
-        result = self.process.results(expected, elem_id='toast-container')
+        result = self.process.results(expected, locator='toast-container')
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'rotate' or debug is 'all',

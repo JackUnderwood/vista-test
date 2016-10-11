@@ -119,7 +119,7 @@ class BvtBasic(unittest.TestCase):
         self.process.execute(('find', 'select', ))
         self.process.wait(2)  # ribbon needs time to display
         result = self.process.results(' Matt Lambert',
-                                      'extended-results-body-91273')
+                                      locator='extended-results-body-91273')
         self.process.wait(1)
         self.process.execute(('purge', ))
         self.assertTrue(result, msg=expected)

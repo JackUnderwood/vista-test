@@ -63,7 +63,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
                  'selectInsuranceProvider', 'startDate', 'endDate',
                  'occurrenceAmount', 'aggregateAmount', 'policyNumber', 'save', )
         self.process.execute(order)
-        result = self.process.results(expected, elem_id='toast-container')
+        result = self.process.results(expected, locator='toast-container')
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'claim' or debug is 'all',
@@ -97,7 +97,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
                  'selectInsuranceProvider', 'status', 'startDate', 'endDate',
                  'description', 'settleAmount', 'claimNumber', 'note', 'save', )
         self.process.execute(order)
-        result = self.process.results(expected, elem_id='toast-container')
+        result = self.process.results(expected, locator='toast-container')
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'education' or debug is 'all',
@@ -128,7 +128,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
                  'sDegree', 'sType', 'startDate', 'endDate', 'director', 'honor',
                  'checkCv', 'save', )
         self.process.execute(order)
-        result = self.process.results(expected, elem_id='toast-container')
+        result = self.process.results(expected, locator='toast-container')
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'examination' or debug is 'all',
@@ -156,7 +156,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
         order = ('exam', 'addExam', 'checkPassed', 'sExamination', 'sState',
                  'examDate', 'score', 'save', )
         self.process.execute(order)
-        result = self.process.results(expected, elem_id='toast-container')
+        result = self.process.results(expected, locator='toast-container')
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'experience' or debug is 'all',
@@ -190,7 +190,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
                  'description', 'check', 'startDate', 'endDate', 'department',
                  'departmentChair', 'capacity', 'notes', 'save', )
         self.process.execute(order)
-        result = self.process.results(expected, elem_id='toast-container')
+        result = self.process.results(expected, locator='toast-container')
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'email' or debug is 'all',
