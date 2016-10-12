@@ -3,14 +3,14 @@ from tool.vlog import VLog
 __author__ = 'John Underwood'
 
 
-class JobPosts(UI):
+class JobIcon(UI):
     """
-    Navigates to the Manage Job Post page.
+    Navigates to the Job Input Controls (i-con) page.
     """
     def __init__(self, override=None):
         super().__init__()
         log = VLog(name="vtf", log_name="JOBS")
-        log.info("JobPosts __init__() called")
+        log.info("JobControls __init__() called")
         runtime = {
             'level': self.MANAGE_JOBS,
             'hover': ('Hover', '#slide-out'),
@@ -23,7 +23,7 @@ class JobPosts(UI):
                         '//*[@id="slide-out"]/li[&level;]/ul/li/a/i[1]'}),
                 ('click', {
                     'on_element':
-                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[3]/a'}
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[5]/a'}
                  ),
             ]),
         }
@@ -31,3 +31,4 @@ class JobPosts(UI):
         process.update(runtime)
         order = ('hover', 'job', )
         process.execute(order)
+
