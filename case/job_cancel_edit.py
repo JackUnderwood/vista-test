@@ -35,10 +35,12 @@ class JobCancelEdit(UI):
         'subtitleText': "Rural Healthcare Central Texas",
         'descText': job_details,
         'edit': ('Click', '#edit_' + job_number,),
-        'subtitle': ('Type', '#job_board_subtitle', '&subtitleText;'),
-        'template': ('Select', '#template', 'Marketing Tab'),
+        'subtitle': ('Type', '#job__job_board_subtitle', '&subtitleText;'),
+        'template': ('Select',
+                     '#JobDescriptionTemplates__job_description_template_id',
+                     'Tester'),
         'description': ('TypeInCkeditor', '.cke_wysiwyg_frame', '&descText;'),
-        'cancel': ('Click', '#drawer-close', )
+        'cancel': ('Click', '#edit-close', )
     }
     expected = "Are you sure you want to lose your work?"
     process = UI()

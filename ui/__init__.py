@@ -111,7 +111,7 @@ class UI:
             if content is not None:  # for this: override = {'showAll': None}
                 self.exec_commands(content)
 
-    def exec_commands(self, content):
+    def exec_commands(self, content):  # JNU!!! not a 'command', but an 'action'
         if len(content) == len(self.UNKNOWN):
             command, locator, value = content
         else:
@@ -152,27 +152,22 @@ class UI:
         time.sleep(1)
 
     def click(self, locator):
-        log.info("Click Command - PATH: {0}".format(locator))
+        log.info("CLICK command using LOCATOR: {0}".format(locator))
         self.check_for_new_window()
         element = self.find_element(locator)
         element.click()
 
     def type(self, locator, value, char='$', **kwargs):
         """
-        Do action of type (typewrite) in a value
+        Do action of typing (typewrite) in a value
         :param locator: element location in DOM
         :param value: string - value to type into the element
         :param char: string - special char that may not clear()
         :return: void
         """
-        # Remove large string input for simpler logging.
         from selenium.webdriver.common.keys import Keys
-        temp = value
-        if len(value) > self.max_size and self.max_size is not 0:
-            ellipsis = "..."
-            temp = value[:self.max_size-len(ellipsis)].rstrip() + ellipsis
-        log.info("Type Command - PATH: {0} - VALUE: \'{1}\'".
-                 format(locator, temp))
+        log.info("TYPE command using LOCATOR: {} :: VALUE: \'{}\'".
+                 format(locator, self.truncate(value, max_size=self.max_size)))
         self.check_for_new_window()
         element = self.find_element(locator)
         try:
@@ -199,12 +194,8 @@ class UI:
         # Remove large string input for simpler logging.
         from selenium.webdriver.common.action_chains import ActionChains
         from selenium.webdriver.common.keys import Keys
-        temp = value
-        if len(value) > self.max_size and self.max_size is not 0:
-            ellipsis = "..."
-            temp = value[:self.max_size-len(ellipsis)].rstrip() + ellipsis
-        log.info("Type Command - PATH: {0} - VALUE: \'{1}\'".
-                 format(locator, temp))
+        log.info("TYPE_IN_CKEDITOR command using LOCATOR: {0} - VALUE: \'{1}\'".
+                 format(locator, self.truncate(value, max_size=self.max_size)))
         self.check_for_new_window()
         element = self.find_element(locator)
 
@@ -507,7 +498,12 @@ class UI:
             if key in self.runtime:
                 replacer = replacer.replace(
                     '&{};'.format(key,), self.runtime[key])
-                log.debug("-- NEW ELEMENT: {}".format(replacer, ))
+                log.debug("-- NEW ELEMENT: {}".format(
+                    self.truncate(replacer), ))
+            else:
+                message = ("Trying to replace the placeholder \"{}\""
+                           "with the non-existing KEY [{}]")
+                raise KeyError(message.format(replacer, key))
         return replacer
 
     def results(self, expected, **value):
@@ -603,6 +599,32 @@ class UI:
         self.driver.switch_to.alert.accept()
         return alert_message
 
+    def teardown(self):
+        log.info("Teardown")
+        self.wait(1)
+        self.driver.quit()
+
+    @staticmethod
+    def truncate(value, max_size=25, suffix='...'):
+        """
+        Remove large string input for simpler logging.
+        Note: doesn't include the first word that may be longer than the max_size
+        Note: rounds up a word, so if a max_size is in the middle of a word,
+        the word is included in the returned string.
+        See http://stackoverflow.com/questions/250357
+        /truncate-a-string-without-ending-in-the-middle-of-a-word
+        :param value: string - the value that may need to be truncated
+        :param max_size: int - the maximum tolerance of the 'value'
+        :param suffix: string - the last characters to indicate continuation
+        :return: string
+        """
+        if len(value) <= max_size:
+            return value
+        else:
+            num_of_words = len(value[:max_size].split())
+            suffix = suffix if num_of_words > 1 else ""
+            return ' '.join(value.split(' ')[0:num_of_words]) + suffix
+
     @staticmethod
     def get_expected_condition(condition):
         """
@@ -644,11 +666,6 @@ class UI:
         elif condition == "visibility_of_element_located":
             return ec.visibility_of_element_located
         return None
-
-    def teardown(self):
-        log.info("Teardown")
-        self.wait(1)
-        self.driver.quit()
 
     @staticmethod
     def compare(expected, actual, message=''):
