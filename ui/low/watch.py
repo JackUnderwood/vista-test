@@ -12,14 +12,21 @@ class Watch(UI):
         runtime = {
             'level': self.WATCH,
             'hover': ('Hover', '#slide-out'),
-            'watch': ('Click', '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'),
-            'sub': (
-                'Click',
-                '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[1]/a'
-            ),
+            'watch': ("Chain", [
+                ('move_to_element', {
+                    'to_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/a/i[1]'}),
+                ('click', {
+                    'on_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/a/i[1]'}),
+                ('click', {
+                    'on_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[1]/a'}
+                 ),
+            ]),
         }
 
         process = UI(override)
         process.update(runtime)
-        order = ('hover', 'watch', 'sub', )
+        order = ('hover', 'watch', )
         process.execute(order)
