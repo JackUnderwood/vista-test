@@ -284,7 +284,7 @@ class UI:
         :return: None
         """
         log.info("Hover Command - PATH: {0}".format(locator, ))
-        self.wait(1)  # critical wait --
+        self.wait(2)  # critical wait --
         actions = ActionChains(self.driver)
         element = self.find_element(locator)
         actions.move_to_element(element).perform()
