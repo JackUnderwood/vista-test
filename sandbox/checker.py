@@ -8,8 +8,8 @@ class Check(UI):
     Change the class call below.
     """
     process = UI()
-    from ui.low.job_posts import JobPosts
-    JobPosts()
+    from ui.low.find import Find
+    Find()
 
     # Reserve - do not alter anything below ^*^*^*^*^*^
     process.wait(5)
