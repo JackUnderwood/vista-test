@@ -3,8 +3,6 @@ import unittest
 import ui
 from ui import UI
 from ui.low.find import Find
-from ui.high.checklist import Checklist
-from tool.generators.generator import gen_name, gen_email
 
 __author__ = 'John Underwood'
 
@@ -14,12 +12,13 @@ class BvtRibbon(unittest.TestCase):
     This test group click on most of the buttons inside the ribbon, and checks
     that each drawer displays as expected. Use this suite as part of a
     Build Verification Test - BVT
-    Tests all buttons with the exception of "View Jobs Map" and "Manage Files"
+    Tests all buttons with the exception of "View Jobs Map" and "Manage Files",
+    since these create new tab pages and not drawers.
     """
     ui.log.info(">>> Inside BvtRibbon class")
-    debug = 'passwords'  # use 'all'; or test individual case methods below
+    debug = 'all'  # use 'all'; or test individual case methods below
     process = UI()
-    runtime = {}  # used inside tearDown()
+    runtime = {}  # used indirectly inside tearDown()
     close = ()  # used inside tearDown()
 
     entity = 'Peter Bertolozzi'  # 'matt lambert st:wv'
@@ -47,6 +46,142 @@ class BvtRibbon(unittest.TestCase):
         UI().teardown()
 
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
+
+    @unittest.skipUnless(debug is 'correspond' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_correspond(self):
+        ui.log.debug(">>> Inside function test_correspond()")
+
+        self.runtime = {
+            'correspond': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[1]'),
+            'close': ('Click', '//*[@id="correspondenceChooser_form"]/div/a')
+        }
+        expected = 'Select a Template'
+        self.process.update(self.runtime)
+        order = ('correspond', )
+        self.process.execute(order)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(debug is 'emailer' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_emailer(self):
+        ui.log.debug(">>> Inside function test_emailer()")
+
+        runtime = {
+            'emailer': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[2]/i'),
+            'close': ('Click', '//*[@id="emailer_form"]/div[5]/a[2]'),
+        }
+        expected = ') Emailer'
+        self.process.update(runtime)
+        order = ('emailer', )
+        self.process.execute(order)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(debug is 'emails' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_emails(self):
+        ui.log.debug(">>> Inside function test_emails()")
+
+        self.runtime = {
+            'emails': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[3]/i'
+            ),
+            'close': ('Click', '//*[@id="emailGrid_form"]/div[2]/a'),
+        }
+        expected = ') Emails'
+        self.process.update(self.runtime)
+        order = ('emails', )
+        self.process.execute(order)
+        UI().wait(1)  # wait for the drawer
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(debug is 'phone' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_phone(self):
+        ui.log.debug(">>> Inside function test_phone()")
+
+        self.runtime = {
+            'phone': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[4]/i'
+            ),
+            'close': ('Click', '//*[@id="phoneGrid_form"]/div[2]/a'),
+        }
+        expected = ') Phone Numbers'
+        self.process.update(self.runtime)
+        order = ('phone', )
+        self.process.execute(order)
+        UI().wait(1)  # wait for the drawer
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(debug is 'addresses' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_addresses(self):
+        ui.log.debug(">>> Inside function test_addresses()")
+
+        self.runtime = {
+            'addresses': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[5]/i'
+            ),
+            'close': ('Click', '#addressGridClose'),
+        }
+        expected = ') Addresses'
+        self.process.update(self.runtime)
+        order = ('addresses', )
+        self.process.execute(order)
+        UI().wait(1)  # wait for the drawer
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(debug is 'comments' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_comments(self):
+        ui.log.debug(">>> Inside function test_comments()")
+
+        self.runtime = {
+            'comments': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[6]/i'
+            ),
+            'close': ('Click', '//*[@id="commentsGrid_form"]/div[2]/a'),
+        }
+        expected = 'Comments'
+        self.process.update(self.runtime)
+        order = ('comments', )
+        self.process.execute(order)
+        UI().wait(1)  # wait for the drawer
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(debug is 'contacts' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_contacts(self):
+        ui.log.debug(">>> Inside function test_contacts()")
+
+        self.runtime = {
+            'contacts': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[7]/i'
+            ),
+            'close': ('Click', '//*[@id="contacts_form"]/div[3]/a'),
+        }
+        expected = 'Contacts'
+        self.process.update(self.runtime)
+        order = ('contacts', )
+        self.process.execute(order)
+        UI().wait(1)  # wait for the drawer
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'passwords' or debug is 'all',
                          "testing {}".format(debug,))
@@ -180,42 +315,6 @@ class BvtRibbon(unittest.TestCase):
         expected = ') Manage Entity'
         self.process.update(self.runtime)
         order = ('editEntity', )
-        self.process.execute(order)
-        result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
-
-    @unittest.skipUnless(debug is 'correspond' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_correspond(self):
-        ui.log.debug(">>> Inside function test_correspond()")
-
-        self.runtime = {
-            'correspond': (
-                'Click',
-                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[1]'),
-            'close': ('Click', '//*[@id="correspondenceChooser_form"]/div/a')
-        }
-        expected = 'Select a Template'
-        self.process.update(self.runtime)
-        order = ('correspond', )
-        self.process.execute(order)
-        result = self.process.results(expected)
-        self.assertTrue(result, msg=expected)
-
-    @unittest.skipUnless(debug is 'emailer' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_emailer(self):
-        ui.log.debug(">>> Inside function test_emailer()")
-
-        runtime = {
-            'emailer': (
-                'Click',
-                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[2]/i'),
-            'close': ('Click', '//*[@id="emailer_form"]/div[5]/a[2]'),
-        }
-        expected = ') Emailer'
-        self.process.update(runtime)
-        order = ('emailer', )
         self.process.execute(order)
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
