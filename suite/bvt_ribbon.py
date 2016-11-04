@@ -17,7 +17,7 @@ class BvtRibbon(unittest.TestCase):
     Tests all buttons with the exception of "View Jobs Map" and "Manage Files"
     """
     ui.log.info(">>> Inside BvtRibbon class")
-    debug = 'all'  # use 'all'; or test individual case methods below
+    debug = 'passwords'  # use 'all'; or test individual case methods below
     process = UI()
     runtime = {}  # used inside tearDown()
     close = ()  # used inside tearDown()
@@ -48,6 +48,104 @@ class BvtRibbon(unittest.TestCase):
 
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
 
+    @unittest.skipUnless(debug is 'passwords' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_passwords(self):
+        ui.log.debug(">>> Inside function test_passwords()")
+
+        self.runtime = {
+            'passwords': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[9]/i'
+            ),
+            'close': ('Click', '//*[@id="urlPasswords_form"]/div[2]/a'),
+        }
+        expected = 'Passwords'
+        self.process.update(self.runtime)
+        order = ('passwords', )
+        self.process.execute(order)
+        UI().wait(1)  # wait for the drawer
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(debug is 'licenses' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_licenses(self):
+        ui.log.debug(">>> Inside function test_licenses()")
+
+        self.runtime = {
+            'licenses': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[2]/a[1]/span'
+            ),
+            'close': ('Click', '//*[@id="licenseGrid_form"]/div[2]/a'),
+        }
+        expected = ') Licenses'
+        self.process.update(self.runtime)
+        order = ('licenses', )
+        self.process.execute(order)
+        UI().wait(1)  # wait for the drawer
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(debug is 'malpractice' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_malpractice(self):
+        ui.log.debug(">>> Inside function test_malpractice()")
+
+        self.runtime = {
+            'malpractice': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[2]/a[2]/span'
+            ),
+            'close': ('Click', '//*[@id="malpracticeGrid_form_drawer"]/div[4]/a'),
+        }
+        expected = ') Malpractice Claims &amp; Carriers'
+        self.process.update(self.runtime)
+        order = ('malpractice', )
+        self.process.execute(order)
+        UI().wait(1)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(debug is 'experience' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_experience(self):
+        ui.log.debug(">>> Inside function test_experience()")
+
+        self.runtime = {
+            'experience': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[2]/a[3]/span'
+            ),
+            'close': ('Click', '//*[@id="experienceGrid_form_drawer"]/div[3]/a'),
+        }
+        expected = ') Experience'
+        self.process.update(self.runtime)
+        order = ('experience', )
+        self.process.execute(order)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(debug is 'examinations' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_examinations(self):
+        ui.log.debug(">>> Inside function test_examinations()")
+
+        self.runtime = {
+            'exams': (
+                'Click',
+                '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[2]/a[4]/span'
+            ),
+            'close': ('Click', '//*[@id="examinationGrid_form_drawer"]/div[3]/a'),
+        }
+        expected = ') Examinations'
+        self.process.update(self.runtime)
+        order = ('exams', )
+        self.process.execute(order)
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
     @unittest.skipUnless(debug is 'education' or debug is 'all',
                          "testing {}".format(debug,))
     def test_education(self):
@@ -64,7 +162,6 @@ class BvtRibbon(unittest.TestCase):
         self.process.update(self.runtime)
         order = ('education', )
         self.process.execute(order)
-        UI.wait(1)
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
