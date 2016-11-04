@@ -13,7 +13,7 @@ class Find(UI):
         log = VLog(name="vtf", log_name="FIND")
         log.info(" ======= Find... ======= ")
 
-        runtime = {  # entityName and entityId must both be overridden
+        runtime = {
             'entity': 'Matt Lambert st:wv',  # OVERRIDE
             'entityId': '91273',  # OVERRIDE
             'searchType': 'Provider',  # OVERRIDE
