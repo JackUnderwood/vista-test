@@ -4,18 +4,18 @@ from tool.vlog import VLog
 __author__ = 'John Underwood'
 
 
-class LicenseExpire(UI):
+class LicenseTimeReport(UI):
     """
-    Begins at the main page and branches to the Expiring Licenses page.
+    Navigates to the Average Licensing Time by State page.
     """
     def __init__(self, override=None):
         super().__init__()
         log = VLog(name="vtf", log_name="LICENSE")
-        log.info("Expiring License __init__() called")
+        log.info("License Requirements __init__() called")
         runtime = {
             'level': self.LICENSING,
             'hover': ('Hover', '#slide-out'),
-            'expire': ("Chain", [
+            'timeline': ("Chain", [
                 ('move_to_element', {
                     'to_element':
                         '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
@@ -24,12 +24,12 @@ class LicenseExpire(UI):
                         '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
                 ('click', {
                     'on_element':
-                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[4]/a'}
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[3]/a'}
                  ),
             ]),
         }
         process = UI(override)
         process.update(runtime)
-        order = ('hover', 'expire', )
+        order = ('hover', 'timeline', )
         process.execute(order)
 

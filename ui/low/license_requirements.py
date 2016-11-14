@@ -25,7 +25,7 @@ class LicenseRequirements(UI):
                         '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
                 ('click', {
                     'on_element':
-                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[4]/a'}
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[5]/a'}
                  ),
             ]),
         }

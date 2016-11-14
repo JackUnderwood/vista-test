@@ -179,6 +179,16 @@ class BvtBasic(unittest.TestCase):
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
+        debug is 'timeline' or debug is 'all', "testing {}".format(debug,))
+    def test_license_time_report(self):
+        ui.log.info('>>> Inside function test_license_time_report()')
+        from ui.low.license_time_report import LicenseTimeReport
+        LicenseTimeReport()
+        expected = 'Average Licensing Time by State'
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
         debug is 'expire' or debug is 'all', "testing {}".format(debug,))
     def test_license_expire(self):
         ui.log.info('>>> Inside function test_license_expire()')
