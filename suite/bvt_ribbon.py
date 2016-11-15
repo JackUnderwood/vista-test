@@ -31,6 +31,7 @@ class BvtRibbon(unittest.TestCase):
     def tearDown(self):
         # Each test case MUST have a 'close' key in the runtime, which
         # should select a drawer's Close or Cancel button's element.
+        UI().wait(1)
         self.close = ('close', )
         self.process.execute(self.close)
 
@@ -57,12 +58,14 @@ class BvtRibbon(unittest.TestCase):
                 'Click',
                 '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[1]'),
             'close': ('Click', '//*[@id="correspondenceChooser_form"]/div/a')
-        }
+        }                      #
         expected = 'Select a Template'
         self.process.update(self.runtime)
         order = ('correspond', )
         self.process.execute(order)
-        result = self.process.results(expected)
+        result = self.process.results(
+            expected,
+            locator='//*[@id="correspondenceChooser_form"]/div/a', )
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'emailer' or debug is 'all',
@@ -133,7 +136,7 @@ class BvtRibbon(unittest.TestCase):
                 'Click',
                 '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[5]/i'
             ),
-            'close': ('Click', '#addressGridClose'),
+            'close': ('Click', '//*[@id="addressGrid_form"]/div[2]/a'),
         }
         expected = ') Addresses'
         self.process.update(self.runtime)
@@ -316,6 +319,9 @@ class BvtRibbon(unittest.TestCase):
         self.process.update(self.runtime)
         order = ('editEntity', )
         self.process.execute(order)
-        result = self.process.results(expected)
+        self.process.wait(2)  # drawer is slow to display
+        result = self.process.results(
+            expected,
+            locator='//*[@id="editEntityInformation_form"]/div[3]/a[3]', )
         self.assertTrue(result, msg=expected)
 
