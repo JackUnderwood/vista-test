@@ -135,7 +135,7 @@ class BvtBasic(unittest.TestCase):
     @unittest.skipUnless(
         debug is 'validation' or debug is 'all', "testing {}".format(debug,))
     def test_job_board_validation(self):
-        ui.log.info('>>> Inside function test_job_posts()')
+        ui.log.info('>>> Inside function test_job_board_validation()')
 
         from ui.low.job_board_validation import JobBoardValidation
         JobBoardValidation()
@@ -159,7 +159,7 @@ class BvtBasic(unittest.TestCase):
     @unittest.skipUnless(
         debug is 'templates' or debug is 'all', "testing {}".format(debug,))
     def test_job_templates(self):
-        ui.log.info('>>> Inside function test_job_posts()')
+        ui.log.info('>>> Inside function test_job_templates()')
 
         from ui.low.job_templates import JobTemplates
         JobTemplates()
