@@ -39,10 +39,11 @@ add_experimental_option(
 """
 
 log = VLog(name="vtf", log_name="UI")
+url = utils.get_configurations("DEFAULT", "test_url")
 
 
 class UI:
-
+    
     # Menu - vertical nav bar starts from 1 down to n
     HOME = '1'
     WIKI = '2'
@@ -69,7 +70,7 @@ class UI:
     username = utils.get_configurations('USER', 'username')
     driver = webdriver.Chrome(executable_path='C:/Common/chromedriver',
                               chrome_options=chrome_options)
-    driver.get('http://{}:{}@indytest/'.format(username, book.password))  # TODO
+    driver.get('http://{}:{}@{}/'.format(username, book.password, url))  # TODO
     driver.implicitly_wait(5)  # seconds
     url = utils.url
     driver.get(url)  # TODO: combine the get() func above; hardcoded indytest/
