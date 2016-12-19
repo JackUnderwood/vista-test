@@ -39,7 +39,6 @@ add_experimental_option(
 """
 
 log = VLog(name="vtf", log_name="UI")
-url = utils.get_configurations("DEFAULT", "test_url")
 
 
 class UI:
