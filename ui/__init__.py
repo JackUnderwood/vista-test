@@ -43,7 +43,7 @@ url = utils.get_configurations("DEFAULT", "test_url")
 
 
 class UI:
-    
+
     # Menu - vertical nav bar starts from 1 down to n
     HOME = '1'
     WIKI = '2'
@@ -56,9 +56,11 @@ class UI:
     WATCH = '9'
     ADMIN = '10'
 
+    url = utils.url
+
     chrome_options = Options()
     # chrome_options.add_argument("--start-maximized")
-    chrome_options.add_argument("window-size=1280,1024")
+    chrome_options.add_argument("window-size=1280,1024") # 1280x1024 standard res
     chrome_options.add_argument("--disable-extensions")  # developer extensions
     # TODO: disable hardware acceleration setting - this doesn't work
     chrome_options.add_argument("--disable-gpu")
@@ -70,10 +72,9 @@ class UI:
     username = utils.get_configurations('USER', 'username')
     driver = webdriver.Chrome(executable_path='C:/Common/chromedriver',
                               chrome_options=chrome_options)
-    driver.get('http://{}:{}@{}/'.format(username, book.password, url))  # TODO
-    driver.implicitly_wait(5)  # seconds
-    url = utils.url
-    driver.get(url)  # TODO: combine the get() func above; hardcoded indytest/
+    driver.get('http://{}:{}@{}/'.format(username, book.password, url))
+    driver.implicitly_wait(5)  # in seconds
+    driver.get(url)
     log.debug("TEST Uniform Resource Locator --------->>> {}".format(url,))
     assert "INDY" in driver.title
 
