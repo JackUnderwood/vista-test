@@ -56,6 +56,9 @@ class UI:
     ADMIN = '10'
 
     url = utils.url
+    # Get configurations
+    username = utils.get_configurations('USER', 'username')
+    driver_location = utils.get_configurations('CHROME', 'driver')
 
     chrome_options = Options()
     # chrome_options.add_argument("--start-maximized")
@@ -68,13 +71,12 @@ class UI:
     chrome_options.add_experimental_option(
         'excludeSwitches',
         ['test-type', 'ignore-certificate-errors'])
-    username = utils.get_configurations('USER', 'username')
-    driver = webdriver.Chrome(executable_path='C:/Common/chromedriver',
+    driver = webdriver.Chrome(executable_path=driver_location,
                               chrome_options=chrome_options)
-    driver.get('http://{}:{}@{}/'.format(username, book.password, url))
+    # driver.get('http://{}:{}@indytest/'.format(username, book.password)) # TODO
     driver.implicitly_wait(5)  # in seconds
     driver.get(url)
-    log.debug("TEST Uniform Resource Locator --------->>> {}".format(url,))
+    log.debug("TEST Uniform Resource Locator --------->>> {}".format(url, ))
     assert "INDY" in driver.title
 
     max_size = int(utils.get_configurations("LOGGING", "max_string_size"))
