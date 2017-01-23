@@ -330,11 +330,7 @@ class BvtBasic(unittest.TestCase):
         from ui.low.wiki import Wiki
         Wiki()
         expected = 'Full View'
-        actual = self.process.spy('//*[@id="wiki_form"]/a', 'innerHTML')
-        result = self.process.compare(expected, actual.strip())
-        self.process.update(
-            {'close': ('Click', '//*[@id="wikieditClose"]')})
-        self.process.execute(('close', ))
+        result = self.process.results(expected, locator="#wiki_form")
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
