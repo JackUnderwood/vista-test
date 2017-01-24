@@ -101,12 +101,14 @@ def gen_email(full_name):
     return email.lower()
 
 
-def gen_key():
+def gen_key(range_size=12):
     """
     Create a unique key value; use as an identifier for text
-    :return: a 12 character string
+    :param range_size: integer - number of chars in string
+    :return: a 12 character string - default 12
     """
-    return ''.join(random.choice(string.ascii_uppercase) for i in range(12))
+    return ''.join(random.choice(string.ascii_uppercase)
+                   for i in range(range_size))
 
 
 def gen_number(number):
