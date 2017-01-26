@@ -40,5 +40,5 @@ class JobEditSave(UI):
 
     actual = 'disabled' in value_in_class
     process.compare(True, actual, 'Is the Save button "disabled"?')
-    process.wait(5)
+    process.wait(1)
     process.teardown()
