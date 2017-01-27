@@ -1,6 +1,7 @@
 import ui
 from ui import UI
 from ui.low.job_posts import JobPosts
+from ui.high.job_search import JobSearch
 __author__ = 'John Underwood'
 
 
@@ -12,15 +13,10 @@ class JobEditCancel(UI):
     """
     ui.log.info("JobEditCancel __init__() called")
     JobPosts()
+    override = {'value': '90000-92150'}
+    JobSearch(override)
 
-    runtime = {
-        'search': ('Type', '#s_job_number', '90000-92150'),
-        'refresh': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[2]/button')
-    }
     process = UI()
-    process.update(runtime)
-    order = ('search', 'refresh', )
-    process.execute(order)
 
     # Get the first row's job number.
     job_number = process.spy(
