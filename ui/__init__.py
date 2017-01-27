@@ -603,6 +603,7 @@ class UI:
         return alert_message
 
     def teardown(self):
+        log.info(time.strftime("%Y-%m-%d %H:%M"))
         log.info("Teardown")
         self.wait(1)
         self.driver.quit()
