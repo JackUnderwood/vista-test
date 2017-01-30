@@ -11,6 +11,7 @@ class JobStatusUpdate(UI):
     """
     JobPosts()
 
+
     runtime = {
         '': ('', ''),
     }
