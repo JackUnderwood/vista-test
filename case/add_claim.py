@@ -18,7 +18,7 @@ class AddClaim(UI):
     Checklist()
 
     runtime = {
-        'malpractice': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[4]'),
+        'malpractice': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/li[5]/a'),
         'addClaim': ('Click', '//*[@id="malpracticeGrid_form_inline"]/a[1]'),
         'findInsuranceProvider': ('Type', '#insurance_provider_id_desc', 'ame'),
         'selectInsuranceProvider': ('Click', '#62963'),  # Orthopaedic Surgeons
