@@ -685,5 +685,5 @@ class UI:
             return False
 
     @staticmethod
-    def wait(seconds):
+    def wait(seconds=1):
         time.sleep(seconds)
