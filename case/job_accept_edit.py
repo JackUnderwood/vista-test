@@ -25,21 +25,21 @@ class JobAcceptEdit(UI):
     """
     job_number = '92094'
     JobPosts()
-    JobSearch(override={'num': job_number})
+    JobSearch(override={'value': job_number})
 
     runtime = {
         'subtitleText': "Rural Healthcare Central Texas",
         'descText': job_details,
         'edit': ('Click', '#edit_' + job_number,),
-        'subtitle': ('Type', '#job_board_subtitle', '&subtitleText;'),
-        'template': ('Select', '#template', 'Marketing Tab'),
+        'subtitle': ('Type', '#jobs__job_board_subtitle', '&subtitleText;'),
+        'template': ('Select', '#template', 'Hospitalist'),
         'description': ('TypeInCkeditor', '.cke_wysiwyg_frame', '&descText;'),
-        'cancel': ('Click', '#drawer-close', )
+        'cancel': ('Click', '#edit-close', )
     }
-    expected = "Are you sure you want to lose your work?"
+    # expected = "Are you sure you want to lose your work?"
     process = UI()
     process.update(runtime)
-    order = ('edit', 'subtitle', 'description', 'cancel', )
+    order = ('edit', 'subtitle', 'cancel', )
     process.execute(order)
     alert_text = process.accept_alert()
     # The Job Edit drawer should be gone and we're back to Manage Job Posts page

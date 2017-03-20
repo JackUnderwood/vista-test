@@ -571,16 +571,16 @@ class UI:
 
     def is_available(self, locator):
         """
-        Is the action--click--available on the screen
+        Is the element available on the screen
         :param locator: holds the xpath, id, class, or selector
         :return: Boolean
         """
-        from selenium.common.exceptions import WebDriverException
-        element = self.find_element(locator)
+        from selenium.common.exceptions import NoSuchElementException
         try:
+            element = self.find_element(locator)
             element.click()
-        except WebDriverException as wde:
-            log.info("is_available() exception - {}".format(wde, ))
+        except NoSuchElementException as nsee:
+            log.info("is_available() exception - {}".format(nsee, ))
             return False
         return True
 
