@@ -6,7 +6,8 @@ __author__ = 'John Underwood'
 
 class DirectorySaveState(UI):
     """
-    Regression test for story #105687354
+    Regression test for stories #105687354--the State field doesn't save--and
+    #141898925--makes user inactive
     """
     name = get_configurations("USER", "name")
     # TODO check for the value of the current State and remove it from the list
@@ -41,6 +42,10 @@ class DirectorySaveState(UI):
         state_value = process.get_selected_option('#state')
         process.compare(expected, state_value)
     else:
-        pass
+        msg = """User's row
+        is no longer available; test failed early; may be caused by
+        user_config table's can_use='N'--user is no longer active"""
+        process.compare(True, False, message=msg)
+
     process.teardown()
 
