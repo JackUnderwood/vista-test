@@ -106,6 +106,30 @@ class BvtBasic(unittest.TestCase):
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
+        debug is 'cvgen' or debug is 'all', "testing {}".format(debug,))
+    def test_file_cvgen(self):
+        ui.log.info('>>> Inside function test_file_cvgen()')
+        from ui.low.file_cvgen import FileCvGen
+        FileCvGen()
+        pass
+
+    @unittest.skipUnless(
+        debug is 'cvpartial' or debug is 'all', "testing {}".format(debug,))
+    def test_file_cv_partial(self):
+        ui.log.info('>>> Inside function test_file_cv_partial()')
+        from ui.low.file_cvpartial import FileCvPartial
+        FileCvPartial()
+        pass
+
+    @unittest.skipUnless(
+        debug is 'cvtemplate' or debug is 'all', "testing {}".format(debug,))
+    def test_file_cv_template(self):
+        ui.log.info('>>> Inside function test_file_cv_template()')
+        from ui.low.file_cvgen import FileCvGen
+        FileCvGen()
+        pass
+
+    @unittest.skipUnless(
         debug is 'find' or debug is 'all', "testing {}".format(debug,))
     def test_find(self):
         ui.log.info('>>> Inside function test_find()')
