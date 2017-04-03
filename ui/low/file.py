@@ -14,7 +14,19 @@ class File(UI):
         log.info("File __init__() called")
         runtime = {
             'level': self.FILE,
-            'file': ('Click', '//*[@id="slide-out"]/li[&level;]/a/i', ''),
+            'hover': ('Hover', '#slide-out'),
+            'file': ("Chain", [
+                ('move_to_element', {
+                    'to_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
+                ('click', {
+                    'on_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/a/i'}),
+                ('click', {
+                    'on_element':
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[1]/a'}
+                 ),
+            ]),
         }
         process = UI(override)
         process.update(runtime)

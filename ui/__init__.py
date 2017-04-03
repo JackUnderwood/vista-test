@@ -148,7 +148,8 @@ class UI:
             self.loop(locator)
         elif command == "Unknown":
             log.warning("""Execute - This command is unknown or
-            runtime has not been processed""")
+            runtime has not been processed or 'order' value is
+            mismatch to key""")
         else:
             log.exception("""Execute - No command is available -
             throw an error""")
