@@ -111,7 +111,9 @@ class BvtBasic(unittest.TestCase):
         ui.log.info('>>> Inside function test_file_cvgen()')
         from ui.low.file_cvgen import FileCvGen
         FileCvGen()
-        pass
+        expected = 'CV Generator'
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
         debug is 'cvpartial' or debug is 'all', "testing {}".format(debug,))
@@ -119,15 +121,20 @@ class BvtBasic(unittest.TestCase):
         ui.log.info('>>> Inside function test_file_cv_partial()')
         from ui.low.file_cvpartial import FileCvPartial
         FileCvPartial()
-        pass
+        expected = 'CV Template Partial Creator'
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
         debug is 'cvtemplate' or debug is 'all', "testing {}".format(debug,))
     def test_file_cv_template(self):
         ui.log.info('>>> Inside function test_file_cv_template()')
-        from ui.low.file_cvgen import FileCvGen
-        FileCvGen()
-        pass
+        from ui.low.file_cvtemplate import FileCvTemplate
+        FileCvTemplate()
+        self.process.wait(1)
+        expected = 'CV Template Creator'
+        result = self.process.results(expected)
+        self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
         debug is 'find' or debug is 'all', "testing {}".format(debug,))
