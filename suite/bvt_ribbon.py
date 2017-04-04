@@ -32,7 +32,7 @@ class BvtRibbon(unittest.TestCase):
     def tearDown(self):
         # Each test case MUST have a 'close' key in the runtime, which
         # should select a drawer's Close or Cancel button's element.
-        UI().wait(1)
+        self.process.wait(1)
         self.close = ('close', )
         self.process.execute(self.close)
 
@@ -40,12 +40,12 @@ class BvtRibbon(unittest.TestCase):
     def setUpClass(cls):
         override = {'entity': cls.entity, 'entityId': cls.entity_id, }
         Find(override)
-        UI().wait(3)  # wait for workspace ribbon to display
+        cls.process.wait(3)  # wait for workspace ribbon to display
 
     @classmethod
     def tearDownClass(cls):
-        UI().wait(2)
-        UI().teardown()
+        cls.process.wait(2)
+        cls.process.teardown()
 
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
 
@@ -103,7 +103,7 @@ class BvtRibbon(unittest.TestCase):
         self.process.update(self.runtime)
         order = ('emails', )
         self.process.execute(order)
-        UI().wait(1)  # wait for the drawer
+        self.process.wait(3)  # wait for the drawer
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
