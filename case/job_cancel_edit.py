@@ -29,13 +29,13 @@ class JobCancelEdit(UI):
     """
     job_number = '92095'
     JobPosts()
-    JobSearch(override={'num': job_number})
+    JobSearch(override={'value': job_number})
 
     runtime = {
         'subtitleText': "Rural Healthcare Central Texas",
         'descText': job_details,
         'edit': ('Click', '#edit_' + job_number,),
-        'subtitle': ('Type', '#job__job_board_subtitle', '&subtitleText;'),
+        'subtitle': ('Type', '#jobs__job_board_subtitle', '&subtitleText;'),
         'template': ('Select',
                      '#JobDescriptionTemplates__job_description_template_id',
                      'Tester'),
