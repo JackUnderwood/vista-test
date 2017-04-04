@@ -11,7 +11,7 @@ class AddExperience(UI):
     Checklist(override={'rowNum': '10'})
 
     runtime = {
-        'experience': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),
+        'experience': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/li[2]/a'),
         # 'addExperience': ('Click', '//*[@id="experienceGrid_form"]/a[1]'),
         'addExperience': ('Click', 'css=#experienceGrid_form_inline>a.leaf.btn'),
         'findClient': ('Type', '#client_id_number_desc', 'acute family'),
