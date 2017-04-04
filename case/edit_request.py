@@ -5,6 +5,9 @@ __author__ = 'John Underwood'
 
 
 class EditRequest(UI):
+    """
+    TODO: remove hard-coded licensor name; pull value from config
+    """
     License()
 
     runtime = {

@@ -5,6 +5,9 @@ __author__ = 'John Underwood'
 
 
 class EditEntity(UI):
+    """
+    TODO: Need to check for address validation
+    """
     License()
     Checklist({'rowNum': '6'})
 
