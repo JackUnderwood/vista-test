@@ -16,7 +16,7 @@ class AddEntity(UI):
     email = gen_email(name)
 
     runtime = {
-        'experience': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[1]'),
+        'experience': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/li[2]/a'),
         'addExperience': ('Click', '//*[@id="experienceGrid_form_inline"]/a[1]'),
         'addEntity': ('Click', '//*[@id="ExperienceEdit_form"]/div[1]/div/a'),
         'name': ('Type', '#entity_name', name),
