@@ -10,7 +10,7 @@ class AddExamination(UI):
     Checklist()
 
     runtime = {
-        'exam': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[3]'),
+        'exam': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/li[4]/a'),
         'addExam': ('Click', '//*[@id="examinationGrid_form_inline"]/a[1]'),
         'checkPassed': ('Click', '//label[@for="passed"]', ),
         # Comprehensive Osteopathic Medical Achievement Test (COMAT)
