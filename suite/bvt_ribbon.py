@@ -9,9 +9,10 @@ __author__ = 'John Underwood'
 
 class BvtRibbon(unittest.TestCase):
     """
-    This test group click on most of the buttons inside the ribbon, and checks
+    This test group clicks on most of the buttons inside the ribbon, and checks
     that each drawer displays as expected. Use this suite as part of a
     Build Verification Test - BVT
+
     Tests all buttons with the exception of "View Jobs Map" and "Manage Files",
     since these create new tab pages and not drawers.
     """
