@@ -10,7 +10,7 @@ class AddEducation(UI):
     Checklist()
 
     runtime = {
-        'education': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/div/a[2]'),
+        'education': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/li[3]/a'),
         'addEducation': ('Click', '//*[@id="educationGrid_form_inline"]/a[1]'),
         'findEducation': ('Type', '#education_entity_id_desc', 'utah'),
         'selectEducation': ('Click', '#user_name'),
