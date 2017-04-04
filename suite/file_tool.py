@@ -11,7 +11,7 @@ __author__ = 'John Underwood'
 class TestSuiteFileTool(unittest.TestCase):
     ui.log.info(">>> Inside TestSuiteFileTool class")
     process = UI()
-    debug = 'reassign'  # use 'all'; or test individual case methods below
+    debug = 'all'  # use 'all'; or test individual case methods below
     override = {'cat': '3', }  # Correspondence category
 
     def setUp(self):
@@ -23,7 +23,7 @@ class TestSuiteFileTool(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        UI().teardown()
+        cls.process.teardown()
 
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
     @unittest.skipUnless(debug is 'rename' or debug is 'all',
