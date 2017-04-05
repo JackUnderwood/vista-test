@@ -8,6 +8,12 @@ __author__ = 'John Underwood'
 
 
 class SendCorrespond(UI):
+    """
+    Use the default template 'License Renewal'.
+    TODO: Test a variety of templates; requires an elif because each template
+    uses different input fields OR create different test case for each template.
+    """
+    template = 'License Renewal'  # TODO test a variety of templates
     email = 'lambertmwl@gmail.com'
     sql = """
         SELECT ed.entity_id_number ID, ed.peoplesoft_name_on_check Name
@@ -21,13 +27,15 @@ class SendCorrespond(UI):
 
     License()
     Checklist()
-    UI().wait(2)
+    process = UI()
+    process.wait(2)
     override = {  # select 'License renewal'
         'selectTemplate':
-            ('Click', '//*[@id="correspondenceChooser_form"]/p[2]/p[11]/a')}
+            ('Click', '//*[@id="correspondenceChooser_form"]/p[2]/p[10]/a')}
     RibbonToCorrespondence(override)
 
     runtime = {
+        'reselectTemplate': ('Select', '#template_id', template),
         'licenseStanding': ('Select', '#license_id', ),
         'entity': ('Click', '//*[@id="add-recipient-container"]/span[1]'),
         'findEntity': ('Type', '<input>', 'e:{}'.format(email, )),
@@ -38,7 +46,6 @@ class SendCorrespond(UI):
         'send': ('Click', '#corr_send')
     }
     expected = "Your message was successfully sent"
-    process = UI()
     process.update(runtime)
     order = ('licenseStanding', 'entity', 'findEntity', 'selectEntity',
              'checkAddress', 'saveDeliveryMethod', 'cya', 'send')
