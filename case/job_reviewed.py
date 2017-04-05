@@ -34,26 +34,27 @@ class JobReviewed(UI):
     # Non-admin user edits a job.
     job_number = '92127'
     JobPosts()
-    JobSearch(override={'num': job_number})
+    JobSearch(override={'value': job_number})
     subtitle = gen_key()  # a 12 char random string of text
 
     runtime = {
         'subtitleText': subtitle,
         'edit': ('Click', '#edit_' + job_number,),
-        'subtitle': ('Type', '#job_board_subtitle', '&subtitleText;'),
-        'save': ('Click', '#drawer-save', ),
+        'subtitle': ('Type', '#jobs__job_board_subtitle', '&subtitleText;'),
+        'save': ('Click', '#edit-save', ),
     }
     process.update(runtime)
     order = ('edit', 'subtitle', )
     process.execute(order)
     process.wait(2)
     process.execute(('save', ))
+    process.wait(3)
 
     # Change back to admin user.
     process.get('site/logout')
     process.wait(1)
     JobPosts()
-    JobSearch(override={'num': job_number})
+    JobSearch(override={'value': job_number})
     runtime = {
         'view': ('Click', '#view_' + job_number,),
         'reviewed': ('Click', '#review_' + job_number,),
