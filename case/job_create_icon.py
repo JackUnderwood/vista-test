@@ -21,7 +21,7 @@ class JobCreateIcon(UI):
         'internal': ('Click', 'css=#control-editor>div:nth-child(11)>'
                               'label:nth-child(6)', ),
         'addNewOption': ('Click', 'css=#control-editor>div:nth-child(11)>'
-                                  'div:nth-child(7)>div:nth-child(2)>a', ),
+                                  'div:nth-child(8)>div:nth-child(2)>a', ),
     }
     process = UI()
     process.update(runtime)
