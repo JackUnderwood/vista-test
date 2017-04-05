@@ -8,13 +8,13 @@ __author__ = 'John Underwood'
 class JobEdit(UI):
     job_number = '90000'
     JobPosts()
-    JobSearch(override={'num': job_number})
+    JobSearch(override={'value': job_number})
 
     runtime = {
         'subtitleText': "Get Started Right Away",
         'descText': "Some text",
         'edit': ('Click', '#edit_' + job_number,),
-        'subtitle': ('Type', '#job_board_subtitle', '&subtitleText;'),
+        'subtitle': ('Type', '#jobs__job_board_subtitle', '&subtitleText;'),
         'template': ('Select', '#template', 'Marketing Tab'),
         'description': ('TypeInCkeditor', '.cke_wysiwyg_frame', '&descText;'),
     }
@@ -23,7 +23,7 @@ class JobEdit(UI):
     process.update(runtime)
     order = ('edit', 'subtitle', 'description', )
     process.execute(order)
-    actual = process.spy('#job_board_subtitle', 'value')
+    actual = process.spy('#jobs__job_board_subtitle', 'value')
     process.compare(expected, actual)
     process.wait(1)
     process.teardown()
