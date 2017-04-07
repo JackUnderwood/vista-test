@@ -7,6 +7,9 @@ __author__ = 'John Underwood'
 
 
 class CvPartial(UI):
+    """
+    Test the saving of a new education partial. Uses only one placeholder.
+    """
     FileCvPartial()
     partial_name = 'auto_edu_' + gen_key(6)
 
