@@ -20,8 +20,8 @@ def get_configurations(section, option):
     [DEFAULT]
     test_url = http://indytest/
 
-    :param section: the ini's section header, e.g. '[DEFAULT]'
-    :param option: the header's option, e.g. 'test_url'
+    :param section: the ini's section, e.g. '[DEFAULT]'
+    :param option: the section's option (or key), e.g. 'test_url'
     :return: the option's value, e.g. "http://indytest/"
     """
     config = configparser.ConfigParser()
