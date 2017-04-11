@@ -133,7 +133,7 @@ class UI:
         elif command == "TypeInCkeditor":
             self.type_in_ckeditor(locator, value)
         elif command == "TypeAndTab":
-            self.type_tab(locator, value)
+            self.type_and_tab(locator, value)
         elif command == "Find":
             self.find(locator, value)
         elif command == "Select":
@@ -219,7 +219,19 @@ class UI:
         ck_editor_body.send_keys(value)
         self.driver.switch_to.default_content()  # get out of the iframe
 
-    def type_tab(self, locator, value):
+    def type_and_tab(self, locator, value):
+        """
+        :param locator: element location in DOM
+        :param value: string - value to type into the element
+        :return: void
+        """
+        log.info("TypeAndTab Command - PATH: {0} - VALUE: \'{1}\'".
+                 format(locator, value))
+        self.type(locator, value)
+        element = self.find_element(locator)
+        element.send_keys("\t")
+
+    def type_date_tab(self, locator, value):
         """ MAY NOT NEED THIS FUNCTION JNU!!!
         Date or Time fields require a tabbing between sub-fields,
         i.e. 12 tab 21 tab 2015 OR 01 tab 15 tab pm
