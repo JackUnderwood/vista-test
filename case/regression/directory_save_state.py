@@ -7,7 +7,7 @@ __author__ = 'John Underwood'
 class DirectorySaveState(UI):
     """
     Regression test for stories #105687354--the State field doesn't save--and
-    #141898925--makes user inactive
+    #141898925--makes user inactive ** fixed 4/12/2017
     """
     name = get_configurations("USER", "name")
     # TODO check for the value of the current State and remove it from the list
