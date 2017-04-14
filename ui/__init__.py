@@ -74,7 +74,7 @@ class UI:
     driver = webdriver.Chrome(executable_path=driver_location,
                               chrome_options=chrome_options)
     # driver.get('http://{}:{}@indytest/'.format(username, book.password)) # TODO
-    driver.implicitly_wait(5)  # in seconds
+    driver.implicitly_wait(15)  # in seconds
     driver.get(url)
     log.debug("TEST Uniform Resource Locator --------->>> {}".format(url, ))
     assert "INDY" in driver.title
