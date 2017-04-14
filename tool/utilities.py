@@ -1,11 +1,13 @@
+import configparser
+import time
+import re
+import random
+
 __author__ = 'John Underwood'
 """
 Utilities module used for a variety of general functions
 Provides global constants & variables
 """
-import configparser
-import time
-import re
 
 # Constants
 CONFIG_FILE = 'config.ini'
@@ -79,3 +81,12 @@ def test_for_symbols(replacer):
     if sub.find(';') is -1:
         return False
     return True
+
+
+def get_random_value(values):
+    """
+    Get the a random value from the passed in list of values
+    :param values: list of values
+    :return: a single, random value
+    """
+    return random.choice(values)
