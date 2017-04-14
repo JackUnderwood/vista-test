@@ -10,10 +10,7 @@ class DirectorySaveState(UI):
     #141898925--makes user inactive ** fixed 4/12/2017
     """
     name = get_configurations("USER", "name")
-    # TODO check for the value of the current State and remove it from the list
-    # [state for state in states if state != 'CA']
     states = get_state_iso_codes()
-    # state = get_random_fifty_states_iso_code()  # add func skip='CA'
     edit = '//*[@id="employeeDirectoryMini_grid"]/tbody/tr/td[10]/a/i'
     runtime = {
         'directory': ('Click', '#button_employee_directory'),
@@ -36,7 +33,7 @@ class DirectorySaveState(UI):
     for state in states:
         if state != current_state:
             states_minus_current.append(state)
-    # states_minus_current = [state for state in states if state !=current_state]
+    # states_minus_current = [staxte for state in states if state !=current_state]
     state = get_random_value(states_minus_current)
     expected = state
     runtime.update({
