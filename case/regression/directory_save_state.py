@@ -1,6 +1,6 @@
 from ui import UI
-from tool.utilities import get_configurations
-from tool.generators.state_codes import get_random_fifty_states_iso_code
+from tool.utilities import get_configurations, get_random_value
+from tool.generators.state_codes import get_state_iso_codes
 __author__ = 'John Underwood'
 
 
@@ -12,7 +12,8 @@ class DirectorySaveState(UI):
     name = get_configurations("USER", "name")
     # TODO check for the value of the current State and remove it from the list
     # [state for state in states if state != 'CA']
-    state = get_random_fifty_states_iso_code()  # add func skip='CA'
+    states = get_state_iso_codes()
+    # state = get_random_fifty_states_iso_code()  # add func skip='CA'
     edit = '//*[@id="employeeDirectoryMini_grid"]/tbody/tr/td[10]/a/i'
     runtime = {
         'directory': ('Click', '#button_employee_directory'),
@@ -20,17 +21,30 @@ class DirectorySaveState(UI):
             'Type',
             '//*[@id="employeeDirectoryMini_grid"]/tfoot/tr/th[3]/input',
             name),
-        'edit': ('Click', edit),
-        'state': ('Select', '#state', state),
-        'save': ('Click', '//*[@id="manageUser_form"]/div[3]/a[1]'),
-        'close': ('Click', '//*[@id="employeeDirectoryMini_form"]/div/div[2]/a')
+        'edit': ('Click', edit)
     }
-    expected = state
     process = UI()
     process.update(runtime)
     order = ('directory', 'name', 'edit', )
     process.execute(order)
     process.wait(1)  # give drawer time to catch up before selecting a state
+
+    # See what is currently inside the State field; don't want to use
+    # the same State iso code.
+    current_state = process.get_selected_option('#state')
+    states_minus_current = []
+    for state in states:
+        if state != current_state:
+            states_minus_current.append(state)
+    # states_minus_current = [state for state in states if state !=current_state]
+    state = get_random_value(states_minus_current)
+    expected = state
+    runtime.update({
+        'state': ('Select', '#state', state),
+        'save': ('Click', '//*[@id="manageUser_form"]/div[3]/a[1]'),
+        'close': ('Click', '//*[@id="employeeDirectoryMini_form"]/div/div[2]/a')
+    })
+    process.update(runtime)
     order = ('state', 'save', )
     process.execute(order)
     # Make sure the user is still active; one bug makes user inactive when saved
@@ -48,4 +62,3 @@ class DirectorySaveState(UI):
         process.compare(True, False, message=msg)
 
     process.teardown()
-
