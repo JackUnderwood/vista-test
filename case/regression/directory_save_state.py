@@ -22,9 +22,11 @@ class DirectorySaveState(UI):
     }
     process = UI()
     process.update(runtime)
-    order = ('directory', 'name', 'edit', )
+    order = ('directory', 'name', )
     process.execute(order)
     process.wait(1)  # give drawer time to catch up before selecting a state
+    order = ('edit', )
+    process.execute(order)
 
     # See what is currently inside the State field; don't want to use
     # the same State iso code.
@@ -49,7 +51,7 @@ class DirectorySaveState(UI):
         # Spy into the form's State field to check its value
         order = ('edit', )
         process.execute(order)
-        process.wait(3)  # avoids StaleElementReferenceException
+        process.wait(15)  # avoids StaleElementReferenceException
         state_value = process.get_selected_option('#state')
         process.compare(expected, state_value)
     else:
