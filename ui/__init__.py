@@ -574,8 +574,8 @@ class UI:
 
     def get_selected_option(self, locator):
         """
-        Get an on-screen value
-        :param locator: holds the xpath, id, class, or tag
+        Get an on-screen option value from SELECT (drop down) object
+        :param locator: holds the xpath, id, class, or tag of SELECT object
         :return: string - value
         """
         element = self.find_element(locator)
