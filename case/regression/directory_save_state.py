@@ -35,7 +35,8 @@ class DirectorySaveState(UI):
     for state in states:
         if state != current_state:
             states_minus_current.append(state)
-    # states_minus_current = [staxte for state in states if state !=current_state]
+    # states_minus_current = [state for state in states
+    #                         if state != current_state]
     state = get_random_value(states_minus_current)
     expected = state
     runtime.update({
