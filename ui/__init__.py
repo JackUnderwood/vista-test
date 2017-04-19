@@ -74,7 +74,7 @@ class UI:
     driver = webdriver.Chrome(executable_path=driver_location,
                               chrome_options=chrome_options)
     # driver.get('http://{}:{}@indytest/'.format(username, book.password)) # TODO
-    driver.implicitly_wait(15)  # in seconds
+    driver.implicitly_wait(20)  # in seconds
     driver.get(url)
     log.debug("TEST Uniform Resource Locator --------->>> {}".format(url, ))
     assert "INDY" in driver.title
@@ -614,6 +614,13 @@ class UI:
         alert_message = self.driver.switch_to.alert.text
         self.driver.switch_to.alert.accept()
         return alert_message
+
+    def go_to_driver_url(self, url):
+        """
+        Redirect to a different location
+        :param url: string
+        """
+        self.driver.get(url)
 
     def teardown(self):
         log.info(time.strftime("%Y-%m-%d %H:%M"))
