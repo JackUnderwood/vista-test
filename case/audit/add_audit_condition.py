@@ -26,7 +26,7 @@ class AuditEditCondition(UI):
     order = ('add', 'searchUser', 'selectUser', 'table',
              'address1', 'address2', 'city', 'save')
     process.execute(order)
-    actual = process.spy('//*[@id="editExisting"]/div[1]/p', 'innerHTML')
+    actual = process.spy('//*[@id="editNew"]/div[1]/p', 'innerHTML')
     process.compare(expected, actual)
 
     process.wait(1)
