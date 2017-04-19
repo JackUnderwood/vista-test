@@ -4,6 +4,9 @@ __author__ = 'John Underwood'
 
 
 class AuditEdit(UI):
+    """
+    Requires an existing audit configuration.
+    """
     process = UI()
     process.go_to_driver_url("http://indytest/auditConfig")
 
