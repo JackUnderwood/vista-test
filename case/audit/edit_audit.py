@@ -3,7 +3,7 @@ from ui import UI
 __author__ = 'John Underwood'
 
 
-class AuditEdit(UI):
+class EditAudit(UI):
     """
     Requires an existing audit configuration.
     """
