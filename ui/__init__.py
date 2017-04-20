@@ -536,7 +536,7 @@ class UI:
         self.check_for_new_window()
         if locator:
             self.wait_for_element(locator, **value)
-        html_source = self.driver.page_source.lower()
+        html_source = self.get_source()
         res = True
         addendum = (
             " ::Addendum:: {}".format(message, ) if (message != '') else message)
@@ -560,6 +560,13 @@ class UI:
         :return: None
         """
         self.driver.get(self.url + url_path)
+
+    def get_source(self):
+        """
+        Returns the current page's HTML source in lower case.
+        :return: string - HTML body
+        """
+        return self.driver.page_source.lower()
 
     def spy(self, locator, attribute_name):
         """
