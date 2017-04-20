@@ -618,6 +618,7 @@ class UI:
     def go_to_url(self, url):
         """
         Redirect to a different location
+        Deprecated - use the get() function above.
         :param url: string - in the form of a url
         """
         self.driver.get(url)
