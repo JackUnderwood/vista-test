@@ -3,13 +3,17 @@ from ui import UI
 __author__ = 'John Underwood'
 
 
-class AuditEditCondition(UI):
+class DeleteAuditCondition(UI):
     """
-    Click Add Audit Condition; opens the 'Create New Audit Condition' drawer
+    Create an audit configuration, then delete it.
+
+    Click on the audit config's delete button for a successful delete.
     """
     process = UI()
     process.get("auditConfig")
     user = 'Angie King'
+    # //*[@id="auditConfig_grid"]/tbody/tr[2]/td[1]
+    locator_id = process.spy('css=.hiddendiv', 'innerHTML')
 
     runtime = {
         'add': ('Click', '#newAuditCondition'),
@@ -19,15 +23,12 @@ class AuditEditCondition(UI):
         'address1': ('Click', '//*[@id="fields_1"]/div[2]/label[1]'),
         'address2': ('Click', '//*[@id="fields_1"]/div[2]/label[2]'),
         'city':     ('Click', '//*[@id="fields_1"]/div[2]/label[7]'),
-        'save': ('Click', '#saveButton')
+        'save': ('Click', '#saveButton'),
+        'delete': ('Click', '//*[@id="remove_902_17"]/i'),
     }
-    expected = 'Audit Conditions Saved Successfully.'
-    process.update(runtime)
+    process.update(runtime)  # create a new audit condition
     order = ('add', 'searchUser', 'selectUser', 'table',
              'address1', 'address2', 'city', 'save')
     process.execute(order)
-    actual = process.spy('//*[@id="editNew"]/div[1]/p', 'innerHTML')
-    process.compare(expected, actual)
 
-    process.wait(1)
-    process.teardown()
+

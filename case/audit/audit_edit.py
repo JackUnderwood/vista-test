@@ -8,7 +8,7 @@ class AuditEdit(UI):
     Requires an existing audit configuration.
     """
     process = UI()
-    process.go_to_url("http://indytest/auditConfig")
+    process.get("auditConfig")
 
     runtime = {
         'edit': ('Click', '//*[@id="edit_902_17"]/i'),
