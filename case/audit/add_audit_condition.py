@@ -8,7 +8,7 @@ class AuditEditCondition(UI):
     Click Add Audit Condition; opens the 'Create New Audit Condition' drawer
     """
     process = UI()
-    process.go_to_driver_url("http://indytest/auditConfig")
+    process.go_to_url("http://indytest/auditConfig")
     user = 'Angie King'
 
     runtime = {

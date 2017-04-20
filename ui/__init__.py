@@ -615,10 +615,10 @@ class UI:
         self.driver.switch_to.alert.accept()
         return alert_message
 
-    def go_to_driver_url(self, url):
+    def go_to_url(self, url):
         """
         Redirect to a different location
-        :param url: string
+        :param url: string - in the form of a url
         """
         self.driver.get(url)
 
