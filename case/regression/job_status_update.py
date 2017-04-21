@@ -25,18 +25,18 @@ class JobStatusUpdate(UI):
     class_attr = class_attr.strip()
     ui.log.info("CLASS: {}".format(class_attr, ))
 
-    if class_attr == "approved":
+    if "approved" in class_attr:
         # Change to Ready to Post
         runtime['click'] = ('Click', '#job_board_post_status__is_ready_to_post')
-    elif class_attr == "ready":
+    elif "ready" in class_attr:
         # Change to Reject
         runtime['click'] = ('Click', '#job_board_post_status__is_ready_to_post')
-    elif class_attr == "nopost":
+    elif "nopost" in class_attr:
         # Change to Approved
         runtime['click'] = ('Click', '#job_board_post_status__is_ready_to_post')
-    elif class_attr == "rejected":
+    elif "rejected" in class_attr:
         # Change to Approved
-        runtime['click'] = ('Click', '#job_board_post_status__is_ready_to_post')
+        runtime['click'] = ('Click', '#job_board_rejection_history__is_rejected')
     else:
         pass
 
