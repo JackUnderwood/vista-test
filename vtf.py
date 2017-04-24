@@ -60,7 +60,7 @@ url = utils.get_configurations("DEFAULT", "test_url")
 if args.platform:
     if args.platform == 'test':
         url = utils.get_configurations("DEFAULT", "test_url")
-    if args.platform == 'train':
+    elif args.platform == 'train':
         url = utils.get_configurations("TRAIN", "url")
     elif args.platform == 'dev':
         url = utils.get_configurations("DEFAULT", "dev_url")
