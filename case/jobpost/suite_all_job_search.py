@@ -16,7 +16,7 @@ class AllJobSearch(unittest.TestCase):
     """
     ui.log.info(">> Inside AllJobSearch class")
     process = UI()
-    debug = 'job_status'
+    debug = 'job_type'
 
     def setUp(self):
         self.process.wait()
@@ -28,7 +28,6 @@ class AllJobSearch(unittest.TestCase):
             'away': ('Click', '//*[@id="content"]/h1'),  # click away
         })
         self.process.execute(('away', 'reset', ))
-        pass
 
     @classmethod
     def setUpClass(cls):
@@ -86,6 +85,26 @@ class AllJobSearch(unittest.TestCase):
             'hot': ('Click', '#ui-multiselect-s_job_status-option-4')
         })
         self.process.execute(('jobStatus', 'active', 'hot',))
+        self.process.wait()
+        html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        self.process.compare(html != '', True, message=compare_message)
+
+    @unittest.skipUnless(
+        debug is 'job_type' or debug is 'all', "testing {}".format(debug,))
+    def test_job_type(self):
+        ui.log.info('>>> Inside function test_job_type()')
+        self.process.update({
+            'jobType': ('Click',
+                        'css=.ui-multiselect.ui-widget.ui-state-default.'
+                        'ui-corner-all.multi_s.multi_s_job_type'),
+            'general': ('Click', '#ui-multiselect-s_job_type-option-5'),
+            'locums': ('Click', '#ui-multiselect-s_job_type-option-8'),
+            'tempToPerm': ('Click', '#ui-multiselect-s_job_type-option-16'),
+            'whitaker': ('Click', '#ui-multiselect-s_job_type-option-17'),
+        })
+        self.process.execute(('jobType', 'general', 'locums',
+                              'tempToPerm', 'whitaker', ))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
