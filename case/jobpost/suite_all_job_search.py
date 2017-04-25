@@ -234,3 +234,50 @@ class AllJobSearch(unittest.TestCase):
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'number' or debug is 'all', "testing {}".format(debug,))
+    def test_job_number(self):
+        ui.log.info('>>> Inside function test_job_number()')
+        self.process.update({
+            'number': ('TypeAndTab', '#s_job_number', '92000-5000')
+        })
+        expected = 'Job Number(s)'
+        self.process.execute(('number',))
+        self.process.wait()
+        html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        result = self.process.compare(html != '', True, message=compare_message)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'created' or debug is 'all', "testing {}".format(debug,))
+    def test_created_date(self):
+        ui.log.info('>>> Inside function test_created_date()')
+        self.process.update({
+            'created': ('Click', '#drp_autogen0'),
+            'previousMonth': ('Click', '//*[@id="ui-id-7"]/a'),
+        })
+        expected = 'Created Date'
+        self.process.execute(('created', 'previousMonth', ))
+        self.process.wait()
+        html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        result = self.process.compare(html != '', True, message=compare_message)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'modified' or debug is 'all', "testing {}".format(debug,))
+    def test_last_modified_date(self):
+        ui.log.info('>>> Inside function test_last_modified_date()')
+        self.process.update({
+            'modified': ('Click', '#drp_autogen1'),
+            'last30Days': ('Click', '//*[@id="ui-id-14"]/a'),
+        })
+        expected = 'Last Modified Date'
+        self.process.execute(('modified', 'last30Days', ))
+        self.process.wait()
+        html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        result = self.process.compare(html != '', True, message=compare_message)
+        self.assertTrue(result, msg=expected)
