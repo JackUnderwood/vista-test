@@ -16,7 +16,7 @@ class AllJobSearch(unittest.TestCase):
     """
     ui.log.info(">> Inside AllJobSearch class")
     process = UI()
-    debug = 'specialty'
+    debug = 'all'
 
     def setUp(self):
         self.process.wait()
@@ -143,6 +143,60 @@ class AllJobSearch(unittest.TestCase):
         })
         self.process.execute(('boardStatus', 'ambulance', 'cardiology',
                               'oncology', 'pathology', 'trauma', 'boardStatus',))
+        self.process.wait()
+        html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        self.process.compare(html != '', True, message=compare_message)
+
+    @unittest.skipUnless(
+        debug is 'tm' or debug is 'all', "testing {}".format(debug,))
+    def test_territory_manager(self):
+        ui.log.info('>>> Inside function test_territory_manager()')
+        self.process.update({
+            'tm': ('Click', 'css=.ui-multiselect.ui-widget.ui-state-default.'
+                            'ui-corner-all.multi_s.multi_s_tm'),
+            'first': ('Click', '#ui-multiselect-s_territory_manager-option-3'),
+            'second': ('Click', '#ui-multiselect-s_territory_manager-option-18'),
+            'third': ('Click', '#ui-multiselect-s_territory_manager-option-21'),
+        })
+        self.process.execute(('tm', 'first', 'second', 'third', 'tm',))
+        self.process.wait()
+        html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        self.process.compare(html != '', True, message=compare_message)
+
+    @unittest.skipUnless(
+        debug is 'state' or debug is 'all', "testing {}".format(debug,))
+    def test_state(self):
+        ui.log.info('>>> Inside function test_state()')
+        self.process.update({
+            'state': ('Click', 'css=.ui-multiselect.ui-widget.ui-state-default.'
+                               'ui-corner-all.multi_s.multi_s_state'),
+            'ca': ('Click', '#ui-multiselect-s_state-option-9'),
+            'fl': ('Click', '#ui-multiselect-s_state-option-14'),
+            'ny': ('Click', '#ui-multiselect-s_state-option-42'),
+        })
+        self.process.execute(('state', 'ca', 'fl', 'ny', 'state'))
+        self.process.wait()
+        html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        self.process.compare(html != '', True, message=compare_message)
+
+    @unittest.skipUnless(
+        debug is 'scheduler' or debug is 'all', "testing {}".format(debug,))
+    def test_scheduler(self):
+        ui.log.info('>>> Inside function test_scheduler()')
+        self.process.update({
+            'scheduler': (
+                'Click',
+                'css=.ui-multiselect.ui-widget.ui-state-default.ui-corner-all.'
+                'multi_s.multi_s_user'),
+            'first': ('Click', '#ui-multiselect-s_user-option-1'),
+            'second': ('Click', '#ui-multiselect-s_user-option-8'),
+            'third': ('Click', '#ui-multiselect-s_user-option-16'),
+        })
+        self.process.execute(('scheduler', 'first', 'second', 'third',
+                              'scheduler', ))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
