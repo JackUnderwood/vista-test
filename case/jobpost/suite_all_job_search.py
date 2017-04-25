@@ -6,6 +6,9 @@ from ui.low.job_posts import JobPosts
 
 __author__ = 'John Underwood'
 
+MSG_SUCCESS = 'the result-target has results'
+MSG_FAILED  = 'the result-target is empty'
+
 
 class AllJobSearch(unittest.TestCase):
     """
@@ -13,7 +16,7 @@ class AllJobSearch(unittest.TestCase):
     """
     ui.log.info(">> Inside AllJobSearch class")
     process = UI()
-    debug = 'all'
+    debug = 'job_status'
 
     def setUp(self):
         self.process.wait()
@@ -52,8 +55,7 @@ class AllJobSearch(unittest.TestCase):
         self.process.execute(('division', 'domesticLT', 'hcp', 'division', ))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = ('the result-target is not empty' if html != '' else
-                           'the result-target is empty')
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
         self.process.compare(html != '', True, message=compare_message)
 
     @unittest.skipUnless(
@@ -69,6 +71,22 @@ class AllJobSearch(unittest.TestCase):
         self.process.execute(('ard', 'emergency', 'hospitalist', 'ard'))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = ('the result-target is not empty' if html != '' else
-                           'the result-target is empty')
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        self.process.compare(html != '', True, message=compare_message)
+
+    @unittest.skipUnless(
+        debug is 'job_status' or debug is 'all', "testing {}".format(debug,))
+    def test_job_status(self):
+        ui.log.info('>>> Inside function test_job_status()')
+        self.process.update({
+            'jobStatus': ('Click',
+                          'css=.ui-multiselect.ui-widget.ui-state-default.'
+                          'ui-corner-all.multi_s.multi_s_job_status'),
+            'active': ('Click', '#ui-multiselect-s_job_status-option-1'),
+            'hot': ('Click', '#ui-multiselect-s_job_status-option-4')
+        })
+        self.process.execute(('jobStatus', 'active', 'hot',))
+        self.process.wait()
+        html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
         self.process.compare(html != '', True, message=compare_message)
