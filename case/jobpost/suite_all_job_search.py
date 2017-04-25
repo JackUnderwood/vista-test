@@ -16,7 +16,7 @@ class AllJobSearch(unittest.TestCase):
     """
     ui.log.info(">> Inside AllJobSearch class")
     process = UI()
-    debug = 'job_type'
+    debug = 'specialty'
 
     def setUp(self):
         self.process.wait()
@@ -105,6 +105,44 @@ class AllJobSearch(unittest.TestCase):
         })
         self.process.execute(('jobType', 'general', 'locums',
                               'tempToPerm', 'whitaker', ))
+        self.process.wait()
+        html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        self.process.compare(html != '', True, message=compare_message)
+
+    @unittest.skipUnless(
+        debug is 'board_status' or debug is 'all', "testing {}".format(debug,))
+    def test_job_board_status(self):
+        ui.log.info('>>> Inside function test_job_board_status()')
+        self.process.update({
+            'boardStatus': ('Click',
+                            'css=.ui-multiselect.ui-widget.ui-state-default.'
+                            'ui-corner-all.multi_s.multi_s_job_board_status'),
+            'ready': ('Click', '#ui-multiselect-s_job_board_status-option-2'),
+            'rejected': ('Click', '#ui-multiselect-s_job_board_status-option-5'),
+        })
+        self.process.execute(('boardStatus', 'ready', 'rejected', 'boardStatus'))
+        self.process.wait()
+        html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        self.process.compare(html != '', True, message=compare_message)
+
+    @unittest.skipUnless(
+        debug is 'specialty' or debug is 'all', "testing {}".format(debug,))
+    def test_specialty(self):
+        ui.log.info('>>> Inside function test_specialty()')
+        self.process.update({
+            'boardStatus': ('Click',
+                            'css=.ui-multiselect.ui-widget.ui-state-default.'
+                            'ui-corner-all.multi_s.multi_s_specialty'),
+            'ambulance': ('Click', '#ui-multiselect-s_specialty-option-4'),
+            'cardiology': ('Click', '#ui-multiselect-s_specialty-option-8'),
+            'oncology': ('Click', '#ui-multiselect-s_specialty-option-95'),
+            'pathology': ('Click', '#ui-multiselect-s_specialty-option-102'),
+            'trauma': ('Click', '#ui-multiselect-s_specialty-option-156'),
+        })
+        self.process.execute(('boardStatus', 'ambulance', 'cardiology',
+                              'oncology', 'pathology', 'trauma', 'boardStatus',))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
