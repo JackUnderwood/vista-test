@@ -51,11 +51,13 @@ class AllJobSearch(unittest.TestCase):
             'domesticLT': ('Click', '#ui-multiselect-s_division-option-3'),
             'hcp': ('Click', '#ui-multiselect-s_division-option-4'),
         })
+        expected = 'Division'
         self.process.execute(('division', 'domesticLT', 'hcp', 'division', ))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
-        self.process.compare(html != '', True, message=compare_message)
+        result = self.process.compare(html != '', True, message=compare_message)
+        self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
         debug is 'ard' or debug is 'all', "testing {}".format(debug,))
@@ -67,11 +69,13 @@ class AllJobSearch(unittest.TestCase):
             'emergency': ('Click', '#ui-multiselect-s_ard_group-option-3'),
             'hospitalist': ('Click', '#ui-multiselect-s_ard_group-option-5'),
         })
+        expected = 'Ard Group'
         self.process.execute(('ard', 'emergency', 'hospitalist', 'ard'))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
-        self.process.compare(html != '', True, message=compare_message)
+        result = self.process.compare(html != '', True, message=compare_message)
+        self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
         debug is 'job_status' or debug is 'all', "testing {}".format(debug,))
@@ -84,11 +88,13 @@ class AllJobSearch(unittest.TestCase):
             'active': ('Click', '#ui-multiselect-s_job_status-option-1'),
             'hot': ('Click', '#ui-multiselect-s_job_status-option-4')
         })
+        expected = 'Job Status'
         self.process.execute(('jobStatus', 'active', 'hot',))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
-        self.process.compare(html != '', True, message=compare_message)
+        result = self.process.compare(html != '', True, message=compare_message)
+        self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
         debug is 'job_type' or debug is 'all', "testing {}".format(debug,))
@@ -103,12 +109,14 @@ class AllJobSearch(unittest.TestCase):
             'tempToPerm': ('Click', '#ui-multiselect-s_job_type-option-16'),
             'whitaker': ('Click', '#ui-multiselect-s_job_type-option-17'),
         })
+        expected = 'Job Type'
         self.process.execute(('jobType', 'general', 'locums',
                               'tempToPerm', 'whitaker', ))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
-        self.process.compare(html != '', True, message=compare_message)
+        result = self.process.compare(html != '', True, message=compare_message)
+        self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
         debug is 'board_status' or debug is 'all', "testing {}".format(debug,))
@@ -121,18 +129,20 @@ class AllJobSearch(unittest.TestCase):
             'ready': ('Click', '#ui-multiselect-s_job_board_status-option-2'),
             'rejected': ('Click', '#ui-multiselect-s_job_board_status-option-5'),
         })
+        expected = 'Job Board Status'
         self.process.execute(('boardStatus', 'ready', 'rejected', 'boardStatus'))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
-        self.process.compare(html != '', True, message=compare_message)
+        result = self.process.compare(html != '', True, message=compare_message)
+        self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
         debug is 'specialty' or debug is 'all', "testing {}".format(debug,))
     def test_specialty(self):
         ui.log.info('>>> Inside function test_specialty()')
         self.process.update({
-            'boardStatus': ('Click',
+            'specialty': ('Click',
                             'css=.ui-multiselect.ui-widget.ui-state-default.'
                             'ui-corner-all.multi_s.multi_s_specialty'),
             'ambulance': ('Click', '#ui-multiselect-s_specialty-option-4'),
@@ -141,12 +151,14 @@ class AllJobSearch(unittest.TestCase):
             'pathology': ('Click', '#ui-multiselect-s_specialty-option-102'),
             'trauma': ('Click', '#ui-multiselect-s_specialty-option-156'),
         })
-        self.process.execute(('boardStatus', 'ambulance', 'cardiology',
-                              'oncology', 'pathology', 'trauma', 'boardStatus',))
+        expected = 'Specialty'
+        self.process.execute(('specialty', 'ambulance', 'cardiology',
+                              'oncology', 'pathology', 'trauma', 'specialty',))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
-        self.process.compare(html != '', True, message=compare_message)
+        result = self.process.compare(html != '', True, message=compare_message)
+        self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
         debug is 'tm' or debug is 'all', "testing {}".format(debug,))
@@ -159,11 +171,13 @@ class AllJobSearch(unittest.TestCase):
             'second': ('Click', '#ui-multiselect-s_territory_manager-option-18'),
             'third': ('Click', '#ui-multiselect-s_territory_manager-option-21'),
         })
+        expected = 'Territory Manager'
         self.process.execute(('tm', 'first', 'second', 'third', 'tm',))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
-        self.process.compare(html != '', True, message=compare_message)
+        result = self.process.compare(html != '', True, message=compare_message)
+        self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
         debug is 'state' or debug is 'all', "testing {}".format(debug,))
@@ -176,11 +190,13 @@ class AllJobSearch(unittest.TestCase):
             'fl': ('Click', '#ui-multiselect-s_state-option-14'),
             'ny': ('Click', '#ui-multiselect-s_state-option-42'),
         })
+        expected = 'State'
         self.process.execute(('state', 'ca', 'fl', 'ny', 'state'))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
-        self.process.compare(html != '', True, message=compare_message)
+        result = self.process.compare(html != '', True, message=compare_message)
+        self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
         debug is 'scheduler' or debug is 'all', "testing {}".format(debug,))
@@ -195,9 +211,26 @@ class AllJobSearch(unittest.TestCase):
             'second': ('Click', '#ui-multiselect-s_user-option-8'),
             'third': ('Click', '#ui-multiselect-s_user-option-16'),
         })
+        expected = 'Scheduler'
         self.process.execute(('scheduler', 'first', 'second', 'third',
                               'scheduler', ))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
-        self.process.compare(html != '', True, message=compare_message)
+        result = self.process.compare(html != '', True, message=compare_message)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'city' or debug is 'all', "testing {}".format(debug,))
+    def test_city(self):
+        ui.log.info('>>> Inside function test_city()')
+        self.process.update({
+            'city': ('TypeAndTab', '#s_city', 'manhattan'),
+        })
+        expected = 'City'
+        self.process.execute(('city', ))
+        self.process.wait(3)
+        html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        result = self.process.compare(html != '', True, message=compare_message)
+        self.assertTrue(result, msg=expected)
