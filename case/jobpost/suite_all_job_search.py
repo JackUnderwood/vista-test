@@ -7,7 +7,7 @@ from ui.low.job_posts import JobPosts
 __author__ = 'John Underwood'
 
 MSG_SUCCESS = 'the result-target has results'
-MSG_FAILED  = 'the result-target is empty'
+MSG_FAILED = 'the result-target is empty'
 
 
 class AllJobSearch(unittest.TestCase):
@@ -277,6 +277,22 @@ class AllJobSearch(unittest.TestCase):
         expected = 'Last Modified Date'
         self.process.execute(('modified', 'last30Days', ))
         self.process.wait()
+        html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        result = self.process.compare(html != '', True, message=compare_message)
+        self.assertTrue(result, msg=expected)
+
+    @unittest.skipUnless(
+        debug is 'keywords' or debug is 'all', "testing {}".format(debug,))
+    def test_keywords(self):
+        ui.log.info('>>> Inside function test_keywords()')
+        self.process.update({
+            'keyword': ('TypeAndTab', '#s_keywords', 'children'),
+        })
+        expected = 'Keywords'
+        self.process.execute(('keyword', ))
+        self.process.wait_for_element(
+            '//*[@id="result-target"]/tbody/tr[1]', wait_time=30)
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
         result = self.process.compare(html != '', True, message=compare_message)

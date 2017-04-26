@@ -660,6 +660,7 @@ class UI:
     @staticmethod
     def get_expected_condition(condition):
         """
+        This is used by wait_for_element() function above.
         :param condition: string - the condition's name
         :return: ec object -  expected condition object
         """
