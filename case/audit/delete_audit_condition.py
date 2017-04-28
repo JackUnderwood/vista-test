@@ -32,8 +32,8 @@ class DeleteAuditCondition(UI):
     process.execute(order)
     process.wait(1)
 
-    # Spy into the first element's row, and get its unique id
-    # outerHTML: <td class=" hiddendiv">902_17</td>
+    # Spy into the first result's row, and get its unique id
+    # Outer HTML: <td class=" hiddendiv">902_17</td>
     # e.g. locator_id = 902_17
     locator_id = process.spy('//*[@id="auditConfig_grid"]/tbody/tr[1]/td[1]',
                              'innerHTML')
@@ -51,11 +51,11 @@ class DeleteAuditCondition(UI):
         runtime.update({
             'continue': ('Click', '#confirmButton'),
         })
-        # expected = '<unsure; not functioning at time of case development>'
+        expected = 'The requested audit has been removed'
         process.update(runtime)
         order = ('continue', )
         process.execute(order)
-        # process.results(expected)
+        process.results(expected)
 
     process.wait(3)
     process.teardown()
