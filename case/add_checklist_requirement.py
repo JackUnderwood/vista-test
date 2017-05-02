@@ -9,7 +9,7 @@ class AddChecklistRequirement(UI):
     Note: waiting for bug fix https://www.pivotaltracker.com/story/show/104940726
     """
     License()
-    Checklist(override={'rowNum': '10'})
+    Checklist(override={'rowNum': '18'})
     runtime = {
         'addRequirement': (
             'Click',

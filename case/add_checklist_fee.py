@@ -25,8 +25,10 @@ class AddChecklistFee(UI):
     process.update(runtime)
     order = ('checklist', 'wait', 'fee', 'save')
     process.execute(order)
-    process.results(expected)
+    process.results(expected, message="input value into fee field")
     process.wait(3)
     process.update({'feeAmount': '', })  # clear
     process.execute(('fee', 'save', ))
+    process.wait()
+    process.results(expected, message="cleared field")
     process.teardown()
