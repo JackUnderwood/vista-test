@@ -544,12 +544,12 @@ class UI:
         if expected.lower() in html_source and not negative:
             log.info("-- PASSED TEST CASE!!! ---")
         elif expected.lower() in html_source and negative:
-            log.info("-- FAILED NEGATIVE TEST CASE!!! ---")
+            log.info("-- FAILED NEGATIVE TEST CASE ###### ---")
             res = False
         elif expected.lower() not in html_source and negative:
             log.info("-- PASSED NEGATIVE TEST CASE!!! ---")
         else:
-            log.info("-- FAILED TEST CASE!!! --")
+            log.info("-- FAILED TEST CASE ###### --")
             res = False
         return res
 
