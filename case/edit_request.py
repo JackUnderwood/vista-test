@@ -1,21 +1,23 @@
 from ui import UI
 from ui.low.license import License
+from tool.utilities import get_configurations
 
 __author__ = 'John Underwood'
 
 
 class EditRequest(UI):
     """
-    TODO: remove hard-coded licensor name; pull value from config
+    Create a license request.
     """
     License()
+    username = get_configurations('USER_IMPOSTOR', 'name')
 
     runtime = {
         'showAll': ('Click', '//*[@id="checklist-form-container"]/div[1]/a'),
         'editRequest': (  # clicks table's first row's Edit icon--pencil icon
             'Click',
             '//*[@id="licenseRequestsGrid_grid"]/tbody/tr[1]/td[16]/a[2]/i'),
-        'licensor': ('Select', '#owner_id', 'Emily McGrath'),
+        'licensor': ('Select', '#owner_id', username),
         'dateDesired': ('Type', '#date_desired', '10152016'),
         'dateReceived': ('Type', '#board_received_date', '10012016'),
         'notes': ('Type', '#note', 'Lorem ipsum dolor sit amet , mea ne ipsum'),
