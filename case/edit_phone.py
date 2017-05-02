@@ -12,7 +12,7 @@ class EditPhone(UI):
     runtime = {
         'phone': (
             'Click',
-            '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[4]/i',
+            '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[4]',
         ),
         'editPhone': (
             'Click',
@@ -24,6 +24,7 @@ class EditPhone(UI):
     }
     expected = 'Phone number saved!'
     process = UI()
+    process.wait()
     process.update(runtime)
     order = ('phone', 'editPhone', 'revisePhone', 'phoneType', 'save')
     process.execute(order)
