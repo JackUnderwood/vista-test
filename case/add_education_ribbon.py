@@ -38,7 +38,8 @@ class AddEducationRibbon(UI):
              'selectDegree', 'selectType', 'useEducationCv', 'startDate',
              'endDate', 'save', )
     process.execute(order)
+    process.wait()
 
     process.results(expected)
-    process.wait(3)
+    process.wait()
     process.teardown()
