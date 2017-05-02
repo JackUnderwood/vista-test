@@ -4,7 +4,11 @@ from ui.low.license import License
 __author__ = 'John Underwood'
 
 
-class AddRequest(UI):
+class AddDuplicateLicense(UI):
+    """
+    Prerequisite requires a license of this type - may require running this
+    test twice.
+    """
     runtime = {
         'addRequest': (
             'Click', 'css=#licenseRequestsGrid_form>div.row>div.col.s9>a'),
