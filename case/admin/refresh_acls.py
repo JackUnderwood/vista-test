@@ -20,6 +20,6 @@ class RefreshAcls(UI):
     process.execute(('refresh', ))
     process.wait(2)
     # Getting an unknown selenium error when refreshing acls and then trying
-    # to use the web driver--it's possible that the driver object was changed
+    # to use the web driver--it's possible that the driver object has changed
     # process.results(expected)  # locator='toast-green')
     process.teardown()
