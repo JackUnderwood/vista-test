@@ -3,6 +3,7 @@ from ui.low.license import License
 from ui.high.checklist import Checklist
 from ui.high.ribbon_corr import RibbonToCorrespondence
 from tool.db import get_record
+from tool.vlog import VLog
 
 __author__ = 'John Underwood'
 
@@ -13,8 +14,10 @@ class SendCorrespond(UI):
     TODO: Test a variety of templates; requires an elif because each template
     uses different input fields OR create different test case for each template.
     """
+    process = UI()
+    log = VLog()
     template = 'License Renewal'  # TODO test a variety of templates
-    email = 'lambertmwl@gmail.com'
+    email = 'lambertmwl696777@vistastaff.com'
     sql = """
         SELECT ed.entity_id_number ID, ed.peoplesoft_name_on_check Name
         FROM entity_details ed, email_address ea
@@ -23,11 +26,14 @@ class SendCorrespond(UI):
     """.format(email, )
     assert isinstance(sql, str)
     record = get_record(sql)
-    item_id = record[0][0]
+    try:
+        item_id = record[0][0]
+    except IndexError as ie:
+        log.error('Record set: {} : check sql statement'.format(ie, ))
+        process.teardown()
 
     License()
     Checklist()
-    process = UI()
     process.wait(2)
     override = {  # select 'License renewal'
         'selectTemplate':
@@ -40,7 +46,9 @@ class SendCorrespond(UI):
         'entity': ('Click', '//*[@id="add-recipient-container"]/span[1]'),
         'findEntity': ('Type', '<input>', 'e:{}'.format(email, )),
         'selectEntity': ('Click', '//*[@item_id="{}"]'.format(item_id,)),
-        'checkAddress': ('Click', '//span[text()="Personal"]'),
+        # 'checkAddress': ('Click', '//span[text()="Personal"]'),
+        'checkAddress': (
+            'Click', '//*[@id="delivery-locations"]/form/div[2]/p[1]/label'),
         'saveDeliveryMethod': ('Click', '//a[@button="save"]', ),
         'cya': ('Click', '//body', ),
         'send': ('Click', '#corr_send')
