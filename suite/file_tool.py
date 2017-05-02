@@ -38,7 +38,7 @@ class TestSuiteFileTool(unittest.TestCase):
         self.process.update(runtime)
         order = ('rename', 'execRename')
         self.process.execute(order)
-        result = self.process.results(expected)
+        result = self.process.results(expected, locator='toast-container')
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'reassign' or debug is 'all',
@@ -88,7 +88,7 @@ class TestSuiteFileTool(unittest.TestCase):
         self.process.update(runtime)
         order = ('rotate', 'selectPage', 'rotateLeft', )
         self.process.execute(order)
-        result = self.process.results(expected)
+        result = self.process.results(expected, locator='toast-container')
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'edit' or debug is 'all',
@@ -115,7 +115,7 @@ class TestSuiteFileTool(unittest.TestCase):
                  'filename', 'next', 'create')
         self.process.execute(order)
         self.process.wait(1)
-        result = self.process.results(expected)
+        result = self.process.results(expected, locator='toast-container')
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'deactivate' or debug is 'all',
@@ -132,7 +132,7 @@ class TestSuiteFileTool(unittest.TestCase):
         self.process.update(runtime)
         order = ('delete', 'deactivate')
         self.process.execute(order)
-        result = self.process.results(expected)
+        result = self.process.results(expected, locator='toast-container')
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(debug is 'reactivate' or debug is 'all',
@@ -153,5 +153,5 @@ class TestSuiteFileTool(unittest.TestCase):
         FileSelect(self.override)
         order = ('delete', 'activate')
         self.process.execute(order)
-        result = self.process.results(expected)
+        result = self.process.results(expected, locator='toast-container')
         self.assertTrue(result, msg=expected)
