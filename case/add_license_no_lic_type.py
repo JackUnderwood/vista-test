@@ -21,7 +21,7 @@ class AddLicenseNoLicenseType(UI):
             'Click',
             '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[2]/a[1]/span'
         ),
-        'newLicense': ('Click', '//*[@id="licenseGrid_form"]/a'),
+        'newLicense': ('Click', '//*[@id="licenseGrid_form"]/a[1]'),
         'licenseStanding': ('Select', '#license_standing', 'Good'),
         'selectState': ('Select', '#state_code_id', 'Oregon'),
         'credentialType': ('Select', '#credential_id', 'Medical Doctor'),
@@ -34,9 +34,11 @@ class AddLicenseNoLicenseType(UI):
     expected = "License Type"  # 'Cannot be blank'
     process = UI()
     process.update(runtime)
-    order = ('licenseIcon', 'newLicense', 'selectState',
-             'credentialType', 'save', )
+    order = ('licenseIcon', )
     process.execute(order)
-    process.results(expected)
-    process.wait(3)
+    process.wait()  # wait for Licensing drawer
+    order = ('newLicense', 'selectState', 'credentialType', 'save', )
+    process.execute(order)
+    process.results(expected, message='cannot be blank')
+    process.wait()
     process.teardown()
