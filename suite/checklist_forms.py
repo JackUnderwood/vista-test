@@ -19,7 +19,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     ui.log.info(">> Inside TestSuiteChecklistForms class")
     process = UI()
     debug = 'all'  # use 'all'; or test individual case methods below
-    override = {'rowNum': '1'}
+    override = {'rowNum': '4'}
 
     def setUp(self):
         License()
@@ -227,5 +227,6 @@ class TestSuiteChecklistForms(unittest.TestCase):
         self.process.update(runtime)
         order = ('addEmail', 'emailAddress', 'emailType', 'save')
         self.process.execute(order)
+        self.process.wait()
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
