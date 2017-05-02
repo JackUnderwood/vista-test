@@ -143,7 +143,7 @@ class BvtRibbon(unittest.TestCase):
         self.process.update(self.runtime)
         order = ('addresses', )
         self.process.execute(order)
-        UI().wait(1)  # wait for the drawer
+        self.process.wait()  # wait for the drawer
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
@@ -263,6 +263,7 @@ class BvtRibbon(unittest.TestCase):
         self.process.update(self.runtime)
         order = ('experience', )
         self.process.execute(order)
+        self.process.wait()
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
@@ -282,6 +283,7 @@ class BvtRibbon(unittest.TestCase):
         self.process.update(self.runtime)
         order = ('exams', )
         self.process.execute(order)
+        self.process.wait()
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
@@ -301,6 +303,7 @@ class BvtRibbon(unittest.TestCase):
         self.process.update(self.runtime)
         order = ('education', )
         self.process.execute(order)
+        self.process.wait()
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
