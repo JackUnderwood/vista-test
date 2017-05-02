@@ -9,8 +9,8 @@ __author__ = 'John Underwood'
 
 class JobReviewed(UI):
     """
-    Edit a job as a non-admin user, then login as an admin user, and
-    review the edited job.
+    Edit a previously approved job as a non-admin user, then login as an 
+    admin user, and review the edited job.
     If job_board_post_status.last_approval_date < jobs.last_changed_date, then
     reviewed button is visible... if reviewed button is click,
     last_approval_date gets updated.
