@@ -184,7 +184,7 @@ class UI:
             """invalid element state: Element must be user-editable in
             order to clear it."""
             log.warning("Element is not user-editable; unable to clear()")
-
+        self.wait()
         element.send_keys(value)
 
     def type_in_ckeditor(self, locator, value):
