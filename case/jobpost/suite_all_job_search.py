@@ -287,12 +287,12 @@ class AllJobSearch(unittest.TestCase):
     def test_keywords(self):
         ui.log.info('>>> Inside function test_keywords()')
         self.process.update({
-            'keyword': ('TypeAndTab', '#s_keywords', 'children'),
+            'keyword': ('TypeAndTab', '#s_keywords', 'internal'),
         })
         expected = 'Keywords'
         self.process.execute(('keyword', ))
         self.process.wait_for_element(
-            '//*[@id="result-target"]/tbody/tr[1]', wait_time=30)
+            '//*[@id="result-target"]/tbody/tr[1]', wait_time=45)
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
         result = self.process.compare(html != '', True, message=compare_message)
