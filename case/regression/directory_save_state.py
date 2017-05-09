@@ -1,6 +1,7 @@
 from ui import UI
 from tool.utilities import get_configurations, get_random_value
-from tool.generators.state_codes import get_state_iso_codes
+from tool.generators.state_codes import FIFTY_STATES
+
 __author__ = 'John Underwood'
 
 
@@ -10,7 +11,7 @@ class DirectorySaveState(UI):
     #141898925--makes user inactive ** fixed 4/12/2017
     """
     name = get_configurations("USER", "name")
-    states = get_state_iso_codes()
+    states = FIFTY_STATES
     edit = '//*[@id="employeeDirectoryMini_grid"]/tbody/tr/td[10]/a/i'
     runtime = {
         'directory': ('Click', '#button_employee_directory'),
