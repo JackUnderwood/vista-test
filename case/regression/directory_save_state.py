@@ -1,6 +1,6 @@
 from ui import UI
 from tool.utilities import get_configurations, get_random_value
-from tool.generators.state_codes import FIFTY_STATES
+from tool.generators.state_codes import FIFTY_STATES, get_state_iso_codes
 
 __author__ = 'John Underwood'
 
@@ -12,14 +12,14 @@ class DirectorySaveState(UI):
     """
     name = get_configurations("USER", "name")
     states = FIFTY_STATES
-    edit = '//*[@id="employeeDirectoryMini_grid"]/tbody/tr/td[10]/a/i'
+    edit_locator = '//*[@id="employeeDirectoryMini_grid"]/tbody/tr/td[10]/a/i'
     runtime = {
         'directory': ('Click', '#button_employee_directory'),
         'name': (
             'Type',
             '//*[@id="employeeDirectoryMini_grid"]/tfoot/tr/th[3]/input',
             name),
-        'edit': ('Click', edit)
+        'edit': ('Click', edit_locator)
     }
     process = UI()
     process.update(runtime)
@@ -46,14 +46,14 @@ class DirectorySaveState(UI):
         'close': ('Click', '//*[@id="employeeDirectoryMini_form"]/div/div[2]/a')
     })
     process.update(runtime)
-    order = ('state', 'save', )
-    process.execute(order)
+    process.execute(('state', 'save', ))
+    process.wait()
     # Make sure the user is still active; one bug makes user inactive when saved
-    if process.is_available(edit):
+    if process.is_available(edit_locator):
         # Spy into the form's State field to check its value
         order = ('edit', )
         process.execute(order)
-        process.wait(15)  # avoids StaleElementReferenceException
+        process.wait()  # avoids StaleElementReferenceException
         state_value = process.get_selected_option('#state')
         process.compare(expected, state_value)
     else:
