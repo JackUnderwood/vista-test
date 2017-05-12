@@ -5,26 +5,25 @@ __author__ = 'John Underwood'
 
 class VtfHtmlParser(HTMLParser):
     data = []
-    sub = {}
-    count = 0
-    change = None
+    _sub = {}
+    _count = 0
 
     def handle_starttag(self, tag, attributes):
-        self.sub = {}
+        self._sub = {}
         self.data.append([])
-        self.data[self.count].append(tag)
+        self.data[self._count].append(tag)
         # print("Start tag:", tag)
         for attr in attributes:
             # print("     attr:", attr)
-            self.sub[attr[0]] = attr[1]
-        self.data[self.count].append(self.sub)
+            self._sub[attr[0]] = attr[1]
+        self.data[self._count].append(self._sub)
 
     def handle_endtag(self, tag):
         # print("End tag  :", tag)
         # print("SUB_DATA: {}".format(self.sub, ))
         # print("COUNT: {}".format(self.count, ))
-        self.count += 1
+        self._count += 1
 
     def handle_data(self, data):
         # print("Data     :", data)
-        self.sub['data'] = data
+        self._sub['data'] = data
