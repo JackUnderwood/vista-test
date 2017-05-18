@@ -283,7 +283,7 @@ class UI:
         """
         log.info("Select Command - PATH: {0} - VALUE: \'{1}\'"
                  .format(locator, value))
-        self.wait(1)  # compensate for on-screen shifting of the element
+        self.wait()  # compensate for on-screen shifting of the element
         self.check_for_new_window()
         element = self.find_element(locator)
         select = Select(element)
@@ -291,6 +291,7 @@ class UI:
             select.select_by_index(1)
         else:
             select.select_by_visible_text(value)
+        self.wait()
 
     def hover(self, locator):
         """
@@ -377,8 +378,10 @@ class UI:
         Note: https://blog.mozilla.org/webqa/2012/07/12/how-to-webdriverwait/
         Note: http://selenium-python.readthedocs.io/waits.html#explicit-waits
         """
+        # By.TAG_NAME.title()  need to TODO: by tag name 'title'  JNU!!!
         wait_time = value.pop('wait_time', 5)
         condition = value.pop('condition', 'presence_of_element_located')
+        _text = value.pop('text', "")
         if value:  # all possible keys should be used at this point
             raise TypeError("Unsupported configuration options {}".format(value,))
 
@@ -391,6 +394,7 @@ class UI:
         _by = By.ID
         if locator[0] == "#":
             _locator = locator[1:]  # remove hash sign, e.g. '#toast-container'
+            _by = By.ID
         elif locator[0] == "/":
             _by = By.XPATH
         elif locator[0] == ".":
@@ -399,15 +403,21 @@ class UI:
         elif locator[0:3] == "css=":
             _locator = locator[4:]
             _by = By.CSS_SELECTOR
+        elif locator[0] == '<':
+            _locator = locator[1:-1]  # remove gt and lt signs
+            _by = By.TAG_NAME
+        else:
+            pass
 
-        log.info("Wait action: wait_for_element --> \"{0}\"".format(locator))
-
+        log.info("Wait action: wait_for_element --> \"{0}\"".format(locator, ))
         try:
             wait = WebDriverWait(self.driver, wait_time)
             _message = "Waiting for element: {}".format(_locator, )
-            wait.until(_condition((_by, _locator)), message=_message)
-        except:
-            log.error("wait_for_element: Expected Condition failed to execute")
+            wait.until(_condition((_by, _locator), _text), message=_message)
+        except TypeError as te:
+            log.error(
+                "wait_for_element: Expected condition failed to execute: {}"
+                .format(te))
         finally:
             pass
 
@@ -577,7 +587,7 @@ class UI:
         """
         locator = self.check_for_placeholder(locator)
         element = self.find_element(locator)
-        return element.get_attribute(attribute_name)
+        return str(element.get_attribute(attribute_name))
 
     def get_selected_option(self, locator):
         """
