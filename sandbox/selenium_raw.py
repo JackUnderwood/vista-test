@@ -2,8 +2,10 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.common.by import By
 
 __author__ = 'John Underwood'
 
@@ -22,33 +24,33 @@ chrome_options.add_experimental_option(
 driver = webdriver.Chrome('C:/Common/chromedriver',
                           chrome_options=chrome_options)
 driver.implicitly_wait(5)
-driver.get('http://indytest/jobs/search')
+driver.get('http://indytest')
 time.sleep(2)
 
-# Click the Reset button
-reset = driver.find_element_by_css_selector(
-    '#job-search-wrap>div:nth-child(3)>div:nth-child(3)>button')
-reset.click()
-time.sleep(5)
+# Explicit waits -- wait for <title> to change
+directory = driver.find_element_by_id('button_employee_directory')
+directory.click()
 
-element = driver.find_element_by_id('s_job_number')
-element.clear()
-element.send_keys('92116')
-element.send_keys(Keys.ENTER)
+name = driver.find_element_by_xpath(
+    '//*[@id="employeeDirectoryMini_grid"]/tfoot/tr/th[3]/input')
+name.send_keys("Underwood")
 
-element = driver.find_element_by_id('edit_92116')
-element.click()
+edit = driver.find_element_by_xpath(  # This drawer takes forever to pull up!!!
+    '//*[@id="employeeDirectoryMini_grid"]/tbody/tr/td[10]/a/i')
+edit.click()
 
-time.sleep(2)
-
-reset = driver.find_element_by_css_selector(
-    '#job-search-wrap>div:nth-child(3)>div:nth-child(3)>button')
+# Add explicit wait HERE -- wait for drawer to appear
+title = ' (John Underwood) Manage User'
+wait = WebDriverWait(driver, 20)
 try:
-    reset.click()
-except WebDriverException:
+    wait.until(lambda x: title in driver.title)
+except TimeoutException as te:
     pass
 
-time.sleep(8)  # Let the user see something!
-driver.quit()
+company = driver.find_element_by_xpath(
+    '//*[@id="manageUser_form"]/div[2]/div[1]/ul/li[3]')
+company.click()
 
+time.sleep(5)  # Let the user see something!
+driver.quit()
 
