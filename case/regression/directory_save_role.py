@@ -44,7 +44,7 @@ class DirectorySaveRole(UI):
     process.update(runtime)
     order = ('directory', 'name', )
     process.execute(order)
-    process.wait(1)  # give drawer time to catch up before clicking edit button
+    process.wait()  # give drawer time to catch up before clicking edit button
     order = ('edit', )
     process.execute(order)
 
@@ -55,27 +55,25 @@ class DirectorySaveRole(UI):
         'save': ('Click', '//*[@id="manageUser_form"]/div[3]/a[1]')
     })
     process.update(runtime)
-    # text_to_be_present_in_element
-    # process.wait_for_element('/html/head/title',
-    #                          text=' ({}) Manage User'.format(name, ),
-    #                          condition='text_to_be_present_in_element',
-    #                          wait_time=30)
-    process.wait(20)
+    # Build <title> content; e.g. "(Jack Doe) Manage User"
+    title = '({}) Manage User'.format(name, )
+    process.wait_for_title(title, 20)
     process.execute(('company', ))
     process.wait()
     data1 = process.spy('//*[@id="ms-roles"]/div[2]/ul', 'innerHTML').strip()
     current_roles = parse_selected(data1)
     process.execute(('selectRole', 'save'))
     process.wait(2)
-    Home()  # back to the beginning
 
+    Home()  # back to the beginning
     process.execute(('directory', 'name', ))
-    process.wait(1)  # give drawer time to catch up before clicking edit button
+    process.wait()  # give drawer time to catch up before clicking edit button
 
     process.execute(('edit', ))
-    process.wait(20)
+    process.wait_for_title(title, 20)
     process.execute(('company', ))
     process.wait()
+
     data2 = process.spy('//*[@id="ms-roles"]/div[2]/ul', 'innerHTML').strip()
     changed_roles = parse_selected(data2)
 
