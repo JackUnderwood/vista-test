@@ -421,6 +421,17 @@ class UI:
         finally:
             pass
 
+    def wait_for_title(self, title, wait_time=5):
+        from selenium.common.exceptions import TimeoutException
+        wait = WebDriverWait(self.driver, wait_time)
+        try:
+            wait.until(lambda x: title in self.driver.title)
+        except TimeoutException as te:
+            log.error(
+                'wait_for_title: Timeout exception: {}'.format(te, ))
+        finally:
+            pass
+
     def find_element(self, locator):
         """
         '//' for xpath
