@@ -6,7 +6,7 @@ __author__ = 'John Underwood'
 
 class AddChecklistCheck(UI):
     License()
-    Checklist(override={'rowNum': '3'})
+    Checklist(override={'rowNum': '1'})
     runtime = {
         'checklist': (
             'Click',
@@ -20,13 +20,40 @@ class AddChecklistCheck(UI):
             '//*[@id="checklist-form-container"]/div[3]/div[3]/input',
             '375'),
         'check': (  # check-off the requirement
-            'Click', '//*[@id="checklist-form-container"]/div[3]/div[1]/label')
+            'Click', '//*[@id="checklist-form-container"]/div[3]/div[1]/label'),
+        'noteClr': (
+            'Type',
+            '//*[@id="checklist-form-container"]/div[3]/div[2]/input', ''),
+        'feeClr': (
+            'Type',
+            '//*[@id="checklist-form-container"]/div[3]/div[3]/input', ''),
+        'save': ('Click', '//*[@id="checklist-form-container"]/div[3]/div[6]/a'),
     }
     expected = "Saved"
     process = UI()
     process.update(runtime)
-    order = ('checklist', 'note', 'fee', 'check', )
+    order = ('checklist', )
+    process.execute(order)
+    process.wait()
+    temp = process.spy('#cklr_0', 'checked')  # determine if item is checked
+    if temp != "None":
+        # This req has been check; we need to un-check it.
+        order = ('check', )
+        process.execute(order)
+        process.wait()
+    order = ('note', 'fee', )
+    process.execute(order)
+    order = ('check', )
     process.execute(order)
     process.results(expected)
-    process.wait(3)
+    process.wait()
+
+    # Clear all & return it back to unchecked.
+    order = ('check', )
+    process.execute(order)
+    process.wait()
+    order = ('noteClr', 'feeClr', 'save')
+    process.execute(order)
+    process.results(expected)
+    process.wait()
     process.teardown()

@@ -6,11 +6,13 @@ __author__ = 'John Underwood'
 
 class AddChecklistFee(UI):
     License()
-    Checklist(override={'rowNum': '7'})
+    Checklist(override={'rowNum': '1'})
     runtime = {
         'checklist': (
             'Click',
             '//*[@id="content"]/div[2]/div[1]/ul/li[7]/a'),
+        'check': (  # check-off the requirement
+            'Click', '//*[@id="checklist-form-container"]/div[3]/div[1]/label'),
         'feeAmount': '75',
         'fee': (
             'Type',
@@ -23,10 +25,19 @@ class AddChecklistFee(UI):
     expected = 'Saved'
     process = UI()
     process.update(runtime)
-    order = ('checklist', 'wait', 'fee', 'save')
+    order = ('checklist',)
+    process.execute(order)
+    process.wait()
+    temp = process.spy('#cklr_0', 'checked')  # determine if item is checked
+    if temp != "None":
+        # This req has been check; we need to un-check it.
+        order = ('check', )
+        process.execute(order)
+        process.wait()
+    order = ('wait', 'fee', 'save', )
     process.execute(order)
     process.results(expected, message="input value into fee field")
-    process.wait(3)
+    process.wait(2)
     process.update({'feeAmount': '', })  # clear
     process.execute(('fee', 'save', ))
     process.wait()
