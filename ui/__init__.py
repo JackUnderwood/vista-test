@@ -610,6 +610,17 @@ class UI:
         select = Select(element)
         return select.first_selected_option.get_attribute('value')
 
+    def get_css_property(self, locator, css_selector):
+        """
+        Get the value of a CSS property.
+        :param locator: holds the xpath, id, or class
+        :param css_selector: 
+        :return: string - property's value
+        """
+        element = self.find_element(locator)
+        value = element.value_of_css_property(css_selector)
+        return value
+
     def is_available(self, locator):
         """
         Is the element available on the screen
