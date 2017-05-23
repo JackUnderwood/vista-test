@@ -29,7 +29,7 @@ time.sleep(2)
 
 # Find the background color
 job_number = driver.find_element_by_id('s_job_number')
-job_number.send_keys('97864')  # 97867
+job_number.send_keys('97867')  # 97864
 
 search = driver.find_element_by_xpath(
     '//*[@id="job-search-wrap"]/div[2]/div[2]/button')
