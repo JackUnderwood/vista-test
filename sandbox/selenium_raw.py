@@ -1,11 +1,11 @@
 #! python
+import re
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.support import expected_conditions as ec
-from selenium.webdriver.common.by import By
 
 __author__ = 'John Underwood'
 
@@ -24,32 +24,23 @@ chrome_options.add_experimental_option(
 driver = webdriver.Chrome('C:/Common/chromedriver',
                           chrome_options=chrome_options)
 driver.implicitly_wait(5)
-driver.get('http://indytest')
+driver.get('http://indytest/jobs/search')
 time.sleep(2)
 
-# Explicit waits -- wait for <title> to change
-directory = driver.find_element_by_id('button_employee_directory')
-directory.click()
+# Find the background color
+job_number = driver.find_element_by_id('s_job_number')
+job_number.send_keys('97864')  # 97867
 
-name = driver.find_element_by_xpath(
-    '//*[@id="employeeDirectoryMini_grid"]/tfoot/tr/th[3]/input')
-name.send_keys("Underwood")
+search = driver.find_element_by_xpath(
+    '//*[@id="job-search-wrap"]/div[2]/div[2]/button')
+search.click()
 
-edit = driver.find_element_by_xpath(  # This drawer takes forever to pull up!!!
-    '//*[@id="employeeDirectoryMini_grid"]/tbody/tr/td[10]/a/i')
-edit.click()
+row = driver.find_element_by_xpath('//*[@id="result-target"]/tbody/tr[1]')
+rgb = row.value_of_css_property('background-color')
+res = re.search(r'rgba\((\d+),\s*(\d+),\s*(\d+)', rgb).group()
+r, g, b = [int(s) for s in re.findall('\\d+', res)]
+hex_color = '#%02x%02x%02x' % (r, g, b)
 
-# Add explicit wait HERE -- wait for drawer to appear
-title = ' (John Underwood) Manage User'
-wait = WebDriverWait(driver, 20)
-try:
-    wait.until(lambda x: title in driver.title)
-except TimeoutException as te:
-    pass
-
-company = driver.find_element_by_xpath(
-    '//*[@id="manageUser_form"]/div[2]/div[1]/ul/li[3]')
-company.click()
 
 time.sleep(5)  # Let the user see something!
 driver.quit()
