@@ -38,6 +38,10 @@ def get_job_status(class_attribute):
 
 class JobStatusUpdate(UI):
     """
+    To access a condition, you'll need to change the job_id. For example, 
+    if you want to access the first condition, then use a job number that 
+    is not ready (white).
+    
     Regression test for story #129534633 - check that job row's status
     (background color) updates. class=
     nopost      rust    #ffddbb
@@ -50,7 +54,8 @@ class JobStatusUpdate(UI):
                 'ready': '#cceeee',
                 'rejected': '#ffccff'}
     JobPosts()
-    override = {'value': '97867'}
+    job_id = '97848'
+    override = {'value': job_id}
     JobSearch(override)
     runtime = {}
 
@@ -64,8 +69,8 @@ class JobStatusUpdate(UI):
         # Change from 'not ready' (white) to 'ready' (blue)
         expected_status = 'ready'
         expected_color = statuses[expected_status]
-        job_id = process.spy(
-            '//*[@id="result-target"]/tbody/tr[1]/td[1]', 'innerHTML')
+        # job_id = process.spy(
+        #     '//*[@id="result-target"]/tbody/tr[1]/td[1]', 'innerHTML')
         runtime = {
             'edit': ('Click', '#edit_{}'.format(job_id)),
             'subtitle': ('Type', '#jobs__job_board_subtitle', 'QA Subtitle'),
@@ -86,8 +91,8 @@ class JobStatusUpdate(UI):
         # Change from "Ready to Post" to "Approved"
         expected_status = 'approved'
         expected_color = statuses[expected_status]
-        job_id = process.spy(
-            '//*[@id="result-target"]/tbody/tr[1]/td[1]', 'innerHTML')
+        # job_id = process.spy(
+        #     '//*[@id="result-target"]/tbody/tr[1]/td[1]', 'innerHTML')
         process.update({
             'expand': ('Click', '//*[@id="result-target"]/tbody/tr[1]'),
             'approve': (
@@ -97,15 +102,54 @@ class JobStatusUpdate(UI):
         })
         process.execute(('expand', 'approve', ))
 
-    elif class_attr == "ready":
-        # Change to Reject
-        runtime['click'] = ('Click', '#job_board_post_status__is_ready_to_post')
-    elif class_attr == "nopost":
-        # Change to Approved
-        runtime['click'] = ('Click', '#job_board_post_status__is_ready_to_post')
-    elif class_attr == "rejected":
-        # Change to Approved
-        runtime['click'] = ('Click', '#job_board_rejection_history__is_rejected')
+    elif class_attr == "approved":
+        # Change from "Approved" to "Rejected"
+        expected_status = 'rejected'
+        expected_color = statuses[expected_status]
+        # job_id = process.spy(
+        #     '//*[@id="result-target"]/tbody/tr[1]/td[1]', 'innerHTML')
+        process.update({
+            'expand': ('Click', '//*[@id="result-target"]/tbody/tr[1]'),
+            'reject': (
+                'Click',
+                '//*[@id="expandable_{}"]/td/div/div[3]/label[2]'.
+                format(job_id)),
+            'wait': (
+                'Wait', '#job_board_rejection_history__rejection_reason_id',
+                {'condition': 'element_to_be_clickable'}),
+            'other': ('Select',
+                      '#job_board_rejection_history__rejection_reason_id',
+                      'Other'),
+            'confirm': ('Click', '#confirm-reject'),
+            'save': ('Click', '#edit-save'),
+            'waitForExpand': (
+                # The drawer hides 'expand' button; when drawer dismisses,
+                # the expand button is available again
+                # Todo: the 'wait_for_element()' is not working as expected
+                'Wait', '//*[@id="result-target"]/thead/tr[1]/td[3]/i[1]',
+                {'condition': 'element_to_be_clickable'}),
+        })
+        process.execute(('expand', ))
+        process.wait()
+        rejected_state = process.spy('#inGrid_reject_{}'.format(job_id),
+                                     'checked')
+        if rejected_state == 'checked':
+            ui.log.warning('rejected box already checked')
+            process.wait()
+            process.teardown()
+
+        process.execute(('reject', 'wait', 'other', 'confirm', 'save',
+                         'waitForExpand'))
+        process.wait(8)
+
+    # elif class_attr == "nopost":
+    #     # Change to Approved
+    #     pass
+    #
+    # elif class_attr == "rejected":
+    #     # Change to Approved
+    #     pass
+    #
     else:
         pass
 
