@@ -378,7 +378,6 @@ class UI:
         Note: https://blog.mozilla.org/webqa/2012/07/12/how-to-webdriverwait/
         Note: http://selenium-python.readthedocs.io/waits.html#explicit-waits
         """
-        # By.TAG_NAME.title()  need to TODO: by tag name 'title'  JNU!!!
         wait_time = value.pop('wait_time', 5)
         condition = value.pop('condition', 'presence_of_element_located')
         _text = value.pop('text', "")
@@ -413,7 +412,7 @@ class UI:
         try:
             wait = WebDriverWait(self.driver, wait_time)
             _message = "Waiting for element: {}".format(_locator, )
-            wait.until(_condition((_by, _locator), _text), message=_message)
+            wait.until(_condition((_by, _locator)), message=_message)
         except TypeError as te:
             log.error(
                 "wait_for_element: Expected condition failed to execute: {}"

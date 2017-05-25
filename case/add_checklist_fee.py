@@ -19,8 +19,7 @@ class AddChecklistFee(UI):
             '//*[@id="checklist-form-container"]/div[3]/div[3]/input',
             '&feeAmount;'),
         'save': ('Click', '//*[@id="checklist-form-container"]/div[3]/div[6]/a'),
-        'wait': ('Wait', '#scratch-pad',
-                 {'wait_time': 8, 'condition': 'element_to_be_clickable'})
+        'wait': ('Wait', '#scratch-pad', {'wait_time': 8, })
     }
     expected = 'Saved'
     process = UI()
