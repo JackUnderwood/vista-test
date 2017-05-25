@@ -10,7 +10,7 @@ class JobCreateIcon(UI):
     Create an input control (I-CON) and then check for correct values.
     """
     JobIcon()
-    unique = 'AAutomated ' + gen_key()
+    unique = 'AAutomated_' + gen_key()
     runtime = {
         'new': ('Click', 'css=#control-list>ul>li.active>a',),
         'iConName': ('Type', '#control_name', unique),
