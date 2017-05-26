@@ -16,6 +16,18 @@ class JobReviewed(UI):
     last_approval_date gets updated.
     """
 
+    # Get a Approved job number
+    process = UI()
+    JobPosts()
+    runtime = {
+        'jobStatus': (
+            'Click',
+            '//*[@id="job-search-wrap"]/div[1]/div[2]/div[3]/button'),
+        'approved': ('Click', '#ui-multiselect-s_job_board_status-option-1'),
+    }
+    process.update(runtime)
+    process.execute(('jobStatus', 'approved'))
+
     # Log in as non-admin user.
     username = get_configurations('USER_IMPOSTOR', 'name')
     user_id = get_configurations('USER_IMPOSTOR', 'user_id')
@@ -26,7 +38,6 @@ class JobReviewed(UI):
         'user': ('Type', '#change-user-user_key_id_desc', username),
         'select': ('Click', '//*[@item_id="&userId;"]'),
     }
-    process = UI()
     process.update(runtime)
     order = ('impostor', 'user', 'select', )
     process.execute(order)
