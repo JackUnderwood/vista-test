@@ -1,11 +1,10 @@
 #! python
 import re
 import time
+import html
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import TimeoutException
 
 __author__ = 'John Underwood'
 
@@ -27,9 +26,23 @@ driver.implicitly_wait(5)
 driver.get('http://indytest/jobs/search')
 time.sleep(2)
 
+status = driver.find_element_by_xpath(
+    '//*[@id="job-search-wrap"]/div[1]/div[2]/div[3]/button')
+status.click()
+
+approved = driver.find_element_by_id(
+    'ui-multiselect-s_job_board_status-option-1')
+approved.click()
+time.sleep(3)
+
 # Find the background color
-job_number = driver.find_element_by_id('s_job_number')
-job_number.send_keys('97867')  # 97864
+# table = driver.find_element_by_xpath('//*[@id="result-target"]/tbody')
+# rows = table.find_elements_by_class_name('approved')
+rows = driver.find_elements_by_class_name('approved')  # getting closer
+for row in rows:
+    ele = row.find_element_by_class_name('fa-ban')
+    print(row)
+# ///*[@id="result-target"]/tbody/tr[15]/td[5]/i[2]
 
 search = driver.find_element_by_xpath(
     '//*[@id="job-search-wrap"]/div[2]/div[2]/button')
