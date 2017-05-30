@@ -473,6 +473,9 @@ class UI:
 
         return None
 
+    def find_elements_by_class_name(self, class_name):
+        return self.driver.find_elements_by_class_name(class_name)
+
     def check_for_new_window(self):
         """
         Get the window handle of the new window and switch to that.
