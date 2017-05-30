@@ -7,6 +7,28 @@ from tool.generators.generator import gen_key
 __author__ = 'John Underwood'
 
 
+def find_valid_rows(process, class_name):
+    """
+    Get the available job rows that have been approved and meets all validations.
+    (The 'fa-ban' icon is not visible.)
+    :param process: UI class instance
+    :param locator: a valid selector type, ie. class
+    :param class_name: the class name
+    :return: list - a list of valid job numbers
+    """
+    valid_rows = []
+    rows = process.find_elements_by_class_name(class_name)
+    for row in rows:
+        # source = row.get_attribute('innerHTML')
+        ele = row.find_element_by_xpath('./td[5]/i[2]')
+        result = str(ele.get_attribute('class'))  # 'fa fa-ban jobFault'
+        if 'jobFault' not in result:
+            row_id = row.find_element_by_xpath('./td[1]').text
+            valid_rows.append(row_id)
+
+    return valid_rows
+
+
 class JobReviewed(UI):
     """
     Edit a previously approved job as a non-admin user, then login as an 
@@ -28,6 +50,12 @@ class JobReviewed(UI):
     process.update(runtime)
     process.execute(('jobStatus', 'approved'))
 
+    # Assign a 'valid' row
+    valid_rows = find_valid_rows(process, 'approved')
+    job_number = '92127'
+    if valid_rows:
+        job_number = valid_rows.pop()  # get a single job
+
     # Log in as non-admin user.
     username = get_configurations('USER_IMPOSTOR', 'name')
     user_id = get_configurations('USER_IMPOSTOR', 'user_id')
@@ -43,7 +71,6 @@ class JobReviewed(UI):
     process.execute(order)
 
     # Non-admin user edits a job.
-    job_number = '92127'
     JobPosts()
     JobSearch(override={'value': job_number})
     subtitle = gen_key()  # a 12 char random string of text
@@ -80,6 +107,7 @@ class JobReviewed(UI):
     actual = process.spy('#review_' + job_number, 'innerHTML')
     if process.compare(expected, actual, message=addendum):
         # Now, click the "Reviewed" button
+        expected = 'Approved Undated for Job {}'.format(job_number,)
         addendum = "This is the second and final of two results"
         expected = 'Approval Updated for Job {}'.format(job_number, )
         order = ('reviewed', )
