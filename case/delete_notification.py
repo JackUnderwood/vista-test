@@ -15,14 +15,14 @@ class DeleteNotification(UI):
 
     runtime = {
         'notify': ('Click', '//*[@id="button_notification"]/i'),
-        'present': ('Click', '//label[@for="today" and contains(., "Present")]'),
+        'future': ('Click', '//label[@for="future" and contains(., "Future")]'),
         'cancelNotice': ('Click', '//*[@id="undefined"]/td[31]/i[2]'),
     }
 
     expected = "Notification cancelled"
     process = UI()
     process.update(runtime)
-    order = ('notify', 'present', 'cancelNotice', )
+    order = ('notify', 'future', 'cancelNotice', )
     process.execute(order)
     process.results(expected)
     process.teardown()
