@@ -43,7 +43,7 @@ class AllJobSearch(unittest.TestCase):
     @unittest.skipUnless(
         debug is 'division' or debug is 'all', "testing {}".format(debug,))
     def test_division(self):
-        ui.log.info('>>> Inside function test_ard_group()')
+        ui.log.info('>>> Inside function test_division()')
         self.process.update({
             'division': ('Click', 'css=.ui-multiselect.ui-widget.'
                                   'ui-state-default.ui-corner-all.'
@@ -62,7 +62,7 @@ class AllJobSearch(unittest.TestCase):
     @unittest.skipUnless(
         debug is 'ard' or debug is 'all', "testing {}".format(debug,))
     def test_ard_group(self):
-        ui.log.info('>>> Inside function test_division()')
+        ui.log.info('>>> Inside function test_ard_group()')
         self.process.update({
             'ard': ('Click', 'css=.ui-multiselect.ui-widget.ui-state-default.'
                              'ui-corner-all.multi_s.multi_s_ard_group'),
