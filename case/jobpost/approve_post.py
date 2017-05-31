@@ -1,6 +1,7 @@
 from ui import UI
 from ui.low.job_posts import JobPosts
-from ui.high.job_search import JobSearch
+# from ui.high.job_search import JobSearch
+# from ._helpers import find_valid_rows
 
 __author__ = 'John Underwood'
 
@@ -36,9 +37,9 @@ class ApprovePost(UI):
     order = ('view', )
     process.execute(order)
     attr_class = process.spy('//*[@id="result-target"]/tbody/tr[1]', 'class')
-    ready_to_post = process.spy(
-        '//*[@id="expandable_{}"]/td/div/div[3]/div[2]/div[4]/div/div/div[2]'.
-        format(job_number,), 'innerHTML')
+    # ready_to_post = process.spy(
+    #     '//*[@id="expandable_{}"]/td/div/div[3]/div[2]/div[4]/div/div/div[2]'.
+    #     format(job_number,), 'innerHTML')
 
     expected = "Approval for job {} saved".format(job_number, )
     if 'ready' in attr_class:
