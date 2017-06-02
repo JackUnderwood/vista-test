@@ -21,3 +21,26 @@ def find_valid_rows(process, class_name):
             valid_rows.append(row_id)
 
     return valid_rows
+
+
+def find_rows(process, row_class_name, locator, name):
+    """
+    Find a series of rows within the result-target table body
+    :param process: The UI driver
+    :param row_class_name: The rows' class name
+    :param locator: The xpath selector
+    :param name: Name of the attribute/property to retrieve.
+    :return: a list of tuples, i.e. [('id_12345', 'yes'), ('id_54321`, 'no'), ..]
+    Usage:
+    find_rows(process, 'expandable-row', ready_to_post_locator, 'innerHTML')
+    """
+    valid_rows = []
+    table = process.find_element('//*[@id="result-target"]/tbody')
+    rows = table.find_elements_by_class_name(row_class_name)
+    for row in rows:
+        row_id = row.get_attribute('id')
+        ele = row.find_element_by_xpath(locator)
+        value = ele.get_attribute(name)
+        valid_rows.append((row_id, value))
+
+    return valid_rows
