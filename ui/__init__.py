@@ -369,7 +369,8 @@ class UI:
 
     def wait_for_element(self, locator, **value):
         """
-        Waits for the element to appear
+        Waits for the element to appear.
+        e.g. ('Wait', '#scratch-pad', {'condition': 'element_to_be_clickable'})
         :param locator: a string that holds the element's id, xpath, class,
         or css selector
         :param value: dict - may contain keys 'wait_time' and 'condition'; a list
@@ -380,7 +381,6 @@ class UI:
         """
         wait_time = value.pop('wait_time', 5)
         condition = value.pop('condition', 'presence_of_element_located')
-        _text = value.pop('text', "")
         if value:  # all possible keys should be used at this point
             raise TypeError("Unsupported configuration options {}".format(value,))
 
