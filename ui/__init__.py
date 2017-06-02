@@ -474,6 +474,11 @@ class UI:
         return None
 
     def find_elements_by_class_name(self, class_name):
+        """
+        Wrapper - Finds elements by class name.
+        :param class_name: The class name of the elements to find.
+        :return: list of elements
+        """
         return self.driver.find_elements_by_class_name(class_name)
 
     def check_for_new_window(self):
