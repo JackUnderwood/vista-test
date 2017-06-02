@@ -4,6 +4,7 @@ import time
 import html
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 
 
 __author__ = 'John Underwood'
@@ -26,35 +27,35 @@ driver.implicitly_wait(5)
 driver.get('http://indytest/jobs/search')
 time.sleep(2)
 
-status = driver.find_element_by_xpath(
-    '//*[@id="job-search-wrap"]/div[1]/div[2]/div[3]/button')
+status = driver.find_element_by_css_selector(
+    '.ui-multiselect.ui-widget.ui-state-default.ui-corner-all.'
+    'multi_s.multi_s_job_status')
 status.click()
+time.sleep(1)
 
-approved = driver.find_element_by_id(
-    'ui-multiselect-s_job_board_status-option-1')
-approved.click()
+active = driver.find_element_by_id('ui-multiselect-s_job_status-option-1')
+active.click()
+hot = driver.find_element_by_id('ui-multiselect-s_job_status-option-4')
+hot.click()
 time.sleep(3)
 
-# Find the background color
-# table = driver.find_element_by_xpath('//*[@id="result-target"]/tbody')
-# rows = table.find_elements_by_class_name('approved')
-rows = driver.find_elements_by_class_name('approved')  # getting closer
+# Find the items that have set 'Ready to Post? No'
+# //*[@id="expandable_97867"]/td/div/div[3]/div[2]/div[4]/div/div/div[2]
+# //*[@id="expandable_97866"]/td/div/div[3]/div[2]/div[4]/div/div/div[2]
+# //*[@id="expandable_97866"]/td/div/div[3]/div[2]/div[4]/div/div/div[2]/strong
+# //*[@id="expandable_97866"]/td/div/div[3]/div[3]/div[2]/div/div/div/div[2]/strong
+table = driver.find_element_by_xpath('//*[@id="result-target"]/tbody')
+rows = table.find_elements_by_class_name('expandable-row')  # getting closer
+valid_rows = []
 for row in rows:
-    ele = row.find_element_by_class_name('fa-ban')
-    print(row)
-# ///*[@id="result-target"]/tbody/tr[15]/td[5]/i[2]
+    row_id = row.get_attribute('id')
+    ele = row.find_element_by_xpath(
+        './td/div/div[3]/div[2]/div[4]/div/div/div[2]/strong')
+    value = ele.get_attribute('innerHTML')
+    valid_rows.append((row_id, value))
 
-search = driver.find_element_by_xpath(
-    '//*[@id="job-search-wrap"]/div[2]/div[2]/button')
-search.click()
-
-row = driver.find_element_by_xpath('//*[@id="result-target"]/tbody/tr[1]')
-rgb = row.value_of_css_property('background-color')
-res = re.search(r'rgba\((\d+),\s*(\d+),\s*(\d+)', rgb).group()
-r, g, b = [int(s) for s in re.findall('\\d+', res)]
-hex_color = '#%02x%02x%02x' % (r, g, b)
-
-
-time.sleep(5)  # Let the user see something!
+# //*[@id="expandable_97866"]
+print(valid_rows)
+time.sleep(5)
 driver.quit()
 
