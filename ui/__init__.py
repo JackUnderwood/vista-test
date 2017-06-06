@@ -473,6 +473,48 @@ class UI:
 
         return None
 
+    def find_elements(self, locator):
+        """
+        '//' for xpath
+        '.' for class
+        '#' for id
+        'css=' for css
+        '<' for tag
+        :param locator: a valid selector type, ie. xpath, class, id, css, or tag
+        :return: a list of the DOM's elements
+        Special case '<' looks for many tag elements; this helps get around
+        the display of items that have dynamic id attribute,
+        i.e. id="client_5568b9eecbc2e"
+        """
+        first_element = locator[0]
+        if first_element == '/':  # xpath
+            temp = self.driver.find_elements_by_xpath(locator)
+            return temp  # self.driver.find_element_by_xpath(elem)
+        elif first_element == '.':  # ".<class>"
+            _class = locator[1:]
+            return self.driver.find_elements_by_class_name(_class)
+        elif first_element == '#':  # "#<id>"
+            _id = locator[1:]
+            return self.driver.find_elements_by_id(_id)
+        elif first_element == '<':  # "<<tag>>"-special case that looks for many
+            # Returns the last element in the list; assumes the last element
+            # is the desired element.
+            _tag = locator[1:-1]
+            return self.driver.find_elements_by_tag_name(_tag)[-1]
+        elif locator[:3] == 'css':  # "css=<target>"
+            _css = locator[4:]
+            log.info("CSS element: {0}".format(_css))
+            return self.driver.find_elements_by_css_selector(_css)
+        elif locator[:4] == 'name':  # "name=<target>"
+            _name = locator[5:]
+            log.info("'Name' element: {0}".format(_name))
+            return self.driver.find_elements_by_name(_name)
+        else:
+            # TODO: need to throw exception
+            log.exception("no correct element found")
+
+        return None
+
     def find_elements_by_class_name(self, class_name):
         """
         Wrapper - Finds elements by class name.
