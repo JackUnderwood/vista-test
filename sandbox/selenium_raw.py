@@ -44,17 +44,16 @@ time.sleep(3)
 # //*[@id="expandable_97866"]/td/div/div[3]/div[2]/div[4]/div/div/div[2]
 # //*[@id="expandable_97866"]/td/div/div[3]/div[2]/div[4]/div/div/div[2]/strong
 # //*[@id="expandable_97866"]/td/div/div[3]/div[3]/div[2]/div/div/div/div[2]/strong
-table = driver.find_element_by_xpath('//*[@id="result-target"]/tbody')
-rows = table.find_elements_by_class_name('expandable-row')  # getting closer
-valid_rows = []
-for row in rows:
-    row_id = row.get_attribute('id')
-    ele = row.find_element_by_xpath(
-        './td/div/div[3]/div[2]/div[4]/div/div/div[2]/strong')
-    value = ele.get_attribute('innerHTML')
-    valid_rows.append((row_id, value))
+# table = driver.find_element_by_xpath('//*[@id="result-target"]/tbody')
 
-# //*[@id="expandable_97866"]
+rows = driver.find_elements_by_xpath(
+    '//*[@id="result-target"]/tbody/tr[@class=" " or @class="odd "]')
+valid_rows = [row.find_element_by_xpath('./td[1]').text for row in rows]
+# for row in rows:
+#     row_id = row.find_element_by_xpath('./td[1]').text
+#     valid_rows.append(row_id)
+
+# //*[@id="expandable_97866"] #result-target > tbody > tr:nth-child(1)
 print(valid_rows)
 time.sleep(5)
 driver.quit()
