@@ -127,8 +127,44 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.wait()
 
         approved_locator = './td/div/div[3]/div[2]/div[3]/div/div/div/div[2]/strong'
-        #
-        rows = find_rows(self.process, 'expandable-row',
-                         approved_locator, 'innerHTML')
+        rows = find_rows(self.process, 'expandable-row', approved_locator,
+                         'innerHTML')
+
+        not_approved_row_ids = [r[0] for r in rows if 'Not Approved' in r]
+        if not check_valid(self.process, not_approved_row_ids):
+            self.assertTrue(False, msg='no "Not Approved" rows available')
+        not_approved_row_ids.sort(reverse=True)
+        approved_xpath = ('//*[@id="{}"]/td/div/div[3]/label[1]'.
+                          format(not_approved_row_ids[0], ))
+
+        self.process.update({
+            'expand': ('Click', '//*[@id="result-target"]/tbody/tr[1]'),
+            'approved': ('Click', approved_xpath),
+        })
+        self.process.execute(('expand', 'approved'))
         self.process.wait()
+        expected = ("You are about to approve a Job that has not been set "
+                    "to \'Ready to Post\'. Are you sure? Press OK to continue.")
+        actual = self.process.dismiss_alert()
+        self.process.compare(expected, actual, message="dismiss alert")
+        self.process.wait()
+
+        ids = [r[r.find('_')+1:] for r in not_approved_row_ids]
+        job_id = ids[0]
+        self.process.update({
+            'edit': ('Click', '#edit_{}'.format(job_id, )),
+            'ready': ('Click',
+                      '//*[@for="job_board_post_status__is_ready_to_post"]'),
+            'reject': ('Click',
+                       '//*[@for="job_board_rejection_history__is_rejected"]'),
+            'save': ('Click', '#edit-save'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button')
+        })
+        self.process.execute(('edit', 'ready', 'reject', 'save', 'reset'))
+        self.process.wait()
+        expected = "Job Saved"
+        result = self.process.results(expected, locator='toast-container')
+        self.assertTrue(result, msg=expected)
+
+        self.process.spy('//*[@id="result-target"]/tbody/tr[1]')
 
