@@ -3,7 +3,7 @@ from ui.low.job_posts import JobPosts
 from ui.high.job_search import JobSearch
 from tool.utilities import get_configurations
 from tool.generators.generator import gen_key
-from ._helpers import find_valid_rows
+from tool.helpers import find_valid_rows
 
 __author__ = 'John Underwood'
 

@@ -1,6 +1,6 @@
 from ui import UI
 from ui.low.job_posts import JobPosts
-from ._helpers import find_rows
+from tool.helpers import find_rows
 
 __author__ = 'John Underwood'
 

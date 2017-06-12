@@ -2,7 +2,7 @@ import unittest
 
 import ui
 from ui import UI
-from case.jobpost._helpers import find_rows
+from tool.helpers import find_rows
 
 __author__ = 'John Underwood'
 
@@ -23,7 +23,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'all'
+    debug = 'rejected_to_approved'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -64,7 +64,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         order = ('jobStatus', 'wait1', 'jobStatusActive', 'jobStatusHot',
                  'clickAway', 'jobBoardStatus', 'wait2', 'jobBoardStatusApprove')
         self.process.execute(order)
-        
+
         approved_locator = './td/div/div[3]/div[2]/div[3]/div/div/div/div[2]/strong'
         rows = find_rows(self.process, 'expandable-row',
                          approved_locator, 'innerHTML')
@@ -112,4 +112,23 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                          "testing {}".format(debug,))
     def test_rejected_to_approved(self):
         ui.log.info(">>> Inside function test_rejected_to_approved()")
-        pass
+        runtime = {
+            'jobBoardStatus': ('Click', 'css=.ui-multiselect.ui-widget.'
+                                        'ui-state-default.ui-corner-all.multi_s.'
+                                        'multi_s_job_board_status'),
+            'wait': ('Wait', '#ui-multiselect-s_job_board_status-option-1',
+                     {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
+            'jobBoardStatusReject': (
+                'Click', '#ui-multiselect-s_job_board_status-option-5')
+        }
+        self.process.update(runtime)
+        order = ('jobBoardStatus', 'wait', 'jobBoardStatusReject', )
+        self.process.execute(order)
+        self.process.wait()
+
+        approved_locator = './td/div/div[3]/div[2]/div[3]/div/div/div/div[2]/strong'
+        #
+        rows = find_rows(self.process, 'expandable-row',
+                         approved_locator, 'innerHTML')
+        self.process.wait()
+
