@@ -1,5 +1,3 @@
-from tool.vlog import VLog
-
 __author__ = 'John Underwood'
 
 
@@ -45,6 +43,12 @@ def find_rows(process, row_class_name, locator, name):
         valid_rows.append((row_id, value))
 
     return valid_rows
+
+
+def get_row_numbers(process):
+    trs = process.find_elements('//*[@id="result-target"]/tbody/tr')
+    rows = [row.find_element_by_xpath('./td[1]').text for row in trs]
+    return rows
 
 
 def get_class_attribute(process, locator):
