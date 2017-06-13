@@ -1,4 +1,6 @@
 __author__ = 'John Underwood'
+"""This module is specific to the results table inside Manage Job Posts page.
+"""
 
 
 def find_valid_rows(process, class_name):
