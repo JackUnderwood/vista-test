@@ -2,7 +2,7 @@ import unittest
 
 import ui
 from ui import UI
-from tool.helpers import find_rows
+from tool.helpers import find_rows, get_color, get_row_numbers
 
 __author__ = 'John Underwood'
 
@@ -126,20 +126,29 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.execute(order)
         self.process.wait()
 
-        approved_locator = './td/div/div[3]/div[2]/div[3]/div/div/div/div[2]/strong'
-        rows = find_rows(self.process, 'expandable-row', approved_locator,
-                         'innerHTML')
-
+        rows = find_rows(
+            self.process,
+            'expandable-row',
+            './td/div/div[3]/div[2]/div[3]/div/div/div/div[2]/strong',
+            'innerHTML'
+        )
         not_approved_row_ids = [r[0] for r in rows if 'Not Approved' in r]
         if not check_valid(self.process, not_approved_row_ids):
             self.assertTrue(False, msg='no "Not Approved" rows available')
         not_approved_row_ids.sort(reverse=True)
-        approved_xpath = ('//*[@id="{}"]/td/div/div[3]/label[1]'.
-                          format(not_approved_row_ids[0], ))
+        # Strip out the text, i.e. "expandable_"
+        ids = [r[r.find('_') + 1:] for r in not_approved_row_ids]
+        job_id = ids[0]
+        all_row_numbers = get_row_numbers(self.process)
+        index = all_row_numbers.index(job_id) + 1
 
-        self.process.update({
-            'expand': ('Click', '//*[@id="result-target"]/tbody/tr[1]'),
-            'approved': ('Click', approved_xpath),
+        self.process.update({  # //*[@id="expandable_97848"]
+            'expand': (
+                'Click',
+                '//*[@id="result-target"]/tbody/tr[{}]'.format(index, )),
+            'approved': (
+                'Click',
+                '//*[@id="expandable_{}"]/td/div/div[3]/label[1]'.format(job_id, )),
         })
         self.process.execute(('expand', 'approved'))
         self.process.wait()
@@ -149,22 +158,35 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.compare(expected, actual, message="dismiss alert")
         self.process.wait()
 
-        ids = [r[r.find('_')+1:] for r in not_approved_row_ids]
-        job_id = ids[0]
         self.process.update({
             'edit': ('Click', '#edit_{}'.format(job_id, )),
+            'template': ('Select',
+                         '#JobDescriptionTemplates__job_description_template_id',
+                         'Allergy'),
             'ready': ('Click',
                       '//*[@for="job_board_post_status__is_ready_to_post"]'),
             'reject': ('Click',
                        '//*[@for="job_board_rejection_history__is_rejected"]'),
             'save': ('Click', '#edit-save'),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button')
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
+            'entry': ('Type', '#s_job_number', job_id),
+            'refresh': ('Click',
+                        '//*[@id="job-search-wrap"]/div[2]/div[2]/button')
         })
-        self.process.execute(('edit', 'ready', 'reject', 'save', 'reset'))
+        self.process.execute(('edit', 'template', 'ready', 'reject', 'save', ))
         self.process.wait()
         expected = "Job Saved"
         result = self.process.results(expected, locator='toast-container')
         self.assertTrue(result, msg=expected)
 
-        self.process.spy('//*[@id="result-target"]/tbody/tr[1]')
+        # Check for the background color.
+        self.process.execute(('reset', 'entry', 'refresh'))
+        self.process.wait()
 
+        rgb = self.process.get_css_property(
+            '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
+        actual_color = get_color(rgb)
+        ui.log.info('COLOR: {}'.format(actual_color, ))
+        result = self.process.compare(
+            '#cceeee', actual_color, message="blue background expected")
+        self.assertTrue(result, msg='color blue expected')
