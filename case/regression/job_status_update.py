@@ -1,5 +1,3 @@
-import re
-
 import ui
 from ui import UI
 from ui.low.job_posts import JobPosts
