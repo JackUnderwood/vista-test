@@ -4,36 +4,8 @@ import ui
 from ui import UI
 from ui.low.job_posts import JobPosts
 from ui.high.job_search import JobSearch
+from tool.helpers import get_class_attribute, get_job_status, get_color
 __author__ = 'John Underwood'
-
-
-def get_class_attribute(process, locator):
-    class_attr = process.spy(locator, 'class')
-    class_attr = class_attr.strip()
-    ui.log.info("CLASS: {}".format(class_attr, ))
-    return class_attr
-
-
-def get_color(rgb):
-    res = re.search(r'rgba\((\d+),\s*(\d+),\s*(\d+)', rgb).group()
-    r, g, b = [int(s) for s in re.findall('\\d+', res)]
-    hex_color = '#%02x%02x%02x' % (r, g, b)
-    return hex_color
-
-
-def get_job_status(class_attribute):
-    status = None
-    if "approved" in class_attribute:
-        status = "approved"
-    elif "ready" in class_attribute:
-        status = "ready"
-    elif "nopost" in class_attribute:
-        status = "nopost"
-    elif "rejected" in class_attribute:
-        status = "rejected"
-    else:
-        pass
-    return status
 
 
 class JobStatusUpdate(UI):
@@ -62,10 +34,12 @@ class JobStatusUpdate(UI):
     process = UI()
     locator = '//*[@id="result-target"]/tbody/tr[1]'
     class_attributes = get_class_attribute(process, locator)
-    class_attr = get_job_status(class_attributes)
+    ui.log.info("CLASS: {}".format(class_attributes, ))
+    class_attr_status = get_job_status(class_attributes)
+    ui.log.info("STATUS: {}".format(class_attr_status, ))
     expected_status = None
     expected_color = None
-    if class_attr is None:
+    if class_attr_status is None:
         # Change from 'not ready' (white) to 'ready' (blue)
         expected_status = 'ready'
         expected_color = statuses[expected_status]
@@ -87,7 +61,7 @@ class JobStatusUpdate(UI):
         process.accept_alert()
         process.execute(('ready', 'save',))
 
-    elif class_attr == "ready":
+    elif class_attr_status == "ready":
         # Change from "Ready to Post" to "Approved"
         expected_status = 'approved'
         expected_color = statuses[expected_status]
@@ -102,7 +76,7 @@ class JobStatusUpdate(UI):
         })
         process.execute(('expand', 'approve', ))
 
-    elif class_attr == "approved":
+    elif class_attr_status == "approved":
         # Change from "Approved" to "Rejected"
         expected_status = 'rejected'
         expected_color = statuses[expected_status]

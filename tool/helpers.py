@@ -1,3 +1,4 @@
+from tool.vlog import VLog
 
 __author__ = 'John Underwood'
 
@@ -44,3 +45,33 @@ def find_rows(process, row_class_name, locator, name):
         valid_rows.append((row_id, value))
 
     return valid_rows
+
+
+def get_class_attribute(process, locator):
+    class_attr = process.spy(locator, 'class')
+    class_attr = class_attr.strip()
+    return class_attr
+
+
+def get_color(rgb):
+    import re
+
+    res = re.search(r'rgba\((\d+),\s*(\d+),\s*(\d+)', rgb).group()
+    r, g, b = [int(s) for s in re.findall('\\d+', res)]
+    hex_color = '#%02x%02x%02x' % (r, g, b)
+    return hex_color
+
+
+def get_job_status(class_attribute):
+    status = None
+    if "approved" in class_attribute:
+        status = "approved"
+    elif "ready" in class_attribute:
+        status = "ready"
+    elif "nopost" in class_attribute:
+        status = "nopost"
+    elif "rejected" in class_attribute:
+        status = "rejected"
+    else:
+        pass
+    return status
