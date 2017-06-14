@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import InvalidElementStateException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -645,9 +646,15 @@ class UI:
         :param attribute_name: attribute name, i.e. innerHTML, value, name, etc.
         :return: string - value
         """
+        attribute = None
         locator = self.check_for_placeholder(locator)
-        element = self.find_element(locator)
-        return str(element.get_attribute(attribute_name))
+        try:
+            element = self.find_element(locator)
+            attribute = str(element.get_attribute(attribute_name))
+        except NoSuchElementException:
+            log.info(msg='spy element is not available')
+            pass
+        return attribute
 
     def get_selected_option(self, locator):
         """
@@ -676,7 +683,6 @@ class UI:
         :param locator: holds the xpath, id, class, or selector
         :return: Boolean
         """
-        from selenium.common.exceptions import NoSuchElementException
         try:
             element = self.find_element(locator)
             element.click()
@@ -688,19 +694,28 @@ class UI:
     def dismiss_alert(self):
         """
         Dismisses (Cancel) the JavaScript alert dialog box.
-        :return: String - the alert's text
+        :return: String or None - the alert's text OR alert not there
         """
-        alert_message = self.driver.switch_to.alert.text
-        self.driver.switch_to.alert.dismiss()
+        alert_message = None
+        try:
+            alert_message = self.driver.switch_to.alert.text
+            self.driver.switch_to.alert.dismiss()
+        except TimeoutException as te:
+            log.info(msg='No alert is available')
+            pass
         return alert_message
 
     def accept_alert(self):
         """
         Accepts (OK) the JavaScript alert dialog box.
-        :return: String - the alert's text
+        :return: String or None - the alert's text OR alert not there
         """
-        alert_message = self.driver.switch_to.alert.text
-        self.driver.switch_to.alert.accept()
+        alert_message = None
+        try:
+            alert_message = self.driver.switch_to.alert.text
+            self.driver.switch_to.alert.accept()
+        except TimeoutException:
+            log.info(msg='No alert is available')
         return alert_message
 
     def go_to_url(self, url):
