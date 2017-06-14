@@ -23,7 +23,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'rejected_to_approved'
+    debug = 'none_to_ready_to_post'  # 'all'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -41,6 +41,22 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     @unittest.skipUnless(debug is 'ready_approved_to_rejected' or debug is 'all',
                          "testing {}".format(debug,))
     def test_ready_approved_to_rejected(self):
+        """
+        Prerequisites:
+        Approved status: Approved
+        Ready to post: Yes
+        Reason not to post: No
+
+        Find a set of approved jobs,
+        Select the top-most job
+        Expand the row
+        Click the job's edit button
+        Click Reject check box to select
+        Select the reason for rejection
+        Click Confirm
+        Click Save
+        Expected: Saves successfully and row's color is #FFCCFF - pastel violet
+        """
         ui.log.info(">>> Inside function test_ready_approved_to_rejected()")
         runtime = {
             'jobStatus': ('Click',
@@ -111,6 +127,28 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     @unittest.skipUnless(debug is 'rejected_to_approved' or debug is 'all',
                          "testing {}".format(debug,))
     def test_rejected_to_approved(self):
+        """
+        Prerequisites:
+        Approved status: Not Approved
+        Ready to post: No
+        Reason not to post: No
+
+        Find a set of rejected jobs,
+        Select the top-most job
+        Expand the row
+        Click the Approved checkbox
+        Cancel the alert
+        Expected: Alert stating, "You are about to approve a job that has not been set to 'Ready to Post'."
+
+        Click the job's edit button
+        Click Ready to Post check box to select
+        Check for required fields alert box
+        Fill in the required fields, i.e. subtitle, and internal/external descriptions
+        Click Ready to Post check box to select
+        Click Rejected check box to deselect
+        Click Save
+        Expected: Saves successfully and row's color turns to blue
+        """
         ui.log.info(">>> Inside function test_rejected_to_approved()")
         runtime = {
             'jobBoardStatus': ('Click', 'css=.ui-multiselect.ui-widget.'
@@ -190,3 +228,39 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         result = self.process.compare(
             '#cceeee', actual_color, message="blue background expected")
         self.assertTrue(result, msg='color blue expected')
+
+    @unittest.skipUnless(debug is 'none_to_ready_to_post' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_none_to_ready_to_post(self):
+        """
+        Approved OFF
+        Rejected OFF
+        Ready to post NO
+        Reason not to post NO
+
+        Find a set of jobs that have no status
+        Select the top-most job
+        Click on the job's edit button
+        Fill in the required fields
+        Select Ready to Post check box
+        Save the job
+
+        Expected: job saves successfully and changes to blue - #CCEEEE
+        """
+        ui.log.info(">>> Inside function test_none_to_ready_to_post()")
+        runtime = {
+            'jobStatus': ('Click',
+                          'css=.ui-multiselect.ui-widget.ui-state-default.'
+                          'ui-corner-all.multi_s.multi_s_job_status'),
+            'wait': ('Wait', '#ui-multiselect-s_job_status-option-1',
+                     {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
+            'jobStatusActive': (
+                'Click', '#ui-multiselect-s_job_status-option-1'),
+            'jobStatusHot': ('Click', '#ui-multiselect-s_job_status-option-4'),
+        }
+        self.process.update(runtime)
+        self.process.execute(('jobStatus', 'wait', 'jobStatusActive',
+                              'jobStatusHot'))
+        self.process.wait()
+        # Page forward button; go to a page with many 'white' rows
+        # //*[@id="result-target"]/tfoot/tr/td[2]/i[3]
