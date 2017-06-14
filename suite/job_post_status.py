@@ -262,5 +262,53 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.execute(('jobStatus', 'wait', 'jobStatusActive',
                               'jobStatusHot'))
         self.process.wait()
-        # Page forward button; go to a page with many 'white' rows
-        # //*[@id="result-target"]/tfoot/tr/td[2]/i[3]
+        # Get the white background elements and expand the first item
+        rows = self.process.find_elements(
+            '//*[@id="result-target"]/tbody/tr[@class=" " or @class="odd "]')
+        row_ids = [row.find_element_by_xpath('./td[1]').text for row in rows]
+        job_number = row_ids.pop(0)
+        self.process.update({
+            'edit': ('Click', '#edit_' + job_number,),
+            'ready': ('Click',
+                      '//*[@for="job_board_post_status__is_ready_to_post"]')
+        })
+        self.process.execute(('edit',))
+        self.process.wait()
+        self.process.execute(('ready',))
+        # Click Ready to Post may display a popup dialog.
+        dialog = self.process.spy('//*[@for="used_by_modal"]', 'innerHTML')
+        ui.log.info("DIALOG Alert Text: {}".format(dialog, ))
+        # 'You need to fill out required subtitle and/or description'
+        if dialog:
+            self.process.compare(True, False, message='needs required fields')
+            self.process.update({
+                'okay': ('Click', '//*[@button="dismiss"]'),
+                'subtitle': ('Type', '#jobs__job_board_subtitle', 'QA Subtitle'),
+                'template': (
+                    'Select',
+                    '#JobDescriptionTemplates__job_description_template_id',
+                    'Allergy'
+                ),
+            })
+            # Click Template may display an alert dialog.
+            self.process.execute(('okay', 'subtitle', 'template', ))
+            self.process.accept_alert()
+            self.process.wait()
+            self.process.execute(('ready', ))
+
+        self.process.wait()
+        self.process.update({
+            'save': ('Click', '#edit-save'),
+        })
+        expected = 'Job Saved'
+        self.process.execute(('save', ))
+        self.process.results(expected)
+        self.process.wait()
+
+        rgb = self.process.get_css_property(
+            '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
+        actual_color = get_color(rgb)
+        ui.log.info('COLOR: {}'.format(actual_color, ))
+        result = self.process.compare(
+            '#cceeee', actual_color, message="blue background expected")
+        self.assertTrue(result, msg='color blue expected')
