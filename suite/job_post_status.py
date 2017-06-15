@@ -23,7 +23,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'none_to_ready_to_post'  # 'all'
+    debug = 'none_to_approved'  # 'all'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -138,12 +138,13 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         Expand the row
         Click the Approved checkbox
         Cancel the alert
-        Expected: Alert stating, "You are about to approve a job that has not been set to 'Ready to Post'."
+        Expected: Alert stating, "You are about to approve a job that has not
+                  been set to 'Ready to Post'."
 
         Click the job's edit button
         Click Ready to Post check box to select
         Check for required fields alert box
-        Fill in the required fields, i.e. subtitle, and internal/external descriptions
+        Fill in the required fields, i.e. subtitle, and internal/ext descriptions
         Click Ready to Post check box to select
         Click Rejected check box to deselect
         Click Save
@@ -311,4 +312,107 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         ui.log.info('COLOR: {}'.format(actual_color, ))
         result = self.process.compare(
             '#cceeee', actual_color, message="blue background expected")
+        self.assertTrue(result, msg='color blue expected')
+
+    @unittest.skipUnless(debug is 'none_to_approved' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_none_to_approved(self):
+        """
+        Prerequisite: requires jobs that have no status (white)
+        Approved OFF
+        Rejected OFF
+        Ready to post NO
+        Reason not to post NO
+        Job has subtitle NO
+        OR Job has description NO
+
+        Find a set of jobs that have no status
+        Select the top-most job
+        Click on the job's edit button
+        Click on Approved
+        Expected: 'fill out required subtitle and/or description' alert
+        Dismiss alert and fill in the required fields
+        Select Approved check box
+        Expected: Check for alert "You are about to approve a Job that has not
+                  been set to 'Ready to Post'."
+        Dismiss the alert and save the job
+        Expected: job saves successfully and changes to blue
+        """
+        ui.log.info(">>> Inside function test_none_to_approved()")
+        runtime = {
+            'jobStatus': ('Click',
+                          'css=.ui-multiselect.ui-widget.ui-state-default.'
+                          'ui-corner-all.multi_s.multi_s_job_status'),
+            'wait': ('Wait', '#ui-multiselect-s_job_status-option-1',
+                     {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
+            'jobStatusActive': (
+                'Click', '#ui-multiselect-s_job_status-option-1'),
+            'jobStatusHot': ('Click', '#ui-multiselect-s_job_status-option-4'),
+            'expandAll': ('Click',
+                          '//*[@id="result-target"]/thead/tr[1]/td[3]/i[1]'),
+        }
+        self.process.update(runtime)
+        self.process.execute(('jobStatus', 'wait', 'jobStatusActive',
+                              'jobStatusHot', ))
+        self.process.wait()
+        # Get the white background elements that have no subtitle OR description
+        subtitle_locator = ('./td/div/div[3]/div[3]/div[6]/div/div/div/'
+                            'div[2]/strong')
+        no_subtitle_rows = find_rows(self.process, 'expandable-row',
+                                     subtitle_locator, 'innerHTML')
+        valid_rows = [r[0][r[0].find('_')+1:]
+                      for r in no_subtitle_rows if 'No' in r]
+        if len(valid_rows) < 1:
+            # If all subtitles are available, then look for no descriptions
+            description_locator = ('./td/div/div[3]/div[3]/div[7]/div/div/div/'
+                                   'div[2]/strong')
+            no_desc_rows = find_rows(self.process, 'expandable-row',
+                                     description_locator, 'innerHTML')
+            valid_rows = [r[0][r[0].find('_')+1:]
+                          for r in no_desc_rows if 'No' in r]
+            if len(valid_rows) < 1:
+                self.process.compare(True, False,
+                                     message="no valid rows available")
+                self.process.teardown()
+        job_number = valid_rows.pop(0)
+        self.process.update({
+            'edit': ('Click', '#edit_' + job_number,),
+            'approve': ('Click', '//*[@for="jobs__show_on_job_board"]')
+        })
+        expected = ('You need to fill out required subtitle and/or '
+                    'description fields.')
+        self.process.execute(('edit',))
+        self.process.wait()
+        self.process.execute(('approve',))
+        self.process.wait()  # //*[@id="displayContent_1497542939805"]/div/p
+        dialog = self.process.find_element('//*[@for="used_by_modal"]')
+        if not dialog:
+            self.assertTrue(False,
+                            msg='"fill out required" dialog did not appear')
+        dialog_text = dialog.find_element_by_xpath('./div/p').text
+        self.process.compare(expected, dialog_text)
+        self.process.update({
+            'okay': ('Click', '//*[@button="dismiss"]'),
+            'subtitle': ('Type', '#jobs__job_board_subtitle', 'QA Subtitle'),
+            'template': (
+                'Select',
+                '#JobDescriptionTemplates__job_description_template_id',
+                'Allergy'
+            ),
+        })
+        expected = ('You are about to approve a Job that has not been set to '
+                    '\'Ready to Post\'. Are you sure? Press OK to continue.')
+        self.process.execute(('okay', 'subtitle', 'template', ))
+        self.process.accept_alert()
+        self.process.wait()
+        self.process.execute(('approve', ))
+        self.process.wait()
+        actual = self.process.accept_alert()
+        self.process.compare(expected, actual)
+        self.process.update({
+            'save': ('Click', '#edit-save'),
+        })
+        expected = 'Job Saved'
+        self.process.execute(('save', ))
+        result = self.process.results(expected)
         self.assertTrue(result, msg='color blue expected')
