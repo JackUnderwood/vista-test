@@ -446,33 +446,62 @@ class UI:
         i.e. id="client_5568b9eecbc2e"
         """
         first_element = locator[0]
+        element = None
         if first_element == '/':  # xpath
-            temp = self.driver.find_element_by_xpath(locator)
-            return temp  # self.driver.find_element_by_xpath(elem)
+            try:
+                element = self.driver.find_element_by_xpath(locator)
+            except NoSuchElementException as nsee:
+                log.error('find_element: xpath exception: {}'.format(nsee, ))
+            return element  # self.driver.find_element_by_xpath(elem)
+
         elif first_element == '.':  # ".<class>"
             _class = locator[1:]
-            return self.driver.find_element_by_class_name(_class)
+            try:
+                element = self.driver.find_element_by_class_name(_class)
+            except NoSuchElementException as nsee:
+                log.error('find_element: xpath exception: {}'.format(nsee, ))
+            return element
+
         elif first_element == '#':  # "#<id>"
             _id = locator[1:]
-            return self.driver.find_element_by_id(_id)
+            try:
+                element = self.driver.find_element_by_id(_id)
+            except NoSuchElementException as nsee:
+                log.error('find_element: xpath exception: {}'.format(nsee, ))
+            return element
+
         elif first_element == '<':  # "<<tag>>"-special case that looks for many
             # Returns the last element in the list; assumes the last element
             # is the desired element.
             _tag = locator[1:-1]
-            return self.driver.find_elements_by_tag_name(_tag)[-1]
+            try:
+                element = self.driver.find_elements_by_tag_name(_tag)[-1]
+            except NoSuchElementException as nsee:
+                log.error('find_element: xpath exception: {}'.format(nsee, ))
+            return element
+
         elif locator[:3] == 'css':  # "css=<target>"
             _css = locator[4:]
-            log.info("CSS element: {0}".format(_css))
-            return self.driver.find_element_by_css_selector(_css)
+            try:
+                element = self.driver.find_element_by_css_selector(_css)
+                log.info("CSS element: {0}".format(_css))
+            except NoSuchElementException as nsee:
+                log.error('find_element: xpath exception: {}'.format(nsee, ))
+            return element
+
         elif locator[:4] == 'name':  # "name=<target>"
             _name = locator[5:]
-            log.info("'Name' element: {0}".format(_name))
-            return self.driver.find_element_by_name(_name)
+            try:
+                log.info("'Name' element: {0}".format(_name))
+                element = self.driver.find_element_by_name(_name)
+            except NoSuchElementException as nsee:
+                log.error('find_element: xpath exception: {}'.format(nsee, ))
+            return element
+
         else:
             # TODO: need to throw exception
             log.exception("no correct element found")
-
-        return None
+        return element
 
     def find_elements(self, locator):
         """
@@ -487,34 +516,64 @@ class UI:
         the display of items that have dynamic id attribute,
         i.e. id="client_5568b9eecbc2e"
         """
+        elements = []
         first_element = locator[0]
         if first_element == '/':  # xpath
-            temp = self.driver.find_elements_by_xpath(locator)
-            return temp  # self.driver.find_element_by_xpath(elem)
+            try:
+                elements = self.driver.find_elements_by_xpath(locator)
+            except NoSuchElementException as nsee:
+                log.error('find_elements: xpath exception: {}'.format(nsee, ))
+            return elements
+
         elif first_element == '.':  # ".<class>"
             _class = locator[1:]
-            return self.driver.find_elements_by_class_name(_class)
+            try:
+                elements = self.driver.find_elements_by_class_name(_class)
+            except NoSuchElementException as nsee:
+                log.error('find_elements: xpath exception: {}'.format(nsee, ))
+            return elements
+
         elif first_element == '#':  # "#<id>"
             _id = locator[1:]
-            return self.driver.find_elements_by_id(_id)
+            try:
+                elements = self.driver.find_elements_by_id(_id)
+            except NoSuchElementException as nsee:
+                log.error('find_elements: xpath exception: {}'.format(nsee, ))
+            return elements
+
         elif first_element == '<':  # "<<tag>>"-special case that looks for many
             # Returns the last element in the list; assumes the last element
             # is the desired element.
             _tag = locator[1:-1]
-            return self.driver.find_elements_by_tag_name(_tag)[-1]
+            try:
+                elements = self.driver.find_elements_by_tag_name(_tag)[-1]
+            except NoSuchElementException as nsee:
+                log.error('find_elements: xpath exception: {}'.format(nsee, ))
+            return elements
+
         elif locator[:3] == 'css':  # "css=<target>"
             _css = locator[4:]
-            log.info("CSS element: {0}".format(_css))
-            return self.driver.find_elements_by_css_selector(_css)
+            try:
+                elements = self.driver.find_elements_by_css_selector(_css)
+                log.info("CSS element: {0}".format(_css))
+            except NoSuchElementException as nsee:
+                log.error('find_elements: xpath exception: {}'.format(nsee, ))
+            return elements
+
         elif locator[:4] == 'name':  # "name=<target>"
             _name = locator[5:]
-            log.info("'Name' element: {0}".format(_name))
-            return self.driver.find_elements_by_name(_name)
+            try:
+                elements = self.driver.find_elements_by_name(_name)
+                log.info("'Name' element: {0}".format(_name))
+            except NoSuchElementException as nsee:
+                log.error('find_elements: xpath exception: {}'.format(nsee, ))
+            return elements
+
         else:
             # TODO: need to throw exception
-            log.exception("no correct element found")
+            log.exception("no correct elements found")
 
-        return None
+        return elements
 
     def find_elements_by_class_name(self, class_name):
         """
