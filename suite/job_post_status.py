@@ -23,7 +23,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'none_to_approved'  # 'all'
+    debug = 'none_to_reason_not_to_post'  # 'all'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -43,18 +43,18 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     def test_ready_approved_to_rejected(self):
         """
         Prerequisites:
-        Approved status: Approved
-        Ready to post: Yes
-        Reason not to post: No
+        + Approved status: Approved
+        + Ready to post: Yes
+        + Reason not to post: No
 
-        Find a set of approved jobs,
-        Select the top-most job
-        Expand the row
-        Click the job's edit button
-        Click Reject check box to select
-        Select the reason for rejection
-        Click Confirm
-        Click Save
+        1 Find a set of approved jobs,
+        2 Select the top-most job
+        3 Expand the row
+        4 Click the job's edit button
+        5 Click Reject check box to select
+        6 Select the reason for rejection
+        7 Click Confirm
+        8 Click Save
         Expected: Saves successfully and row's color is #FFCCFF - pastel violet
         """
         ui.log.info(">>> Inside function test_ready_approved_to_rejected()")
@@ -129,25 +129,25 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     def test_rejected_to_approved(self):
         """
         Prerequisites:
-        Approved status: Not Approved
-        Ready to post: No
-        Reason not to post: No
+        + Approved status: Not Approved
+        + Ready to post: No
+        + Reason not to post: No
 
-        Find a set of rejected jobs,
-        Select the top-most job
-        Expand the row
-        Click the Approved checkbox
-        Cancel the alert
+        1 Find a set of rejected jobs,
+        2 Select the top-most job
+        3 Expand the row
+        4 Click the Approved checkbox
+        5 Cancel the alert
         Expected: Alert stating, "You are about to approve a job that has not
                   been set to 'Ready to Post'."
 
-        Click the job's edit button
-        Click Ready to Post check box to select
-        Check for required fields alert box
-        Fill in the required fields, i.e. subtitle, and internal/ext descriptions
-        Click Ready to Post check box to select
-        Click Rejected check box to deselect
-        Click Save
+        6 Click the job's edit button
+        7 Click Ready to Post check box to select
+        8 Check for required fields alert box
+        9 Fill in the required fields, i.e. subtitle, and internal/ext descriptions
+        10 Click Ready to Post check box to select
+        11 Click Rejected check box to deselect
+        12 Click Save
         Expected: Saves successfully and row's color turns to blue
         """
         ui.log.info(">>> Inside function test_rejected_to_approved()")
@@ -234,17 +234,17 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                          "testing {}".format(debug,))
     def test_none_to_ready_to_post(self):
         """
-        Approved OFF
-        Rejected OFF
-        Ready to post NO
-        Reason not to post NO
+        + Approved OFF
+        + Rejected OFF
+        + Ready to post NO
+        + Reason not to post NO
 
-        Find a set of jobs that have no status
-        Select the top-most job
-        Click on the job's edit button
-        Fill in the required fields
-        Select Ready to Post check box
-        Save the job
+        1 Find a set of jobs that have no status
+        2 Select the top-most job
+        3 Click on the job's edit button
+        4 Fill in the required fields
+        5 Select Ready to Post check box
+        6 Save the job
 
         Expected: job saves successfully and changes to blue - #CCEEEE
         """
@@ -319,23 +319,23 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     def test_none_to_approved(self):
         """
         Prerequisite: requires jobs that have no status (white)
-        Approved OFF
-        Rejected OFF
-        Ready to post NO
-        Reason not to post NO
-        Job has subtitle NO
-        OR Job has description NO
+        + Approved OFF
+        + Rejected OFF
+        + Ready to post NO
+        + Reason not to post NO
+        + Job has subtitle NO
+            OR Job has description NO
 
-        Find a set of jobs that have no status
-        Select the top-most job
-        Click on the job's edit button
-        Click on Approved
+        1 Find a set of jobs that have no status
+        2 Select the top-most job
+        3 Click on the job's edit button
+        4 Click on Approved
         Expected: 'fill out required subtitle and/or description' alert
-        Dismiss alert and fill in the required fields
-        Select Approved check box
+        5 Dismiss alert and fill in the required fields
+        6 Select Approved check box
         Expected: Check for alert "You are about to approve a Job that has not
                   been set to 'Ready to Post'."
-        Dismiss the alert and save the job
+        7 Dismiss the alert and save the job
         Expected: job saves successfully and changes to blue
         """
         ui.log.info(">>> Inside function test_none_to_approved()")
@@ -414,5 +414,161 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         })
         expected = 'Job Saved'
         self.process.execute(('save', ))
-        result = self.process.results(expected)
-        self.assertTrue(result, msg='color blue expected')
+        self.process.results(expected)
+        self.process.wait(2)
+
+        rgb = self.process.get_css_property(
+            '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
+        actual_color = get_color(rgb)
+        ui.log.info('COLOR: {}'.format(actual_color, ))
+        result = self.process.compare(
+            '#ffddbb', actual_color, message="violet background expected")
+        self.assertTrue(result, msg='row color violet expected')
+
+    @unittest.skipUnless(debug is 'none_to_reason_not_to_post' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_none_to_reason_not_to_post(self):
+        """
+        Prerequisite: requires jobs that have no status (white)
+        + Approved OFF
+        + Rejected OFF
+        + Ready to post NO
+        + Reason not to post NO
+
+        1 Find a set of jobs that have no status
+        2 Select the top-most job
+        3 Click on the job's edit button
+        4 Select the Reason Not to Post option "Job is a duplicate"
+        5 Save the job
+        Expected: job saves successfully and changes to rust
+         class=" nopost"
+         background #fdb
+        """
+        ui.log.info(">>> Inside function test_none_to_reason_not_to_post()")
+        runtime = {
+            'jobStatus': ('Click',
+                          'css=.ui-multiselect.ui-widget.ui-state-default.'
+                          'ui-corner-all.multi_s.multi_s_job_status'),
+            'wait': ('Wait', '#ui-multiselect-s_job_status-option-1',
+                     {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
+            'jobStatusActive': (
+                'Click', '#ui-multiselect-s_job_status-option-1'),
+            'jobStatusHot': ('Click', '#ui-multiselect-s_job_status-option-4'),
+        }
+        self.process.update(runtime)
+        self.process.execute(('jobStatus', 'wait', 'jobStatusActive',
+                              'jobStatusHot', ))
+        self.process.wait()
+        # Get the white background elements
+        rows = self.process.find_elements(
+            '//*[@id="result-target"]/tbody/tr[@class=" " or @class="odd "]')
+        if not rows:
+            self.process.compare(True, False,
+                                 message="no white jobs rows available")
+            self.assertTrue(False, msg='no white rows')
+
+        row_ids = [row.find_element_by_xpath('./td[1]').text for row in rows]
+        job_number = row_ids.pop(0)
+        self.process.update({
+            'edit': ('Click', '#edit_' + job_number,),
+            'reason': (
+                'Select',
+                '#job_board_post_status__job_board_post_status_reasons_id',
+                'Job is a duplicate'),
+            'save': ('Click', '#edit-save'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]'),
+            'job': ('Type', '#s_job_number', job_number),
+            'search': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[2]')
+        })
+        expected = 'Job Saved'
+        self.process.execute(('edit', 'reason', ))
+        self.process.wait()
+        self.process.execute(('save',))
+        self.process.wait()
+        self.process.results(expected, locator='toast-container')
+
+        self.process.execute(('reset', 'job', 'search', ))
+        expected = '#ffddbb'
+        rgb = self.process.get_css_property(
+            '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
+        actual_color = get_color(rgb)
+        ui.log.info('COLOR: {}'.format(actual_color, ))
+        result = self.process.compare(
+            expected, actual_color, message="violet background expected")
+        self.assertTrue(result, msg='row color violet expected')
+
+    @unittest.skipUnless(debug is 'none_to_reason_not_to_post_other'
+                         or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_none_to_reason_not_to_post_other(self):
+        """
+        Prerequisite: requires jobs that have no status (white)
+        1 Find a set of jobs that have no status
+        2 Select the top-most job
+        3 Click on the job's edit button
+        4 Select the Reason Not to Post option "Other"
+        5 Save the job
+        Expected: Check for alert "You need to fill out an explanation for the
+                  reason not to post."
+        6 Fill out the explanation not to post
+        7 Save the job
+        Expected: job saves successfully and changes to rust
+         class=" nopost"
+         background #fdb
+        """
+        ui.log.info(">>> Inside function test_none_to_reason_not_to_post()")
+        runtime = {
+            'jobStatus': ('Click',
+                          'css=.ui-multiselect.ui-widget.ui-state-default.'
+                          'ui-corner-all.multi_s.multi_s_job_status'),
+            'wait': ('Wait', '#ui-multiselect-s_job_status-option-1',
+                     {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
+            'jobStatusActive': (
+                'Click', '#ui-multiselect-s_job_status-option-1'),
+            'jobStatusHot': ('Click', '#ui-multiselect-s_job_status-option-4'),
+        }
+        self.process.update(runtime)
+        self.process.execute(('jobStatus', 'wait', 'jobStatusActive',
+                              'jobStatusHot', ))
+        self.process.wait()
+        # Get the white background elements
+        rows = self.process.find_elements(
+            '//*[@id="result-target"]/tbody/tr[@class=" " or @class="odd "]')
+        if not rows:
+            self.process.compare(True, False,
+                                 message="no white jobs rows available")
+            self.assertTrue(False, msg='no white rows')
+
+        row_ids = [row.find_element_by_xpath('./td[1]').text for row in rows]
+        job_number = row_ids.pop(0)
+        self.process.update({
+            'edit': ('Click', '#edit_' + job_number,),
+            'reason': (
+                'Select',
+                '#job_board_post_status__job_board_post_status_reasons_id',
+                'Other'),
+            'other': (
+                'Type',
+                '#job_board_post_status__job_board_status_explanation',
+                'QA reason not to post'),
+            'save': ('Click', '#edit-save'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]'),
+            'job': ('Type', '#s_job_number', job_number),
+            'search': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[2]')
+        })
+        expected = 'Job Saved'
+        self.process.execute(('edit', 'reason', 'other', ))
+        self.process.wait()
+        self.process.execute(('save',))
+        self.process.wait()
+        self.process.results(expected, locator='toast-container')
+
+        self.process.execute(('reset', 'job', 'search', ))
+        expected = '#ffddbb'
+        rgb = self.process.get_css_property(
+            '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
+        actual_color = get_color(rgb)
+        ui.log.info('COLOR: {}'.format(actual_color, ))
+        result = self.process.compare(
+            expected, actual_color, message="violet background expected")
+        self.assertTrue(result, msg='row color violet expected')
