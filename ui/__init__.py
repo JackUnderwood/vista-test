@@ -710,9 +710,11 @@ class UI:
         try:
             element = self.find_element(locator)
             attribute = str(element.get_attribute(attribute_name))
-        except NoSuchElementException:
-            log.info(msg='spy element is not available')
-            pass
+        except NoSuchElementException as nsee:
+            log.warning(msg='spy element is not available::{}'.format(nsee,))
+        except AttributeError as ae:
+            log.warning(msg='spy attribute is not available::{}'.format(ae,))
+
         return attribute
 
     def get_selected_option(self, locator):
