@@ -23,7 +23,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'none_to_reason_not_to_post'  # 'all'
+    debug = 'no_post_to_ready_to_post'  # 'all'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -572,3 +572,86 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         result = self.process.compare(
             expected, actual_color, message="violet background expected")
         self.assertTrue(result, msg='row color violet expected')
+
+    @unittest.skipUnless(debug is 'no_post_to_ready_to_post' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_reason_not_to_post_to_ready_to_post(self):
+        """
+        Prerequisite: requires jobs that have reason not to post (rust)
+        + Approved OFF
+        + Rejected OFF
+        + Ready to post NO
+        + Reason not to post YES
+
+        1 Find a set of jobs that have reason not to post - use Job Board Status
+          option Don't Post
+        2 Select the top-most job
+        3 Click on the job's edit button
+        4 Select the Ready to Post check box
+        If subtitle/descriptions are empty then expect dialog:
+            "You need to fill out required subtitle and/or description fields."
+        Expected: Reason Not to Post clears out
+        5 Click Save button
+        Expected: job saves successfully and changes to blue
+         class=" ready"
+         background #cee
+        """
+        ui.log.info(">>> Inside function test_reason_not_to_post_to_"
+                    "ready_to_post()")
+        runtime = {
+            'jobBoardStatus': ('Click', 'css=.ui-multiselect.ui-widget.'
+                                        'ui-state-default.ui-corner-all.multi_s.'
+                                        'multi_s_job_board_status'),
+            'wait': ('Wait', '#ui-multiselect-s_job_board_status-option-1',
+                      {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
+            'jobBoardStatusNoPost': (
+                'Click', '#ui-multiselect-s_job_board_status-option-3'),
+        }
+        self.process.update(runtime)
+        order = ('jobBoardStatus', 'wait', 'jobBoardStatusNoPost', )
+        self.process.execute(order)
+        self.process.wait()
+
+        job_number = self.process.spy(
+            '//*[@id="result-target"]/tbody/tr[1]/td[1]', 'innerHTML')
+        self.process.update({
+            'edit': ('Click', '#edit_{}'.format(job_number, )),
+            'ready': (
+                'Click', '//*[@for="job_board_post_status__is_ready_to_post"]'),
+            'subtitle': ('Type', '#jobs__job_board_subtitle', 'QA Subtitle'),
+            'ok': ('Click', '//*[@button="dismiss"]'),
+            'template': (
+                'Select',
+                '#JobDescriptionTemplates__job_description_template_id',
+                'Allergy'),
+            'save': ('Click', '#edit-save'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
+            'entry': ('Type', '#s_job_number', job_number),
+            'refresh': ('Click',
+                        '//*[@id="job-search-wrap"]/div[2]/div[2]/button')
+        })
+        self.process.execute(('edit', 'ready'))
+        self.process.wait()
+        dialog = self.process.spy('//*[@for="used_by_modal"]', 'innerHTML')
+        ui.log.info("DIALOG Alert Text: {}".format(dialog, ))
+        if dialog:
+            self.process.execute(('ok', 'subtitle', 'template', ))
+            self.process.wait()
+            self.process.accept_alert()
+        # Actual will be a number if not cleared
+        actual = self.process.get_selected_option(
+            '#job_board_post_status__job_board_post_status_reasons_id')
+        self.process.compare('', actual, message='')
+
+        self.process.execute(('save',))
+        self.process.wait()
+
+        self.process.execute(('reset', 'entry', 'refresh',))
+        expected = '#cceeee'
+        rgb = self.process.get_css_property(
+            '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
+        actual_color = get_color(rgb)
+        ui.log.info('COLOR: {}'.format(actual_color, ))
+        result = self.process.compare(
+            expected, actual_color, message="blue background expected")
+        self.assertTrue(result, msg='row color blue expected')
