@@ -789,6 +789,9 @@ class UI:
         self.driver.get(url)
 
     def teardown(self):
+        """
+        :return: void
+        """
         log.info(time.strftime("%Y-%m-%d %H:%M"))
         log.info("Teardown")
         self.wait(1)
@@ -860,10 +863,20 @@ class UI:
 
     @staticmethod
     def compare(expected, actual, message=''):
+        """
+        :param expected: variable type
+        :param actual: variable type
+        :param message: string
+        :return: Boolean
+        """
         addendum = (
             " ::Addendum:: {}".format(message, ) if (message != '') else message)
         if actual == expected:
             log.debug("PASSED: actual '{}' is same as expected '{}'{}".
+                      format(actual, expected, addendum))
+            return True
+        elif expected in actual:
+            log.debug("PASSED: actual '{}' is part of expected '{}'{}".
                       format(actual, expected, addendum))
             return True
         else:
@@ -873,4 +886,8 @@ class UI:
 
     @staticmethod
     def wait(seconds=1):
+        """
+        :param seconds: integer
+        :return: void
+        """
         time.sleep(seconds)
