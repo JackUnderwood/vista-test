@@ -761,9 +761,9 @@ class UI:
         try:
             alert_message = self.driver.switch_to.alert.text
             self.driver.switch_to.alert.dismiss()
-        except TimeoutException as te:
+            log.info(msg='Dismissed alert')
+        except TimeoutException:
             log.info(msg='No alert is available')
-            pass
         return alert_message
 
     def accept_alert(self):
@@ -775,6 +775,7 @@ class UI:
         try:
             alert_message = self.driver.switch_to.alert.text
             self.driver.switch_to.alert.accept()
+            log.info(msg='Accepted alert')
         except TimeoutException:
             log.info(msg='No alert is available')
         return alert_message
