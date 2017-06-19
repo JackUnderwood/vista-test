@@ -306,7 +306,7 @@ class UI:
         actions = ActionChains(self.driver)
         element = self.find_element(locator)
         actions.move_to_element(element).perform()
-        self.wait(0.5)
+        self.wait()
 
     def loop(self, elements):  # temporarily for testing tables JNU!!!
         # import xml.etree.ElementTree as ETree
@@ -589,7 +589,7 @@ class UI:
         """
         for handle in self.driver.window_handles:
             self.driver.switch_to.window(handle)
-        self.wait(0.5)
+        self.wait()
 
     def check_override(self):
         """
