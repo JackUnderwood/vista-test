@@ -23,7 +23,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'no_post_to_approved'  # 'all'
+    debug = 'no_post_to_clear'  # 'all'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -678,8 +678,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
           class=" approved"
           background #cec
         """
-        ui.log.info(">>> Inside function test_reason_not_to_post_to_approved"
-                    "ready_to_post()")
+        ui.log.info(">>> Inside function test_reason_not_to_post_to_approved")
         runtime = {
             'jobBoardStatus': ('Click', 'css=.ui-multiselect.ui-widget.'
                                         'ui-state-default.ui-corner-all.multi_s.'
@@ -740,4 +739,60 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             result = self.process.compare(
                 expected, actual_color, message="green background expected")
 
+        self.assertTrue(result)
+
+    @unittest.skipUnless(debug is 'no_post_to_clear' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_reason_not_to_post_to_clear(self):
+        """
+        Prerequisite: requires jobs that have reason not to post (rust)
+        Approved OFF
+        Rejected OFF
+        Ready to post NO
+        Reason not to post YES
+
+        Find a set of jobs that have reason not to post
+        Select the top-most job
+        Click on the job's edit button
+        Select the Reason Not to Post option "Select to clear reason"
+        Save the job
+        Expected: job saves successfully and changes to white
+        class=" odd" OR class=" "
+        background None
+        """
+        ui.log.info(">>> Inside function test_reason_not_to_post_to_clear()")
+        runtime = {
+            'jobBoardStatus': ('Click', 'css=.ui-multiselect.ui-widget.'
+                                        'ui-state-default.ui-corner-all.multi_s.'
+                                        'multi_s_job_board_status'),
+            'wait': ('Wait', '#ui-multiselect-s_job_board_status-option-1',
+                      {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
+            'jobBoardStatusNoPost': (
+                'Click', '#ui-multiselect-s_job_board_status-option-3'),
+        }
+        self.process.update(runtime)
+        self.process.execute(('jobBoardStatus', 'wait', 'jobBoardStatusNoPost'))
+        self.process.wait()
+
+        job_number = self.process.spy(
+            '//*[@id="result-target"]/tbody/tr[1]/td[1]', 'innerHTML')
+        self.process.update({
+            'edit': ('Click', '#edit_{}'.format(job_number,)),
+            'clear': (
+                'Select',
+                '#job_board_post_status__job_board_post_status_reasons_id',
+                'Select to clear reason.'),
+            'save': ('Click', '#edit-save'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
+            'entry': ('Type', '#s_job_number', job_number),
+            'refresh': ('Click',
+                        '//*[@id="job-search-wrap"]/div[2]/div[2]/button')
+        })
+        self.process.execute(('edit', 'clear', 'save', ))
+        self.process.wait()
+        self.process.results('Job Saved', message='saved successfully')
+        self.process.execute(('reset', 'entry', 'refresh', ))
+
+        value = self.process.spy('//*[@id="result-target"]/tbody/tr[1]', 'class')
+        result = self.process.compare(' ', value, message='white row class=\" \"')
         self.assertTrue(result)
