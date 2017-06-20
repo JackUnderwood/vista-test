@@ -23,7 +23,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'no_post_to_ready_to_post'  # 'all'
+    debug = 'no_post_to_approved'  # 'all'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -655,3 +655,89 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         result = self.process.compare(
             expected, actual_color, message="blue background expected")
         self.assertTrue(result, msg='row color blue expected')
+
+    @unittest.skipUnless(debug is 'no_post_to_approved' or debug is 'all',
+                         "testing {}".format(debug,))
+    def test_reason_not_to_post_to_approved(self):
+        """
+        Prerequisite: requires jobs that have reason not to post (rust)
+        + Approved OFF
+        + Rejected OFF
+        + Ready to post NO
+        + Reason not to post YES
+
+        1 Find a set of jobs that have reason not to post - use Job Board Status
+          option Don't Post
+        2 Select the top-most job
+        3 Expand the job's row
+        4 Select the Approved check box
+        Alert may  display "You are approving a Don't Post job, you will lose
+            the Don't Post setting."
+        Expected if job has no subtitle: Warning message - Job has no subtitle
+        Expected if job has a subtitle: job saves successfully & changes to green
+          class=" approved"
+          background #cec
+        """
+        ui.log.info(">>> Inside function test_reason_not_to_post_to_approved"
+                    "ready_to_post()")
+        runtime = {
+            'jobBoardStatus': ('Click', 'css=.ui-multiselect.ui-widget.'
+                                        'ui-state-default.ui-corner-all.multi_s.'
+                                        'multi_s_job_board_status'),
+            'wait': ('Wait', '#ui-multiselect-s_job_board_status-option-1',
+                      {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
+            'jobBoardStatusNoPost': (
+                'Click', '#ui-multiselect-s_job_board_status-option-3'),
+            'expand': ('Click', '//*[@id="result-target"]/tbody/tr[1]')
+        }
+        self.process.update(runtime)
+        order = ('jobBoardStatus', 'wait', 'jobBoardStatusNoPost', 'expand', )
+        self.process.execute(order)
+        self.process.wait()
+        job_number = self.process.spy(
+            '//*[@id="result-target"]/tbody/tr[1]/td[1]', 'innerHTML')
+        locate_subtitle = ('//*[@id="expandable_{}"]/td/div/div[3]/div[3]/'
+                           'div[6]/div/div/div/div[2]/strong'.
+                           format(job_number,))
+        subtitle = self.process.spy(locate_subtitle, 'innerHTML')
+
+        locate_approved = '//label[@for="inGrid_approve_{}"]'.format(job_number)
+        self.process.update({
+            'approved': ('Click', locate_approved, ),
+        })
+        # First check to see if Approved is already checked.
+        approved_is_checked = self.process.spy('#inGrid_approve_{}'.
+                                               format(job_number, ), 'checked')
+        if approved_is_checked == 'true':
+            self.assertTrue(False, msg='the Approved is already checked')
+
+        self.process.execute(('approved',))
+        self.process.wait()
+        self.process.accept_alert()
+        self.process.wait()
+        if subtitle == 'No':
+            # Check for feedback 'Job has no job board subtitle.'
+            expected_msg = 'Job has no job board subtitle'
+            actual_msg = self.process.spy(
+                '//*[@id="toast-container"]/div', 'innerHTML')
+            result = self.process.compare(
+                expected_msg, actual_msg,
+                message='cannot change to Approve--no subtitle')
+        else:
+            self.process.update({
+                'reset': ('Click',
+                          '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
+                'entry': ('Type', '#s_job_number', job_number),
+                'refresh': ('Click',
+                            '//*[@id="job-search-wrap"]/div[2]/div[2]/button')
+            })
+            self.process.execute(('reset', 'entry', 'refresh',))
+            expected = '#cceecc'
+            rgb = self.process.get_css_property(
+                '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
+            actual_color = get_color(rgb)
+            ui.log.info('COLOR: {}'.format(actual_color, ))
+            result = self.process.compare(
+                expected, actual_color, message="green background expected")
+
+        self.assertTrue(result)
