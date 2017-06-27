@@ -875,7 +875,7 @@ class UI:
             log.debug("PASSED: actual '{}' is same as expected '{}'{}".
                       format(actual, expected, addendum))
             return True
-        elif expected in actual:
+        elif not isinstance(expected, bool) and expected in actual:
             log.debug("PASSED: actual '{}' is part of expected '{}'{}".
                       format(actual, expected, addendum))
             return True
