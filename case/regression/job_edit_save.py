@@ -35,6 +35,7 @@ class JobEditSave(UI):
     ui.log.info("RESULT: {}".format(value_in_class, ))
 
     actual = 'disabled' in value_in_class
-    process.compare(True, actual, 'Is the Save button "disabled"?')
+    process.compare(True, actual, 'Is the Save button "disabled"? {}'.
+                    format('YES' if actual else 'NO'))
     process.wait(1)
     process.teardown()
