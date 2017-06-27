@@ -6,8 +6,9 @@ __author__ = 'John Underwood'
 
 
 class FileUpload(UI):
+    # TODO: needs expected results.
     """
-    Regression test for story #96802980
+    Regression test for story #96802980 --
     """
     License()
     Checklist()
