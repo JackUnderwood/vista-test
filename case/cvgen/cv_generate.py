@@ -38,30 +38,32 @@ class CvGenerate(UI):
         'css=.drawer.z-depth-1.displayContentInline.displayContentContainer',
         'id')  # get the id value "displayContent_1491919464910"
     runtime.update({
-        'email': ('Click', '//*[@id="{}"]/div/table/tbody[3]/tr/td[1]/label'.
+        'specialty': ('Click', '//*[@id="{}"]/div/table/tbody[3]/tr[2]/td[1]/'
+                               'label'.format(locator, ), ),
+        'email': ('Click', '//*[@id="{}"]/div/table/tbody[4]/tr/td[1]/label'.
                   format(locator, ), ),
-        # //*[@id="displayContent_1491921184009"]/div/table/tbody[3]/tr/td[1]/label
-        'address': ('Click', '//*[@id="{}"]/div/table/tbody[4]/tr/td[1]/label'.
+        # //*[@id="displayContent_1498600005424"]/div/table/tbody[5]/tr[3]/td[1]/label
+        'address': ('Click', '//*[@id="{}"]/div/table/tbody[5]/tr/td[1]/label'.
                     format(locator, ), ),
-        'phone': ('Click', '//*[@id="{}"]/div/table/tbody[5]/tr/td[1]/label'.
+        'phone': ('Click', '//*[@id="{}"]/div/table/tbody[6]/tr/td[1]/label'.
                   format(locator, ), ),
-        'edu1': ('Click', '//*[@id="{}"]/div/table/tbody[6]/tr[2]/td[1]/label'.
+        'edu1': ('Click', '//*[@id="{}"]/div/table/tbody[7]/tr[2]/td[1]/label'.
                  format(locator, ), ),
-        'edu2': ('Click', '//*[@id="{}"]/div/table/tbody[6]/tr[3]/td[1]/label'.
+        'edu2': ('Click', '//*[@id="{}"]/div/table/tbody[7]/tr[3]/td[1]/label'.
                  format(locator, ), ),
-        'edu3': ('Click', '//*[@id="{}"]/div/table/tbody[6]/tr[4]/td[1]/label'.
+        'edu3': ('Click', '//*[@id="{}"]/div/table/tbody[7]/tr[4]/td[1]/label'.
                  format(locator, ), ),
-        'exp1': ('Click', '//*[@id="{}"]/div/table/tbody[7]/tr[3]/td[1]/label'.
+        'exp1': ('Click', '//*[@id="{}"]/div/table/tbody[8]/tr[3]/td[1]/label'.
                  format(locator, ), ),
-        'exp2': ('Click', '//*[@id="{}"]/div/table/tbody[7]/tr[20]/td[1]/label'.
+        'exp2': ('Click', '//*[@id="{}"]/div/table/tbody[8]/tr[20]/td[1]/label'.
                  format(locator, ), ),
         'selectAllLicenses': ('Click',
-                              '//*[@id="{}"]/div/table/tbody[8]/tr[1]/td[3]/a'.
-                              format(locator, ), ),
+                              '//*[@id="{}"]/div/table/tbody[9]/tr[1]/td[3]/'
+                              'a[2]'.format(locator, ), ),
         'generate': ('Click', '#cvGenerate', ),
     })
     process.update(runtime)
-    order = ('email', 'address', 'phone', 'edu1', 'edu2', 'edu3',
+    order = ('specialty', 'email', 'address', 'phone', 'edu1', 'edu2', 'edu3',
              'exp1', 'exp2', 'selectAllLicenses', 'generate')
     process.execute(order)
 
