@@ -23,7 +23,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'no_post_to_clear'  # 'all'
+    debug = 'none_to_approved'  # 'all'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -336,7 +336,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         Expected: Check for alert "You are about to approve a Job that has not
                   been set to 'Ready to Post'."
         7 Dismiss the alert and save the job
-        Expected: job saves successfully and changes to blue
+        Expected: job saves successfully and changes to green
         """
         ui.log.info(">>> Inside function test_none_to_approved()")
         runtime = {
@@ -399,6 +399,9 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                 '#JobDescriptionTemplates__job_description_template_id',
                 'Allergy'
             ),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]'),
+            'job': ('Type', '#s_job_number', job_number),
+            'search': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[2]')
         })
         expected = ('You are about to approve a Job that has not been set to '
                     '\'Ready to Post\'. Are you sure? Press OK to continue.')
@@ -415,15 +418,19 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         expected = 'Job Saved'
         self.process.execute(('save', ))
         self.process.results(expected)
+        self.process.wait()
+        self.process.execute(('reset', ))
         self.process.wait(2)
+        self.process.execute(('job', 'search', ))
+        self.process.wait()
 
         rgb = self.process.get_css_property(
             '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
         actual_color = get_color(rgb)
         ui.log.info('COLOR: {}'.format(actual_color, ))
         result = self.process.compare(
-            '#ffddbb', actual_color, message="violet background expected")
-        self.assertTrue(result, msg='row color violet expected')
+            '#cceecc', actual_color, message="green background expected")
+        self.assertTrue(result, msg='green row expected')
 
     @unittest.skipUnless(debug is 'none_to_reason_not_to_post' or debug is 'all',
                          "testing {}".format(debug,))
