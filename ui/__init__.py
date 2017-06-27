@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import InvalidElementStateException
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -776,6 +777,8 @@ class UI:
             alert_message = self.driver.switch_to.alert.text
             self.driver.switch_to.alert.accept()
             log.info(msg='Accepted alert')
+        except NoAlertPresentException:
+            log.info(msg='No alert present')
         except TimeoutException:
             log.info(msg='No alert is available')
         return alert_message
