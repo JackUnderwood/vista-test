@@ -24,7 +24,7 @@ class JobStatusUpdate(UI):
                 'ready': '#cceeee',
                 'rejected': '#ffccff'}
     JobPosts()
-    job_id = '97848'
+    job_id = '97848'  # TODO: use dynamic job number; pulled from table
     override = {'value': job_id}
     JobSearch(override)
     runtime = {}
