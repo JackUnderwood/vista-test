@@ -7,7 +7,7 @@ __author__ = 'John Underwood'
 
 class EditRequest(UI):
     """
-    Create a license request.
+    Edit a license request.
     """
     License()
     username = get_configurations('USER_IMPOSTOR', 'name')
