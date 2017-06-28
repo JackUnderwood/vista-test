@@ -6,8 +6,8 @@ from ui.low.job_posts import JobPosts
 
 __author__ = 'John Underwood'
 
-MSG_SUCCESS = 'the result-target has results'
-MSG_FAILED = 'the result-target is empty'
+MSG_SUCCESS = 'target has results for '
+MSG_FAILED = 'target is empty for '
 
 
 class AllJobSearch(unittest.TestCase):
@@ -17,9 +17,17 @@ class AllJobSearch(unittest.TestCase):
     ui.log.info(">> Inside AllJobSearch class")
     process = UI()
     debug = 'all'
+    test = None
 
     def setUp(self):
+        """
+        Feedback message returns name of related test case
+        unittest.TestCase.id(self) returns a string, i.e.
+        'case.jobpost.suite_all_job_search.AllJobSearch.test_ard_group'
+        :return: void
+        """
         self.process.wait()
+        self.test = unittest.TestCase.id(self).split('.')[-1:][0]
 
     def tearDown(self):
         self.process.update({
@@ -55,7 +63,7 @@ class AllJobSearch(unittest.TestCase):
         self.process.execute(('division', 'domesticLT', 'hcp', 'division', ))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
 
@@ -73,7 +81,7 @@ class AllJobSearch(unittest.TestCase):
         self.process.execute(('ard', 'emergency', 'hospitalist', 'ard'))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
 
@@ -92,7 +100,7 @@ class AllJobSearch(unittest.TestCase):
         self.process.execute(('jobStatus', 'active', 'hot',))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
 
@@ -114,7 +122,7 @@ class AllJobSearch(unittest.TestCase):
                               'tempToPerm', 'whitaker', ))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
 
@@ -133,7 +141,7 @@ class AllJobSearch(unittest.TestCase):
         self.process.execute(('boardStatus', 'ready', 'rejected', 'boardStatus'))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
 
@@ -156,7 +164,7 @@ class AllJobSearch(unittest.TestCase):
                               'oncology', 'pathology', 'trauma', 'specialty',))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
 
@@ -175,7 +183,7 @@ class AllJobSearch(unittest.TestCase):
         self.process.execute(('tm', 'first', 'second', 'third', 'tm',))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
 
@@ -194,7 +202,7 @@ class AllJobSearch(unittest.TestCase):
         self.process.execute(('state', 'ca', 'fl', 'ny', 'state'))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
 
@@ -216,7 +224,7 @@ class AllJobSearch(unittest.TestCase):
                               'scheduler', ))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
 
@@ -231,7 +239,7 @@ class AllJobSearch(unittest.TestCase):
         self.process.execute(('city', ))
         self.process.wait(3)
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
 
@@ -246,7 +254,7 @@ class AllJobSearch(unittest.TestCase):
         self.process.execute(('number',))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
 
@@ -262,7 +270,7 @@ class AllJobSearch(unittest.TestCase):
         self.process.execute(('created', 'previousMonth', ))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
 
@@ -278,7 +286,7 @@ class AllJobSearch(unittest.TestCase):
         self.process.execute(('modified', 'last30Days', ))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
 
@@ -287,13 +295,13 @@ class AllJobSearch(unittest.TestCase):
     def test_keywords(self):
         ui.log.info('>>> Inside function test_keywords()')
         self.process.update({
-            'keyword': ('TypeAndTab', '#s_keywords', 'internal'),
+            'keyword': ('TypeAndTab', '#s_keywords', 'Daily'),
         })
         expected = 'Keywords'
         self.process.execute(('keyword', ))
         self.process.wait_for_element(
-            '//*[@id="result-target"]/tbody/tr[1]', wait_time=45)
+            '//*[@id="result-target"]/tbody/tr[1]', wait_time=40)
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)
+        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
