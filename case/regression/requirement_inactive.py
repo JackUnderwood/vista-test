@@ -1,8 +1,10 @@
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
+from ui.low.license_requirements import LicenseRequirements
 from tool.db import get_record
 from tool.generators.state_codes import get_states
+from tool.generators.generator import gen_key
 
 __author__ = 'John Underwood'
 
@@ -13,12 +15,9 @@ def create_license_dictionary(lic):
     :param lic: string
     :return: dict
     """
-    # states = get_states()
     lic = tuple(lic.split('/'))
     keys = ['state', 'credential', 'type']
     license_data = {key: lic[i] for i, key in enumerate(keys)}
-    # license_data['state'] = "{} - {}".format(license_data['state'],
-    #                                          states[license_data['state']][0])
     return license_data
 
 
@@ -46,7 +45,7 @@ def get_credential_option(credential):
 
 def get_license_type_option(lic_type):
     """
-
+    Build an option for the Select License drop down.
     :param lic_type: string - license type such as 'Permanent'
     :return: string - license type option string, such as 'P - Permanent'
     """
@@ -95,14 +94,15 @@ class RequirementInactive(UI):
     process.execute(order)
 
     # Get the first Requirement's label
-    initial = process.spy(
+    initial_label = process.spy(
         '//*[@id="checklist-form-container"]/div[3]/div[1]/label',
         'innerHTML', ).strip()
     # Get the type of license, e.g. 'NY/DO/Permanent'
     license_string = process.spy(
         'css=#content>div.row>div.col.s3>ul>li:nth-child(7)>a', 'innerHTML')
     license = create_license_dictionary(license_string)
-    # Set the first Requirement to Inactive
+
+    # Set the first requirement to Inactive
     order = ('manage', )
     process.execute(order)
     process.wait(2)  # need time to display the requirement listing
@@ -113,10 +113,12 @@ class RequirementInactive(UI):
 
     # Comparison should NOT match
     process.results(
-        initial,
+        initial_label,
         negative=True,
-        message="requirement '{}' should not be active".format(initial, ))
-    # Add a new Requirement
+        message="requirement '{}' should not be active".format(initial_label, ))
+
+    # Add a new requirement
+    new_label = gen_key(10)
     state = get_state_option(license['state'])
     cred_option = get_credential_option(license['credential'])
     license_type = get_license_type_option(license['type'])
@@ -124,13 +126,45 @@ class RequirementInactive(UI):
         'add': ('Click', '//*[@id="checklist-form-container"]/div[2]/div/a/i'),
         'state': ('Select', '#state_code_id', state),
         'credential': ('Select', '#credential_id', cred_option),
-        'type': ('Select', '#license_type_id', license_type)
+        'type': ('Select', '#license_type_id', license_type),
+        'name': ('Type', '#state_license_requirement', new_label)
     })
     process.execute(('add',))
     process.wait()
-    process.execute(('state', 'credential', 'type',))
+    process.execute(('state', 'credential', 'type', 'name', 'active', 'save', ))
 
     # Test case: check to see if the Inactive Requirement becomes active
+    process.results(
+        initial_label,
+        negative=True,
+        message="requirement '{}' should still not be active".
+                format(initial_label, ))
+
     # Set Requirements back to the 'Active' state
-    process.wait(5)
+    LicenseRequirements()
+    process.wait()
+    process.update({
+        'state': (
+            'Type',
+            '//*[@id="stateLicenseRequirementsManage_grid"]/tfoot/tr/th[3]/input',
+            license['state']),
+        'credential': (
+            'Type',
+            '//*[@id="stateLicenseRequirementsManage_grid"]/tfoot/tr/th[4]/input',
+            license['credential']),
+        'type': (
+            'Type',
+            '//*[@id="stateLicenseRequirementsManage_grid"]/tfoot/tr/th[5]/input',
+            license['type']),
+        'showInactive': ('Click', '#show-inactive',),
+        'edit': (
+            'Click',
+            '//*[@id="stateLicenseRequirementsManage_grid"]/tbody/tr[1]/td[9]/a/i',)
+    })
+    process.execute(('state', 'credential', 'type', 'showInactive', ))
+    process.wait()
+    process.execute(('edit', ))
+    process.wait()
+    process.execute(('active', 'save', ))
+    process.wait()
     process.teardown()
