@@ -1,5 +1,7 @@
 from ui import UI
 from ui.low.license import License
+from tool.generators.state_codes import get_state_name
+from tool.data_access import get_credential_fullname
 
 __author__ = 'John Underwood'
 
@@ -10,6 +12,7 @@ class AddDuplicateLicense(UI):
     test twice.
     """
     runtime = {
+        'all': ('Click', '//*[@id="checklist-form-container"]/div[1]/a'),
         'addRequest': (
             'Click', 'css=#licenseRequestsGrid_form>div.row>div.col.s9>a'),
         'findEntity': ('Type', '#entity_id_number_desc', 'Peter Bertolozzi'),
@@ -36,6 +39,26 @@ class AddDuplicateLicense(UI):
     License()
     process = UI()
     process.update(runtime)
+    process.execute(('all', ))
+    state = process.spy('//*[@id="licenseRequestsGrid_grid"]/tbody/tr[1]/td[7]',
+                        'innerHTML')
+    type = process.spy('//*[@id="licenseRequestsGrid_grid"]/tbody/tr[1]/td[8]',
+                       'innerHTML')
+    cred = process.spy('//*[@id="licenseRequestsGrid_grid"]/tbody/tr[1]/td[9]',
+                       'innerHTML')
+    provider = process.spy(
+        '//*[@id="licenseRequestsGrid_grid"]/tbody/tr[1]/td[4]/a', 'innerHTML')
+
+    full_state_name = get_state_name(state)
+    full_cred_name = get_credential_fullname(cred)
+    # cred DO changed to Medical Doctor
+
+    process.update({
+        'stateOfLicense': ('Select', '#state_code_id', full_state_name),
+        'credentialType': ('Select', '#credential_id', full_cred_name,),
+        'licenseType': ('Select', '#license_type_id', type),
+        'findEntity': ('Type', '#entity_id_number_desc', provider),
+    })
     order = ('addRequest', 'findEntity', 'selectEntity', 'findUser',
              'selectUser', 'licensor', 'stateOfLicense', 'credentialType',
              'licenseType', 'team', 'status', 'assignmentStatus', 'dateDesired',
