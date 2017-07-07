@@ -1,6 +1,7 @@
 from ui import UI
 from ui.low.license import License
 from tool.generators.state_codes import get_state_name
+from tool.generators.generator import get_future_date
 from tool.data_access import get_credential_fullname
 
 __author__ = 'John Underwood'
@@ -51,6 +52,7 @@ class AddDuplicateLicense(UI):
 
     full_state_name = get_state_name(state)
     full_cred_name = get_credential_fullname(cred)
+    desired_date = get_future_date(days=60, style='%m%d%Y')
     # cred DO changed to Medical Doctor
 
     process.update({
@@ -58,6 +60,7 @@ class AddDuplicateLicense(UI):
         'credentialType': ('Select', '#credential_id', full_cred_name,),
         'licenseType': ('Select', '#license_type_id', type),
         'findEntity': ('Type', '#entity_id_number_desc', provider),
+        'dateDesired': ('Type', '#date_desired', desired_date),
     })
     order = ('addRequest', 'findEntity', 'selectEntity', 'findUser',
              'selectUser', 'licensor', 'stateOfLicense', 'credentialType',
