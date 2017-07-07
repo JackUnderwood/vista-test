@@ -60,6 +60,8 @@ def get_state_names():
     """
     Returns a list of state_iso_code & country names
     :return: list
+    ['Illinois', 'Utah', 'Ohio', 'New Mexico', ..., 'California']
+
     """
     states = get_states()
     return [states[state][0] for state in states]
@@ -69,6 +71,7 @@ def get_state_name(state_iso_code):
     """
     :param state_iso_code: two character string
     :return: string - the state_iso_code's full name
+    state_iso_code is 'CA' will return 'California'
     """
     state_iso_code = state_iso_code.upper()
     states = get_states()
