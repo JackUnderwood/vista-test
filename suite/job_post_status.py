@@ -23,7 +23,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'none_to_approved'  # 'all'
+    debug = 'all'  # 'all'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -74,11 +74,14 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             'wait2': ('Wait', '#ui-multiselect-s_job_board_status-option-1',
                       {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
             'jobBoardStatusApprove': (
-                'Click', '#ui-multiselect-s_job_board_status-option-1')
+                'Click', '#ui-multiselect-s_job_board_status-option-1'),
+            'expandAll': ('Click',
+                          '//*[@id="result-target"]/thead/tr[1]/td[3]/i[1]'),
         }
         self.process.update(runtime)
         order = ('jobStatus', 'wait1', 'jobStatusActive', 'jobStatusHot',
-                 'clickAway', 'jobBoardStatus', 'wait2', 'jobBoardStatusApprove')
+                 'clickAway', 'jobBoardStatus', 'wait2', 'jobBoardStatusApprove',
+                 'expandAll')
         self.process.execute(order)
 
         approved_locator = './td/div/div[3]/div[2]/div[3]/div/div/div/div[2]/strong'
@@ -88,7 +91,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         if not check_valid(self.process, valid_approved_rows_id):
             self.assertTrue(False, msg='no valid "Approved" rows available')
 
-        ready_to_post_locator = './td/div/div[3]/div[2]/div[4]/div/div/div[2]/strong'
+        ready_to_post_locator = './td/div/div[3]/div[2]/div[5]/div/div/div[2]/strong'
         rows = find_rows(self.process, 'expandable-row',
                          ready_to_post_locator, 'innerHTML')
         valid_ready_to_post_rows_id = [r[0] for r in rows if 'Yes' in r]

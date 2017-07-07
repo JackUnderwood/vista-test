@@ -53,7 +53,6 @@ class AddDuplicateLicense(UI):
     full_state_name = get_state_name(state)
     full_cred_name = get_credential_fullname(cred)
     desired_date = get_future_date(days=60, style='%m%d%Y')
-    # cred DO changed to Medical Doctor
 
     process.update({
         'stateOfLicense': ('Select', '#state_code_id', full_state_name),
