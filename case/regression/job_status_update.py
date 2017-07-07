@@ -3,6 +3,9 @@ from ui import UI
 from ui.low.job_posts import JobPosts
 from ui.high.job_search import JobSearch
 from tool.helpers import get_class_attribute, get_job_status, get_color
+from tool.helpers import get_row_numbers
+from tool.utilities import get_random_value
+
 __author__ = 'John Underwood'
 
 
@@ -24,13 +27,20 @@ class JobStatusUpdate(UI):
                 'ready': '#cceeee',
                 'rejected': '#ffccff'}
     JobPosts()
-    job_id = '97848'  # TODO: use dynamic job number; pulled from table
-    override = {'value': job_id}
+
+    override = {'value': '80000-97000'}
     JobSearch(override)
     runtime = {}
 
     process = UI()
-    locator = '//*[@id="result-target"]/tbody/tr[1]'
+    all_rows = get_row_numbers(process)
+    # Every other index is empty, i.e. ['97000', '', 96999, '', ..., '']
+    rows = [r for r in all_rows if r != '']
+    row_job_number = get_random_value(rows)
+    ui.log.info("JOB NUMBER: {}".format(row_job_number, ))
+    row_index = all_rows.index(row_job_number) + 1  # offset for zero-base list
+
+    locator = '//*[@id="result-target"]/tbody/tr[{}]'.format(row_index,)
     class_attributes = get_class_attribute(process, locator)
     ui.log.info("CLASS: {}".format(class_attributes, ))
     class_attr_status = get_job_status(class_attributes)
@@ -44,7 +54,7 @@ class JobStatusUpdate(UI):
         # job_id = process.spy(
         #     '//*[@id="result-target"]/tbody/tr[1]/td[1]', 'innerHTML')
         runtime = {
-            'edit': ('Click', '#edit_{}'.format(job_id)),
+            'edit': ('Click', '#edit_{}'.format(row_job_number)),
             'subtitle': ('Type', '#jobs__job_board_subtitle', 'QA Subtitle'),
             'template': ('Select',
                          '#JobDescriptionTemplates__job_description_template_id',
@@ -66,11 +76,11 @@ class JobStatusUpdate(UI):
         # job_id = process.spy(
         #     '//*[@id="result-target"]/tbody/tr[1]/td[1]', 'innerHTML')
         process.update({
-            'expand': ('Click', '//*[@id="result-target"]/tbody/tr[1]'),
+            'expand': ('Click', locator),
             'approve': (
                 'Click',
                 '//*[@id="expandable_{}"]/td/div/div[3]/label[1]'.
-                format(job_id)),
+                format(row_job_number)),
         })
         process.execute(('expand', 'approve', ))
 
@@ -81,11 +91,11 @@ class JobStatusUpdate(UI):
         # job_id = process.spy(
         #     '//*[@id="result-target"]/tbody/tr[1]/td[1]', 'innerHTML')
         process.update({
-            'expand': ('Click', '//*[@id="result-target"]/tbody/tr[1]'),
+            'expand': ('Click', locator),
             'reject': (
                 'Click',
                 '//*[@id="expandable_{}"]/td/div/div[3]/label[2]'.
-                format(job_id)),
+                format(row_job_number)),
             'wait': (
                 'Wait', '#job_board_rejection_history__rejection_reason_id',
                 {'condition': 'element_to_be_clickable'}),
@@ -103,7 +113,7 @@ class JobStatusUpdate(UI):
         })
         process.execute(('expand', ))
         process.wait()
-        rejected_state = process.spy('#inGrid_reject_{}'.format(job_id),
+        rejected_state = process.spy('#inGrid_reject_{}'.format(row_job_number),
                                      'checked')
         if rejected_state == 'checked':
             ui.log.warning('rejected box already checked')
@@ -112,7 +122,7 @@ class JobStatusUpdate(UI):
 
         process.execute(('reject', 'wait', 'other', 'confirm', 'save',
                          'waitForExpand'))
-        process.wait(8)
+        process.wait(2)
 
     # elif class_attr == "nopost":
     #     # Change to Approved
@@ -124,13 +134,12 @@ class JobStatusUpdate(UI):
     #
     else:
         pass
-
-    actual_status = get_class_attribute(process, locator)  # 'ready'
+    process.wait(2)  # give the row time to refresh its values
+    actual_status = get_class_attribute(process, locator)
     process.compare(expected_status, actual_status,
                     message="compare status value")
 
-    rgb = process.get_css_property(
-        '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
+    rgb = process.get_css_property(locator, 'background-color')
     actual_color = get_color(rgb)
     process.compare(expected_color, actual_color,
                     message="compare background color")
