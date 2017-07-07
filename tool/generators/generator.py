@@ -1,5 +1,6 @@
 import random
 import string
+import datetime
 
 from names import get_full_name
 from tool.generators.state_codes import get_random_area_code
@@ -201,3 +202,17 @@ def num_pad(num, base_length):
     #     num = '0' + num
     num = num.zfill(base_length)  # reduce the 'while' to this single line
     return num
+
+
+def get_future_date(days=1, style='%m/%d/%Y'):
+    """
+    Get a date from today's date to number of days in the future
+    :param days: int
+    :param style: string
+    :return: string - '09/05/2017'
+    """
+    now = datetime.datetime.now()
+    diff = datetime.timedelta(days=days)
+    future = now + diff
+    return future.strftime(style)
+
