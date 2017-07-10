@@ -1,6 +1,6 @@
 from ui import UI
 from ui.low.job_posts import JobPosts
-from tool.helpers import find_rows
+from tool.helpers import find_rows, get_color
 
 __author__ = 'John Underwood'
 
@@ -41,8 +41,9 @@ class ReadyToPost(UI):
     # A row's edit button location //*[@id="edit_97866"]
     # ['expandable_97866', 'expandable_97861', ..., 'expandable_97852']
     # Get the id value; everything to the right of the underscore.
-    edit_button_id = valid_rows[0][valid_rows[0].find('_')+1:]
-    edit_button_locator = "#edit_{}".format(edit_button_id,)
+    # row_index = all_rows.index(row_job_number) + 1
+    row_id = valid_rows[0][valid_rows[0].find('_') + 1:]
+    edit_button_locator = "#edit_{}".format(row_id, )
     process.update({
         'edit': ('Click', edit_button_locator, ),
         'subtitle': ('Type', '#jobs__job_board_subtitle', 'QA Subtitle Automate'),
@@ -61,6 +62,13 @@ class ReadyToPost(UI):
     process.wait()
     process.results(expected)
 
-    # May want to check the row's change in color--
-    #  see case/regression/job_status_update
+    expected_color = '#cceeee'
+    id_rows = [row[0] for row in rows]
+    row_index = id_rows.index('expandable_{}'.format(row_id,))+1
+    locator = '//*[@id="result-target"]/tbody/tr[{}]'.format(row_index, )
+    rgb = process.get_css_property(locator, 'background-color')
+    actual_color = get_color(rgb)
+    process.compare(expected_color, actual_color,
+                    message="compare background color")
+    process.wait()
     process.teardown()
