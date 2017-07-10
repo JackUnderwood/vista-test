@@ -22,16 +22,17 @@ class ReadyToPost(UI):
             'Click', '#ui-multiselect-s_job_status-option-1'),
         'JobStatusHot': (
             'Click', '#ui-multiselect-s_job_status-option-4'),
+        'expandAll': ('Click', '//*[@id="result-target"]/thead/tr[1]/td[3]/i[1]')
     }
     process = UI()
     process.update(runtime)
-    order = ['JobStatus', 'wait', 'JobStatusActive', 'JobStatusHot', ]
+    order = ['JobStatus', 'wait', 'JobStatusActive', 'JobStatusHot', 'expandAll']
     process.execute(order)
     process.wait()
-    ready_to_post_locator = './td/div/div[3]/div[2]/div[4]/div/div/div[2]/strong'
+    ready_to_post_locator = './td/div/div[3]/div[2]/div[5]/div/div/div[2]/strong'
     rows = find_rows(process, 'expandable-row',
                      ready_to_post_locator, 'innerHTML')
-    print(rows)
+
     valid_rows = [r[0] for r in rows if 'No' in r]
 
     if len(valid_rows) < 1:
