@@ -32,21 +32,23 @@ def get_configurations(section, option):
     return config.get(section, option)
 
 
-def todays_date():
+def todays_date(style="%d%m%Y"):
     """
     Get today's date in the DDMMYYYY format
+    :param style: string - default DDMMYYYY
     :return: e.g. '08202015'
     """
-    return time.strftime("%d%m%Y")
+    return time.strftime(style)
 
 
-def todays_time():
+def todays_time(style="%I:%M %p"):
     """
     Get the current time in the HH:MM <period> format
     Note: AM or PM is the 'period' of time in the day
+    :param style: string - default HH:MM <period>
     :return: e.g. '10:27 AM'
     """
-    return time.strftime("%I:%M %p")
+    return time.strftime(style)
 
 
 def strip_alpha(value):
