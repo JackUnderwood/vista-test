@@ -32,4 +32,28 @@ def get_credential_fullname(cred_code):
 
 
 def get_license_type():
-    pass
+    """
+    Get license type from license_type table
+    :return: dict - returns code as key and description as the value
+    {'P': 'Permanent', ... }
+    """
+    sql = """
+    SELECT license_type license, description
+    FROM license_types_codes
+    WHERE can_use = 'Y'
+    """
+
+    # [('P', 'Permanent'), ... ]
+    record_set = get_record(sql)
+    result = dict(record_set)
+    return result
+
+
+def get_license_fullname(license_type):
+    """
+    Returns the full license name--the description
+    :param license_type: string - 'P'
+    :return: string - 'Permanent'
+    """
+    lic = get_license_type()
+    return lic[license_type]
