@@ -4,14 +4,14 @@ from tool.vlog import VLog
 __author__ = 'John Underwood'
 
 
-class LicenseExpire(UI):
+class LicenseRenewal(UI):
     """
     Begins at the main page and branches to the Expiring Licenses page.
     """
     def __init__(self, override=None):
         super().__init__()
         log = VLog(name="vtf", log_name="LICENSE")
-        log.info("Expiring License __init__() called")
+        log.info("License Renewal __init__() called")
         runtime = {
             'level': self.LICENSING,
             'hover': ('Hover', '#slide-out'),

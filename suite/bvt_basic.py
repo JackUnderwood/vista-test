@@ -220,12 +220,12 @@ class BvtBasic(unittest.TestCase):
         self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
-        debug is 'expire' or debug is 'all', "testing {}".format(debug,))
-    def test_license_expire(self):
-        ui.log.info('>>> Inside function test_license_expire()')
-        from ui.low.license_expire import LicenseExpire
-        LicenseExpire()
-        expected = 'Expiring Licenses'
+        debug is 'renew' or debug is 'all', "testing {}".format(debug,))
+    def test_license_renewal(self):
+        ui.log.info('>>> Inside function test_license_renewal()')
+        from ui.low.license_renewal import LicenseRenewal
+        LicenseRenewal()
+        expected = 'License Renewal'
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
