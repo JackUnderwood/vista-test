@@ -3,6 +3,7 @@ import unittest
 import ui
 from ui import UI
 from tool.helpers import find_rows, get_color, get_row_numbers
+from tool.generators.generator import gen_key
 
 __author__ = 'John Underwood'
 
@@ -23,7 +24,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'all'  # 'all'
+    debug = 'all'  # 'no_post_to_clear'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -402,7 +403,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                 '#JobDescriptionTemplates__job_description_template_id',
                 'Allergy'
             ),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
             'job': ('Type', '#s_job_number', job_number),
             'search': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[2]')
         })
@@ -486,7 +487,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                 '#job_board_post_status__job_board_post_status_reasons_id',
                 'Job is a duplicate'),
             'save': ('Click', '#edit-save'),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
             'job': ('Type', '#s_job_number', job_number),
             'search': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[2]')
         })
@@ -551,6 +552,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
 
         row_ids = [row.find_element_by_xpath('./td[1]').text for row in rows]
         job_number = row_ids.pop(0)
+        random_value = gen_key(4)
         self.process.update({
             'edit': ('Click', '#edit_' + job_number,),
             'reason': (
@@ -560,9 +562,9 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             'other': (
                 'Type',
                 '#job_board_post_status__job_board_status_explanation',
-                'QA reason not to post'),
+                'QA reason not to post {}'.format(random_value, )),
             'save': ('Click', '#edit-save'),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
             'job': ('Type', '#s_job_number', job_number),
             'search': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[2]')
         })
@@ -635,7 +637,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                 '#JobDescriptionTemplates__job_description_template_id',
                 'Allergy'),
             'save': ('Click', '#edit-save'),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'entry': ('Type', '#s_job_number', job_number),
             'refresh': ('Click',
                         '//*[@id="job-search-wrap"]/div[2]/div[2]/button')
@@ -799,7 +801,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                         '//*[@id="job-search-wrap"]/div[2]/div[2]/button')
         })
         self.process.execute(('edit', 'clear', 'save', ))
-        self.process.wait()
+        self.process.wait(2)
         self.process.results('Job Saved', message='saved successfully')
         self.process.execute(('reset', 'entry', 'refresh', ))
 
