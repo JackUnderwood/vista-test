@@ -360,25 +360,50 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                               'jobStatusHot', ))
         self.process.wait()
         # Get the white background elements that have no subtitle OR description
-        subtitle_locator = ('./td/div/div[3]/div[3]/div[6]/div/div/div/'
-                            'div[2]/strong')
-        no_subtitle_rows = find_rows(self.process, 'expandable-row',
-                                     subtitle_locator, 'innerHTML')
-        valid_rows = [r[0][r[0].find('_')+1:]
-                      for r in no_subtitle_rows if 'No' in r]
-        if len(valid_rows) < 1:
-            # If all subtitles are available, then look for no descriptions
-            description_locator = ('./td/div/div[3]/div[3]/div[7]/div/div/div/'
-                                   'div[2]/strong')
-            no_desc_rows = find_rows(self.process, 'expandable-row',
-                                     description_locator, 'innerHTML')
-            valid_rows = [r[0][r[0].find('_')+1:]
-                          for r in no_desc_rows if 'No' in r]
+        locators = [
+            './td/div/div[3]/div[2]/div[6]/div/div/div[2]/strong',  # don't post
+            './td/div/div[3]/div[3]/div[6]/div/div/div/div[2]/strong',  # subtitle
+            './td/div/div[3]/div[3]/div[7]/div/div/div/div[2]/strong'  # description
+        ]
+        valid_rows = []
+        looking = True
+        while looking:
+            for index, locator in enumerate(locators):
+                rows = find_rows(self.process, 'expandable-row',
+                                 locator, 'innerHTML')
+                valid = [r[0][r[0].find('_')+1:] for r in rows if 'No' in r]
+                valid_rows.append(valid)
+                if index > 0:
+                    valid_rows[index] = (set(valid_rows[index])
+                                         & set(valid_rows[index-1]))
+
             if len(valid_rows) < 1:
-                self.process.compare(True, False,
-                                     message="no valid rows available")
-                self.process.teardown()
-        job_number = valid_rows.pop(0)
+                # If no forward button available, then no valid rows available.
+                forward_button_locator = ('//*[@id="result-target"]/tfoot/tr/'
+                                          'td[2]/i[3]')
+                forward_button = self.process.spy(forward_button_locator, 'class')
+                if forward_button is None:
+                    # TODO: We're done here; nothing available--exit test case.
+                    looking = False
+                    pass
+
+                # Click forward button to see next set of results
+                self.process.update({
+                    'forward': ('Click', forward_button_locator)
+                })
+
+                # If all subtitles are available, then look for no descriptions
+                description_locator = ('./td/div/div[3]/div[3]/div[7]/div/div/div/'
+                                       'div[2]/strong')
+                no_desc_rows = find_rows(self.process, 'expandable-row',
+                                         description_locator, 'innerHTML')
+                valid_rows = [r[0][r[0].find('_')+1:]
+                              for r in no_desc_rows if 'No' in r]
+                if len(valid_rows) < 1:
+                    self.process.compare(True, False,
+                                         message="no valid rows available")
+                    self.process.teardown()
+            job_number = valid_rows.pop(0)
         self.process.update({
             'edit': ('Click', '#edit_' + job_number,),
             'approve': ('Click', '//*[@for="jobs__show_on_job_board"]')
