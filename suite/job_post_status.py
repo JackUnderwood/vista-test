@@ -38,6 +38,29 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         cls.process.wait()
         cls.process.teardown()
 
+    def click_fa_arrow_right(self):
+        """
+        Click the grid's right, forward arrow to see the grid's next page
+        of results
+        :return: void
+        """
+        self.process.wait()
+        forward_button_locator = ('css=#result-target>tfoot>tr>td:nth-child(2)>'
+                                  'i.fa.fa-arrow-right.fa-lg')
+        forward_button = self.process.spy(forward_button_locator, 'class')
+        if forward_button is None:
+            # We're at the end of all possible results.
+            unittest.TestCase.fail(
+                msg='all result pages scanned with no available rows')
+        self.process.update({
+            'faux_click': (  # use this click to give the nav tools focus
+                'Click', '//*[@id="result-target"]/tfoot/tr/td[2]/span'),
+            'fa_arrow_right': ('Click', forward_button_locator),
+        })
+        self.process.scroll_to_bottom_of_page()
+        self.process.execute(('faux_click', 'fa_arrow_right',))
+        self.process.wait()
+
     # *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
     @unittest.skipUnless(debug is 'ready_approved_to_rejected' or debug is 'all',
                          "testing {}".format(debug,))
@@ -365,62 +388,36 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             './td/div/div[3]/div[3]/div[6]/div/div/div/div[2]/strong',  # subtitle
             './td/div/div[3]/div[3]/div[7]/div/div/div/div[2]/strong'  # description
         ]
-        valid_rows = []
+        job_number = None
         looking = True
         while looking:
-            for index, locator in enumerate(locators):
-                rows = find_rows(self.process, 'expandable-row',
-                                 locator, 'innerHTML')
-                valid = [r[0][r[0].find('_')+1:] for r in rows if 'No' in r]
-                valid_rows.append(valid)
-                if index > 0:
-                    valid_rows[index] = (set(valid_rows[index])
-                                         & set(valid_rows[index-1]))
+            rows = find_rows(self.process, 'expandable-row', locators[0],
+                             'innerHTML')
+            if not check_valid(self.process, rows):
+                self.click_fa_arrow_right()
+                continue
+            valid_dont_post = [r[0][r[0].find('_') + 1:] for r in rows if
+                               'No' in r]
+
+            rows = find_rows(self.process, 'expandable-row', locators[1],
+                             'innerHTML')
+            if not check_valid(self.process, rows):
+                self.click_fa_arrow_right()
+                continue
+            valid_subtitle = [r[0][r[0].find('_') + 1:] for r in rows if
+                              'No' in r]
+            valid_rows = (set(valid_dont_post)) & (set(valid_subtitle))
 
             if len(valid_rows) < 1:
-                # If no forward button available, then no valid rows available.
-                forward_button_locator = ('//*[@id="result-target"]/tfoot/tr/'
-                                          'td[2]/i[3]')
-                forward_button = self.process.spy(forward_button_locator, 'class')
-                if forward_button is None:
-                    # TODO: We're done here; nothing available--exit test case.
-                    looking = False
-                    pass
+                self.click_fa_arrow_right()
+                continue
+            looking = False
+            job_number = valid_rows.pop()
 
-                # Click forward button to see next set of results
-                self.process.update({
-                    'forward': ('Click', forward_button_locator)
-                })
-
-                # If all subtitles are available, then look for no descriptions
-                description_locator = ('./td/div/div[3]/div[3]/div[7]/div/div/div/'
-                                       'div[2]/strong')
-                no_desc_rows = find_rows(self.process, 'expandable-row',
-                                         description_locator, 'innerHTML')
-                valid_rows = [r[0][r[0].find('_')+1:]
-                              for r in no_desc_rows if 'No' in r]
-                if len(valid_rows) < 1:
-                    self.process.compare(True, False,
-                                         message="no valid rows available")
-                    self.process.teardown()
-            job_number = valid_rows.pop(0)
+        # TODO: unable to click job number when off-screen; use Job Number(s) field -- !!! JNU
+        self.process.scroll_to_top_of_page()
         self.process.update({
             'edit': ('Click', '#edit_' + job_number,),
-            'approve': ('Click', '//*[@for="jobs__show_on_job_board"]')
-        })
-        expected = ('You need to fill out required subtitle and/or '
-                    'description fields.')
-        self.process.execute(('edit',))
-        self.process.wait()
-        self.process.execute(('approve',))
-        self.process.wait()  # //*[@id="displayContent_1497542939805"]/div/p
-        dialog = self.process.find_element('//*[@for="used_by_modal"]')
-        if not dialog:
-            self.assertTrue(False,
-                            msg='"fill out required" dialog did not appear')
-        dialog_text = dialog.find_element_by_xpath('./div/p').text
-        self.process.compare(expected, dialog_text)
-        self.process.update({
             'okay': ('Click', '//*[@button="dismiss"]'),
             'subtitle': ('Type', '#jobs__job_board_subtitle', 'QA Subtitle'),
             'template': (
@@ -428,26 +425,41 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                 '#JobDescriptionTemplates__job_description_template_id',
                 'Allergy'
             ),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
+            'fauxHeadClick': ('Click', '//*[@id="content"]/h1'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'job': ('Type', '#s_job_number', job_number),
-            'search': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[2]')
+            'search': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[2]'),
+            'approve': ('Click', '//*[@for="jobs__show_on_job_board"]'),
+            'save': ('Click', '#edit-save'),
         })
+        self.process.execute(('job', 'edit'))
+        self.process.wait()
+        self.process.execute(('approve',))
+        self.process.wait()
+        expected = ('You need to fill out required subtitle and/or '
+                    'description fields.')
+        dialog = self.process.find_element('//*[@for="used_by_modal"]')
+        if not dialog:
+            self.assertTrue(False,
+                            msg='"fill out required" dialog did not appear')
+        dialog_text = dialog.find_element_by_xpath('./div/p').text
+        self.process.compare(expected, dialog_text)
+
         expected = ('You are about to approve a Job that has not been set to '
                     '\'Ready to Post\'. Are you sure? Press OK to continue.')
         self.process.execute(('okay', 'subtitle', 'template', ))
-        self.process.accept_alert()
+        self.process.accept_alert()  # switching-templates-without-saving alert
         self.process.wait()
         self.process.execute(('approve', ))
         self.process.wait()
-        actual = self.process.accept_alert()
+        actual = self.process.accept_alert()  # not-set-to-ready-to-post alert
         self.process.compare(expected, actual)
-        self.process.update({
-            'save': ('Click', '#edit-save'),
-        })
+
         expected = 'Job Saved'
         self.process.execute(('save', ))
         self.process.results(expected)
         self.process.wait()
+        # self.process.scroll_to_top_of_page()  # may not need this JNU!!!
         self.process.execute(('reset', ))
         self.process.wait(2)
         self.process.execute(('job', 'search', ))
