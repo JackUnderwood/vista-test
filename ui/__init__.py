@@ -576,6 +576,16 @@ class UI:
 
         return elements
 
+    def scroll_to_bottom_of_page(self):
+        self.driver.execute_script(
+            "window.scrollTo(0, document.body.scrollHeight);")
+        self.wait()
+
+    def scroll_to_top_of_page(self):
+        self.driver.execute_script(
+            "window.scrollTo(0, 0);")
+        self.wait()
+
     def find_elements_by_class_name(self, class_name):
         """
         Wrapper - Finds elements by class name.
