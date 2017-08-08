@@ -24,7 +24,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'no_post_to_ready_to_post'  # 'none_to_ready_to_post'
+    debug = 'all'  # 'none_to_ready_to_post'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -282,7 +282,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             'reject': ('Click',
                        '//*[@for="job_board_rejection_history__is_rejected"]'),
             'save': ('Click', '#edit-save'),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'entry': ('Type', '#s_job_number', job_id),
             'refresh': ('Click',
                         '//*[@id="job-search-wrap"]/div[3]/div[2]/button')
