@@ -586,15 +586,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                               'jobStatusHot', ))
         self.process.wait()
         # Get the white background elements
-        rows = self.process.find_elements(
-            '//*[@id="result-target"]/tbody/tr[@class=" " or @class="odd "]')
-        if not rows:
-            self.process.compare(True, False,
-                                 message="no white jobs rows available")
-            self.assertTrue(False, msg='no white rows')
-
-        row_ids = [row.find_element_by_xpath('./td[1]').text for row in rows]
-        job_number = row_ids.pop(0)
+        job_number = self.find_white_rows()
         random_value = gen_key(4)
         self.process.update({
             'edit': ('Click', '#edit_' + job_number,),
