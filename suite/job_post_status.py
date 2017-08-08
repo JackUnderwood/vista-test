@@ -24,7 +24,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'all'  # 'no_post_to_clear'
+    debug = 'ready_approved_to_rejected'  # 'no_post_to_clear'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -128,9 +128,9 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             self.assertTrue(False, msg='no valid rows available')
         ids = [r[r.find('_')+1:] for r in approved_and_ready_to_post]
         ids.sort(reverse=True)
-        edit_button_id = "#edit_{}".format(ids[0], )
+        job = ids[0]
         self.process.update({
-            'edit': ('Click', edit_button_id),
+            'edit': ('Click', "#edit_{}".format(job, )),
             'reject': (
                 'Click',
                 '//label[@for="job_board_rejection_history__is_rejected"]'),
@@ -139,17 +139,27 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                        'Incomplete description/add detail'),
             'confirm': ('Click', '#confirm-reject'),
             'save': ('Click', '#edit-save'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
+            'job': ('Type', '#s_job_number', job),
+            'search': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[2]'),
         })
         expected = 'Job Saved'
         self.process.execute(('edit', 'reject', 'reason', 'confirm', 'save', ))
-        row_class = self.process.spy(
-            '//*[@id="result-target"]/tbody/tr[1]', 'class')
+        self.process.wait()
+        self.process.execute(('job', 'search',))
+        rejected = self.process.spy('#inGrid_reject_{}'.format(job,), 'checked')
 
-        self.process.compare(True, 'rejected' in row_class,
+        self.process.compare(True, 'true' in rejected,
                              message='class set to "rejected"')
+        self.process.results(expected, locator='toast-container')
 
-        result = self.process.results(expected, locator='toast-container')
-        self.assertTrue(result, msg=expected)
+        rgb = self.process.get_css_property(
+            '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
+        actual_color = get_color(rgb)
+        ui.log.info('COLOR: {}'.format(actual_color, ))
+        result = self.process.compare(
+            '#ffccff', actual_color, message="green background expected")
+        self.assertTrue(result, msg='violet row expected')
 
     @unittest.skipUnless(debug is 'rejected_to_approved' or debug is 'all',
                          "testing {}".format(debug,))
@@ -414,7 +424,6 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             looking = False
             job_number = valid_rows.pop()
 
-        # TODO: unable to click job number when off-screen; use Job Number(s) field -- !!! JNU
         self.process.scroll_to_top_of_page()
         self.process.update({
             'edit': ('Click', '#edit_' + job_number,),
@@ -425,7 +434,6 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                 '#JobDescriptionTemplates__job_description_template_id',
                 'Allergy'
             ),
-            'fauxHeadClick': ('Click', '//*[@id="content"]/h1'),
             'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'job': ('Type', '#s_job_number', job_number),
             'search': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[2]'),
@@ -459,7 +467,6 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.execute(('save', ))
         self.process.results(expected)
         self.process.wait()
-        # self.process.scroll_to_top_of_page()  # may not need this JNU!!!
         self.process.execute(('reset', ))
         self.process.wait(2)
         self.process.execute(('job', 'search', ))
