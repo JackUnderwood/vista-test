@@ -24,7 +24,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'none_to_ready_to_post'  # 'none_to_ready_to_post'
+    debug = 'no_post_to_ready_to_post'  # 'none_to_ready_to_post'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -685,6 +685,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             self.process.execute(('ok', 'subtitle', 'template', ))
             self.process.wait()
             self.process.accept_alert()
+            self.process.execute(('ready', ))
         # Actual will be a number if not cleared
         actual = self.process.get_selected_option(
             '#job_board_post_status__job_board_post_status_reasons_id')
