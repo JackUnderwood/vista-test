@@ -24,7 +24,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'none_to_reason_not_to_post'  # 'none_to_ready_to_post'
+    debug = 'none_to_reason_not_to_post_other'  # 'none_to_ready_to_post'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -606,13 +606,15 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             'search': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[2]')
         })
         expected = 'Job Saved'
-        self.process.execute(('edit', 'reason', 'other', ))
+        self.process.scroll_to_top_of_page()
+        self.process.execute(('reset', 'job', 'search', 'edit', ))
+        self.process.wait()
+        self.process.execute(('reason', 'other', ))
         self.process.wait()
         self.process.execute(('save',))
         self.process.wait()
         self.process.results(expected, locator='toast-container')
 
-        self.process.execute(('reset', 'job', 'search', ))
         expected = '#ffddbb'
         rgb = self.process.get_css_property(
             '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
