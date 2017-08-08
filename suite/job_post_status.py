@@ -24,7 +24,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'ready_approved_to_rejected'  # 'no_post_to_clear'
+    debug = 'none_to_ready_to_post'  # 'none_to_ready_to_post'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -60,6 +60,44 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.scroll_to_bottom_of_page()
         self.process.execute(('faux_click', 'fa_arrow_right',))
         self.process.wait()
+
+    def find_white_rows(self):
+        """
+        Find rows that have no status -- white rows
+        :return: list - rows
+        """
+        locators = [
+            # don't post
+            './td/div/div[3]/div[2]/div[6]/div/div/div[2]/strong',
+            # subtitle
+            './td/div/div[3]/div[3]/div[6]/div/div/div/div[2]/strong',
+            # description
+            './td/div/div[3]/div[3]/div[7]/div/div/div/div[2]/strong'
+        ]
+        looking = True
+        while looking:
+            rows = find_rows(self.process, 'expandable-row', locators[0],
+                             'innerHTML')
+            if not check_valid(self.process, rows):
+                self.click_fa_arrow_right()
+                continue
+            valid_dont_post = [r[0][r[0].find('_') + 1:] for r in rows if
+                               'No' in r]
+
+            rows = find_rows(self.process, 'expandable-row', locators[1],
+                             'innerHTML')
+            if not check_valid(self.process, rows):
+                self.click_fa_arrow_right()
+                continue
+            valid_subtitle = [r[0][r[0].find('_') + 1:] for r in rows if
+                              'No' in r]
+            valid_rows = (set(valid_dont_post)) & (set(valid_subtitle))
+
+            if len(valid_rows) < 1:
+                self.click_fa_arrow_right()
+                continue
+
+            return valid_rows.pop()
 
     # *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
     @unittest.skipUnless(debug is 'ready_approved_to_rejected' or debug is 'all',
@@ -247,7 +285,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
             'entry': ('Type', '#s_job_number', job_id),
             'refresh': ('Click',
-                        '//*[@id="job-search-wrap"]/div[2]/div[2]/button')
+                        '//*[@id="job-search-wrap"]/div[3]/div[2]/button')
         })
         self.process.execute(('edit', 'template', 'ready', 'reject', 'save', ))
         self.process.wait()
@@ -300,11 +338,10 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.execute(('jobStatus', 'wait', 'jobStatusActive',
                               'jobStatusHot'))
         self.process.wait()
-        # Get the white background elements and expand the first item
-        rows = self.process.find_elements(
-            '//*[@id="result-target"]/tbody/tr[@class=" " or @class="odd "]')
-        row_ids = [row.find_element_by_xpath('./td[1]').text for row in rows]
-        job_number = row_ids.pop(0)
+
+        # Get the white background elements and expand the first item.
+        job_number = self.find_white_rows()
+
         self.process.update({
             'edit': ('Click', '#edit_' + job_number,),
             'ready': ('Click',
@@ -392,37 +429,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.execute(('jobStatus', 'wait', 'jobStatusActive',
                               'jobStatusHot', ))
         self.process.wait()
-        # Get the white background elements that have no subtitle OR description
-        locators = [
-            './td/div/div[3]/div[2]/div[6]/div/div/div[2]/strong',  # don't post
-            './td/div/div[3]/div[3]/div[6]/div/div/div/div[2]/strong',  # subtitle
-            './td/div/div[3]/div[3]/div[7]/div/div/div/div[2]/strong'  # description
-        ]
-        job_number = None
-        looking = True
-        while looking:
-            rows = find_rows(self.process, 'expandable-row', locators[0],
-                             'innerHTML')
-            if not check_valid(self.process, rows):
-                self.click_fa_arrow_right()
-                continue
-            valid_dont_post = [r[0][r[0].find('_') + 1:] for r in rows if
-                               'No' in r]
-
-            rows = find_rows(self.process, 'expandable-row', locators[1],
-                             'innerHTML')
-            if not check_valid(self.process, rows):
-                self.click_fa_arrow_right()
-                continue
-            valid_subtitle = [r[0][r[0].find('_') + 1:] for r in rows if
-                              'No' in r]
-            valid_rows = (set(valid_dont_post)) & (set(valid_subtitle))
-
-            if len(valid_rows) < 1:
-                self.click_fa_arrow_right()
-                continue
-            looking = False
-            job_number = valid_rows.pop()
+        job_number = self.find_white_rows()
 
         self.process.scroll_to_top_of_page()
         self.process.update({
@@ -531,7 +538,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                 '#job_board_post_status__job_board_post_status_reasons_id',
                 'Job is a duplicate'),
             'save': ('Click', '#edit-save'),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'job': ('Type', '#s_job_number', job_number),
             'search': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[2]')
         })
@@ -608,7 +615,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                 '#job_board_post_status__job_board_status_explanation',
                 'QA reason not to post {}'.format(random_value, )),
             'save': ('Click', '#edit-save'),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'job': ('Type', '#s_job_number', job_number),
             'search': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[2]')
         })
@@ -684,7 +691,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'entry': ('Type', '#s_job_number', job_number),
             'refresh': ('Click',
-                        '//*[@id="job-search-wrap"]/div[2]/div[2]/button')
+                        '//*[@id="job-search-wrap"]/div[3]/div[2]/button')
         })
         self.process.execute(('edit', 'ready'))
         self.process.wait()
@@ -781,10 +788,10 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         else:
             self.process.update({
                 'reset': ('Click',
-                          '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
+                          '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
                 'entry': ('Type', '#s_job_number', job_number),
                 'refresh': ('Click',
-                            '//*[@id="job-search-wrap"]/div[2]/div[2]/button')
+                            '//*[@id="job-search-wrap"]/div[3]/div[2]/button')
             })
             self.process.execute(('reset', 'entry', 'refresh',))
             expected = '#cceecc'
@@ -839,10 +846,10 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                 '#job_board_post_status__job_board_post_status_reasons_id',
                 'Select to clear reason.'),
             'save': ('Click', '#edit-save'),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'entry': ('Type', '#s_job_number', job_number),
             'refresh': ('Click',
-                        '//*[@id="job-search-wrap"]/div[2]/div[2]/button')
+                        '//*[@id="job-search-wrap"]/div[3]/div[2]/button')
         })
         self.process.execute(('edit', 'clear', 'save', ))
         self.process.wait(2)
