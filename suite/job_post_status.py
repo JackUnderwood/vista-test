@@ -24,7 +24,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'none_to_reason_not_to_post_other'  # 'none_to_ready_to_post'
+    debug = 'none_to_ready_to_post'  # 'all'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -99,6 +99,10 @@ class TestSuiteJobPostStatus(unittest.TestCase):
 
             return valid_rows.pop()
 
+    def check_dialog(self):
+        dialog = self.process.spy('//*[@button="dismiss"]', 'innerHTML')
+        pass
+
     # *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
     @unittest.skipUnless(debug is 'ready_approved_to_rejected' or debug is 'all',
                          "testing {}".format(debug,))
@@ -166,9 +170,9 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             self.assertTrue(False, msg='no valid rows available')
         ids = [r[r.find('_')+1:] for r in approved_and_ready_to_post]
         ids.sort(reverse=True)
-        job = ids[0]
+        job_number = ids[0]
         self.process.update({
-            'edit': ('Click', "#edit_{}".format(job, )),
+            'edit': ('Click', "#edit_{}".format(job_number, )),
             'reject': (
                 'Click',
                 '//label[@for="job_board_rejection_history__is_rejected"]'),
@@ -178,14 +182,14 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             'confirm': ('Click', '#confirm-reject'),
             'save': ('Click', '#edit-save'),
             'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
-            'job': ('Type', '#s_job_number', job),
+            'job': ('Type', '#s_job_number', job_number),
             'search': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[2]'),
         })
         expected = 'Job Saved'
         self.process.execute(('edit', 'reject', 'reason', 'confirm', 'save', ))
         self.process.wait()
         self.process.execute(('job', 'search',))
-        rejected = self.process.spy('#inGrid_reject_{}'.format(job,), 'checked')
+        rejected = self.process.spy('#inGrid_reject_{}'.format(job_number,), 'checked')
 
         self.process.compare(True, 'true' in rejected,
                              message='class set to "rejected"')
@@ -252,9 +256,9 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         not_approved_row_ids.sort(reverse=True)
         # Strip out the text, i.e. "expandable_"
         ids = [r[r.find('_') + 1:] for r in not_approved_row_ids]
-        job_id = ids[0]
+        job_number = ids[0]
         all_row_numbers = get_row_numbers(self.process)
-        index = all_row_numbers.index(job_id) + 1
+        index = all_row_numbers.index(job_number) + 1
 
         self.process.update({  # //*[@id="expandable_97848"]
             'expand': (
@@ -262,7 +266,8 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                 '//*[@id="result-target"]/tbody/tr[{}]'.format(index, )),
             'approved': (
                 'Click',
-                '//*[@id="expandable_{}"]/td/div/div[3]/label[1]'.format(job_id, )),
+                '//*[@id="expandable_{}"]/td/div/div[3]/label[1]'.
+                format(job_number, )),
         })
         self.process.execute(('expand', 'approved'))
         self.process.wait()
@@ -273,7 +278,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.wait()
 
         self.process.update({
-            'edit': ('Click', '#edit_{}'.format(job_id, )),
+            'edit': ('Click', '#edit_{}'.format(job_number, )),
             'template': ('Select',
                          '#JobDescriptionTemplates__job_description_template_id',
                          'Allergy'),
@@ -283,15 +288,14 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                        '//*[@for="job_board_rejection_history__is_rejected"]'),
             'save': ('Click', '#edit-save'),
             'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
-            'entry': ('Type', '#s_job_number', job_id),
+            'entry': ('Type', '#s_job_number', job_number),
             'refresh': ('Click',
                         '//*[@id="job-search-wrap"]/div[3]/div[2]/button')
         })
         self.process.execute(('edit', 'template', 'ready', 'reject', 'save', ))
         self.process.wait()
         expected = "Job Saved"
-        result = self.process.results(expected, locator='toast-container')
-        self.assertTrue(result, msg=expected)
+        self.process.results(expected, locator='toast-container')
 
         # Check for the background color.
         self.process.execute(('reset', 'entry', 'refresh'))
@@ -345,8 +349,13 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.update({
             'edit': ('Click', '#edit_' + job_number,),
             'ready': ('Click',
-                      '//*[@for="job_board_post_status__is_ready_to_post"]')
+                      '//*[@for="job_board_post_status__is_ready_to_post"]'),
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
+            'entry': ('Type', '#s_job_number', job_number),
+            'refresh': ('Click',
+                        '//*[@id="job-search-wrap"]/div[3]/div[2]/button')
         })
+        self.process.execute(('reset', 'entry', 'refresh',))
         self.process.execute(('edit',))
         self.process.wait()
         self.process.execute(('ready',))
@@ -572,7 +581,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
          class=" nopost"
          background #fdb
         """
-        ui.log.info(">>> Inside function test_none_to_reason_not_to_post()")
+        ui.log.info(">>> Inside function test_none_to_reason_not_to_post_other()")
         runtime = {
             'jobStatus': ('Click',
                           'css=.ui-multiselect.ui-widget.ui-state-default.'
@@ -623,90 +632,6 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         result = self.process.compare(
             expected, actual_color, message="violet background expected")
         self.assertTrue(result, msg='row color violet expected')
-
-    @unittest.skipUnless(debug is 'no_post_to_ready_to_post' or debug is 'all',
-                         "testing {}".format(debug,))
-    def test_reason_not_to_post_to_ready_to_post(self):
-        """
-        Prerequisite: requires jobs that have reason not to post (rust)
-        + Approved OFF
-        + Rejected OFF
-        + Ready to post NO
-        + Reason not to post YES
-
-        1 Find a set of jobs that have reason not to post - use Job Board Status
-          option Don't Post
-        2 Select the top-most job
-        3 Click on the job's edit button
-        4 Select the Ready to Post check box
-        If subtitle/descriptions are empty then expect dialog:
-            "You need to fill out required subtitle and/or description fields."
-        Expected: Reason Not to Post clears out
-        5 Click Save button
-        Expected: job saves successfully and changes to blue
-         class=" ready"
-         background #cee
-        """
-        ui.log.info(">>> Inside function test_reason_not_to_post_to_"
-                    "ready_to_post()")
-        runtime = {
-            'jobBoardStatus': ('Click', 'css=.ui-multiselect.ui-widget.'
-                                        'ui-state-default.ui-corner-all.multi_s.'
-                                        'multi_s_job_board_status'),
-            'wait': ('Wait', '#ui-multiselect-s_job_board_status-option-1',
-                      {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
-            'jobBoardStatusNoPost': (
-                'Click', '#ui-multiselect-s_job_board_status-option-3'),
-        }
-        self.process.update(runtime)
-        order = ('jobBoardStatus', 'wait', 'jobBoardStatusNoPost', )
-        self.process.execute(order)
-        self.process.wait()
-
-        job_number = self.process.spy(
-            '//*[@id="result-target"]/tbody/tr[1]/td[1]', 'innerHTML')
-        self.process.update({
-            'edit': ('Click', '#edit_{}'.format(job_number, )),
-            'ready': (
-                'Click', '//*[@for="job_board_post_status__is_ready_to_post"]'),
-            'subtitle': ('Type', '#jobs__job_board_subtitle', 'QA Subtitle'),
-            'ok': ('Click', '//*[@button="dismiss"]'),
-            'template': (
-                'Select',
-                '#JobDescriptionTemplates__job_description_template_id',
-                'Allergy'),
-            'save': ('Click', '#edit-save'),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
-            'entry': ('Type', '#s_job_number', job_number),
-            'refresh': ('Click',
-                        '//*[@id="job-search-wrap"]/div[3]/div[2]/button')
-        })
-        self.process.execute(('edit', 'ready'))
-        self.process.wait()
-        dialog = self.process.spy('//*[@for="used_by_modal"]', 'innerHTML')
-        ui.log.info("DIALOG Alert Text: {}".format(dialog, ))
-        if dialog:
-            self.process.execute(('ok', 'subtitle', 'template', ))
-            self.process.wait()
-            self.process.accept_alert()
-            self.process.execute(('ready', ))
-        # Actual will be a number if not cleared
-        actual = self.process.get_selected_option(
-            '#job_board_post_status__job_board_post_status_reasons_id')
-        self.process.compare('', actual, message='')
-
-        self.process.execute(('save',))
-        self.process.wait()
-
-        self.process.execute(('reset', 'entry', 'refresh',))
-        expected = '#cceeee'
-        rgb = self.process.get_css_property(
-            '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
-        actual_color = get_color(rgb)
-        ui.log.info('COLOR: {}'.format(actual_color, ))
-        result = self.process.compare(
-            expected, actual_color, message="blue background expected")
-        self.assertTrue(result, msg='row color blue expected')
 
     @unittest.skipUnless(debug is 'no_post_to_approved' or debug is 'all',
                          "testing {}".format(debug,))
@@ -793,32 +718,37 @@ class TestSuiteJobPostStatus(unittest.TestCase):
 
         self.assertTrue(result)
 
-    @unittest.skipUnless(debug is 'no_post_to_clear' or debug is 'all',
+    @unittest.skipUnless(debug is 'no_post_to_ready_to_post' or debug is 'all',
                          "testing {}".format(debug,))
-    def test_reason_not_to_post_to_clear(self):
+    def test_reason_not_to_post_to_ready_to_post(self):
         """
         Prerequisite: requires jobs that have reason not to post (rust)
-        Approved OFF
-        Rejected OFF
-        Ready to post NO
-        Reason not to post YES
+        + Approved OFF
+        + Rejected OFF
+        + Ready to post NO
+        + Reason not to post YES
 
-        Find a set of jobs that have reason not to post
-        Select the top-most job
-        Click on the job's edit button
-        Select the Reason Not to Post option "Select to clear reason"
-        Save the job
-        Expected: job saves successfully and changes to white
-        class=" odd" OR class=" "
-        background None
+        1 Find a set of jobs that have reason not to post - use Job Board Status
+          option Don't Post
+        2 Select the top-most job
+        3 Click on the job's edit button
+        4 Select the Ready to Post check box
+        If subtitle/descriptions are empty then expect dialog:
+            "You need to fill out required subtitle and/or description fields."
+        Expected: Reason Not to Post clears out
+        5 Click Save button
+        Expected: job saves successfully and changes to blue
+         class=" ready"
+         background #cee
         """
-        ui.log.info(">>> Inside function test_reason_not_to_post_to_clear()")
+        ui.log.info(
+            ">>> Inside function test_reason_not_to_post_to_ready_to_post()")
         runtime = {
             'jobBoardStatus': ('Click', 'css=.ui-multiselect.ui-widget.'
                                         'ui-state-default.ui-corner-all.multi_s.'
                                         'multi_s_job_board_status'),
             'wait': ('Wait', '#ui-multiselect-s_job_board_status-option-1',
-                      {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
+                     {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
             'jobBoardStatusNoPost': (
                 'Click', '#ui-multiselect-s_job_board_status-option-3'),
         }
@@ -829,22 +759,55 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         job_number = self.process.spy(
             '//*[@id="result-target"]/tbody/tr[1]/td[1]', 'innerHTML')
         self.process.update({
+            'expand': (
+                'Click', '//*[@id="result-target"]/thead/tr[1]/td[3]/i[1]'),
             'edit': ('Click', '#edit_{}'.format(job_number,)),
             'clear': (
                 'Select',
                 '#job_board_post_status__job_board_post_status_reasons_id',
                 'Select to clear reason.'),
+            'ready': ('Click',
+                      '//*[@for="job_board_post_status__is_ready_to_post"]'),
             'save': ('Click', '#edit-save'),
+            'okay': ('Click', '//*[@button="dismiss"]'),
+            'subtitle': ('Type', '#jobs__job_board_subtitle', 'QA Subtitle'),
+            'template': (
+                'Select',
+                '#JobDescriptionTemplates__job_description_template_id',
+                'Allergy'
+            ),
             'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'entry': ('Type', '#s_job_number', job_number),
             'refresh': ('Click',
                         '//*[@id="job-search-wrap"]/div[3]/div[2]/button')
         })
-        self.process.execute(('edit', 'clear', 'save', ))
-        self.process.wait(2)
+        self.process.execute(('expand',))
+        ready_to_post = ('//*[@id="expandable_{}"]/td/div/div[3]/div[2]/div[5]/'
+                         'div/div/div[2]/strong'.format(job_number, ))
+        is_ready_to_post = self.process.spy(ready_to_post, 'innerHTML')
+        # Assume subtitle/description are filled out.
+        self.process.execute(('edit', 'clear', ))
+        if 'No' in is_ready_to_post:
+            self.process.execute(('ready',))
+            # Check for "Required subtitle and/or description" dialog
+            dialog = self.process.spy('//*[@button="dismiss"]', 'innerHTML')
+            if dialog:
+                self.process.execute(('okay', 'subtitle', 'template',))
+                self.process.wait()
+                self.process.accept_alert()  # "switching templates"
+                self.process.wait()
+                self.process.execute(('ready', ))
+
+        self.process.execute(('save', ))
+        self.process.wait()
         self.process.results('Job Saved', message='saved successfully')
         self.process.execute(('reset', 'entry', 'refresh', ))
 
-        value = self.process.spy('//*[@id="result-target"]/tbody/tr[1]', 'class')
-        result = self.process.compare(' ', value, message='white row class=\" \"')
-        self.assertTrue(result)
+        expected = '#cceeee'
+        rgb = self.process.get_css_property(
+            '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
+        actual_color = get_color(rgb)
+        ui.log.info('COLOR: {}'.format(actual_color, ))
+        result = self.process.compare(
+            expected, actual_color, message="blue background expected")
+        self.assertTrue(result, msg='row color blue expected')
