@@ -24,7 +24,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'all'
+    debug = 'none_to_reason_not_to_post'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -129,6 +129,22 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             valid_ready_to_post.sort(reverse=False)
             return valid_ready_to_post.pop()
 
+    def get_row_color(self, rgb_color, expected_color):
+        """
+
+        :param rgb_color: string - RGB tuple, e.g. 'rgba(204, 238, 204, 1)'
+        :param expected_color: string - color, e.g. 'violet'
+        :return: boolean
+        """
+        colors = {'violet': '#ffccff', 'blue': '#cceeee', 'green': '#cceecc',
+                  'rust': '#ffddbb'}
+        actual_color = get_color(rgb_color)
+        ui.log.info('\nActual Color: {}\nExpected Color: {}'.
+                    format(actual_color, colors[expected_color]))
+        return self.process.compare(
+            colors[expected_color], actual_color,
+            message="{} background expected".format(colors[expected_color]))
+
     # *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
     @unittest.skipUnless(debug is 'ready_approved_to_rejected' or debug is 'all',
                          "testing {}".format(debug,))
@@ -205,7 +221,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         actual_color = get_color(rgb)
         ui.log.info('COLOR: {}'.format(actual_color, ))
         result = self.process.compare(
-            '#ffccff', actual_color, message="green background expected")
+            '#ffccff', actual_color, message="violet background expected")
         self.assertTrue(result, msg='violet row expected')
 
     @unittest.skipUnless(debug is 'rejected_to_approved' or debug is 'all',
@@ -394,13 +410,11 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.results(expected)
         self.process.wait()
 
+        color = 'blue'
         rgb = self.process.get_css_property(
             '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
-        actual_color = get_color(rgb)
-        ui.log.info('COLOR: {}'.format(actual_color, ))
-        result = self.process.compare(
-            '#cceeee', actual_color, message="blue background expected")
-        self.assertTrue(result, msg='color blue expected')
+        result = self.get_row_color(rgb, color)
+        self.assertTrue(result, msg='{} row expected'.format(color,))
 
     @unittest.skipUnless(debug is 'none_to_approved' or debug is 'all',
                          "testing {}".format(debug,))
@@ -492,14 +506,11 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.wait(2)
         self.process.execute(('job', 'search', ))
         self.process.wait()
-
+        color = 'green'
         rgb = self.process.get_css_property(
             '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
-        actual_color = get_color(rgb)
-        ui.log.info('COLOR: {}'.format(actual_color, ))
-        result = self.process.compare(
-            '#cceecc', actual_color, message="green background expected")
-        self.assertTrue(result, msg='green row expected')
+        result = self.get_row_color(rgb, color)
+        self.assertTrue(result, msg='{} row expected'.format(color,))
 
     @unittest.skipUnless(debug is 'none_to_reason_not_to_post' or debug is 'all',
                          "testing {}".format(debug,))
@@ -558,14 +569,11 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.wait()
         self.process.results(expected, locator='toast-container')
 
-        expected = '#ffddbb'
+        color = 'rust'
         rgb = self.process.get_css_property(
             '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
-        actual_color = get_color(rgb)
-        ui.log.info('COLOR: {}'.format(actual_color, ))
-        result = self.process.compare(
-            expected, actual_color, message="violet background expected")
-        self.assertTrue(result, msg='row color violet expected')
+        result = self.get_row_color(rgb, color)
+        self.assertTrue(result, msg='{} row expected'.format(color,))
 
     @unittest.skipUnless(debug is 'none_to_reason_not_to_post_other'
                          or debug is 'all',
