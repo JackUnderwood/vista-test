@@ -24,7 +24,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'none_to_ready_to_post'  # 'all'
+    debug = 'ready_approved_to_rejected'  # 'all'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -79,8 +79,8 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             rows = find_rows(self.process, 'expandable-row', locators[0],
                              'innerHTML')
             if not check_valid(self.process, rows):
-                self.click_fa_arrow_right()
-                continue
+                # assert error
+                pass
             valid_dont_post = [r[0][r[0].find('_') + 1:] for r in rows if
                                'No' in r]
 
@@ -99,9 +99,35 @@ class TestSuiteJobPostStatus(unittest.TestCase):
 
             return valid_rows.pop()
 
-    def check_dialog(self):
-        dialog = self.process.spy('//*[@button="dismiss"]', 'innerHTML')
-        pass
+    def find_ready_approved_rows(self):
+        """
+        Find rows that have Ready to Post checked and set as Approved--green rows
+        :return: list - rows
+        """
+        locators = [
+            # ready to post
+            './td/div/div[3]/div[2]/div[5]/div/div/div[2]/strong',
+            # approved
+            './td/div/div[3]/div[2]/div[3]/div/div/div/div[2]/strong',
+            # subtitle
+            './td/div/div[3]/div[3]/div[6]/div/div/div/div[2]/strong',
+        ]
+        looking = True
+        while looking:
+            rows = find_rows(self.process, 'expandable-row', locators[0],
+                             'innerHTML')
+            if not check_valid(self.process, rows):
+                # assert error
+                pass
+
+            valid_ready_to_post = [r[0][r[0].find('_') + 1:] for r in rows if
+                                   'Yes' in r]
+            if not check_valid(self.process, valid_ready_to_post):
+                self.click_fa_arrow_right()
+                continue
+
+            valid_ready_to_post.sort(reverse=False)
+            return valid_ready_to_post.pop()
 
     # *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES *^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
     @unittest.skipUnless(debug is 'ready_approved_to_rejected' or debug is 'all',
@@ -146,31 +172,11 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         }
         self.process.update(runtime)
         order = ('jobStatus', 'wait1', 'jobStatusActive', 'jobStatusHot',
-                 'clickAway', 'jobBoardStatus', 'wait2', 'jobBoardStatusApprove',
-                 'expandAll')
+                 'clickAway', 'jobBoardStatus', 'wait2',
+                 'jobBoardStatusApprove',)
         self.process.execute(order)
 
-        approved_locator = './td/div/div[3]/div[2]/div[3]/div/div/div/div[2]/strong'
-        rows = find_rows(self.process, 'expandable-row',
-                         approved_locator, 'innerHTML')
-        valid_approved_rows_id = [r[0] for r in rows if 'Approved' in r]
-        if not check_valid(self.process, valid_approved_rows_id):
-            self.assertTrue(False, msg='no valid "Approved" rows available')
-
-        ready_to_post_locator = './td/div/div[3]/div[2]/div[5]/div/div/div[2]/strong'
-        rows = find_rows(self.process, 'expandable-row',
-                         ready_to_post_locator, 'innerHTML')
-        valid_ready_to_post_rows_id = [r[0] for r in rows if 'Yes' in r]
-        if not check_valid(self.process, valid_ready_to_post_rows_id):
-            self.assertTrue(False, msg='no valid "Ready to Post" rows available')
-        # Get the intersection of the two results.
-        approved_and_ready_to_post = (set(valid_approved_rows_id) &
-                                      set(valid_ready_to_post_rows_id))
-        if not check_valid(self.process, approved_and_ready_to_post):
-            self.assertTrue(False, msg='no valid rows available')
-        ids = [r[r.find('_')+1:] for r in approved_and_ready_to_post]
-        ids.sort(reverse=True)
-        job_number = ids[0]
+        job_number = self.find_ready_approved_rows()
         self.process.update({
             'edit': ('Click', "#edit_{}".format(job_number, )),
             'reject': (
@@ -185,16 +191,15 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             'job': ('Type', '#s_job_number', job_number),
             'search': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[2]'),
         })
-        expected = 'Job Saved'
-        self.process.execute(('edit', 'reject', 'reason', 'confirm', 'save', ))
+        self.process.scroll_to_top_of_page()
+        self.process.execute(('reset', 'job', 'search',))
         self.process.wait()
-        self.process.execute(('job', 'search',))
-        rejected = self.process.spy('#inGrid_reject_{}'.format(job_number,), 'checked')
-
+        self.process.execute(('edit', 'reject', 'reason', 'confirm', 'save', ))
+        self.process.wait(5)
+        rejected = self.process.spy(
+            '#inGrid_reject_{}'.format(job_number,), 'checked')
         self.process.compare(True, 'true' in rejected,
                              message='class set to "rejected"')
-        self.process.results(expected, locator='toast-container')
-
         rgb = self.process.get_css_property(
             '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
         actual_color = get_color(rgb)
