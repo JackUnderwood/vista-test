@@ -24,7 +24,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'ready_approved_to_rejected'  # 'all'
+    debug = 'all'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -360,6 +360,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             'refresh': ('Click',
                         '//*[@id="job-search-wrap"]/div[3]/div[2]/button')
         })
+        self.process.scroll_to_top_of_page()
         self.process.execute(('reset', 'entry', 'refresh',))
         self.process.execute(('edit',))
         self.process.wait()
@@ -369,7 +370,6 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         ui.log.info("DIALOG Alert Text: {}".format(dialog, ))
         # 'You need to fill out required subtitle and/or description'
         if dialog:
-            self.process.compare(True, False, message='needs required fields')
             self.process.update({
                 'okay': ('Click', '//*[@button="dismiss"]'),
                 'subtitle': ('Type', '#jobs__job_board_subtitle', 'QA Subtitle'),
