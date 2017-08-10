@@ -47,12 +47,12 @@ class DirectorySaveState(UI):
     })
     process.update(runtime)
     process.execute(('state', 'save', ))
-    process.wait()
+    process.wait(3)
     # Make sure the user is still active; one bug makes user inactive when saved
     if process.is_available(edit_locator):
         # Spy into the form's State field to check its value
-        order = ('edit', )
-        process.execute(order)
+        # order = ('edit', )
+        # process.execute(order)
         process.wait()  # avoids StaleElementReferenceException
         state_value = process.get_selected_option('#state')
         process.compare(expected, state_value)
