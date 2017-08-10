@@ -10,7 +10,7 @@ class JobSaveICtrl(UI):
     Regression test for story #137446781 - save a new control
     """
     JobIcon()
-    control_name = "Procedures_" + gen_key(range_size=8)
+    control_name = "aa{}_Procedures".format(gen_key(range_size=6),)
     ui.log.info("JobSaveICtrl __init__() called")
     ui.log.info("Expected Control Name: {}".format(control_name, ))
 
