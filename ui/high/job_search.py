@@ -19,8 +19,7 @@ class JobSearch(UI):
             'value': '12345',  # override={'value': '12345'}
             'search': ('Type', '#s_job_number', '&value;'),
             'refresh': (
-                'Click',
-                '//*[@id="job-search-wrap"]/div[2]/div[2]/button', ),
+                'Click', '//*[@id="job-search-wrap"]/div[3]/div[2]/button', ),
         }
         process = UI(override)
         process.update(runtime)
