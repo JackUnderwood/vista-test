@@ -21,7 +21,7 @@ class ApprovePost(UI):
                                     'multi_s_job_board_status'),
         'JobBoardStatusReady': (
             'Click', '#ui-multiselect-s_job_board_status-option-2'),
-        'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
+        'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
     }
     process = UI()
     process.update(runtime)
