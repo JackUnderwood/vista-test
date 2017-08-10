@@ -28,7 +28,7 @@ class JobEditCancel(UI):
     runtime = {
         'edit': ('Click', edit_button_id),
         'cancelEdit': ('Click', '#edit-close'),
-        'reset': ('Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button')
+        'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button')
     }
     process.update(runtime)
     order = ('edit',)
