@@ -24,7 +24,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'none_to_reason_not_to_post'
+    debug = 'no_post_to_approved'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -211,18 +211,16 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.execute(('reset', 'job', 'search',))
         self.process.wait()
         self.process.execute(('edit', 'reject', 'reason', 'confirm', 'save', ))
-        self.process.wait(5)
+        self.process.wait(6)
         rejected = self.process.spy(
             '#inGrid_reject_{}'.format(job_number,), 'checked')
         self.process.compare(True, 'true' in rejected,
                              message='class set to "rejected"')
+        color = 'violet'
         rgb = self.process.get_css_property(
             '//*[@id="result-target"]/tbody/tr[1]', 'background-color')
-        actual_color = get_color(rgb)
-        ui.log.info('COLOR: {}'.format(actual_color, ))
-        result = self.process.compare(
-            '#ffccff', actual_color, message="violet background expected")
-        self.assertTrue(result, msg='violet row expected')
+        result = self.get_row_color(rgb, color)
+        self.assertTrue(result, msg='{} row expected'.format(color,))
 
     @unittest.skipUnless(debug is 'rejected_to_approved' or debug is 'all',
                          "testing {}".format(debug,))
