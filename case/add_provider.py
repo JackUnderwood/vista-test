@@ -72,6 +72,7 @@ class AddProvider(UI):
              'email', 'emailType', 'phoneNumber', 'phoneType', 'ssn', 'save', )
     process.execute(order)
     process.wait(2)
+    # TODO: add accept address verification dialog
     success = process.results('Saved information', locator='toast-container',
                               wait_time=8)
     if success:
