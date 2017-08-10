@@ -32,7 +32,7 @@ class AllJobSearch(unittest.TestCase):
     def tearDown(self):
         self.process.update({
             'reset': (
-                'Click', '//*[@id="job-search-wrap"]/div[2]/div[3]/button'),
+                'Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'away': ('Click', '//*[@id="content"]/h1'),  # click away
         })
         self.process.execute(('away', 'reset', ))
@@ -300,7 +300,7 @@ class AllJobSearch(unittest.TestCase):
         expected = 'Keywords'
         self.process.execute(('keyword', ))
         self.process.wait_for_element(
-            '//*[@id="result-target"]/tbody/tr[1]', wait_time=40)
+            '//*[@id="result-target"]/tbody/tr[1]', wait_time=45)
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
