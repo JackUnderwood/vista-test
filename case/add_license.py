@@ -7,7 +7,7 @@ __author__ = 'John Underwood'
 
 class AddLicense(UI):
     License()
-    Checklist()
+    Checklist(override={'rowNum': '14'})
 
     runtime = {
         'licenseIcon': (
@@ -22,7 +22,7 @@ class AddLicense(UI):
         'dateGranted': ('Type', '#date_granted', '05042015'),
         'dateEffective': ('Type', '#date_effective', '05182015'),
         'dateExpires': ('Type', '#date_expires', '10102016'),
-        'licenseNumber': ('Type', '#license_number', 'n2676961'),
+        'licenseNumber': ('Type', '#license_number', 'n242676961'),
         'save': ('Click', '//*[@button="save"]')
     }
     expected = "Licenses Updated"  # "Licenses Updated Comment Created"
