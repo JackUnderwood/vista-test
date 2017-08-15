@@ -131,12 +131,13 @@ class TestSuiteJobPostStatus(unittest.TestCase):
 
     def get_row_color(self, rgb_color, expected_color):
         """
-
         :param rgb_color: string - RGB tuple, e.g. 'rgba(204, 238, 204, 1)'
         :param expected_color: string - color, e.g. 'violet'
         :return: boolean
         """
-        colors = {'violet': '#ffccff', 'blue': '#cceeee', 'green': '#cceecc',
+        colors = {'violet': '#ffccff', 
+                  'green': '#cceecc',
+                  'blue': '#cceeee',
                   'rust': '#ffddbb'}
         actual_color = get_color(rgb_color)
         ui.log.info('\nActual Color: {}\nExpected Color: {}'.
