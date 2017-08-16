@@ -1,9 +1,9 @@
 import unittest
 
 import ui
-from ui import UI
-from tool.helpers import find_rows, get_color, get_row_numbers
 from tool.generators.generator import gen_key
+from tool.jobpost.helpers import find_rows, get_color, get_row_numbers
+from ui import UI
 
 __author__ = 'John Underwood'
 

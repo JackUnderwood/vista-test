@@ -1,9 +1,9 @@
-from ui import UI
-from ui.low.job_posts import JobPosts
-from ui.high.job_search import JobSearch
-from tool.utilities import get_configurations
 from tool.generators.generator import gen_key
-from tool.helpers import find_valid_rows
+from tool.jobpost.helpers import find_valid_rows
+from tool.utilities import get_configurations
+from ui import UI
+from ui.high.job_search import JobSearch
+from ui.low.job_posts import JobPosts
 
 __author__ = 'John Underwood'
 

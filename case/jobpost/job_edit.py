@@ -58,5 +58,5 @@ class JobEdit(UI):
         process.wait()
         process.results(expected)
 
-    process.wait(1)
+    process.wait()
     process.teardown()

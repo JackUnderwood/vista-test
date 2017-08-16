@@ -1,6 +1,6 @@
+from tool.jobpost.helpers import find_rows, get_color
 from ui import UI
 from ui.low.job_posts import JobPosts
-from tool.helpers import find_rows, get_color
 
 __author__ = 'John Underwood'
 

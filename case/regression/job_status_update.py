@@ -1,10 +1,10 @@
 import ui
-from ui import UI
-from ui.low.job_posts import JobPosts
-from ui.high.job_search import JobSearch
-from tool.helpers import get_class_attribute, get_job_status, get_color
-from tool.helpers import get_row_numbers
+from tool.jobpost.helpers import get_class_attribute, get_job_status, get_color
+from tool.jobpost.helpers import get_row_numbers
 from tool.utilities import get_random_value
+from ui import UI
+from ui.high.job_search import JobSearch
+from ui.low.job_posts import JobPosts
 
 __author__ = 'John Underwood'
 
