@@ -3,17 +3,20 @@ import unittest
 import ui
 from tool.generators.generator import gen_key
 from tool.jobpost.helpers import find_rows, get_color, get_row_numbers
+from tool.jobpost.helpers import find_white_rows, find_ready_approved_rows
+from tool.jobpost.helpers import check_valid
+from tool.jobpost.helpers import error_msg
 from ui import UI
 
 __author__ = 'John Underwood'
 
 
-def check_valid(process, rows_list):
-    result = True
-    if len(rows_list) < 1:
-        process.compare(True, False, message="no valid rows available")
-        result = False
-    return result
+# def check_valid(process, rows_list):
+#     result = True
+#     if len(rows_list) < 1:
+#         process.compare(True, False, message="no valid rows available")
+#         result = False
+#     return result
 
 
 class TestSuiteJobPostStatus(unittest.TestCase):
@@ -38,96 +41,97 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         cls.process.wait()
         cls.process.teardown()
 
-    def click_fa_arrow_right(self):
-        """
-        Click the grid's right, forward arrow to see the grid's next page
-        of results
-        :return: void
-        """
-        self.process.wait()
-        forward_button_locator = ('css=#result-target>tfoot>tr>td:nth-child(2)>'
-                                  'i.fa.fa-arrow-right.fa-lg')
-        forward_button = self.process.spy(forward_button_locator, 'class')
-        if forward_button is None:
-            # We're at the end of all possible results.
-            unittest.TestCase.fail(
-                msg='all result pages scanned with no available rows')
-        self.process.update({
-            'faux_click': (  # use this click to give the nav tools focus
-                'Click', '//*[@id="result-target"]/tfoot/tr/td[2]/span'),
-            'fa_arrow_right': ('Click', forward_button_locator),
-        })
-        self.process.scroll_to_bottom_of_page()
-        self.process.execute(('faux_click', 'fa_arrow_right',))
-        self.process.wait()
+    # def click_fa_arrow_right(self):
+    #     """
+    #     Click the grid's right, forward arrow to see the grid's next page
+    #     of results
+    #     :return: void
+    #     """
+    #     self.process.wait()
+    #     forward_button_locator = ('css=#result-target>tfoot>tr>td:nth-child(2)>'
+    #                               'i.fa.fa-arrow-right.fa-lg')
+    #     forward_button = self.process.spy(forward_button_locator, 'class')
+    #     if forward_button is None:
+    #         # We're at the end of all possible results.
+    #         unittest.TestCase.fail(
+    #             msg='all result pages scanned with no available rows')
+    #     self.process.update({
+    #         'faux_click': (  # use this click to give the nav tools focus
+    #             'Click', '//*[@id="result-target"]/tfoot/tr/td[2]/span'),
+    #         'fa_arrow_right': ('Click', forward_button_locator),
+    #     })
+    #     self.process.scroll_to_bottom_of_page()
+    #     self.process.execute(('faux_click', 'fa_arrow_right',))
+    #     self.process.wait()
 
     def find_white_rows(self):
         """
         Find rows that have no status -- white rows
         :return: list - rows
         """
-        locators = [
-            # don't post
-            './td/div/div[3]/div[2]/div[6]/div/div/div[2]/strong',
-            # subtitle
-            './td/div/div[3]/div[3]/div[6]/div/div/div/div[2]/strong',
-            # description
-            './td/div/div[3]/div[3]/div[7]/div/div/div/div[2]/strong'
-        ]
-        looking = True
-        while looking:
-            rows = find_rows(self.process, 'expandable-row', locators[0],
-                             'innerHTML')
-            if not check_valid(self.process, rows):
-                # assert error
-                pass
-            valid_dont_post = [r[0][r[0].find('_') + 1:] for r in rows if
-                               'No' in r]
+        # locators = [
+        #     # don't post
+        #     './td/div/div[3]/div[2]/div[6]/div/div/div[2]/strong',
+        #     # subtitle
+        #     './td/div/div[3]/div[3]/div[6]/div/div/div/div[2]/strong',
+        #     # description
+        #     './td/div/div[3]/div[3]/div[7]/div/div/div/div[2]/strong'
+        # ]
+        # looking = True
+        # while looking:
+        #     rows = find_rows(self.process, 'expandable-row', locators[0],
+        #                      'innerHTML')
+        #     if not check_valid(self.process, rows):
+        #         # assert error
+        #         pass
+        #     valid_dont_post = [r[0][r[0].find('_') + 1:] for r in rows if
+        #                        'No' in r]
+        #
+        #     rows = find_rows(self.process, 'expandable-row', locators[1],
+        #                      'innerHTML')
+        #     if not check_valid(self.process, rows):
+        #         self.click_fa_arrow_right()
+        #         continue
+        #     valid_subtitle = [r[0][r[0].find('_') + 1:] for r in rows if
+        #                       'No' in r]
+        #     valid_rows = (set(valid_dont_post)) & (set(valid_subtitle))
+        #
+        #     if len(valid_rows) < 1:
+        #         self.click_fa_arrow_right()
+        #         continue
 
-            rows = find_rows(self.process, 'expandable-row', locators[1],
-                             'innerHTML')
-            if not check_valid(self.process, rows):
-                self.click_fa_arrow_right()
-                continue
-            valid_subtitle = [r[0][r[0].find('_') + 1:] for r in rows if
-                              'No' in r]
-            valid_rows = (set(valid_dont_post)) & (set(valid_subtitle))
-
-            if len(valid_rows) < 1:
-                self.click_fa_arrow_right()
-                continue
-
-            return valid_rows.pop()
+        return find_white_rows(self.process)
 
     def find_ready_approved_rows(self):
         """
         Find rows that have Ready to Post checked and set as Approved--green rows
         :return: list - rows
         """
-        locators = [
-            # ready to post
-            './td/div/div[3]/div[2]/div[5]/div/div/div[2]/strong',
-            # approved
-            './td/div/div[3]/div[2]/div[3]/div/div/div/div[2]/strong',
-            # subtitle
-            './td/div/div[3]/div[3]/div[6]/div/div/div/div[2]/strong',
-        ]
-        looking = True
-        while looking:
-            rows = find_rows(self.process, 'expandable-row', locators[0],
-                             'innerHTML')
-            if not check_valid(self.process, rows):
-                # assert error
-                pass
-
-            valid_ready_to_post = [r[0][r[0].find('_') + 1:] for r in rows if
-                                   'Yes' in r]
-            if not check_valid(self.process, valid_ready_to_post):
-                self.click_fa_arrow_right()
-                continue
-
-            valid_ready_to_post.sort(reverse=False)
-            return valid_ready_to_post.pop()
+        # locators = [
+        #     # ready to post
+        #     './td/div/div[3]/div[2]/div[5]/div/div/div[2]/strong',
+        #     # approved
+        #     './td/div/div[3]/div[2]/div[3]/div/div/div/div[2]/strong',
+        #     # subtitle
+        #     './td/div/div[3]/div[3]/div[6]/div/div/div/div[2]/strong',
+        # ]
+        # looking = True
+        # while looking:
+        #     rows = find_rows(self.process, 'expandable-row', locators[0],
+        #                      'innerHTML')
+        #     if not check_valid(self.process, rows):
+        #         # assert error
+        #         pass
+        #
+        #     valid_ready_to_post = [r[0][r[0].find('_') + 1:] for r in rows if
+        #                            'Yes' in r]
+        #     if not check_valid(self.process, valid_ready_to_post):
+        #         self.click_fa_arrow_right()
+        #         continue
+        #
+        #     valid_ready_to_post.sort(reverse=False)
+        #     return valid_ready_to_post.pop()
+        return find_ready_approved_rows(self.process)
 
     def get_row_color(self, rgb_color, expected_color):
         """
@@ -365,6 +369,8 @@ class TestSuiteJobPostStatus(unittest.TestCase):
 
         # Get the white background elements and expand the first item.
         job_number = self.find_white_rows()
+        if job_number is None:
+            unittest.TestCase.fail(msg=error_msg)
 
         self.process.update({
             'edit': ('Click', '#edit_' + job_number,),
@@ -456,7 +462,10 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.execute(('jobStatus', 'wait', 'jobStatusActive',
                               'jobStatusHot', ))
         self.process.wait()
+
         job_number = self.find_white_rows()
+        if job_number is None:
+            unittest.TestCase.fail(msg=error_msg)
 
         self.process.scroll_to_top_of_page()
         self.process.update({
@@ -545,8 +554,11 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.execute(('jobStatus', 'wait', 'jobStatusActive',
                               'jobStatusHot', ))
         self.process.wait()
-        # Get the white background elements
+
         job_number = self.find_white_rows()
+        if job_number is None:
+            unittest.TestCase.fail(msg=error_msg)
+
         self.process.update({
             'edit': ('Click', '#edit_' + job_number,),
             'reason': (
@@ -608,8 +620,11 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.execute(('jobStatus', 'wait', 'jobStatusActive',
                               'jobStatusHot', ))
         self.process.wait()
-        # Get the white background elements
+
         job_number = self.find_white_rows()
+        if job_number is None:
+            unittest.TestCase.fail(msg=error_msg)
+
         random_value = gen_key(4)
         self.process.update({
             'edit': ('Click', '#edit_' + job_number,),
