@@ -31,44 +31,42 @@ class JobEdit(UI):
     process.execute(order)
     process.wait()
     process.execute(('pageSize', ))
-    process.wait(3)
+    process.wait(2)
 
     # Get only the 'white' rows--rows with no status set.
-    job_number = find_white_rows(process)
-    if job_number is None:
-        ui.log.warning('job_number not available :: test case stopped!')
-        exit(1)
-
-    # # rows = process.find_elements(
-    # #    '//*[@id="result-target"]/tbody/tr[@class=" " or @class="odd "]')
-    # if not rows:
-    #     process.compare(True, False, message="no white row jobs available")
-    # else:
-    #     row_ids = [row.find_element_by_xpath('./td[1]').text for row in rows]
-    #     job_number = row_ids.pop(0)
+    res = find_white_rows(process)
+    if res['job_number'] is None:
+        ui.log.warning('{} :: job_number not available test case stopped!'.
+                       format(res['error_msg']))
+        process.teardown()
 
     runtime = {
         'subtitleText': "Get Started Right Away {}".format(gen_key(5),),
         'descText': "Some text",
-        'edit': ('Click', '#edit_' + job_number,),
+        'edit': ('Click', '#edit_' + res['job_number'],),
         'subtitle': ('Type', '#jobs__job_board_subtitle', '&subtitleText;'),
         'template': ('Select',
                      '#JobDescriptionTemplates__job_description_template_id',
                      'Cardiology'),
         'description': ('TypeInCkeditor', '.cke_wysiwyg_frame', '&descText;'),
-        'save': ('Click', '#edit-save')
+        'save': ('Click', '#edit-save'),
+        'expand': ('Click', '#view_{}'.format(res['job_number'],)),
+        'ready': (
+            'Click',
+            '//*[@id="jobEdit"]/div[1]/div[2]/div[2]/div/div[1]/div[1]/label')
     }
     expected = runtime['subtitleText']
     # process = UI()
     process.update(runtime)
     order = ('edit', 'subtitle', 'template', )
     process.execute(order)
+    process.accept_alert()
     actual = process.spy('#jobs__job_board_subtitle', 'value')
     process.compare(expected, actual)
 
-    expected = 'Job Saved'
-    process.execute(('save',))
+    process.execute(('ready', 'save',))
     process.wait()
+    process.execute(('expand',))
     process.results(expected)
 
     process.wait()
