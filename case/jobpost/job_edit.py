@@ -1,6 +1,7 @@
 import ui
 from ui import UI
 from ui.low.job_posts import JobPosts
+from ui.high.job_active_hot import JobActiveHot
 from tool.jobpost.helpers import find_white_rows
 from tool.generators.generator import gen_key
 
@@ -13,22 +14,13 @@ class JobEdit(UI):
     filled job.
     """
     JobPosts()
+    JobActiveHot()
 
     runtime = {
-        'jobStatus': ('Click', 'css=.ui-multiselect.ui-widget.ui-state-default.'
-                               'ui-corner-all.multi_s.multi_s_job_status'),
-        'wait': ('Wait', '#ui-multiselect-s_job_status-option-1',
-                 {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
-        'jobStatusActive': (
-            'Click', '#ui-multiselect-s_job_status-option-1'),
-        'jobStatusHot': (
-            'Click', '#ui-multiselect-s_job_status-option-4'),
-        'pageSize': ('Select', '#page-size', '100')
+        'pageSize': ('Select', '#page-size', '100'),
     }
     process = UI()
     process.update(runtime)
-    order = ('jobStatus', 'wait', 'jobStatusActive', 'jobStatusHot')
-    process.execute(order)
     process.wait()
     process.execute(('pageSize', ))
     process.wait(2)

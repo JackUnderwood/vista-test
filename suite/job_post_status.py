@@ -1,22 +1,14 @@
 import unittest
 
 import ui
+from ui import UI
+from ui.high.job_active_hot import JobActiveHot
 from tool.generators.generator import gen_key
 from tool.jobpost.helpers import find_rows, get_color, get_row_numbers
 from tool.jobpost.helpers import find_white_rows, find_ready_approved_rows
 from tool.jobpost.helpers import check_valid
-from tool.jobpost.helpers import error_msg
-from ui import UI
 
 __author__ = 'John Underwood'
-
-
-# def check_valid(process, rows_list):
-#     result = True
-#     if len(rows_list) < 1:
-#         process.compare(True, False, message="no valid rows available")
-#         result = False
-#     return result
 
 
 class TestSuiteJobPostStatus(unittest.TestCase):
@@ -27,7 +19,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'all'
+    debug = 'none_to_ready_to_post'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -44,9 +36,14 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     def find_white_rows(self):
         """
         Find rows that have no status -- white rows
-        :return: list - rows
+        :return: dict - job_number: <number or None>, error_msg: <string>
+        Note: a return of None may mean that no rows are available OR
+        no white job is found in any of the rows.
         """
-        return find_white_rows(self.process)
+        res = find_white_rows(self.process)
+        if res['job_number'] is None:
+            unittest.TestCase.fail(self, msg=res['error_msg'])
+        return res['job_number']
 
     def find_ready_approved_rows(self):
         """
@@ -93,15 +90,8 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         Expected: Saves successfully and row's color is #FFCCFF - pastel violet
         """
         ui.log.info(">>> Inside function test_ready_approved_to_rejected()")
+        JobActiveHot()
         runtime = {
-            'jobStatus': ('Click',
-                          'css=.ui-multiselect.ui-widget.ui-state-default.'
-                          'ui-corner-all.multi_s.multi_s_job_status'),
-            'wait1': ('Wait', '#ui-multiselect-s_job_status-option-1',
-                     {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
-            'jobStatusActive': (
-                'Click', '#ui-multiselect-s_job_status-option-1'),
-            'jobStatusHot': ('Click', '#ui-multiselect-s_job_status-option-4'),
             'clickAway': ('Click', '//*[@id="content"]/h1'),
             'jobBoardStatus': ('Click', 'css=.ui-multiselect.ui-widget.'
                                         'ui-state-default.ui-corner-all.multi_s.'
@@ -274,26 +264,11 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         Expected: job saves successfully and changes to blue - #CCEEEE
         """
         ui.log.info(">>> Inside function test_none_to_ready_to_post()")
-        runtime = {
-            'jobStatus': ('Click',
-                          'css=.ui-multiselect.ui-widget.ui-state-default.'
-                          'ui-corner-all.multi_s.multi_s_job_status'),
-            'wait': ('Wait', '#ui-multiselect-s_job_status-option-1',
-                     {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
-            'jobStatusActive': (
-                'Click', '#ui-multiselect-s_job_status-option-1'),
-            'jobStatusHot': ('Click', '#ui-multiselect-s_job_status-option-4'),
-        }
-        self.process.update(runtime)
-        self.process.execute(('jobStatus', 'wait', 'jobStatusActive',
-                              'jobStatusHot'))
+        JobActiveHot()
         self.process.wait()
 
         # Get the white background elements and expand the first item.
         job_number = self.find_white_rows()
-        if job_number is None:
-            unittest.TestCase.fail(msg=error_msg)
-
         self.process.update({
             'edit': ('Click', '#edit_' + job_number,),
             'ready': ('Click',
@@ -368,26 +343,9 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         Expected: job saves successfully and changes to green
         """
         ui.log.info(">>> Inside function test_none_to_approved()")
-        runtime = {
-            'jobStatus': ('Click',
-                          'css=.ui-multiselect.ui-widget.ui-state-default.'
-                          'ui-corner-all.multi_s.multi_s_job_status'),
-            'wait': ('Wait', '#ui-multiselect-s_job_status-option-1',
-                     {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
-            'jobStatusActive': (
-                'Click', '#ui-multiselect-s_job_status-option-1'),
-            'jobStatusHot': ('Click', '#ui-multiselect-s_job_status-option-4'),
-            'expandAll': ('Click',
-                          '//*[@id="result-target"]/thead/tr[1]/td[3]/i[1]'),
-        }
-        self.process.update(runtime)
-        self.process.execute(('jobStatus', 'wait', 'jobStatusActive',
-                              'jobStatusHot', ))
+        JobActiveHot()
         self.process.wait()
-
         job_number = self.find_white_rows()
-        if job_number is None:
-            unittest.TestCase.fail(msg=error_msg)
 
         self.process.scroll_to_top_of_page()
         self.process.update({
@@ -462,24 +420,9 @@ class TestSuiteJobPostStatus(unittest.TestCase):
          background #fdb
         """
         ui.log.info(">>> Inside function test_none_to_reason_not_to_post()")
-        runtime = {
-            'jobStatus': ('Click',
-                          'css=.ui-multiselect.ui-widget.ui-state-default.'
-                          'ui-corner-all.multi_s.multi_s_job_status'),
-            'wait': ('Wait', '#ui-multiselect-s_job_status-option-1',
-                     {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
-            'jobStatusActive': (
-                'Click', '#ui-multiselect-s_job_status-option-1'),
-            'jobStatusHot': ('Click', '#ui-multiselect-s_job_status-option-4'),
-        }
-        self.process.update(runtime)
-        self.process.execute(('jobStatus', 'wait', 'jobStatusActive',
-                              'jobStatusHot', ))
+        JobActiveHot()
         self.process.wait()
-
         job_number = self.find_white_rows()
-        if job_number is None:
-            unittest.TestCase.fail(msg=error_msg)
 
         self.process.update({
             'edit': ('Click', '#edit_' + job_number,),
@@ -528,24 +471,9 @@ class TestSuiteJobPostStatus(unittest.TestCase):
          background #fdb
         """
         ui.log.info(">>> Inside function test_none_to_reason_not_to_post_other()")
-        runtime = {
-            'jobStatus': ('Click',
-                          'css=.ui-multiselect.ui-widget.ui-state-default.'
-                          'ui-corner-all.multi_s.multi_s_job_status'),
-            'wait': ('Wait', '#ui-multiselect-s_job_status-option-1',
-                     {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
-            'jobStatusActive': (
-                'Click', '#ui-multiselect-s_job_status-option-1'),
-            'jobStatusHot': ('Click', '#ui-multiselect-s_job_status-option-4'),
-        }
-        self.process.update(runtime)
-        self.process.execute(('jobStatus', 'wait', 'jobStatusActive',
-                              'jobStatusHot', ))
+        JobActiveHot()
         self.process.wait()
-
         job_number = self.find_white_rows()
-        if job_number is None:
-            unittest.TestCase.fail(msg=error_msg)
 
         random_value = gen_key(4)
         self.process.update({

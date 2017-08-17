@@ -3,6 +3,7 @@ import unittest
 import ui
 from ui import UI
 from ui.low.job_posts import JobPosts
+from ui.high.job_active_hot import JobActiveHot
 
 __author__ = 'John Underwood'
 
@@ -16,7 +17,7 @@ class AllJobSearch(unittest.TestCase):
     """
     ui.log.info(">> Inside AllJobSearch class")
     process = UI()
-    debug = 'all'
+    debug = 'job_status'
     test = None
 
     def setUp(self):
@@ -89,15 +90,8 @@ class AllJobSearch(unittest.TestCase):
         debug is 'job_status' or debug is 'all', "testing {}".format(debug,))
     def test_job_status(self):
         ui.log.info('>>> Inside function test_job_status()')
-        self.process.update({
-            'jobStatus': ('Click',
-                          'css=.ui-multiselect.ui-widget.ui-state-default.'
-                          'ui-corner-all.multi_s.multi_s_job_status'),
-            'active': ('Click', '#ui-multiselect-s_job_status-option-1'),
-            'hot': ('Click', '#ui-multiselect-s_job_status-option-4')
-        })
+        JobActiveHot()
         expected = 'Job Status'
-        self.process.execute(('jobStatus', 'active', 'hot',))
         self.process.wait()
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test

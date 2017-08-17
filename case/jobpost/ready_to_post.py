@@ -1,6 +1,7 @@
 from tool.jobpost.helpers import find_rows, get_color
 from ui import UI
 from ui.low.job_posts import JobPosts
+from ui.high.job_active_hot import JobActiveHot
 
 __author__ = 'John Underwood'
 
@@ -12,21 +13,14 @@ class ReadyToPost(UI):
     has the correct background color--blue #cee.
     """
     JobPosts()
+    JobActiveHot()
 
     runtime = {
-        'JobStatus': ('Click', 'css=.ui-multiselect.ui-widget.ui-state-default.'
-                               'ui-corner-all.multi_s.multi_s_job_status'),
-        'wait': ('Wait', '#ui-multiselect-s_job_status-option-1',
-                 {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
-        'JobStatusActive': (
-            'Click', '#ui-multiselect-s_job_status-option-1'),
-        'JobStatusHot': (
-            'Click', '#ui-multiselect-s_job_status-option-4'),
         'expandAll': ('Click', '//*[@id="result-target"]/thead/tr[1]/td[3]/i[1]')
     }
     process = UI()
     process.update(runtime)
-    order = ['JobStatus', 'wait', 'JobStatusActive', 'JobStatusHot', 'expandAll']
+    order = ['expandAll']
     process.execute(order)
     process.wait()
     ready_to_post_locator = './td/div/div[3]/div[2]/div[5]/div/div/div[2]/strong'
