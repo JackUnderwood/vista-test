@@ -191,7 +191,7 @@ class UI:
 
     def type_in_ckeditor(self, locator, value):
         """
-        Do action of type (typewrite) in a value inside the ckeditor
+        Do action of typing in a value inside the ckeditor
         :param locator: element location in DOM
         :param value: string - value to type into the element
         :param char: string - special char that may not clear()
