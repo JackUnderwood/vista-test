@@ -76,6 +76,8 @@ def find_white_rows(process):
     """
     Find rows that have no status -- white rows
     :return: number or None
+    Note: a return of None may mean that no rows are available OR
+    no white job is found in any of the rows.
     """
     global error_msg
     locators = [
@@ -87,12 +89,13 @@ def find_white_rows(process):
     while True:
         rows = find_rows(process, 'expandable-row', locators[0], 'innerHTML')
         if not check_valid(process, rows):
+            error_msg += 'no rows are available in the grid '
             return None
 
         valid_dont_post = [r[0][r[0].find('_') + 1:] for r in rows if 'No' in r]
         rows = find_rows(process, 'expandable-row', locators[1], 'innerHTML')
-        msg_no_valid_rows = ('no valid rows available; database needs to '
-                             'be refreshed ')
+        msg_no_valid_rows = ('no valid job numbers are available :: '
+                             'database needs to be refreshed ')
         if not check_valid(process, rows):
             if not _click_fa_arrow_right(process):
                 error_msg += msg_no_valid_rows
