@@ -1,6 +1,8 @@
+import ui
 from ui import UI
 from ui.low.job_posts import JobPosts
 from tool.jobpost.helpers import find_white_rows
+from tool.generators.generator import gen_key
 
 __author__ = 'John Underwood'
 
@@ -29,12 +31,14 @@ class JobEdit(UI):
     process.execute(order)
     process.wait()
     process.execute(('pageSize', ))
-    process.wait()
+    process.wait(3)
 
     # Get only the 'white' rows--rows with no status set.
     job_number = find_white_rows(process)
     if job_number is None:
-        pass
+        ui.log.warning('job_number not available :: test case stopped!')
+        exit(1)
+
     # # rows = process.find_elements(
     # #    '//*[@id="result-target"]/tbody/tr[@class=" " or @class="odd "]')
     # if not rows:
@@ -44,18 +48,20 @@ class JobEdit(UI):
     #     job_number = row_ids.pop(0)
 
     runtime = {
-        'subtitleText': "Get Started Right Away",
+        'subtitleText': "Get Started Right Away {}".format(gen_key(5),),
         'descText': "Some text",
         'edit': ('Click', '#edit_' + job_number,),
         'subtitle': ('Type', '#jobs__job_board_subtitle', '&subtitleText;'),
-        'template': ('Select', '#template', 'Marketing Tab'),
+        'template': ('Select',
+                     '#JobDescriptionTemplates__job_description_template_id',
+                     'Cardiology'),
         'description': ('TypeInCkeditor', '.cke_wysiwyg_frame', '&descText;'),
         'save': ('Click', '#edit-save')
     }
     expected = runtime['subtitleText']
-    process = UI()
+    # process = UI()
     process.update(runtime)
-    order = ('edit', 'subtitle', 'description', )
+    order = ('edit', 'subtitle', 'template', )
     process.execute(order)
     actual = process.spy('#jobs__job_board_subtitle', 'value')
     process.compare(expected, actual)
