@@ -1,7 +1,6 @@
 __author__ = 'John Underwood'
 """This module is specific to the results table inside Manage Job Posts page.
 """
-error_msg = ""
 
 
 def find_valid_rows(process, class_name):
@@ -75,11 +74,14 @@ def _click_fa_arrow_right(process):
 def find_white_rows(process):
     """
     Find rows that have no status -- white rows
-    :return: number or None
+    :return: dict - job_number: <number or None>, error_msg: <string>
     Note: a return of None may mean that no rows are available OR
     no white job is found in any of the rows.
     """
-    global error_msg
+    results = {
+        'job_number': None,
+        'error_msg': ''}
+
     locators = [
         './td/div/div[3]/div[2]/div[6]/div/div/div[2]/strong',  # don't post
         './td/div/div[3]/div[3]/div[6]/div/div/div/div[2]/strong',  # subtitle
@@ -89,28 +91,28 @@ def find_white_rows(process):
     while True:
         rows = find_rows(process, 'expandable-row', locators[0], 'innerHTML')
         if not check_valid(process, rows):
-            error_msg += 'no rows are available in the grid '
-            return None
+            results['error_msg'] += 'No table rows are available'
+            return results
 
         valid_dont_post = [r[0][r[0].find('_') + 1:] for r in rows if 'No' in r]
         rows = find_rows(process, 'expandable-row', locators[1], 'innerHTML')
-        msg_no_valid_rows = ('no valid job numbers are available :: '
-                             'database needs to be refreshed ')
+        msg_no_valid_rows = 'No valid, WHITE job numbers available'
         if not check_valid(process, rows):
             if not _click_fa_arrow_right(process):
-                error_msg += msg_no_valid_rows
-                return None
+                results['error_msg'] += msg_no_valid_rows
+                return results
             continue
         valid_subtitle = [r[0][r[0].find('_') + 1:] for r in rows if 'No' in r]
         valid_rows = (set(valid_dont_post)) & (set(valid_subtitle))
 
         if not check_valid(process, valid_rows):
             if not _click_fa_arrow_right(process):
-                error_msg += msg_no_valid_rows
-                return None
+                results['error_msg'] += msg_no_valid_rows
+                return results
             continue
 
-        return valid_rows.pop()
+        results['job_number'] = valid_rows.pop()
+        return results
 
 
 def find_ready_approved_rows(process):
