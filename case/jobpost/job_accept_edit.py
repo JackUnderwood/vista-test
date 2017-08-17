@@ -1,20 +1,10 @@
+import ui
 from ui import UI
 from ui.low.job_posts import JobPosts
-from ui.high.job_search import JobSearch
+from ui.high.job_active_hot import JobActiveHot
+from tool.jobpost.helpers import find_white_rows
 
 __author__ = 'John Underwood'
-job_details = """VISTA represents a traditional Family Medicine opportunity in a
-rural Central Texas junior college community.
-
-Opportunity Benefits:
-* Outpatient/Inpatient Primary Care position
-* Attractive 18 month income guarantee ($224,496 for the first year!)
-* Sign-on bonus (up to $25,000)
-* Malpractice coverage
-
-Community Benefits:
-* Charming, junior college community of 4,000
-* Located just 90 minutes west of Dallas/Fort Worth"""
 
 
 class JobAcceptEdit(UI):
@@ -23,28 +13,32 @@ class JobAcceptEdit(UI):
     Looks for the Reset button element on the screen; if it can see Reset,
     then the drawer dismissed as expected.
     """
-    job_number = '92094'
+    process = UI()
     JobPosts()
-    JobSearch(override={'value': job_number})
+    JobActiveHot()
+
+    process.wait()
+    res = find_white_rows(process)
+    if res['job_number'] is None:
+        ui.log.warning('{} :: job_number not available test case stopped!'.
+                       format(res['error_msg']))
+        process.teardown()
 
     runtime = {
         'subtitleText': "Rural Healthcare Central Texas",
-        'descText': job_details,
-        'edit': ('Click', '#edit_' + job_number,),
+        'edit': ('Click', '#edit_' + res['job_number'],),
         'subtitle': ('Type', '#jobs__job_board_subtitle', '&subtitleText;'),
-        'template': ('Select', '#template', 'Hospitalist'),
-        'description': ('TypeInCkeditor', '.cke_wysiwyg_frame', '&descText;'),
         'cancel': ('Click', '#edit-close', )
     }
     # expected = "Are you sure you want to lose your work?"
-    process = UI()
     process.update(runtime)
     order = ('edit', 'subtitle', 'cancel', )
     process.execute(order)
+
+    alert_message_text = 'Are you sure you want to lose your work?'
     alert_text = process.accept_alert()
-    # The Job Edit drawer should be gone and we're back to Manage Job Posts page
-    actual = process.is_available('css=#job-search-wrap>div:nth-child(3)>'
-                                  'div:nth-child(3)>button')
+    # The Job Edit drawer should be gone; we're back to Manage Job Posts page
+    actual = True if alert_message_text in alert_text else False
     process.compare(True, actual)
     process.wait()
     process.teardown()
