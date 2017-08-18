@@ -19,7 +19,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'none_to_ready_to_post'
+    debug = 'all'
 
     def setUp(self):
         self.process.get("jobs/search")

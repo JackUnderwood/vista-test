@@ -17,7 +17,7 @@ class AllJobSearch(unittest.TestCase):
     """
     ui.log.info(">> Inside AllJobSearch class")
     process = UI()
-    debug = 'job_status'
+    debug = 'all'
     test = None
 
     def setUp(self):
