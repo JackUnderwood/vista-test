@@ -141,6 +141,23 @@ def find_ready_approved_rows(process):
         return valid_ready_to_post.pop()
 
 
+def enter_job_number(process, job_number):
+    """
+    Do subroutine of resetting the search items, and search by a single job.
+    :param process: driver object
+    :param job_number: string - e.g. '97123'
+    :return: void
+    """
+    runtime = {
+            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
+            'job': ('Type', '#s_job_number', job_number),
+            'search': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[2]'),
+    }
+    process.update(runtime)
+    process.execute(('reset', 'job', 'search'))
+    process.wait()
+
+
 def get_row_numbers(process):
     trs = process.find_elements('//*[@id="result-target"]/tbody/tr')
     rows = [row.find_element_by_xpath('./td[1]').text for row in trs]
