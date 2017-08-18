@@ -1,4 +1,5 @@
-from tool.jobpost.helpers import find_rows, get_color
+from tool.jobpost.helpers import enter_job_number, get_color, find_white_rows
+import ui
 from ui import UI
 from ui.low.job_posts import JobPosts
 from ui.high.job_active_hot import JobActiveHot
@@ -15,30 +16,15 @@ class ReadyToPost(UI):
     JobPosts()
     JobActiveHot()
 
-    runtime = {
-        'expandAll': ('Click', '//*[@id="result-target"]/thead/tr[1]/td[3]/i[1]')
-    }
     process = UI()
-    process.update(runtime)
-    order = ['expandAll']
-    process.execute(order)
-    process.wait()
-    ready_to_post_locator = './td/div/div[3]/div[2]/div[5]/div/div/div[2]/strong'
-    rows = find_rows(process, 'expandable-row',
-                     ready_to_post_locator, 'innerHTML')
-
-    valid_rows = [r[0] for r in rows if 'No' in r]
-
-    if len(valid_rows) < 1:
-        process.compare(True, False, message="no valid rows available")
+    res = find_white_rows(process)
+    job_number = res['job_number']
+    if job_number is None:
+        ui.log.warning('FAILED: no job number available')
         process.teardown()
-    # A row's edit button location //*[@id="edit_97866"]
-    # ['expandable_97866', 'expandable_97861', ..., 'expandable_97852']
-    # Get the id value; everything to the right of the underscore.
-    # row_index = all_rows.index(row_job_number) + 1
-    row_id = valid_rows[0][valid_rows[0].find('_') + 1:]
-    edit_button_locator = "#edit_{}".format(row_id, )
-    process.update({
+
+    edit_button_locator = "#edit_{}".format(job_number, )
+    runtime = {
         'edit': ('Click', edit_button_locator, ),
         'subtitle': ('Type', '#jobs__job_board_subtitle', 'QA Subtitle Automate'),
         'template': ('Select',
@@ -48,18 +34,22 @@ class ReadyToPost(UI):
             'Click',
             '//*[@id="jobEdit"]/div[1]/div[2]/div[2]/div/div[1]/div[1]/label'),
         'save': ('Click', '#edit-save'),
-    })
+    }
+    process.update(runtime)
     expected = 'Job Saved'
     # If we do the template before the subtitle, then the Alert will not display.
-    order = ('edit', 'template', 'subtitle', 'readyToPost', 'save')
+    order = ('edit', 'template', 'subtitle', 'readyToPost', )
     process.execute(order)
     process.wait()
+    process.execute(('save', ))
+    process.wait()
     process.results(expected)
+    process.get('jobs/search')
+    process.wait()
+    enter_job_number(process, job_number)
 
     expected_color = '#cceeee'
-    id_rows = [row[0] for row in rows]
-    row_index = id_rows.index('expandable_{}'.format(row_id,))+1
-    locator = '//*[@id="result-target"]/tbody/tr[{}]'.format(row_index, )
+    locator = '//*[@id="result-target"]/tbody/tr[1]'
     rgb = process.get_css_property(locator, 'background-color')
     actual_color = get_color(rgb)
     process.compare(expected_color, actual_color,
