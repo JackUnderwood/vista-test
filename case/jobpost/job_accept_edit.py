@@ -2,7 +2,7 @@ import ui
 from ui import UI
 from ui.low.job_posts import JobPosts
 from ui.high.job_active_hot import JobActiveHot
-from tool.jobpost.helpers import find_white_rows
+from tool.jobpost.helpers import find_white_rows, enter_job_number
 
 __author__ = 'John Underwood'
 
@@ -19,18 +19,22 @@ class JobAcceptEdit(UI):
 
     process.wait()
     res = find_white_rows(process)
-    if res['job_number'] is None:
+    job_number = res['job_number']
+    if job_number is None:
         ui.log.warning('{} :: job_number not available test case stopped!'.
                        format(res['error_msg']))
         process.teardown()
 
     runtime = {
         'subtitleText': "Rural Healthcare Central Texas",
-        'edit': ('Click', '#edit_' + res['job_number'],),
+        'edit': ('Click', '#edit_' + job_number,),
         'subtitle': ('Type', '#jobs__job_board_subtitle', '&subtitleText;'),
         'cancel': ('Click', '#edit-close', )
     }
     # expected = "Are you sure you want to lose your work?"
+    process.scroll_to_top_of_page()
+    process.wait()
+    enter_job_number(process, job_number)
     process.update(runtime)
     order = ('edit', 'subtitle', 'cancel', )
     process.execute(order)
