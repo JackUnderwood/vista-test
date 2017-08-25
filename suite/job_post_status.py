@@ -7,6 +7,7 @@ from tool.generators.generator import gen_key
 from tool.jobpost.helpers import find_rows, get_color, get_row_numbers
 from tool.jobpost.helpers import find_white_rows, find_ready_approved_rows
 from tool.jobpost.helpers import check_valid
+from tool.jobpost.helpers import enter_job_number
 
 __author__ = 'John Underwood'
 
@@ -19,7 +20,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
     """
     ui.log.info(">> Inside TestSuiteJobPostStatus class")
     process = UI()
-    debug = 'all'
+    debug = 'ready_approved_to_rejected'
 
     def setUp(self):
         self.process.get("jobs/search")
@@ -104,9 +105,8 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                           '//*[@id="result-target"]/thead/tr[1]/td[3]/i[1]'),
         }
         self.process.update(runtime)
-        order = ('jobStatus', 'wait1', 'jobStatusActive', 'jobStatusHot',
-                 'clickAway', 'jobBoardStatus', 'wait2',
-                 'jobBoardStatusApprove',)
+        order = ('clickAway', 'jobBoardStatus', 'wait2',
+                 'jobBoardStatusApprove', )
         self.process.execute(order)
 
         job_number = self.find_ready_approved_rows()
@@ -120,12 +120,9 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                        'Incomplete description/add detail'),
             'confirm': ('Click', '#confirm-reject'),
             'save': ('Click', '#edit-save'),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
-            'job': ('Type', '#s_job_number', job_number),
-            'search': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[2]'),
         })
         self.process.scroll_to_top_of_page()
-        self.process.execute(('reset', 'job', 'search',))
+        enter_job_number(self.process, job_number)
         self.process.wait()
         self.process.execute(('edit', 'reject', 'reason', 'confirm', 'save', ))
         self.process.wait(6)
