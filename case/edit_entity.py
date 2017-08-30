@@ -37,8 +37,8 @@ class EditEntity(UI):
     expected = 'Saved information'
     process.update(runtime)
     order = ('editEntity', 'addressDescription', 'addressType',
-             'address', 'city', 'state', 'zipCode', 'emailType',
-             'save', )  # 'expectedError'
+             #  'address', 'city', 'state', 'zipCode',
+             'emailType', 'save', )  # 'expectedError'
     process.execute(order)
     validation_check = process.get_source()
     if "address check" in validation_check:

@@ -67,12 +67,11 @@ class AddProvider(UI):
     process = UI()
     process.update(runtime)
     order = ('find', 'addNewEntity', 'entityType', 'title', 'status',
-             'firstName', 'middleName', 'lastName', 'addressDesc',
-             'addressType', 'address1', 'city', 'state', 'zipcode',
+             'firstName', 'middleName', 'lastName',  'addressDesc',
+             'addressType',  # 'address1', 'city', 'state', 'zipcode',
              'email', 'emailType', 'phoneNumber', 'phoneType', 'ssn', 'save', )
     process.execute(order)
-    process.wait(2)
-    # TODO: add accept address verification dialog
+    process.wait()
     success = process.results('Saved information', locator='toast-container',
                               wait_time=8)
     if success:
