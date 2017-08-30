@@ -159,7 +159,8 @@ class RequirementInactive(UI):
         'showInactive': ('Click', '#show-inactive',),
         'edit': (
             'Click',
-            '//*[@id="stateLicenseRequirementsManage_grid"]/tbody/tr[1]/td[9]/a/i',)
+            '//*[@id="stateLicenseRequirementsManage_grid"]'
+            '/tbody/tr[1]/td[9]/a/i',)
     })
     process.execute(('state', 'credential', 'type', 'showInactive', ))
     process.wait()
