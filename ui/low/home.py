@@ -14,6 +14,6 @@ class Home(UI):
             'level': self.HOME,
             'home': ('Click', '//*[@id="slide-out"]/li[&level;]/a/i'),
         }
-        process = UI()
+        process = UI(override)
         process.update(runtime)
         process.execute(('home',))
