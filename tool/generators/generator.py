@@ -1,6 +1,7 @@
 import random
 import string
 import datetime
+import math
 
 from names import get_full_name
 from tool.generators.state_codes import get_random_area_code
@@ -108,19 +109,39 @@ def gen_key(range_size=12):
     :param range_size: integer - number of chars in string
     :return: a 12 character string - default 12
     """
+    assert range_size > 0, 'range_size must be greater than zero'
     return ''.join(random.choice(string.ascii_uppercase)
-                   for i in range(range_size))
+                   for _ in range(range_size))
 
 
-def gen_number(number):
+def gen_number(size):
     """
     Generate a number 0 through 'number'
-    :param number: integer in the form of a number or string
+    :param size: integer in the form of a number or string
     :return: number as type string, e.g. '42'
     """
-    base_length = len(str(number))
-    str_num = str(random.randrange(0, number, 1))
+    assert int(size) > 0, 'size must be greater than zero'
+    base_length = len(str(size))
+    str_num = str(random.randrange(0, size, 1))
     return num_pad(str_num, base_length)
+
+
+def gen_account_number(size=12):
+    """
+    Generate an account number with a mix of digits and
+    alpha chars-- three quarters of chars are digits
+    :param size: integer - account number size/length
+    :return: string - e.g. 'N2426A69'
+    """
+    assert size > 0, 'size must be greater than zero'
+    char_size = math.floor(size/4)
+
+    chars = list(string.ascii_uppercase)
+    random.shuffle(chars)
+    digits = [random.choice(string.digits) for _ in range(size-char_size)]
+    account_number = digits + chars[:char_size]
+    random.shuffle(account_number)
+    return ''.join(account_number)
 
 
 # ^*^*^*^*^ Private functions ^*^*^*^*^
