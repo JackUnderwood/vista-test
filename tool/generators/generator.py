@@ -134,7 +134,7 @@ def gen_account_number(size=12):
     :return: string - e.g. 'N2426A69'
     """
     assert size > 0, 'size must be greater than zero'
-    char_size = math.floor(size/4)
+    char_size = int(math.floor(size/4))
 
     chars = list(string.ascii_uppercase)
     random.shuffle(chars)
