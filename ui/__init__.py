@@ -12,7 +12,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 
 import tool.utilities as utils
-import book
+# import book
 from tool.vlog import VLog
 
 __author__ = 'John Underwood'
@@ -194,7 +194,6 @@ class UI:
         Do action of typing in a value inside the ckeditor
         :param locator: element location in DOM
         :param value: string - value to type into the element
-        :param char: string - special char that may not clear()
         :return: void
         """
         # Remove large string input for simpler logging.
@@ -393,18 +392,18 @@ class UI:
         wait_time = int(wait_time)  # will throw error if contains alpha chars
         _locator = locator  # default to element's id, e.g. 'toast-container'
         _by = By.ID
-        if locator[0] == "#":
+        if locator.startswith('#'):
             _locator = locator[1:]  # remove hash sign, e.g. '#toast-container'
             _by = By.ID
-        elif locator[0] == "/":
+        elif locator.startswith('/'):
             _by = By.XPATH
-        elif locator[0] == ".":
+        elif locator.startswith('.'):
             _locator = locator[1:]  # remove the full stop
             _by = By.CLASS_NAME
-        elif locator[0:3] == "css=":
+        elif locator.startswith('css='):
             _locator = locator[4:]
             _by = By.CSS_SELECTOR
-        elif locator[0] == '<':
+        elif locator.startswith('<'):
             _locator = locator[1:-1]  # remove gt and lt signs
             _by = By.TAG_NAME
         else:
@@ -446,16 +445,15 @@ class UI:
         the display of items that have dynamic id attribute,
         i.e. id="client_5568b9eecbc2e"
         """
-        first_element = locator[0]
         element = None
-        if first_element == '/':  # xpath
+        if locator.startswith('/'):  # xpath
             try:
                 element = self.driver.find_element_by_xpath(locator)
             except NoSuchElementException as nsee:
                 log.error('find_element: xpath exception: {}'.format(nsee, ))
             return element  # self.driver.find_element_by_xpath(elem)
 
-        elif first_element == '.':  # ".<class>"
+        elif locator.startswith('.'):  # ".<class>"
             _class = locator[1:]
             try:
                 element = self.driver.find_element_by_class_name(_class)
@@ -463,7 +461,7 @@ class UI:
                 log.error('find_element: xpath exception: {}'.format(nsee, ))
             return element
 
-        elif first_element == '#':  # "#<id>"
+        elif locator.startswith('#'):  # "#<id>"
             _id = locator[1:]
             try:
                 element = self.driver.find_element_by_id(_id)
@@ -471,7 +469,7 @@ class UI:
                 log.error('find_element: xpath exception: {}'.format(nsee, ))
             return element
 
-        elif first_element == '<':  # "<<tag>>"-special case that looks for many
+        elif locator.startswith('<'):  # "<<tag>>"--a case that looks for many
             # Returns the last element in the list; assumes the last element
             # is the desired element.
             _tag = locator[1:-1]
@@ -481,7 +479,7 @@ class UI:
                 log.error('find_element: xpath exception: {}'.format(nsee, ))
             return element
 
-        elif locator[:3] == 'css':  # "css=<target>"
+        elif locator.startswith('css'):  # "css=<target>"
             _css = locator[4:]
             try:
                 element = self.driver.find_element_by_css_selector(_css)
@@ -490,7 +488,7 @@ class UI:
                 log.error('find_element: xpath exception: {}'.format(nsee, ))
             return element
 
-        elif locator[:4] == 'name':  # "name=<target>"
+        elif locator.startswith('name'):  # "name=<target>"
             _name = locator[5:]
             try:
                 log.info("'Name' element: {0}".format(_name))
@@ -518,15 +516,14 @@ class UI:
         i.e. id="client_5568b9eecbc2e"
         """
         elements = []
-        first_element = locator[0]
-        if first_element == '/':  # xpath
+        if locator.startswith('/'):  # xpath
             try:
                 elements = self.driver.find_elements_by_xpath(locator)
             except NoSuchElementException as nsee:
                 log.error('find_elements: xpath exception: {}'.format(nsee, ))
             return elements
 
-        elif first_element == '.':  # ".<class>"
+        elif locator.startswith('.'):  # ".<class>"
             _class = locator[1:]
             try:
                 elements = self.driver.find_elements_by_class_name(_class)
@@ -534,7 +531,7 @@ class UI:
                 log.error('find_elements: xpath exception: {}'.format(nsee, ))
             return elements
 
-        elif first_element == '#':  # "#<id>"
+        elif locator.startswith('#'):  # "#<id>"
             _id = locator[1:]
             try:
                 elements = self.driver.find_elements_by_id(_id)
@@ -542,7 +539,7 @@ class UI:
                 log.error('find_elements: xpath exception: {}'.format(nsee, ))
             return elements
 
-        elif first_element == '<':  # "<<tag>>"-special case that looks for many
+        elif locator.startswith('<'):  # "<<tag>>"--a case that looks for many
             # Returns the last element in the list; assumes the last element
             # is the desired element.
             _tag = locator[1:-1]
@@ -552,7 +549,7 @@ class UI:
                 log.error('find_elements: xpath exception: {}'.format(nsee, ))
             return elements
 
-        elif locator[:3] == 'css':  # "css=<target>"
+        elif locator.startswith('css'):  # "css=<target>"
             _css = locator[4:]
             try:
                 elements = self.driver.find_elements_by_css_selector(_css)
@@ -561,7 +558,7 @@ class UI:
                 log.error('find_elements: xpath exception: {}'.format(nsee, ))
             return elements
 
-        elif locator[:4] == 'name':  # "name=<target>"
+        elif locator.startswith('name'):  # "name=<target>"
             _name = locator[5:]
             try:
                 elements = self.driver.find_elements_by_name(_name)
