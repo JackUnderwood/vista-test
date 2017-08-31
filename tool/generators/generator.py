@@ -83,7 +83,9 @@ def gen_ssn():
       of 0001 through 9998
     :return: string <social security number>
     """
-    area = _num_pad(random.randrange(1, 900), 3)
+    area_portion = [x for x in range(1, 666)] + [x for x in range(667, 900)]
+    random.shuffle(area_portion)
+    area = _num_pad(area_portion[0], 3)  # use the first element
     group = _num_pad(random.randrange(1, 100), 2)
     serial = _num_pad(random.randrange(1, 9999), 4)
     return area + '-' + group + '-' + serial
