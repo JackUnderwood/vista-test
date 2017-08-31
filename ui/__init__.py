@@ -250,14 +250,14 @@ class UI:
         self.check_for_new_window()
         element = self.find_element(locator)
 
-        log.info("Month:{}".format(first, ))
+        log.info("Month:{}".format(first,))
         element.send_keys(first)  # month OR hour
         self.wait(5)
-        log.info("Day:{}".format(second, ))
+        log.info("Day:{}".format(second,))
         element.send_keys("\t")
         element.send_keys(second)  # day OR minute
         self.wait(5)
-        log.info("Year:{}".format(third, ))
+        log.info("Year:{}".format(third,))
         element.send_keys("\t")
         element.send_keys(third)  # year OR period
 
@@ -301,7 +301,7 @@ class UI:
         :param locator: holds the xpath, id, class, or tag
         :return: None
         """
-        log.info("Hover Command - PATH: {0}".format(locator, ))
+        log.info("Hover Command - PATH: {0}".format(locator,))
         self.wait(2)  # critical wait --
         actions = ActionChains(self.driver)
         element = self.find_element(locator)
@@ -364,7 +364,7 @@ class UI:
             elif action == "move_to_element":
                 to_element = self.find_element(params['to_element'])
                 actions.move_to_element(to_element)
-            log.info("Chained action: {0}".format(action, ))
+            log.info("Chained action: {0}".format(action,))
         self.wait(1)
         actions.perform()
 
@@ -409,10 +409,10 @@ class UI:
         else:
             pass
 
-        log.info("Wait action: wait_for_element --> \"{0}\"".format(locator, ))
+        log.info("Wait action: wait_for_element --> \"{0}\"".format(locator,))
         try:
             wait = WebDriverWait(self.driver, wait_time)
-            _message = "Waiting for element: {}".format(_locator, )
+            _message = "Waiting for element: {}".format(_locator,)
             wait.until(_condition((_by, _locator)), message=_message)
         except TypeError as te:
             log.error(
@@ -428,7 +428,7 @@ class UI:
             wait.until(lambda x: title in self.driver.title)
         except TimeoutException as te:
             log.error(
-                'wait_for_title: Timeout exception: {}'.format(te, ))
+                'wait_for_title: Timeout exception: {}'.format(te,))
         finally:
             pass
 
@@ -450,7 +450,7 @@ class UI:
             try:
                 element = self.driver.find_element_by_xpath(locator)
             except NoSuchElementException as nsee:
-                log.error('find_element: xpath exception: {}'.format(nsee, ))
+                log.error('find_element: xpath exception: {}'.format(nsee,))
             return element  # self.driver.find_element_by_xpath(elem)
 
         elif locator.startswith('.'):  # ".<class>"
@@ -458,7 +458,7 @@ class UI:
             try:
                 element = self.driver.find_element_by_class_name(_class)
             except NoSuchElementException as nsee:
-                log.error('find_element: xpath exception: {}'.format(nsee, ))
+                log.error('find_element: xpath exception: {}'.format(nsee,))
             return element
 
         elif locator.startswith('#'):  # "#<id>"
@@ -466,7 +466,7 @@ class UI:
             try:
                 element = self.driver.find_element_by_id(_id)
             except NoSuchElementException as nsee:
-                log.error('find_element: xpath exception: {}'.format(nsee, ))
+                log.error('find_element: xpath exception: {}'.format(nsee,))
             return element
 
         elif locator.startswith('<'):  # "<<tag>>"--a case that looks for many
@@ -476,7 +476,7 @@ class UI:
             try:
                 element = self.driver.find_elements_by_tag_name(_tag)[-1]
             except NoSuchElementException as nsee:
-                log.error('find_element: xpath exception: {}'.format(nsee, ))
+                log.error('find_element: xpath exception: {}'.format(nsee,))
             return element
 
         elif locator.startswith('css'):  # "css=<target>"
@@ -485,7 +485,7 @@ class UI:
                 element = self.driver.find_element_by_css_selector(_css)
                 log.info("CSS element: {0}".format(_css))
             except NoSuchElementException as nsee:
-                log.error('find_element: xpath exception: {}'.format(nsee, ))
+                log.error('find_element: xpath exception: {}'.format(nsee,))
             return element
 
         elif locator.startswith('name'):  # "name=<target>"
@@ -494,7 +494,7 @@ class UI:
                 log.info("'Name' element: {0}".format(_name))
                 element = self.driver.find_element_by_name(_name)
             except NoSuchElementException as nsee:
-                log.error('find_element: xpath exception: {}'.format(nsee, ))
+                log.error('find_element: xpath exception: {}'.format(nsee,))
             return element
 
         else:
@@ -520,7 +520,7 @@ class UI:
             try:
                 elements = self.driver.find_elements_by_xpath(locator)
             except NoSuchElementException as nsee:
-                log.error('find_elements: xpath exception: {}'.format(nsee, ))
+                log.error('find_elements: xpath exception: {}'.format(nsee,))
             return elements
 
         elif locator.startswith('.'):  # ".<class>"
@@ -528,7 +528,7 @@ class UI:
             try:
                 elements = self.driver.find_elements_by_class_name(_class)
             except NoSuchElementException as nsee:
-                log.error('find_elements: xpath exception: {}'.format(nsee, ))
+                log.error('find_elements: xpath exception: {}'.format(nsee,))
             return elements
 
         elif locator.startswith('#'):  # "#<id>"
@@ -536,7 +536,7 @@ class UI:
             try:
                 elements = self.driver.find_elements_by_id(_id)
             except NoSuchElementException as nsee:
-                log.error('find_elements: xpath exception: {}'.format(nsee, ))
+                log.error('find_elements: xpath exception: {}'.format(nsee,))
             return elements
 
         elif locator.startswith('<'):  # "<<tag>>"--a case that looks for many
@@ -546,7 +546,7 @@ class UI:
             try:
                 elements = self.driver.find_elements_by_tag_name(_tag)[-1]
             except NoSuchElementException as nsee:
-                log.error('find_elements: xpath exception: {}'.format(nsee, ))
+                log.error('find_elements: xpath exception: {}'.format(nsee,))
             return elements
 
         elif locator.startswith('css'):  # "css=<target>"
@@ -555,7 +555,7 @@ class UI:
                 elements = self.driver.find_elements_by_css_selector(_css)
                 log.info("CSS element: {0}".format(_css))
             except NoSuchElementException as nsee:
-                log.error('find_elements: xpath exception: {}'.format(nsee, ))
+                log.error('find_elements: xpath exception: {}'.format(nsee,))
             return elements
 
         elif locator.startswith('name'):  # "name=<target>"
@@ -564,7 +564,7 @@ class UI:
                 elements = self.driver.find_elements_by_name(_name)
                 log.info("'Name' element: {0}".format(_name))
             except NoSuchElementException as nsee:
-                log.error('find_elements: xpath exception: {}'.format(nsee, ))
+                log.error('find_elements: xpath exception: {}'.format(nsee,))
             return elements
 
         else:
@@ -609,14 +609,14 @@ class UI:
             log.debug("check_override() is NONE")
             return
         for key in self.override:
-            log.debug("check_override() KEY: [{}]".format(key, ))
+            log.debug("check_override() KEY: [{}]".format(key,))
             if key in self.runtime:
                 # if type(self.override[key]) is str:
                 if isinstance(self.override[key], str):
                     # Replace the 'value' portion of the tuple
                     # Example: override = {'selectType': 'Doctorate Degree'}
                     log.debug("KEY is [{}] AND runtime[key]: {}".format(
-                        key, self.runtime[key], ))
+                        key, self.runtime[key],))
                     if len(self.runtime[key]) is tuple:  # value portion
                         self.runtime[key] = (self.runtime[key][0],  # action
                                              self.runtime[key][1],  # locator
@@ -650,7 +650,7 @@ class UI:
             # Look for placeholder key
             log.debug("------ ELEMENT: {}".format(replacer,))
             key = replacer[replacer.find('&') + 1: replacer.find(';')]
-            log.debug("-- REPLACE KEY: {}".format(key, ))
+            log.debug("-- REPLACE KEY: {}".format(key,))
             if key in self.runtime:
                 replacer = replacer.replace(
                     '&{};'.format(key,), self.runtime[key])
@@ -758,7 +758,7 @@ class UI:
             element = self.find_element(locator)
             element.click()
         except NoSuchElementException as nsee:
-            log.info("is_available() exception - {}".format(nsee, ))
+            log.info("is_available() exception - {}".format(nsee,))
             return False
         return True
 
