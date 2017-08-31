@@ -80,12 +80,11 @@ def gen_ssn():
       are excluded; includes positive integers from 001-665 667-899.
     - The group portion of ssn is 01 through 99.
     - The serial portion of ssn--last four digits--includes positive integers
-      of 0001 through 9999
+      of 0001 through 9998
     :return: string <social security number>
     """
     area = _num_pad(random.randrange(1, 900), 3)
-    g = lambda x: str(x) if x > 9 else '0{}'.format(x,)
-    group = g(random.randrange(1, 99))
+    group = _num_pad(random.randrange(1, 100), 2)
     serial = _num_pad(random.randrange(1, 9999), 4)
     return area + '-' + group + '-' + serial
 
@@ -122,12 +121,10 @@ def gen_number(size, padding=None):
     :return: string, e.g. '42'
     """
     assert int(size) > 0, 'size must be greater than zero'
-    num = str(random.randrange(1, size + 1, 1))
+    value = str(random.randrange(1, size + 1, 1))
     if padding is not None:
-        assert int(padding) > 0, 'padding must be greater than zero'
-        num = _num_pad(num, padding)
-
-    return num
+        value = _num_pad(value, padding)
+    return value
 
 
 def gen_account_number(size=12):
@@ -238,4 +235,5 @@ def _num_pad(num, width):
     num = str(num)
     padded_num = num.zfill(width)
     return padded_num
+
 
