@@ -49,12 +49,12 @@ def gen_phone_number(state_iso_code):
     """
     area_code = get_random_area_code(state_iso_code)
 
-    exchange = get_exchange_number()
+    exchange = _get_exchange_number()
     # The following should be a rare occurrence.
     while exchange[1] == '1' and exchange[2] == '1':
-        exchange = get_exchange_number()
+        exchange = _get_exchange_number()
 
-    subscriber_number = num_pad(random.randrange(0, 10000), 4)
+    subscriber_number = _num_pad(random.randrange(0, 10000), 4)
 
     return area_code + exchange + subscriber_number
 
@@ -83,10 +83,10 @@ def gen_ssn():
       of 0001 through 9999
     :return: string <social security number>
     """
-    area = num_pad(random.randrange(1, 900), 3)
+    area = _num_pad(random.randrange(1, 900), 3)
     g = lambda x: str(x) if x > 9 else '0{}'.format(x,)
     group = g(random.randrange(1, 99))
-    serial = num_pad(random.randrange(1, 9999), 4)
+    serial = _num_pad(random.randrange(1, 9999), 4)
     return area + '-' + group + '-' + serial
 
 
@@ -114,16 +114,20 @@ def gen_key(range_size=12):
                    for _ in range(range_size))
 
 
-def gen_number(size):
+def gen_number(size, padding=None):
     """
-    Generate a number 0 through 'number'
-    :param size: integer in the form of a number or string
-    :return: number as type string, e.g. '42'
+    Generate a number 1 through 'size'; may include left-zero padding.
+    :param size: integer
+    :param padding: integer - optional
+    :return: string, e.g. '42'
     """
     assert int(size) > 0, 'size must be greater than zero'
-    base_length = len(str(size))
-    str_num = str(random.randrange(0, size, 1))
-    return num_pad(str_num, base_length)
+    num = str(random.randrange(1, size + 1, 1))
+    if padding is not None:
+        assert int(padding) > 0, 'padding must be greater than zero'
+        num = _num_pad(num, padding)
+
+    return num
 
 
 def gen_account_number(size=12):
@@ -142,6 +146,30 @@ def gen_account_number(size=12):
     account_number = digits + chars[:char_size]
     random.shuffle(account_number)
     return ''.join(account_number)
+
+
+def split_name(full_name):
+    """
+    Split the full name into first and last
+    :param full_name: <full name>
+    :return: tuple of strings (<firstname>, <lastname>)
+    """
+    name_list = full_name.split(' ')
+    first_name, last_name = name_list[0], name_list[1]
+    return first_name, last_name
+
+
+def get_future_date(days=1, style='%m/%d/%Y'):
+    """
+    Get a date from today's date to number of days in the future
+    :param days: int
+    :param style: string
+    :return: string - '09/05/2017'
+    """
+    now = datetime.datetime.now()
+    diff = datetime.timedelta(days=days)
+    future = now + diff
+    return future.strftime(style)
 
 
 # ^*^*^*^*^ Private functions ^*^*^*^*^
@@ -194,46 +222,20 @@ def __zip_code():
 
 
 # ^*^*^*^*^ Helper functions ^*^*^*^*^
-def get_exchange_number():
-    return num_pad(random.randrange(200, 1000), 3)
+def _get_exchange_number():
+    return _num_pad(random.randrange(200, 1000), 3)
 
 
-def split_name(full_name):
-    """
-    Split the full name into first and last
-    :param full_name: <full name>
-    :return: tuple of strings (<firstname>, <lastname>)
-    """
-    name_list = full_name.split(' ')
-    first_name, last_name = name_list[0], name_list[1]
-    return first_name, last_name
-
-
-def num_pad(num, base_length):
+def _num_pad(num, width):
     """
     Pad a number with zeros
-    Example: num may be 42, and base_length is 5, then the return
+    Example: num may be 42, and width is 5, then the return
     value should be '00042'
     :param num: number or number as a string
-    :param base_length: integer
+    :param width: integer
     :return: a number as a string
     """
     num = str(num)
-    # while len(num) < base_length:
-    #     num = '0' + num
-    num = num.zfill(base_length)  # reduce the 'while' to this single line
-    return num
-
-
-def get_future_date(days=1, style='%m/%d/%Y'):
-    """
-    Get a date from today's date to number of days in the future
-    :param days: int
-    :param style: string
-    :return: string - '09/05/2017'
-    """
-    now = datetime.datetime.now()
-    diff = datetime.timedelta(days=days)
-    future = now + diff
-    return future.strftime(style)
+    padded_num = num.zfill(width)
+    return padded_num
 

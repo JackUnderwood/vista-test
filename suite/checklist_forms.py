@@ -4,6 +4,7 @@ import ui
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
+from tool.generators.generator import gen_number
 
 __author__ = 'John Underwood'
 NOTES = """Id vix minimum philosophia, pri clita lobortis inimicus ex. Qui
@@ -19,7 +20,7 @@ class TestSuiteChecklistForms(unittest.TestCase):
     ui.log.info(">> Inside TestSuiteChecklistForms class")
     process = UI()
     debug = 'all'  # use 'all'; or test individual case methods below
-    override = {'rowNum': '4'}
+    override = {'rowNum': gen_number(50)}
 
     def setUp(self):
         License()

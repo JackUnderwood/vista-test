@@ -10,7 +10,7 @@ class EditDirectory(UI):
     Regression test for story #104556112
     """
     username = get_configurations("USER", "name")
-    birth_day = gen_number(29)
+    birth_day = gen_number(29, padding=2)
     runtime = {
         'directory': ('Click', '#button_employee_directory'),
         'username': (
