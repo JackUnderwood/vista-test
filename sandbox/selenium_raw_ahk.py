@@ -63,8 +63,8 @@ time.sleep(2)
 
 # https://sjohannes.wordpress.com/2012/03/23/win32-python-getting-all-window-titles/
 # EnumWindows = ctypes.windll.user32.EnumWindows
-# EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.POINTER(ctypes.c_int),
-#                                      ctypes.POINTER(ctypes.c_int))
+# EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool,
+# ctypes.POINTER(ctypes.c_int),ctypes.POINTER(ctypes.c_int))
 # GetWindowText = ctypes.windll.user32.GetWindowTextW
 # GetWindowTextLength = ctypes.windll.user32.GetWindowTextLengthW
 # IsWindowVisible = ctypes.windll.user32.IsWindowVisible

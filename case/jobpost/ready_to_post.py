@@ -26,7 +26,8 @@ class ReadyToPost(UI):
     edit_button_locator = "#edit_{}".format(job_number, )
     runtime = {
         'edit': ('Click', edit_button_locator, ),
-        'subtitle': ('Type', '#jobs__job_board_subtitle', 'QA Subtitle Automate'),
+        'subtitle': ('Type', '#jobs__job_board_subtitle',
+                     'QA Subtitle Automate'),
         'template': ('Select',
                      '#JobDescriptionTemplates__job_description_template_id',
                      'Cardiology'),

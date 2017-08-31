@@ -21,7 +21,8 @@ class AddChecklistNote(UI):
             'TypeAndTab',
             '//*[@id="checklist-form-container"]/div[3]/div[2]/input', ''),
         'save': ('Click', '//*[@id="checklist-form-container"]/div[3]/div[6]/a'),
-        'wait': ('Wait', '#scratch-pad', {'condition': 'element_to_be_clickable'})
+        'wait': ('Wait', '#scratch-pad',
+                 {'condition': 'element_to_be_clickable'})
     }
     expected = 'Saved'
     process = UI()

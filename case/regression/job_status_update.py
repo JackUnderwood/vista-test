@@ -61,7 +61,8 @@ class JobStatusUpdate(UI):
                          'Allergy'),
             'ready': (
                 'Click',
-                '//*[@id="jobEdit"]/div[1]/div[2]/div[2]/div/div[1]/div[1]/label'),
+                '//*[@id="jobEdit"]/div[1]/div[2]/div[2]/div/div[1]'
+                '/div[1]/label'),
             'save': ('Click', '#edit-save')
         }
         process.update(runtime)

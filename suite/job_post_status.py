@@ -98,7 +98,8 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                                         'ui-state-default.ui-corner-all.multi_s.'
                                         'multi_s_job_board_status'),
             'wait2': ('Wait', '#ui-multiselect-s_job_board_status-option-1',
-                      {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
+                      {'condition': 'element_to_be_clickable',
+                       'wait_time': '2'}),
             'jobBoardStatusApprove': (
                 'Click', '#ui-multiselect-s_job_board_status-option-1'),
             'expandAll': ('Click',
@@ -156,7 +157,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         6 Click the job's edit button
         7 Click Ready to Post check box to select
         8 Check for required fields alert box
-        9 Fill in the required fields, i.e. subtitle, and internal/ext descriptions
+        9 Fill in the required fields, i.e. subtitle, and int/ext descriptions
         10 Click Ready to Post check box to select
         11 Click Rejected check box to deselect
         12 Click Save
@@ -220,7 +221,8 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             'reject': ('Click',
                        '//*[@for="job_board_rejection_history__is_rejected"]'),
             'save': ('Click', '#edit-save'),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
+            'reset': ('Click',
+                      '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'entry': ('Type', '#s_job_number', job_number),
             'refresh': ('Click',
                         '//*[@id="job-search-wrap"]/div[3]/div[2]/button')
@@ -270,7 +272,8 @@ class TestSuiteJobPostStatus(unittest.TestCase):
             'edit': ('Click', '#edit_' + job_number,),
             'ready': ('Click',
                       '//*[@for="job_board_post_status__is_ready_to_post"]'),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
+            'reset': ('Click',
+                      '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'entry': ('Type', '#s_job_number', job_number),
             'refresh': ('Click',
                         '//*[@id="job-search-wrap"]/div[3]/div[2]/button')
@@ -354,7 +357,8 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                 '#JobDescriptionTemplates__job_description_template_id',
                 'Allergy'
             ),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
+            'reset': ('Click',
+                      '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'job': ('Type', '#s_job_number', job_number),
             'search': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[2]'),
             'approve': ('Click', '//*[@for="jobs__show_on_job_board"]'),
@@ -428,7 +432,8 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                 '#job_board_post_status__job_board_post_status_reasons_id',
                 'Job is a duplicate'),
             'save': ('Click', '#edit-save'),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
+            'reset': ('Click',
+                      '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'job': ('Type', '#s_job_number', job_number),
             'search': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[2]')
         })
@@ -467,7 +472,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
          class=" nopost"
          background #fdb
         """
-        ui.log.info(">>> Inside function test_none_to_reason_not_to_post_other()")
+        ui.log.info(">>> Inside func test_none_to_reason_not_to_post_other()")
         JobActiveHot()
         self.process.wait()
         job_number = self.find_white_rows()
@@ -484,7 +489,8 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                 '#job_board_post_status__job_board_status_explanation',
                 'QA reason not to post {}'.format(random_value, )),
             'save': ('Click', '#edit-save'),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
+            'reset': ('Click',
+                      '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'job': ('Type', '#s_job_number', job_number),
             'search': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[2]')
         })
@@ -650,7 +656,8 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                 '#JobDescriptionTemplates__job_description_template_id',
                 'Allergy'
             ),
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
+            'reset': ('Click',
+                      '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'entry': ('Type', '#s_job_number', job_number),
             'refresh': ('Click',
                         '//*[@id="job-search-wrap"]/div[3]/div[2]/button')

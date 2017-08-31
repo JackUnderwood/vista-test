@@ -44,8 +44,10 @@ class TestSuiteJobPostAdvanced(unittest.TestCase):
                 'EMR Types'),
             'option': ('Select', '//*[@id="adv-seach-prime"]/div/div[4]/select',
                        'Cerner'),
-            'search': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[2]/button'),
-            'expand': ('Click', '//*[@id="result-target"]/thead/tr[1]/td[3]/i[1]'),
+            'search': ('Click',
+                       '//*[@id="job-search-wrap"]/div[3]/div[2]/button'),
+            'expand': ('Click',
+                       '//*[@id="result-target"]/thead/tr[1]/td[3]/i[1]'),
         }
         self.process.update(runtime)
         self.process.execute(('group', 'option', 'search', ))

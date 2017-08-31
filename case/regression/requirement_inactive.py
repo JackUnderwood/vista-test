@@ -146,15 +146,18 @@ class RequirementInactive(UI):
     process.update({
         'state': (
             'Type',
-            '//*[@id="stateLicenseRequirementsManage_grid"]/tfoot/tr/th[3]/input',
+            '//*[@id="stateLicenseRequirementsManage_grid"]/tfoot/tr'
+            '/th[3]/input',
             license['state']),
         'credential': (
             'Type',
-            '//*[@id="stateLicenseRequirementsManage_grid"]/tfoot/tr/th[4]/input',
+            '//*[@id="stateLicenseRequirementsManage_grid"]/tfoot/tr'
+            '/th[4]/input',
             license['credential']),
         'type': (
             'Type',
-            '//*[@id="stateLicenseRequirementsManage_grid"]/tfoot/tr/th[5]/input',
+            '//*[@id="stateLicenseRequirementsManage_grid"]/tfoot/tr'
+            '/th[5]/input',
             license['type']),
         'showInactive': ('Click', '#show-inactive',),
         'edit': (

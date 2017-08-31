@@ -237,7 +237,8 @@ class BvtRibbon(unittest.TestCase):
                 'Click',
                 '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[2]/a[2]/span'
             ),
-            'close': ('Click', '//*[@id="malpracticeGrid_form_drawer"]/div[4]/a'),
+            'close': ('Click',
+                      '//*[@id="malpracticeGrid_form_drawer"]/div[4]/a'),
         }
         expected = ') Malpractice Claims &amp; Carriers'
         self.process.update(self.runtime)
@@ -277,7 +278,8 @@ class BvtRibbon(unittest.TestCase):
                 'Click',
                 '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[2]/a[4]/span'
             ),
-            'close': ('Click', '//*[@id="examinationGrid_form_drawer"]/div[3]/a'),
+            'close': ('Click',
+                      '//*[@id="examinationGrid_form_drawer"]/div[3]/a'),
         }
         expected = ') Examinations'
         self.process.update(self.runtime)

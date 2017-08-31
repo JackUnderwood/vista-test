@@ -13,7 +13,8 @@ class UserSecret(UI):
         runtime = {
             'role': 'Angie King',  # OVERRIDE
             'roleId': '1001',  # OVERRIDE
-            'userSecret': ('Click', '/html/body/header/nav/div/ul[2]/li[5]/a/i',),
+            'userSecret': ('Click',
+                           '/html/body/header/nav/div/ul[2]/li[5]/a/i',),
             'find': ('Type', '#change-user-user_key_id_desc', '&role;'),
             'select': ('Click', '//*[@item_id="&roleId;"]')
         }

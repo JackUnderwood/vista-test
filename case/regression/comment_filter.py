@@ -26,7 +26,8 @@ class CommentFilter(UI):
     process.execute(('manage',))
     entry = process.spy('//*[@id="commentsGrid_grid"]/tbody/tr[1]/td[6]',
                         'innerHTML')
-    expected = process.spy('//*[@id="commentsGrid_grid"]/tbody/tr/td', 'innerHTML')
+    expected = process.spy('//*[@id="commentsGrid_grid"]/tbody/tr/td',
+                           'innerHTML')
     process.update({
         'username': ('Type', '//*[@id="commentsGrid_grid"]/tfoot/tr/th[6]/input',
                      entry)

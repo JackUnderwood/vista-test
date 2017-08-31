@@ -149,7 +149,8 @@ def enter_job_number(process, job_number):
     :return: void
     """
     runtime = {
-            'reset': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
+            'reset': ('Click',
+                      '//*[@id="job-search-wrap"]/div[3]/div[3]/button'),
             'job': ('Type', '#s_job_number', job_number),
             'search': ('Click', '//*[@id="job-search-wrap"]/div[3]/div[2]'),
     }

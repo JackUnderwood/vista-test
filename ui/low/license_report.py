@@ -18,8 +18,9 @@ class LicenseReport(UI):
                         '//*[@id="slide-out"]/li[&level;]/ul/li/a/i[1]'}),
                 ('click', {
                     'on_element':
-                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[2]/a'}), ]),
+                        '//*[@id="slide-out"]/li[&level;]/ul/li/div/ul/li[2]/a'}
+                 ), ]),
         }
         process = UI(override)
         process.update(runtime)
-        process.execute(('hover', 'report', ))
+        process.execute(('hover', 'report',))
