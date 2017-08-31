@@ -28,7 +28,7 @@ class AddChecklistFee(UI):
     process.execute(order)
     process.wait()
     temp = process.spy('#cklr_0', 'checked')  # determine if item is checked
-    if temp != "None":
+    if temp is not None:
         # This req has been check; we need to un-check it.
         order = ('check', )
         process.execute(order)

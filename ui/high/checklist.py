@@ -1,5 +1,5 @@
-import ui
 from ui import UI
+from tool.generators.generator import gen_number
 __author__ = 'John Underwood'
 
 
@@ -14,9 +14,10 @@ class Checklist(UI):
 
     def __init__(self, override=None):
         super().__init__()
+        row = gen_number(50)
 
         runtime = {
-            'rowNum': '1',
+            'rowNum': row,
             'showAll': ("Chain", [
                 ('click', {
                     'on_element':

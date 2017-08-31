@@ -720,7 +720,7 @@ class UI:
         locator = self.check_for_placeholder(locator)
         try:
             element = self.find_element(locator)
-            attribute = str(element.get_attribute(attribute_name))
+            attribute = element.get_attribute(attribute_name)
         except NoSuchElementException as nsee:
             log.warning(msg='spy element is not available::{}'.format(nsee,))
         except AttributeError as ae:
