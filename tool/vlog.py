@@ -1,4 +1,3 @@
-__author__ = 'John Underwood'
 import logging
 import datetime
 import time
@@ -7,6 +6,8 @@ from colorama import init, Fore, Back
 from selenium.webdriver.remote.remote_connection import LOGGER
 
 import tool.utilities as utils
+
+__author__ = 'John Underwood'
 
 
 class VLog(logging.Logger):

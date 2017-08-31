@@ -64,7 +64,7 @@ class UI:
 
     chrome_options = Options()
     # chrome_options.add_argument("--start-maximized")
-    chrome_options.add_argument("window-size=1280,1024") # 1280x1024 standard res
+    chrome_options.add_argument("window-size=1280,1024")  # 1280x1024 resolution
     chrome_options.add_argument("--disable-extensions")  # developer extensions
     # TODO: disable hardware acceleration setting - this doesn't work
     chrome_options.add_argument("--disable-gpu")
@@ -163,7 +163,7 @@ class UI:
         element = self.find_element(locator)
         element.click()
 
-    def type(self, locator, value, char='$', **kwargs):
+    def type(self, locator, value, char='$'):
         """
         Do action of typing (typewrite) in a value
         :param locator: element location in DOM
@@ -383,7 +383,8 @@ class UI:
         wait_time = value.pop('wait_time', 5)
         condition = value.pop('condition', 'presence_of_element_located')
         if value:  # all possible keys should be used at this point
-            raise TypeError("Unsupported configuration options {}".format(value,))
+            raise TypeError("Unsupported configuration options {}".
+                            format(value,))
 
         _condition = self.get_expected_condition(condition)
         if _condition is None:

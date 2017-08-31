@@ -1,10 +1,10 @@
 #! python
-import re
+# import re
 import time
-import html
+# import html
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
+# from selenium.webdriver.common.by import By
 
 
 __author__ = 'John Underwood'

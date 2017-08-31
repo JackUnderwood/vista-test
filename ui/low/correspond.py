@@ -1,3 +1,5 @@
+from ui import UI
+from tool.vlog import VLog
 __author__ = 'John Underwood'
 """
 This file is out-of-date as of 4/30/2015
@@ -8,8 +10,6 @@ Sample of the Chain:
     ('click', {'on_element': '//*[@id="slide-out"]/li[3]/ul/li)
 ]),
 """
-from ui import UI
-from tool.vlog import VLog
 
 
 class Correspond(UI):

@@ -1,7 +1,7 @@
-__author__ = 'John Underwood'
 import unittest
 
 import sandbox.splitter as splitter
+__author__ = 'John Underwood'
 
 
 # Unit Test
@@ -45,6 +45,6 @@ class TestSplitFunction(unittest.TestCase):
         self.assertEqual(r, ['GOOG', 100, 490.9])
 
 if __name__ is '__main__':
-    module = __import__('__main__')
-    print("\r---- {}".format(module, ))
+    mod = __import__('__main__')
+    print("\r---- {}".format(mod, ))
     unittest.main()

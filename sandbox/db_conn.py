@@ -1,8 +1,8 @@
-import pymssql
-import configparser
+# import pymssql
+# import configparser
 
-import book
-from tool.utilities import CONFIG_FILE
+# import book
+# from tool.utilities import CONFIG_FILE
 from tool.db import get_record
 
 """
@@ -13,7 +13,7 @@ to a new location.
 
 __author__ = 'John Underwood'
 
-sql = "SELECT * FROM name_list WHERE entity_id_number={}".format('778784')
+sql = "SELECT * FROM name_list WHERE entity_id_number={}".format('778784',)
 
 row = get_record(sql)
 print(row[0])

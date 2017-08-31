@@ -1,6 +1,6 @@
 #! python
-__author__ = 'John Underwood'
 import argparse
+__author__ = 'John Underwood'
 
 parser = argparse.ArgumentParser()
 parser.add_argument("path", help="provides path to test case or suite", type=str)

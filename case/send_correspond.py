@@ -26,6 +26,7 @@ class SendCorrespond(UI):
     """.format(email, )
     assert isinstance(sql, str)
     record = get_record(sql)
+    item_id = None
     try:
         item_id = record[0][0]
     except IndexError as ie:

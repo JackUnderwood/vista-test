@@ -1,5 +1,5 @@
-__author__ = 'John Underwood'
 from ui import UI
+__author__ = 'John Underwood'
 
 
 class ExpandRibbon(UI):

@@ -535,7 +535,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                                         'ui-state-default.ui-corner-all.multi_s.'
                                         'multi_s_job_board_status'),
             'wait': ('Wait', '#ui-multiselect-s_job_board_status-option-1',
-                      {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
+                     {'condition': 'element_to_be_clickable', 'wait_time': '2'}),
             'jobBoardStatusNoPost': (
                 'Click', '#ui-multiselect-s_job_board_status-option-3'),
             'expand': ('Click', '//*[@id="result-target"]/tbody/tr[1]')

@@ -1,6 +1,6 @@
 from ui import UI
 from tool.utilities import get_configurations, get_random_value
-from tool.generators.state_codes import FIFTY_STATES, get_state_iso_codes
+from tool.generators.state_codes import FIFTY_STATES
 
 __author__ = 'John Underwood'
 

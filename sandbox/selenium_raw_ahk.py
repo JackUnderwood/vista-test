@@ -1,6 +1,6 @@
 #! python
 import time
-import ctypes
+# import ctypes
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
