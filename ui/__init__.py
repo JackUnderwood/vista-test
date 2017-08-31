@@ -611,7 +611,8 @@ class UI:
         for key in self.override:
             log.debug("check_override() KEY: [{}]".format(key, ))
             if key in self.runtime:
-                if type(self.override[key]) is str:
+                # if type(self.override[key]) is str:
+                if isinstance(self.override[key], str):
                     # Replace the 'value' portion of the tuple
                     # Example: override = {'selectType': 'Doctorate Degree'}
                     log.debug("KEY is [{}] AND runtime[key]: {}".format(
@@ -622,7 +623,8 @@ class UI:
                                              self.override[key])    # value
                     else:
                         self.runtime[key] = self.override[key]  # placeholder
-                elif type(self.override[key]) is tuple:
+                # elif type(self.override[key]) is tuple:
+                elif isinstance(self.override[key], tuple):
                     self.runtime[key] = self.override[key]
                 elif self.override[key] is None or self.override[key] == '':
                     # For this situation: override = {'showAll': None}
