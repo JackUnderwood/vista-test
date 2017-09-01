@@ -9,7 +9,7 @@ class EditEntity(UI):
     TODO: Need to check for address validation
     """
     License()
-    Checklist({'rowNum': '6'})
+    Checklist()
 
     runtime = {
         'editEntity': (

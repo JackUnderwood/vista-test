@@ -8,7 +8,7 @@ class AddExperience(UI):
         JNU note: Use name as a target - see 'description' key
     """
     License()
-    Checklist(override={'rowNum': '10'})
+    Checklist()
 
     runtime = {
         'experience': ('Click', '//*[@id="content"]/div[2]/div[1]/ul/li[2]/a'),

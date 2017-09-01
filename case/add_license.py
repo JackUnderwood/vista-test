@@ -8,7 +8,7 @@ __author__ = 'John Underwood'
 
 class AddLicense(UI):
     License()
-    Checklist(override={'rowNum': '14'})
+    Checklist()
 
     license_number = gen_account_number(size=10)
 
