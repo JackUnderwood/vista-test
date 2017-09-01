@@ -1,3 +1,4 @@
+import ui
 from ui import UI
 from tool.generators.generator import gen_number
 __author__ = 'John Underwood'
@@ -37,6 +38,8 @@ class Checklist(UI):
         self.entity = process.spy(
             '//*[@id="licenseRequestsGrid_grid"]/tbody/'
             'tr[{0}]/td[4]/a'.format(row, ), 'innerHTML')
+        ui.log.info("Grid's row number: {}".format(row,))
+        ui.log.info('Provider name: {}'.format(self.entity,))
 
         process.update(runtime)
         order = ('provider', )
