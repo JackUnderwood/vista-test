@@ -46,7 +46,7 @@ elif log_level == 'CRITICAL':
     log_level_value = VLog.CRITICAL
 print(" LOG LEVEL is {}".format(log_level_value, ))
 
-# log = VLog(name="vtf", level=log_level_value, log_name="VTF")
+log = VLog(name="vtf", level=log_level_value, log_name="VTF")
 # log.debug("Testing debug...")  # this displays if log_level == 10
 # log.info("Testing info...")
 # log.trace("Testing trace...")
