@@ -82,6 +82,7 @@ class UI:
     assert "INDY" in driver.title
 
     max_size = int(utils.get_configurations("LOGGING", "max_string_size"))
+    log_path = utils.get_configurations("LOGGING", "log_path")
     UNKNOWN = ("Unknown", "Unknown", "Unknown")  # (action, locator, value)
 
     runtime = {}
@@ -815,6 +816,15 @@ class UI:
         :param url: string - in the form of a url
         """
         self.driver.get(url)
+
+    def snapshot(self, filename):
+        """
+        Save a snapshot of the browser's current state.
+        :param filename: string - file path, e.g. "snap1.png"
+        :return: None
+        """
+        full_log_path = self.log_path + filename
+        self.driver.save_screenshot(full_log_path)
 
     def teardown(self):
         """
