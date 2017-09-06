@@ -12,24 +12,26 @@ class FileUpload(UI):
     """
     License()
     Checklist()
+    file_path = 'C:\Projects_QA\_files_for_testing\CVDianaSunday.pdf'
 
     runtime = {
         'examinations': (
-            'Click', 'css=#content>div.row>div.col.s3>ul>div>a:nth-child(3)'),
+            'Click', '//*[@id="content"]/div[2]/div[1]/ul/li[4]/a'),
         'malpractice': (
-            'Click', 'css=#ribbon_form>ul>li>div.collapsible-body>'
-                     'div:nth-child(5)>div.col.s6.right-buttons.right-align>'
-                     'a:nth-child(2)>span'),
-        'fileCloud': ('Click', 'css=#experienceUpload>div>div.FWUploadDropZone>'
-                               'i.fa-stack.fa.fa-cloud-upload')
+            'Click',
+            '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[2]/a[2]/span'),
+        'fileCloud': ('Upload',
+                      '//*[@id="experienceUpload"]/div/div[2]/input[1]',
+                      'C:\Projects_QA\_files_for_testing\CallReport.pdf')
 
     }
-    expected = "foobar"
+    expected = "Upload Successful"
     process = UI()
     process.update(runtime)
     order = ('examinations', 'malpractice', 'fileCloud', )
     process.execute(order)
     process.wait(3)
-    # process.results(expected)
-    # process.teardown()
+    process.results(expected)
+    process.wait()
+    process.teardown()
 
