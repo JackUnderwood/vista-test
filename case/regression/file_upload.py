@@ -21,8 +21,7 @@ class FileUpload(UI):
             '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[2]/a[2]/span'),
         'fileCloud': ('Upload',
                       '//*[@id="experienceUpload"]/div/div[2]/input[1]',
-                      'C:\Projects_QA\_files_for_testing\CallReport.pdf')
-
+                      file_path)
     }
     expected = "Upload Successful"
     process = UI()
