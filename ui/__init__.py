@@ -140,6 +140,8 @@ class UI:
             self.find(locator, value)
         elif command == "Select":
             self.select(locator, value)
+        elif command == "Upload":
+            self.upload(locator, value)
         elif command == "Hover":
             self.hover(locator)
         elif command == "Wait":
@@ -293,6 +295,19 @@ class UI:
         else:
             select.select_by_visible_text(value)
         self.wait()
+
+    def upload(self, locator, value):
+        """
+        See http://www.seleniumstutorial.com/
+        uploading-a-file-in-selenium-with-python/
+        :param locator: string - holds the xpath, id, or class, e.g. 'fileupload'
+        :param value: string - file's path on local drive, e.g. 'c:/tmp/file.txt'
+        :return: None
+        """
+        log.info("Upload Command - LOCATOR: {0} - VALUE: \'{1}\'"
+                 .format(locator, value))
+        element = self.find_element(locator)
+        element.send_keys(value)
 
     def hover(self, locator):
         """
