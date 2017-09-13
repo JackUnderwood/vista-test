@@ -3,7 +3,7 @@ from ui import UI
 __author__ = 'John Underwood'
 
 
-class JobAdvanced(UI):
+class JobPostAdvanced(UI):
     """
     Click the "Advanced +" button.
     """
