@@ -83,7 +83,7 @@ class TestSuiteJobPostAdvanced(unittest.TestCase):
             'options': ('Click',
                         '//*[@id="adv-seach-prime"]/div/div[4]/button',),
             'uncheck': ('Click', '/html/body/div[15]/div/ul/li[2]/a'),
-            'option1': ('Click', '#uzi-multiselect-0-option-13',),
+            'option1': ('Click', '#ui-multiselect-0-option-13',),
             'option2': ('Click', '#ui-multiselect-0-option-59',),
             'search': ('Click',
                        '//*[@id="job-search-wrap"]/div[3]/div[2]/button'),
