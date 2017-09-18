@@ -9,7 +9,7 @@ __author__ = 'John Underwood'
 
 class TestSuiteJobPostAdvanced(unittest.TestCase):
     """
-    This suite uses the Advanced search feature.
+    This suite tests the Advanced search feature inside Manage Job Posts page.
     """
     ui.log.info(">> Inside TestSuiteJobPostAdvanced class")
     process = UI()
