@@ -205,7 +205,8 @@ class BvtBasic(unittest.TestCase):
         ui.log.info('>>> Inside function test_license() landing page')
         from ui.low.license import License
         License()
-        expected = 'License Request'
+        self.process.wait()
+        expected = 'License Requests'
         result = self.process.results(expected)
         self.assertTrue(result, msg=expected)
 
