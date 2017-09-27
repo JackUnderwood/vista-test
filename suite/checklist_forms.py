@@ -4,7 +4,6 @@ import ui
 from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
-from tool.generators.generator import gen_number
 
 __author__ = 'John Underwood'
 NOTES = """Id vix minimum philosophia, pri clita lobortis inimicus ex. Qui
@@ -20,12 +19,11 @@ class TestSuiteChecklistForms(unittest.TestCase):
     ui.log.info(">> Inside TestSuiteChecklistForms class")
     process = UI()
     debug = 'all'  # use 'all'; or test individual case methods below
-    override = {'rowNum': gen_number(50)}
 
     def setUp(self):
         License()
-        self.process.wait(3)
-        Checklist(self.override)
+        self.process.wait()
+        Checklist()
         self.process.wait(3)  # delay so ribbon has time to display
 
     def tearDown(self):
