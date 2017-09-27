@@ -105,7 +105,6 @@ if path.find('suite') is not -1:
         mod = __import__(path, globals(), locals(), ['suite'])
         suite_function = getattr(mod, 'suite')
         suite.addTest(suite_function)
-        print("The 'try:' was successful")
     except (ImportError, AttributeError):
         suite.addTest(unittest.defaultTestLoader.loadTestsFromName(path))
     unittest.TextTestRunner().run(suite)  # RUN the suite
