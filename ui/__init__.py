@@ -82,7 +82,7 @@ class UI:
     assert "INDY" in driver.title
 
     max_size = int(utils.get_configurations("LOGGING", "max_string_size"))
-    log_path = utils.get_configurations("LOGGING", "log_path")
+    log_path = utils.get_configurations("DEFAULT", "log_path")
     UNKNOWN = ("Unknown", "Unknown", "Unknown")  # (action, locator, value)
 
     runtime = {}
