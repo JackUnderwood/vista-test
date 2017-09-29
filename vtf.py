@@ -29,7 +29,6 @@ parser.add_argument("-g", "--log_level",  type=str, help="sets the log level")
 args = parser.parse_args()
 
 # ^*^*^*^*^*^* Set up the logging *^*^*^*^*^*^
-log = None
 log_level = utils.get_configurations("LOGGING", "log_level")
 
 if args.log_level:
