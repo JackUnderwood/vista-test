@@ -31,8 +31,8 @@ class JobICtrlOutputStyle(UI):
     sql = """
         SELECT multiselect_output_divider
         FROM job_description_controls
-        WHERE job_description_control_id = {}
-    """.format(job_description_control_id)
+        WHERE job_description_control_id = '%s'
+    """ % job_description_control_id
 
     record = get_record(sql)
     multiselect_output_divider = record[0][0]
