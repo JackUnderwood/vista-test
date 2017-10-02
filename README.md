@@ -26,9 +26,9 @@ The following files are located at the root level of the test folder.
 >```
 >pip install -U selenium
 >```
-> - colorama - used by logging; debug adds coloration to different debug levels.
-> - names - mandatory package for generating names in several of the test cases.
-> - pip - useful to install and update these packages
+> - colorama - used by logging's wrapper class, e.g. Vlog(); debug adds coloration to different debug levels.
+> - names - mandatory package for generating names; used in several test cases—see tool/generators/generator.py
+> - pip - useful to install, and update these packages
 > - pymssql - mandatory package for access to our MS SQL database
 
 #### 3rd Party Tools
