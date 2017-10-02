@@ -24,8 +24,8 @@ The following files are located at the root level of the test folder.
 
 > - selenium - download the current selenium web driver for Chrome; use the Python version found at http://www.seleniumhq.org/download/ If you have pip and Git Bash installed, then you can simply do ...
 >```
-pip install -U selenium
-```
+>pip install -U selenium
+>```
 > - colorama - used by logging; debug adds coloration to different debug levels.
 > - names - mandatory package for generating names in several of the test cases.
 > - pip - useful to install and update these packages
