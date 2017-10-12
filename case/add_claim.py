@@ -4,13 +4,14 @@ from ui.high.checklist import Checklist
 
 __author__ = 'John Underwood'
 
-NOTES = """Id vix minimum philosophia, pri clita lobortis inimicus ex. Qui
-decore nusquam id. Eum modo electram deseruisse no, eos at clita menandri.
-Vel alii cetero saperet in, mea te erant causae labitur, liber partiendo
-est et.  Et vix malis intellegat consectetuer, mel regione democritum id, cum
-delicata iracundia ea. Pro cu saepe eligendi dissentias, detraxit evertitur in
-eos. Nonumes suscipit scaevola duo te, eam quot facer constituto cu, ex causae
-utamur inimicus mei."""
+NOTES = """In computer programming, a placeholder is a character, word, or 
+string of characters that may be used to take up space until such a time that 
+the space is needed. For example, a programmer may know that He needs a certain 
+number of values or variables, but doesn't yet know what to input. He can use 
+a placeholder as a temporary solution until a proper value or variable can be 
+assigned. For example, the designer of an online newsletter may have a template 
+that they fill with dummy text so they can get an idea of how to layout a page 
+looks. One of the most common filler texts is lorem ipsum."""
 
 
 class AddClaim(UI):
