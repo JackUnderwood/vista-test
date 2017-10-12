@@ -25,7 +25,7 @@ class RemindMeDialog(UI):
             'notes': (
                 'Type',
                 '#message_body',
-                'Lorem ipsum dolor sit amet, in pro summo contentiones. In sea.'
+                'Lorem ipsum dolor sit amet, in pro sum contention. In sea.'
             ),
             'submit': ('Click', '//*[@button="save"]'),
         }

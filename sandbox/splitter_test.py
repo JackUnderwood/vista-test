@@ -44,6 +44,7 @@ class TestSplitFunction(unittest.TestCase):
                            delimiter=',')
         self.assertEqual(r, ['GOOG', 100, 490.9])
 
+
 if __name__ is '__main__':
     mod = __import__('__main__')
     print("\r---- {}".format(mod, ))

@@ -59,40 +59,5 @@ msg = 'Are you sure you want to lose your work?'
 if alert_text != '' and msg in alert_text:
     driver.switch_to.alert.dismiss()  # switch_to() avoids the need to use AHK
 
-time.sleep(2)
-
-# https://sjohannes.wordpress.com/2012/03/23/win32-python-getting-all-window-titles/
-# EnumWindows = ctypes.windll.user32.EnumWindows
-# EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool,
-# ctypes.POINTER(ctypes.c_int),ctypes.POINTER(ctypes.c_int))
-# GetWindowText = ctypes.windll.user32.GetWindowTextW
-# GetWindowTextLength = ctypes.windll.user32.GetWindowTextLengthW
-# IsWindowVisible = ctypes.windll.user32.IsWindowVisible
-#
-# titles = []
-# d = {}
-#
-#
-# def foreach_window(hwnd, lparam):
-#     if IsWindowVisible(hwnd):
-#         length = GetWindowTextLength(hwnd)
-#         buff = ctypes.create_unicode_buffer(length + 1)
-#         GetWindowText(hwnd, buff, length + 1)
-#         time.sleep(0.2)
-#         d[buff.value] = hwnd
-#         titles.append(buff.value)
-#     return True
-# EnumWindows(EnumWindowsProc(foreach_window), 0)
-#
-# print(titles)
-# print(d['Open'])  # holds the window handle to the Open window
-# time.sleep(3)
-# # Now, let's manipulate the 'Open' window.
-# open_window = None
-# if 'Open' in d:
-#     open_window = d['Open']
-#     # We've got the win object, let's click the Cancel button
-
-
 time.sleep(5)  # Gives us time to see something!
 driver.quit()
