@@ -744,15 +744,16 @@ class UI:
 
         return attribute
 
-    def get_selected_option(self, locator):
+    def get_selected_option(self, locator, attribute_name='value'):
         """
         Get an on-screen option value from SELECT (drop down) object
         :param locator: holds the xpath, id, class, or tag of SELECT object
+        :param attribute_name: string - value, text, name, etc.
         :return: string - value
         """
         element = self.find_element(locator)
         select = Select(element)
-        return select.first_selected_option.get_attribute('value')
+        return select.first_selected_option.get_attribute(attribute_name)
 
     def get_css_property(self, locator, css_selector):
         """
