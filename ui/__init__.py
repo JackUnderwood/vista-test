@@ -779,6 +779,11 @@ class UI:
             return False
         return True
 
+    def is_selected(self, locator):
+        element = self.find_element(locator)
+        res = element.is_selected()
+        return res
+
     def dismiss_alert(self):
         """
         Dismisses (Cancel) the JavaScript alert dialog box.
