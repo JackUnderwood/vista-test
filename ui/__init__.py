@@ -781,6 +781,11 @@ class UI:
         return True
 
     def is_selected(self, locator):
+        """
+        Checks to see if checkbox is checked.
+        :param locator: string - the xpath, id, class, or selector
+        :return: Boolean
+        """
         element = self.find_element(locator)
         res = element.is_selected()
         return res
