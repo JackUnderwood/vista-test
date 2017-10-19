@@ -627,6 +627,8 @@ class UI:
             return
         for key in self.override:
             log.debug("check_override() KEY: [{}]".format(key,))
+            if isinstance(self.override[key], int):
+                self.override[key] = str(self.override[key])
             if key in self.runtime:
                 # if type(self.override[key]) is str:
                 if isinstance(self.override[key], str):
