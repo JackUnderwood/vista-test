@@ -52,13 +52,11 @@ class TestSuiteFileTool(unittest.TestCase):
             'selectType': (
                 'Click',
                 'css=#reassignSearchContainer>div>div.find-form>'
-                'i.vistatt.search-type.fa.fa-user.active'),
+                'i.vistatt.search-type.fa.fa-user'),
             'select': ('Click', 'css=#reassignSearchContainer>div>'
                                 'div.find-form>div>a:nth-child(3)'),
-            'inputProvider': (
-                'Type',
-                '#reassignSearchDescription',
-                'lambert matt st:wv'),
+            'inputProvider': ('Type', '#reassignSearchDescription',
+                              'matt lambert st:wv'),
             'selectProvider': ('Click', '//*[@item_id="91273"]'),
             'subcategory': ('Select', '#reassignCategory', 'Certifications'),
             'copy': ('Click', '#reassignCopy')
