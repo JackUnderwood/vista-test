@@ -4,6 +4,7 @@ import ui
 from ui import UI
 from ui.low.file import File
 from ui.high.file_select import FileSelect
+from tool.generators.generator import gen_key
 
 __author__ = 'John Underwood'
 
@@ -95,24 +96,24 @@ class TestSuiteFileTool(unittest.TestCase):
                          "testing {}".format(debug,))
     def test_file_edit(self):
         ui.log.info(">>> Inside function test_file_edit() - splice the file")
-
+        filename = 'qa_automate_{}'.format(gen_key(range_size=4),)
         runtime = {
-            'edit': ('Click', '#edit'),
-            'next': (
-                'Click', '//*[@id="toolPanelContainer"]/div[2]/div[7]/a[2]'),
-            'selectPage1': (
-                'Click',
-                '//*[@id="toolPanelContainer"]/div[2]/div[4]/div[2]/div[2]'),
-            'subcategory': ('Select', '#editCategory', 'Provider Licensing'),
-            'filename': ('Type', '#editFilename', 'qa_automation.pdf'),
+            'edit': ('Click', '//*[@id="toolbar"]/div[2]'),
             'create': (
-                'Click', '//*[@id="toolPanelContainer"]/div[2]/div[7]/a[3]')
-            # TODO: auto generate file names
+                'Click', '/html/body/div/div/div[1]/div[1]/div/div[1]/div/'
+                         'div[1]/div/a[3]'),
+            'category': ('Select', '#pdf_editor__document_object__key_id',
+                         'My Files'),
+            'subcategory': ('Select', '#pdf_editor__document_category__key_id',
+                            'Uploaded'),
+            'filename': ('Type', '#pdf_editor__file_name', filename),
+            'save': ('Click', '#pdf_editor__save'),
+            'close': ('Click', '/html/body/div[1]/div/div[2]/a')
         }
-        expected = "Files successfully edited"
+        expected = "File Created"
         self.process.update(runtime)
-        order = ('edit', 'next', 'selectPage1', 'next', 'subcategory',
-                 'filename', 'next', 'create')
+        order = ('edit', 'create', 'filename', 'category', 'subcategory',
+                 'save', )
         self.process.execute(order)
         self.process.wait(1)
         result = self.process.results(expected, locator='toast-container')
