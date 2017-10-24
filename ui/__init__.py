@@ -600,6 +600,15 @@ class UI:
             "window.scrollTo(0, 0);")
         self.wait()
 
+    def click_away(self, locator='/html/body/header/nav/div'):
+        """
+        Click the interface's nav ribbon element.
+        :param: string - locator/selector path
+        :return: void
+        """
+        log.info('----- >>> CLICK AWAY ')
+        self.driver.find_element_by_xpath(locator).click()
+
     def find_elements_by_class_name(self, class_name):
         """
         Wrapper - Finds elements by class name.
