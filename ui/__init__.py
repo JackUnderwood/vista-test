@@ -301,7 +301,7 @@ class UI:
         """
         See http://www.seleniumstutorial.com/
         uploading-a-file-in-selenium-with-python/
-        :param locator: string - holds the xpath, id, or class, e.g. 'fileupload'
+        :param locator: string - holds the xpath, id, or class
         :param value: string - file's path on local drive, e.g. 'c:/tmp/file.txt'
         :return: None
         """
@@ -460,7 +460,7 @@ class UI:
         :return: the DOM's element
         Special case '<' looks for many tag elements; this helps get around
         the display of items that have dynamic id attribute,
-        i.e. id="client_5568b9eecbc2e"
+        i.e. id="client_5568b9"
         """
         element = None
         if locator.startswith('/'):  # xpath
@@ -530,7 +530,7 @@ class UI:
         :return: a list of the DOM's elements
         Special case '<' looks for many tag elements; this helps get around
         the display of items that have dynamic id attribute,
-        i.e. id="client_5568b9eecbc2e"
+        i.e. id="client_5568b9"
         """
         elements = []
         if locator.startswith('/'):  # xpath
@@ -726,6 +726,20 @@ class UI:
         :return: string - HTML body
         """
         return self.driver.page_source.lower()
+
+    def get_table_size(self, locator, sep='\n'):
+        """
+        Returns the number of <tr> tags in the table.
+        :param locator: string - a valid selector type, ie. xpath, id, etc.
+        :param sep: string - separator/delimiter for the element's text
+        :return: integer - table size; 'count' of table rows
+        Note: The 'res[0]' may be the <thead> element, so may need to compensate
+        for that.
+        """
+        element = self.find_element(locator)
+        text = element.text
+        res = text.split(sep)
+        return len(res)
 
     def spy(self, locator, attribute_name):
         """
