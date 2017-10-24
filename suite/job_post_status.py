@@ -279,6 +279,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
                         '//*[@id="job-search-wrap"]/div[3]/div[2]/button')
         })
         self.process.scroll_to_top_of_page()
+        self.process.click_away()
         self.process.execute(('reset', 'entry', 'refresh',))
         self.process.execute(('edit',))
         self.process.wait()
@@ -439,6 +440,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         })
         expected = 'Job Saved'
         self.process.scroll_to_top_of_page()
+        self.process.click_away()
         self.process.execute(('reset', 'job', 'search', 'edit', ))
         self.process.wait()
         self.process.execute(('reason', ))
@@ -496,6 +498,7 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         })
         expected = 'Job Saved'
         self.process.scroll_to_top_of_page()
+        self.process.click_away()
         self.process.execute(('reset', 'job', 'search', 'edit', ))
         self.process.wait()
         self.process.execute(('reason', 'other', ))
