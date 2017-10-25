@@ -171,6 +171,16 @@ def get_future_date(days=1, style='%m/%d/%Y'):
     return future.strftime(style)
 
 
+def get_today_date(style='%m/%d/%Y'):
+    """
+    Return today's date.
+    :param style: string
+    :return: string - '10/25/2017'
+    """
+    now = datetime.datetime.now()
+    return now.strftime(style)
+
+
 # ^*^*^*^*^ Private functions ^*^*^*^*^
 def __address1():
     """
