@@ -946,16 +946,16 @@ class UI:
         addendum = (
             " ::Addendum:: {}".format(message, ) if (message != '') else message)
         if actual == expected:
-            log.debug("PASSED: actual '{}' is same as expected '{}'{}".
+            log.debug("-- PASSED: actual '{}' is same as expected '{}'{}".
                       format(actual, expected, addendum))
             return True
         elif not isinstance(expected, bool) and expected in actual:
-            log.debug("PASSED: actual '{}' is part of expected '{}'{}".
-                      format(actual, expected, addendum))
+            log.info("-- PASSED: actual '{}' is part of expected '{}'{}".
+                     format(actual, expected, addendum))
             return True
         else:
-            log.debug("FAILED: actual '{}' is different from expected '{}'{}".
-                      format(actual, expected, addendum))
+            log.info("-- FAILED: actual '{}' is different from expected '{}'{}".
+                     format(actual, expected, addendum))
             return False
 
     @staticmethod
