@@ -121,7 +121,7 @@ class UI:
         if len(content) == len(self.UNKNOWN):
             command, locator, value = content
         else:
-            command, locator, value = content + ("", )
+            command, locator, value = content + ("",)
 
         # The 'locator' and 'value' both may have placeholders
         locator = self.check_for_placeholder(locator)
@@ -436,7 +436,7 @@ class UI:
                 "wait_for_element: Expected condition failed to execute: {}"
                 .format(te))
         finally:
-            pass
+            self.wait()
 
     def wait_for_title(self, title, wait_time=5):
         from selenium.common.exceptions import TimeoutException
