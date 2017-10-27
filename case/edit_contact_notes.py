@@ -22,8 +22,6 @@ class EditContactNotes(UI):
         'notes': 'Called and left a voicemail.',
         'feedback': 'Call Logged'
     }
-    # //*[@id="lastFive"]/div/div[1]/div/div/div[4]
-    # //*[@id="lastFive"]/div/div[3]/div/div/text()
     runtime = {
         'find': ('Type', '#main_desc', expected['provider']),
         'select': ('Click', '//*[@item_id="{}"]'.
