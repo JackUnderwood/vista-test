@@ -14,7 +14,7 @@ class TestSuiteContactNotesQuickNotes(unittest.TestCase):
     ui.log.info(">> Inside TestSuiteContactNotesQuickNotes class")
     process = UI()
     result = []
-    debug = 'disconnected'
+    debug = 'all'
     data = {
         'provider': 'Amy Nayi',
         'providerId': '652981'
@@ -42,10 +42,11 @@ class TestSuiteContactNotesQuickNotes(unittest.TestCase):
         cls.process.wait()
 
     def setUp(self):
-        pass
+        self.process.execute(('contact',))
 
     def tearDown(self):
-        pass
+        self.process.execute(('cancel',))
+        self.result = []
 
     @classmethod
     def tearDownClass(cls):
@@ -63,7 +64,7 @@ class TestSuiteContactNotesQuickNotes(unittest.TestCase):
             'feedback': 'Call Logged',
             'note': 'Called and left a voicemail.',
         }
-        self.process.execute(('contact',))
+        # self.process.execute(('contact',))
         self.process.update(runtime)
         self.process.execute(('quick', 'save'))
         res = self.process.results(expected['feedback'])
@@ -75,7 +76,7 @@ class TestSuiteContactNotesQuickNotes(unittest.TestCase):
         res = expected['note'] in inner
         self.process.compare(True, res, message='match the note')
         self.result.append(res)
-        self.process.execute(('cancel',))
+        # self.process.execute(('cancel',))
         # All results must be true to pass.
         message = 'Feedback: {} & Note: {}'.format(expected['feedback'],
                                                    expected['note'])
@@ -92,7 +93,7 @@ class TestSuiteContactNotesQuickNotes(unittest.TestCase):
             'feedback': 'Call Logged',
             'note': 'Call was disconnected.',
         }
-        self.process.execute(('contact',))
+        # self.process.execute(('contact',))
         self.process.update(runtime)
         self.process.execute(('quick', 'save'))
         res = self.process.results(expected['feedback'])
@@ -104,7 +105,7 @@ class TestSuiteContactNotesQuickNotes(unittest.TestCase):
         res = expected['note'] in inner
         self.process.compare(True, res, message='match the note')
         self.result.append(res)
-        self.process.execute(('cancel',))
+        # self.process.execute(('cancel',))
         # All results must be true to pass.
         message = 'Feedback: {} & Note: {}'.format(expected['feedback'],
                                                    expected['note'])
@@ -114,6 +115,30 @@ class TestSuiteContactNotesQuickNotes(unittest.TestCase):
                          "testing {}".format(debug, ))
     def test_quick_note_not_interested(self):
         ui.log.info(">>> Inside test_quick_note_not_interested()")
+        runtime = {
+            'quick': ('Select', '//*[@class="cQuickNotes"]', 'Not Interested'),
+        }
+        expected = {
+            'feedback': 'Call Logged',
+            'note': 'Entity was not interested in talking to VISTA Staffing.',
+        }
+        # self.process.execute(('contact',))
+        self.process.update(runtime)
+        self.process.execute(('quick', 'save'))
+        res = self.process.results(expected['feedback'])
+        self.result.append(res)
+        self.process.execute(('contact', 'comments',))
+        self.process.wait()
+        inner = self.process.spy('//*[@id="lastFive"]/div/div[1]/div/div',
+                                 'innerHTML')
+        res = expected['note'] in inner
+        self.process.compare(True, res, message='match the note')
+        self.result.append(res)
+        # self.process.execute(('cancel',))
+        # All results must be true to pass.
+        message = 'Feedback: {} & Note: {}'.format(expected['feedback'],
+                                                   expected['note'])
+        self.assertTrue(all(self.result), msg=message)
 
     @unittest.skipUnless(debug is 'follow up' or debug is 'all',
                          "testing {}".format(debug, ))
