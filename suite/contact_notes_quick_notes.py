@@ -17,15 +17,13 @@ class TestSuiteContactNotesQuickNotes(unittest.TestCase):
     Prerequisite: This test suite requires a provider that already has a phone
     number listed.
     """
-    # TODO: dynamically find a provider from the Licensing Landing page
-    # TODO: 'prerequisite' func that adds a new phone number for the provider
     ui.log.info(">> Inside TestSuiteContactNotesQuickNotes class")
     process = UI()
     result = []
     debug = 'all'
-    data = {
-        'provider': 'n:Mami Underwood',  # 'Amy Nayi',
-        'providerId': '875059'           # '652981'
+    data = {  # testing for no phone data; use a provider that has no phone nos.
+        'provider': 'n:Amy Nayi',  # 'Amy Nayi',
+        'providerId': '652981',  # '652981'
     }
     feedback = 'Call Logged'
 
@@ -34,7 +32,10 @@ class TestSuiteContactNotesQuickNotes(unittest.TestCase):
         ui.log.info(">>> Setup the class")
         License()
         Checklist()
-        runtime = {
+        runtime = {  # ignore 'find' & 'select', unless testing for no phone data
+            'find': ('Type', '#main_desc', cls.data['provider']),
+            'select': ('Click', '//*[@item_id="{}"]'.
+                       format(cls.data['providerId'],)),
             'phone': ('Click',
                       '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[4]'),
             'contact': ('Click',
@@ -45,13 +46,15 @@ class TestSuiteContactNotesQuickNotes(unittest.TestCase):
                        '//a[@button="close" and contains(text(), "Cancel")]'),
         }
         cls.process.update(runtime)
+        # order = ('find', 'select', 'phone',)  # use to test 'no phone data'
         order = ('phone',)
         cls.process.execute(order)
         field = cls.process.spy(
             '//*[@id="phoneGrid_grid"]/tbody/tr[1]/td', 'innerHTML')
         if 'No data available in table' in field:
-            # TODO: create Add Phone function
-            pass
+            c = TestSuiteContactNotesQuickNotes()
+            c.add_new_phone_number()
+
         cls.process.wait()
 
     def setUp(self):
@@ -64,6 +67,19 @@ class TestSuiteContactNotesQuickNotes(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.process.teardown()
+
+    def add_new_phone_number(self):
+        from tool.generators.generator import gen_phone_number
+        self.process.update({
+            'addPhone': ('Click', '//*[@id="phoneGrid_form"]/a'),
+            'description': ('Type', '#address_description', 'QATest'),
+            'type': ('Select', '#phone_correspondence_method_type_id', 'Other'),
+            'number': ('Type', '#phone', gen_phone_number('CA')),
+            'saveNumber': ('Click', '//*[@id="editPhone_form"]/div[4]/a[1]')
+        })
+        order = ('addPhone', 'description', 'type', 'number', 'saveNumber')
+        self.process.execute(order)
+        self.process.wait()
 
     # ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* TEST CASES ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
     @unittest.skipUnless(debug is 'voicemail' or debug is 'all',
