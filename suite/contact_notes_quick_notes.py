@@ -6,6 +6,8 @@ import unittest
 
 import ui
 from ui import UI
+from ui.low.license import License
+from ui.high.checklist import Checklist
 
 __author__ = 'John Underwood'
 
@@ -15,24 +17,24 @@ class TestSuiteContactNotesQuickNotes(unittest.TestCase):
     Prerequisite: This test suite requires a provider that already has a phone
     number listed.
     """
+    # TODO: dynamically find a provider from the Licensing Landing page
     # TODO: 'prerequisite' func that adds a new phone number for the provider
     ui.log.info(">> Inside TestSuiteContactNotesQuickNotes class")
     process = UI()
     result = []
     debug = 'all'
     data = {
-        'provider': 'n:ramirez p:779 652-5821',  # 'Amy Nayi',
-        'providerId': '833235'                   # '652981'
+        'provider': 'n:Mami Underwood',  # 'Amy Nayi',
+        'providerId': '875059'           # '652981'
     }
     feedback = 'Call Logged'
 
     @classmethod
     def setUpClass(cls):
         ui.log.info(">>> Setup the class")
+        License()
+        Checklist()
         runtime = {
-            'find': ('Type', '#main_desc', cls.data['provider']),
-            'select': ('Click', '//*[@item_id="{}"]'.
-                       format(cls.data['providerId'], )),
             'phone': ('Click',
                       '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[4]'),
             'contact': ('Click',
@@ -43,8 +45,13 @@ class TestSuiteContactNotesQuickNotes(unittest.TestCase):
                        '//a[@button="close" and contains(text(), "Cancel")]'),
         }
         cls.process.update(runtime)
-        order = ('find', 'select', 'phone',)
+        order = ('phone',)
         cls.process.execute(order)
+        field = cls.process.spy(
+            '//*[@id="phoneGrid_grid"]/tbody/tr[1]/td', 'innerHTML')
+        if 'No data available in table' in field:
+            # TODO: create Add Phone function
+            pass
         cls.process.wait()
 
     def setUp(self):
