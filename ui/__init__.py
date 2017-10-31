@@ -946,8 +946,8 @@ class UI:
         addendum = (
             " ::Addendum:: {}".format(message, ) if (message != '') else message)
         if actual == expected:
-            log.debug("-- PASSED: actual '{}' is same as expected '{}'{}".
-                      format(actual, expected, addendum))
+            log.info("-- PASSED: actual '{}' is same as expected '{}'{}".
+                     format(actual, expected, addendum))
             return True
         elif not isinstance(expected, bool) and expected in actual:
             log.info("-- PASSED: actual '{}' is part of expected '{}'{}".
