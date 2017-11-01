@@ -69,6 +69,11 @@ class TestSuiteContactNotesQuickNotes(unittest.TestCase):
         cls.process.teardown()
 
     def add_new_phone_number(self):
+        """
+        The function is only called in the rare cases when a provider doesn't
+        have a phone number listed.
+        :return: void
+        """
         from tool.generators.generator import gen_phone_number
         self.process.update({
             'addPhone': ('Click', '//*[@id="phoneGrid_form"]/a'),
