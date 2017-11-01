@@ -14,8 +14,7 @@ __author__ = 'John Underwood'
 
 class TestSuiteContactNotesQuickNotes(unittest.TestCase):
     """
-    Prerequisite: This test suite requires a provider that already has a phone
-    number listed.
+    Prerequisite: provider name and id--see 'data' dict variable below
     """
     ui.log.info(">> Inside TestSuiteContactNotesQuickNotes class")
     process = UI()
