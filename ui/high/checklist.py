@@ -12,6 +12,7 @@ class Checklist(UI):
     Test case goes into the Checklists.
     """
     entity = '__OVERRIDE__'
+    entity_id = '__OVERRIDE__'
 
     def __init__(self, override=None):
         super().__init__()
@@ -38,8 +39,12 @@ class Checklist(UI):
         self.entity = process.spy(
             '//*[@id="licenseRequestsGrid_grid"]/tbody/'
             'tr[{0}]/td[4]/a'.format(row, ), 'innerHTML')
+        self.entity_id = process.spy(
+            '//*[@id="licenseRequestsGrid_grid"]/tbody/'
+            'tr[{0}]/td[3]'.format(row, ), 'innerHTML')
         ui.log.info("Grid's row number: {}".format(row,))
         ui.log.info('Provider name: {}'.format(self.entity,))
+        ui.log.info('Provider id: {}'.format(self.entity_id,))
 
         process.update(runtime)
         order = ('provider', )
