@@ -21,9 +21,10 @@ class JobAcceptEdit(UI):
     res = find_white_rows(process)
     job_number = res['job_number']
     if job_number is None:
-        ui.log.warning('{} :: job_number not available test case stopped!'.
+        ui.log.warning('{} :: job_number not available; test case stopped!'.
                        format(res['error_msg']))
         process.teardown()
+        quit()
 
     runtime = {
         'subtitleText': "Rural Healthcare Central Texas",
