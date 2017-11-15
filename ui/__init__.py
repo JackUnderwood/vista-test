@@ -793,13 +793,12 @@ class UI:
 
     def is_available(self, locator):
         """
-        Is the element available on the screen
+        Is the element available on the screen?
         :param locator: holds the xpath, id, class, or selector
         :return: Boolean
         """
         try:
-            element = self.find_element(locator)
-            element.click()
+            self.find_element(locator)
         except NoSuchElementException as nsee:
             log.info("is_available() exception - {}".format(nsee,))
             return False
