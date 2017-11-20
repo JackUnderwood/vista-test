@@ -754,7 +754,8 @@ class UI:
         """
         Get an on-screen value
         :param locator: holds the xpath, id, class, or tag
-        :param attribute_name: attribute name, i.e. innerHTML, value, name, etc.
+        :param attribute_name: attribute name, i.e. innerHTML, value, name,
+            checked, text, etc.
         :return: string - value
         """
         attribute = None
