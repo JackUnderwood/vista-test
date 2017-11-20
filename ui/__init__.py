@@ -690,6 +690,16 @@ class UI:
                 raise KeyError(message.format(replacer, key))
         return replacer
 
+    def change_attribute(self, locator, script):
+        """
+        Change an element class attribute value.
+        :param locator: string
+        :param script: string
+        :return: void
+        """
+        element = self.find_element(locator)
+        self.driver.execute_script(script, element)
+
     def results(self, expected, **value):
         """
         Search the DOM for the expected string.
