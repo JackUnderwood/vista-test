@@ -198,7 +198,8 @@ class DeliveryMethod(UI):
     parse.feed(delivery_methods)
     res.append(process.compare(2, parse.count))
     process.wait()
-    process.update({
+
+    process.update({  # Step 16
         'remove': ('Click', '//*[@id="add-recipient-container"]/div[2]/i')
     })
     process.execute(('remove',))
