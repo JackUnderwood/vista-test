@@ -92,3 +92,19 @@ def get_random_value(values):
     :return: a single, random value
     """
     return random.choice(values)
+
+
+def time_it(ndigits=7):
+    """
+    Decorator to time functions.
+    :param ndigits: number - rounding precision
+    :return: function
+    """
+    def decorate(func):
+        def wrapper(*args, **kwargs):
+            start = time.time()
+            func(*args, **kwargs)
+            end = time.time()
+            return round(end - start, ndigits)
+        return wrapper
+    return decorate
