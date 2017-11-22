@@ -602,8 +602,9 @@ class UI:
         :param: string - locator/selector path
         :return: void
         """
-        log.info('----- >>> CLICK AWAY ')
-        self.driver.find_element_by_xpath(locator).click()
+        log.info('----- >>> CLICK AWAY at selector {}'.format(locator))
+        element = self.check(self._find_element(locator))
+        element.click()
 
     def find_elements_by_class_name(self, class_name):
         """
