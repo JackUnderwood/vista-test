@@ -163,7 +163,7 @@ class UI:
     def click(self, locator):
         log.info("CLICK command using LOCATOR: {0}".format(locator))
         self.check_for_new_window()
-        element = self.find_element(locator)
+        element = self.check(self._find_element(locator))
         element.click()
 
     def type(self, locator, value, char='$'):
@@ -178,7 +178,7 @@ class UI:
         log.info("TYPE command using LOCATOR: {} :: VALUE: \'{}\'".
                  format(locator, self.truncate(value, max_size=self.max_size)))
         self.check_for_new_window()
-        element = self.find_element(locator)
+        element = self.check(self._find_element(locator))
         try:
             element.clear()
             entry = self.spy(locator, 'value')
@@ -205,7 +205,7 @@ class UI:
         log.info("TYPE_IN_CKEDITOR command using LOCATOR: {0} - VALUE: \'{1}\'".
                  format(locator, self.truncate(value, max_size=self.max_size)))
         self.check_for_new_window()
-        element = self.find_element(locator)
+        element = self.check(self._find_element(locator))
 
         self.driver.switch_to.frame(element)  # switch to inside the iframe
         ck_editor_body = self.driver.find_element_by_tag_name('body')
@@ -232,7 +232,7 @@ class UI:
         log.info("TypeAndTab Command - PATH: {0} - VALUE: \'{1}\'".
                  format(locator, value))
         self.type(locator, value)
-        element = self.find_element(locator)
+        element = self.check(self._find_element(locator))
         element.send_keys("\t")
 
     def type_date_tab(self, locator, value):
@@ -251,7 +251,7 @@ class UI:
         # Time first = hour, second = minute, third = pm or am
         first, second, third = (value[:2], value[2:4], value[4:])
         self.check_for_new_window()
-        element = self.find_element(locator)
+        element = self.check(self._find_element(locator))
 
         log.info("Month:{}".format(first,))
         element.send_keys(first)  # month OR hour
@@ -274,7 +274,7 @@ class UI:
         log.info("Type Command for Find... - PATH: {0} - VALUE: \'{1}\'".
                  format(locator, value))
         self.check_for_new_window()
-        element = self.find_element(locator)
+        element = self.check(self._find_element(locator))
         element.send_keys(value)
 
     def select(self, locator, value):
@@ -289,7 +289,7 @@ class UI:
                  .format(locator, value))
         self.wait()  # compensate for on-screen shifting of the element
         self.check_for_new_window()
-        element = self.find_element(locator)
+        element = self.check(self._find_element(locator))
         select = Select(element)
         if value == "":
             select.select_by_index(1)
@@ -307,7 +307,7 @@ class UI:
         """
         log.info("Upload Command - LOCATOR: {0} - VALUE: \'{1}\'"
                  .format(locator, value))
-        element = self.find_element(locator)
+        element = self.check(self._find_element(locator))
         element.send_keys(value)
 
     def hover(self, locator):
@@ -320,18 +320,18 @@ class UI:
         log.info("Hover Command - PATH: {0}".format(locator,))
         self.wait(2)  # critical wait --
         actions = ActionChains(self.driver)
-        element = self.find_element(locator)
+        element = self.check(self._find_element(locator))
         actions.move_to_element(element).perform()
         self.wait()
 
     def loop(self, elements):  # temporarily for testing tables JNU!!!
         # import xml.etree.ElementTree as ETree
         log.info("Elements: {}".format(elements))
-        element = self.find_element(elements)
+        element = self._find_element(elements)
         log.info("Element: {}".format(element))
 
         # log.info("Loop Command - PATH: \'{0}\'".format(elements))
-        # element = self.find_element(elements)
+        # element = self._find_element(elements)
         # element.click()
 
     def chain(self, elements):
@@ -363,22 +363,22 @@ class UI:
                 params[k] = replacer
 
             if action == "click":
-                on_element = self.find_element(params['on_element'])
+                on_element = self.check(self._find_element(params['on_element']))
                 actions.click(on_element)
             elif action == "click_and_hold":
-                on_element = self.find_element(params['on_element'])
+                on_element = self.check(self._find_element(params['on_element']))
                 actions.click_and_hold(on_element)
             elif action == "drag_and_drop":
-                source = self.find_element(params['source'])
-                target = self.find_element(params['target'])
+                source = self.check(self._find_element(params['source']))
+                target = self.check(self._find_element(params['target']))
                 actions.drag_and_drop(source, target)
             elif action == "drag_and_drop_by_offset":
-                source = self.find_element(params['source'])
+                source = self.check(self._find_element(params['source']))
                 xoffset = params['xoffset']
                 yoffset = params['yoffset']
                 actions.drag_and_drop_by_offset(source, xoffset, yoffset)
             elif action == "move_to_element":
-                to_element = self.find_element(params['to_element'])
+                to_element = self.check(self._find_element(params['to_element']))
                 actions.move_to_element(to_element)
             log.info("Chained action: {0}".format(action,))
         self.wait(1)
@@ -449,7 +449,7 @@ class UI:
         finally:
             pass
 
-    def find_element(self, locator):
+    def _find_element(self, locator):  # TODO: rename to _find_element
         """
         '//' for xpath
         '.' for class
@@ -467,24 +467,21 @@ class UI:
             try:
                 element = self.driver.find_element_by_xpath(locator)
             except NoSuchElementException as nsee:
-                log.error('find_element: xpath exception: {}'.format(nsee,))
-            return element  # self.driver.find_element_by_xpath(elem)
+                log.error('_find_element: xpath: {}'.format(nsee,))
 
         elif locator.startswith('.'):  # ".<class>"
             _class = locator[1:]
             try:
                 element = self.driver.find_element_by_class_name(_class)
             except NoSuchElementException as nsee:
-                log.error('find_element: xpath exception: {}'.format(nsee,))
-            return element
+                log.error('_find_element: class: {}'.format(nsee,))
 
         elif locator.startswith('#'):  # "#<id>"
             _id = locator[1:]
             try:
                 element = self.driver.find_element_by_id(_id)
             except NoSuchElementException as nsee:
-                log.error('find_element: xpath exception: {}'.format(nsee,))
-            return element
+                log.error('_find_element: id: {}'.format(nsee,))
 
         elif locator.startswith('<'):  # "<<tag>>"--a case that looks for many
             # Returns the last element in the list; assumes the last element
@@ -493,8 +490,7 @@ class UI:
             try:
                 element = self.driver.find_elements_by_tag_name(_tag)[-1]
             except NoSuchElementException as nsee:
-                log.error('find_element: xpath exception: {}'.format(nsee,))
-            return element
+                log.error('_find_element: tag: {}'.format(nsee,))
 
         elif locator.startswith('css'):  # "css=<target>"
             _css = locator[4:]
@@ -502,8 +498,7 @@ class UI:
                 element = self.driver.find_element_by_css_selector(_css)
                 log.info("CSS element: {0}".format(_css))
             except NoSuchElementException as nsee:
-                log.error('find_element: xpath exception: {}'.format(nsee,))
-            return element
+                log.error('_find_element: css: {}'.format(nsee,))
 
         elif locator.startswith('name'):  # "name=<target>"
             _name = locator[5:]
@@ -511,15 +506,23 @@ class UI:
                 log.info("'Name' element: {0}".format(_name))
                 element = self.driver.find_element_by_name(_name)
             except NoSuchElementException as nsee:
-                log.error('find_element: xpath exception: {}'.format(nsee,))
-            return element
+                log.error('_find_element: name: {}'.format(nsee,))
 
         else:
-            # TODO: need to throw exception
             log.exception("no correct element found")
+
         return element
 
-    def find_elements(self, locator):
+    def find_element(self, locator):
+        """
+        Use is_available() or spy() for testing an element's condition.
+        :param locator: string
+        :return: element object OR None
+        Note: does not use the exception check()
+        """
+        return self._find_element(locator)
+
+    def find_elements(self, locator):  # TODO: rename to _find_elements
         """
         '//' for xpath
         '.' for class
@@ -538,23 +541,20 @@ class UI:
                 elements = self.driver.find_elements_by_xpath(locator)
             except NoSuchElementException as nsee:
                 log.error('find_elements: xpath exception: {}'.format(nsee,))
-            return elements
 
         elif locator.startswith('.'):  # ".<class>"
             _class = locator[1:]
             try:
                 elements = self.driver.find_elements_by_class_name(_class)
             except NoSuchElementException as nsee:
-                log.error('find_elements: xpath exception: {}'.format(nsee,))
-            return elements
+                log.error('find_elements: class exception: {}'.format(nsee,))
 
         elif locator.startswith('#'):  # "#<id>"
             _id = locator[1:]
             try:
                 elements = self.driver.find_elements_by_id(_id)
             except NoSuchElementException as nsee:
-                log.error('find_elements: xpath exception: {}'.format(nsee,))
-            return elements
+                log.error('find_elements: id exception: {}'.format(nsee,))
 
         elif locator.startswith('<'):  # "<<tag>>"--a case that looks for many
             # Returns the last element in the list; assumes the last element
@@ -563,8 +563,7 @@ class UI:
             try:
                 elements = self.driver.find_elements_by_tag_name(_tag)[-1]
             except NoSuchElementException as nsee:
-                log.error('find_elements: xpath exception: {}'.format(nsee,))
-            return elements
+                log.error('find_elements: tag exception: {}'.format(nsee,))
 
         elif locator.startswith('css'):  # "css=<target>"
             _css = locator[4:]
@@ -572,8 +571,7 @@ class UI:
                 elements = self.driver.find_elements_by_css_selector(_css)
                 log.info("CSS element: {0}".format(_css))
             except NoSuchElementException as nsee:
-                log.error('find_elements: xpath exception: {}'.format(nsee,))
-            return elements
+                log.error('find_elements: css exception: {}'.format(nsee,))
 
         elif locator.startswith('name'):  # "name=<target>"
             _name = locator[5:]
@@ -581,12 +579,10 @@ class UI:
                 elements = self.driver.find_elements_by_name(_name)
                 log.info("'Name' element: {0}".format(_name))
             except NoSuchElementException as nsee:
-                log.error('find_elements: xpath exception: {}'.format(nsee,))
-            return elements
+                log.error('find_elements: name exception: {}'.format(nsee,))
 
         else:
-            # TODO: need to throw exception
-            log.exception("no correct elements found")
+            log.exception("find_elements(): no elements found")
 
         return elements
 
@@ -697,7 +693,7 @@ class UI:
         :param script: string
         :return: void
         """
-        element = self.find_element(locator)
+        element = self.check(self._find_element(locator))
         self.driver.execute_script(script, element)
 
     def results(self, expected, **value):
@@ -755,7 +751,7 @@ class UI:
         Note: The 'res[0]' may be the <thead> element, so may need to compensate
         for that.
         """
-        element = self.find_element(locator)
+        element = self.check(self._find_element(locator))
         text = element.text
         res = text.split(sep)
         return len(res)
@@ -770,14 +766,11 @@ class UI:
         """
         attribute = None
         locator = self.check_for_placeholder(locator)
+        element = self.check(self._find_element(locator))
         try:
-            element = self.find_element(locator)
             attribute = element.get_attribute(attribute_name)
-        except NoSuchElementException as nsee:
-            log.warning(msg='spy element is not available::{}'.format(nsee,))
         except AttributeError as ae:
             log.warning(msg='spy attribute is not available::{}'.format(ae,))
-
         return attribute
 
     def get_selected_option(self, locator, attribute_name='value'):
@@ -787,7 +780,7 @@ class UI:
         :param attribute_name: string - value, text, name, etc.
         :return: string - value
         """
-        element = self.find_element(locator)
+        element = self.check(self._find_element(locator))
         select = Select(element)
         return select.first_selected_option.get_attribute(attribute_name)
 
@@ -798,7 +791,7 @@ class UI:
         :param css_selector: 
         :return: string - property's value
         """
-        element = self.find_element(locator)
+        element = self.check(self._find_element(locator))
         value = element.value_of_css_property(css_selector)
         return value
 
@@ -807,13 +800,9 @@ class UI:
         Is the element available on the screen?
         :param locator: holds the xpath, id, class, or selector
         :return: Boolean
+        Note: does not use the exception check()
         """
-        try:
-            self.find_element(locator)
-        except NoSuchElementException as nsee:
-            log.info("is_available() exception - {}".format(nsee,))
-            return False
-        return True
+        return True if self._find_element(locator) is not None else False
 
     def is_selected(self, locator):
         """
@@ -821,7 +810,7 @@ class UI:
         :param locator: string - the xpath, id, class, or selector
         :return: Boolean
         """
-        element = self.find_element(locator)
+        element = self.check(self._find_element(locator))
         res = element.is_selected()
         return res
 
@@ -967,6 +956,12 @@ class UI:
             log.info("-- FAILED: actual '{}' is different from expected '{}'{}".
                      format(actual, expected, addendum))
             return False
+
+    @staticmethod
+    def check(element):
+        if not element:
+            raise NoSuchElementException(msg='element not found--see log')
+        return element
 
     @staticmethod
     def wait(seconds=1):
