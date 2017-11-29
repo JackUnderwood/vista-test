@@ -7,46 +7,9 @@ from ui.low.license import License
 from ui.high.checklist import Checklist
 from ui.high.checklist_send_corr import ChecklistSendCorr
 from tool.ui_utilities import get_option, get_all_options_from_select
+from tool.utilities import find_email
 
 __author__ = 'John Underwood'
-
-
-# def get_all_options_from_select(process, locator):
-#     """
-#     Retrieve all options from a select tag.
-#     :param process: UI object
-#     :param locator: string
-#     :return: list of strings
-#     """
-#     options = []
-#     elements = process.find_elements(locator)
-#     if elements[0].tag_name == 'select':
-#         options = elements[0].text.split('\n')
-#     return options
-#
-#
-# def get_option(options, partial):
-#     """
-#     Find an option that has the passed partial string.
-#     :param options: list of strings - options from a <select>
-#     :param partial: string - use a partial string to find the list's element
-#     :return: string - first possible option
-#     """
-#     it = filter(lambda option: partial in option, options)
-#     try:
-#         res = next(it)
-#     except StopIteration as si:
-#         res = ''
-#         ui.log.info('get_option() - no options for partial "{}" :: {}'.
-#                     format(partial, si))
-#     return res
-
-
-def find_email(string):
-    # Find email address inside an innerHTML string.
-    pattern = r'[A-Z0-9][A-Z0-9._%+-]*@(?:[A-Z0-9-]+\.)+[A-Z]{2,}'
-    result = re.search(pattern, string, re.IGNORECASE)
-    return True if result else False
 
 
 class CountTopLevelDiv(HTMLParser):
