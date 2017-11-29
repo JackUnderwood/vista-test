@@ -17,7 +17,7 @@ class Find(UI):
             'entity': 'Matt Lambert st:wv',  # OVERRIDE
             'entityId': '91273',  # OVERRIDE
             'searchType': 'Provider',  # OVERRIDE
-            'expand': (
+            'expand': (  # drop-down for "search type", i.e. provider, user, etc.
                 'Click',
                 'css=body>header>nav>div>ul.left>li:nth-child(4)>div>div>'
                 'div.find-form>i.vistatt.search-type.fa.fa-user-md.active'),
