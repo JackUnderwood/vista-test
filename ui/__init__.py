@@ -657,7 +657,8 @@ class UI:
                 else:
                     log.exception("override has incorrect data structure")
             else:
-                log.warning("The 'override' key is not found in 'runtime'")
+                pass
+                # log.warning("The 'override' key is not found in 'runtime'")
         log.debug("check_override() new runtime: {}".format(self.runtime,))
 
     def check_for_placeholder(self, replacer):
