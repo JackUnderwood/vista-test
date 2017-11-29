@@ -863,6 +863,10 @@ class UI:
         full_log_path = self.log_path + filename
         self.driver.save_screenshot(full_log_path)
 
+    def refresh(self):
+        self.driver.refresh()
+        self.wait()
+
     def teardown(self):
         """
         :return: void
