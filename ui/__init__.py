@@ -481,7 +481,7 @@ class UI:
             try:
                 element = self.driver.find_element_by_id(_id)
             except NoSuchElementException as nsee:
-                log.error('_find_element: id: {}'.format(nsee,))
+                log.error('_find_element: id: {} :: err: {}'.format(_id, nsee,))
 
         elif locator.startswith('<'):  # "<<tag>>"--a case that looks for many
             # Returns the last element in the list; assumes the last element
