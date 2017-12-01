@@ -16,9 +16,9 @@ def get_all_options_from_select(process, locator):
     :return: list of strings
     """
     options = []
-    elements = process.find_elements(locator)
-    if elements[0].tag_name == 'select':
-        options = elements[0].text.split('\n')
+    element = process.find_element(locator)
+    if element.tag_name == 'select':
+        options = element.text.split('\n')
     return options
 
 
