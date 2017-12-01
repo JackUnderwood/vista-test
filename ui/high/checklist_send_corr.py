@@ -20,3 +20,4 @@ class ChecklistSendCorr(UI):
         process.update(runtime)
         process.execute(('send', 'template',))
         process.wait(3)
+        process.check_for_new_window()
