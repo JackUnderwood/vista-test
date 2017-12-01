@@ -1,4 +1,7 @@
-"""This module is for access to elements inside the ui.
+"""
+This module is for access to elements inside the ui, and performing
+specific actions on those elements, such as getting all available options
+from a drop down list.
 """
 import ui
 
