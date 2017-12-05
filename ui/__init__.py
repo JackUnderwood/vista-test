@@ -141,6 +141,8 @@ class UI:
             self.find(locator, value)
         elif command == "Select":
             self.select(locator, value)
+        elif command == "SelectType":
+            self.select_type(locator, **value)
         elif command == "Upload":
             self.upload(locator, value)
         elif command == "Hover":
@@ -295,6 +297,38 @@ class UI:
             select.select_by_index(1)
         else:
             select.select_by_visible_text(value)
+        self.wait()
+
+    def select_type(self, locator, **kwargs):
+        """
+        Tightly coupled - Set select_types are 'value', 'text', and 'index'
+        Example: U.S. States appear as <option value="AL">Alabama<\option>
+        :param locator: holds the xpath, id, class, or tag
+        :param kwargs: dict - required keys 'value' and 'select_type'
+        :return: None
+        Example using U.S. States:
+        select_type: 'value'    'text'      'index'
+        value:       'AL'       'Alabama'   '1'
+        """
+        log.info("SelectType Command - PATH: {0} - VALUE: \'{1}\'"
+                 .format(locator, kwargs))
+        value = kwargs.pop('value')
+        select_type = kwargs.pop('select_type', 'text')
+        select_type = select_type.lower()
+        self.wait()  # compensate for on-screen shifting of the element
+        self.check_for_new_window()
+        element = self.check(self._find_element(locator))
+        select = Select(element)
+        if select_type == "":
+            select.select_by_index(1)
+        elif select_type == 'text':
+            select.select_by_visible_text(value)
+        elif select_type == 'value':
+            select.select_by_value(value)
+        elif select_type == 'index':
+            select.select_by_index(value)
+        else:
+            log.debug('select() method::unknown select_type')
         self.wait()
 
     def upload(self, locator, value):

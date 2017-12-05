@@ -3,7 +3,7 @@ from tool.prerequisite.physical_address import PhysicalAddress
 from ui.low.license import License
 from ui.high.checklist import Checklist
 from ui.high.checklist_send_corr import ChecklistSendCorr
-from tool.ui_utilities import get_option, get_all_options_from_select
+from tool.ui_utilities import get_list_of_option_elements
 from tool.generators.generator import gen_key
 
 __author__ = 'John Underwood'
@@ -79,10 +79,10 @@ class DeliveryMethod(UI):
 
     ChecklistSendCorr()  # Step 1
 
-    options = get_all_options_from_select(process, '#license_id')
-    option = get_option(options, '- Pending')
+    option = get_list_of_option_elements(process, '#license_id', '- Pending')
     runtime = {
-        'license': ('Select', '//*[@id="license_id"]', option),  # 2a
+        'license': ('SelectType', '//*[@id="license_id"]',
+                    {'value': option[0][1], 'select_type': 'value'}),  # 2a
         'entity': ('Click', '//*[@id="add-recipient-container"]/span[1]'),  # 2b
         'find': ('Type', '<input>', 'n:{} id:{}'.
                  format(checklist.entity, checklist.entity_id)),  # 2c

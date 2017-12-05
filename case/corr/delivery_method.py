@@ -6,7 +6,7 @@ from ui import UI
 from ui.low.license import License
 from ui.high.checklist import Checklist
 from ui.high.checklist_send_corr import ChecklistSendCorr
-from tool.ui_utilities import get_option, get_all_options_from_select
+from tool.ui_utilities import get_list_of_option_elements
 from tool.utilities import find_email
 
 __author__ = 'John Underwood'
@@ -64,10 +64,10 @@ class DeliveryMethod(UI):
         process.teardown()
         quit()
 
-    options = get_all_options_from_select(process, '#license_id')
-    option = get_option(options, '- Pending')
-    runtime = {
-        'license': ('Select', '//*[@id="license_id"]', option)
+    option = get_list_of_option_elements(process, '#license_id', '- Pending')
+    runtime = {  # find option by 'value'
+        'license': ('SelectType', '#license_id',
+                    {'value': option[0][1], 'select_type': 'value'})
     }
     process.update(runtime)
     process.execute(('license',))  # Step 2
