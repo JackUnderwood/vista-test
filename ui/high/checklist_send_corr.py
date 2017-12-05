@@ -10,10 +10,12 @@ class ChecklistSendCorr(UI):
         super().__init__()
 
         runtime = {
+            'templateNum': '10',  # override - defaults to 'License Renewal'
             'send': ('Click',
                      '//*[@id="ribbon_form"]/ul/li/div[3]/div[4]/div[1]/a[1]/i'),
             'template': ('Click',
-                         '//*[@id="correspondenceChooser_form"]/p[2]/p[10]/a'),
+                         '//*[@id="correspondenceChooser_form"]/p[2]/'
+                         'p[&templateNum;]/a'),
         }
         ui.log.info("Select the License Renewal template")
         process = UI(override)
