@@ -48,8 +48,12 @@ class PhysicalAddress(UI):
         }
         process = UI(override)
         process.update(runtime)
-        order = ('home', 'add', 'addrDescription', 'addrType', 'addr1', 'addr2',
+        process.execute(('home',))
+        process.wait()
+        order = ('add', 'addrDescription', 'addrType', 'addr1', 'addr2',
                  'addrCity', 'addrState', 'addrZip', 'addrCountry', 'save',
-                 'saveAddressCheck', 'closeAddresses', 'closeWorkspace')
+                 'saveAddressCheck',)
         process.execute(order)
+        process.wait()
+        process.execute(('closeAddresses', 'closeWorkspace'))
         process.wait()

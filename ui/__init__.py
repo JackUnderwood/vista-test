@@ -481,7 +481,7 @@ class UI:
             try:
                 element = self.driver.find_element_by_id(_id)
             except NoSuchElementException as nsee:
-                log.error('_find_element: id: {}'.format(nsee,))
+                log.error('_find_element: id: {} :: err: {}'.format(_id, nsee,))
 
         elif locator.startswith('<'):  # "<<tag>>"--a case that looks for many
             # Returns the last element in the list; assumes the last element
@@ -862,6 +862,10 @@ class UI:
         """
         full_log_path = self.log_path + filename
         self.driver.save_screenshot(full_log_path)
+
+    def refresh(self):
+        self.driver.refresh()
+        self.wait()
 
     def teardown(self):
         """

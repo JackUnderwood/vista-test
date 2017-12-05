@@ -94,6 +94,17 @@ def get_random_value(values):
     return random.choice(values)
 
 
+def find_email(string):
+    """
+    Find email address inside an innerHTML string.
+    :param string: string
+    :return: Boolean
+    """
+    pattern = r'[A-Z0-9][A-Z0-9._%+-]*@(?:[A-Z0-9-]+\.)+[A-Z]{2,}'
+    result = re.search(pattern, string, re.IGNORECASE)
+    return True if result else False
+
+
 def time_it(ndigits=7):
     """
     Decorator to time functions.
