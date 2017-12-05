@@ -9,6 +9,28 @@ from tool.generators.generator import gen_key
 __author__ = 'John Underwood'
 
 
+def get_row_index(process, locator, pattern):
+    """
+    Returns the HTML table's "one-based" index number
+    :param process: UI object
+    :param locator: string - a selector type, i.e. xpath, id, class, etc.
+    :param pattern: string - the pattern to look for
+    :return: number - the index number
+    """
+    element = process.find_element(locator)
+    data = element.text
+    # 'Home 33 Eaton Street West Haven CT 06516 N Y Other\n
+    #  Work (2017) 2134 La Porte Rd 2134 La Porte Rd Waterloo IA 50702 N N Work'
+    rows = data.split('\n')
+    index = None
+    for i, value in enumerate(rows):
+        # pattern, e.g. 'Work (2017)
+        if pattern in value:
+            index = i+1  # html uses 'one' based indexes
+            break
+    return index
+
+
 class DeliveryMethod(UI):
     """
     Uses the TestRail test case:
@@ -26,14 +48,15 @@ class DeliveryMethod(UI):
     3  - Click on the Physical Addresses' Manage Physical Addresses button
     4  - Click the Delete button on one of the throw-away addresses--trash icon
     5  - Click the Cancel button
-    6  - Repeat previous step, click the Delete button on one of the
-         throw-away addresses
+    6  - Repeat previous step, click the Delete button on the throw-away address
     7  - Click the Confirm button to delete the address
+         Note: assumes the prerequisite address will never be a default address
     8  - Click the Addresses drawer's Close button
     9a - Select an existing address (or addresses, if you want to test
          multiple selections)
     9b - Click the Select Delivery Method modal's Save button
     """
+    res = []
     process = UI()
     License()
     checklist = Checklist()
@@ -74,7 +97,61 @@ class DeliveryMethod(UI):
     process.execute(('manageAddr',))  # Step 3
     process.wait()
 
-    # Step 4
-    addr_table = process.spy('//*[@id="addressGrid_grid"]/tbody', 'innerHTML')
+    index = get_row_index(process, '//*[@id="addressGrid_grid"]/tbody',
+                          override['description'])
+    process.update({
+        'trashcan': ('Click', '//*[@id="addressGrid_grid"]/tbody/tr[{}]/'
+                              'td[27]/a/i'.format(index,))
+    })
+    process.execute(('trashcan',))  # Step 4
     process.wait()
 
+    # Get the random id and insert it into the xpath. Cancel
+    delete_dialog_id = process.spy('//*[@for="delete_record"]', 'id')
+    process.update({
+        'cancel': ('Click', '//*[@id="{}"]/div/div/a[2]'.
+                   format(delete_dialog_id,))
+    })
+    process.execute(('cancel',))
+    actual = process.spy('//*[@id="addressGrid_grid"]/tbody/tr[{}]/td[3]'.
+                         format(index,), 'innerHTML')
+    res.append(process.compare(override['description'], actual))  # Step 5
+
+    process.execute(('trashcan',))  # Step 6
+
+    # Get the random id and insert it into the xpath. Confirm
+    delete_dialog_id = process.spy('//*[@for="delete_record"]', 'id')
+    process.update({
+        'confirm': ('Click', '//*[@id="{}"]/div/div/a[1]'.
+                    format(delete_dialog_id,))
+    })
+    process.execute(('confirm',))
+    process.wait()
+    res.append(process.results('Address deleted'))
+    index = get_row_index(process, '//*[@id="addressGrid_grid"]/tbody',
+                          override['description'])
+    res.append(process.compare(None, index))  # Step 7
+
+    process.update({
+        'close': ('Click', '#addressGridClose'),
+    })
+    process.execute(('close',))
+    process.wait()
+    checkboxes = process.spy('//*[@id="delivery-locations"]/form/div[2]',
+                             'innerHTML')
+    res.append(process.compare(False,
+                               override['description'] in checkboxes))  # Step 8
+
+    # Select an address and close - Step 9
+    process.update({
+        'checkAddr': ('Click',
+                      '//*[@id="delivery-locations"]/form/div[2]/p[1]/label'),
+        'save': ('Click', '//*[@id="delivery-locations"]/form/div[8]/a[1]')
+    })
+    process.execute(('checkAddr', 'save'))
+    send = process.spy('//*[@id="corr_send"]', 'class')
+    res.append(process.compare(True, 'disabled' not in send,
+                               message='"Send" button is active'))
+    process.compare(True, all(res))
+    process.wait()
+    process.teardown()
