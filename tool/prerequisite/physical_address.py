@@ -52,6 +52,8 @@ class PhysicalAddress(UI):
         process.wait()
         order = ('add', 'addrDescription', 'addrType', 'addr1', 'addr2',
                  'addrCity', 'addrState', 'addrZip', 'addrCountry', 'save',
-                 'saveAddressCheck', 'closeAddresses', 'closeWorkspace')
+                 'saveAddressCheck',)
         process.execute(order)
+        process.wait()
+        process.execute(('closeAddresses', 'closeWorkspace'))
         process.wait()
