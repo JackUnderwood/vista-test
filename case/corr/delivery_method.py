@@ -167,7 +167,9 @@ class DeliveryMethod(UI):
         'remove': ('Click', '//*[@id="add-recipient-container"]/div[2]/i')
     })
     process.execute(('remove',))
-    res.append(process.is_available('css=.select-address'))
+    send = process.spy('#corr_send', 'class')
+    res.append(process.compare(True, 'disabled' in send,
+                               message='"Send" button is inactive'))
     process.compare(True, all(res))
     process.wait()
     process.teardown()
