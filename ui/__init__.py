@@ -311,7 +311,7 @@ class UI:
         select_type: 'value'    'text'      'index'
         value:       'AL'       'Alabama'   '1'
         :param locator: holds the xpath, id, class, or tag
-        :param kwargs: dict - required keys 'value' and 'select_type'
+        :param kwargs: dict - required key 'value' and optional key 'select_type'
         :return: None
         """
         value = kwargs.pop('value', '')
