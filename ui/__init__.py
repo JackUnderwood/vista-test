@@ -332,7 +332,7 @@ class UI:
         elif select_type == 'index':
             select.select_by_index(value)
         else:
-            log.debug('select() method::unknown select_type')
+            log.debug('select_type() method::unknown select type')
         self.wait()
 
     def upload(self, locator, value):
