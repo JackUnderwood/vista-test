@@ -31,13 +31,13 @@ class PhysicalAddress(UI):
             'add': ('Click', '//*[@id="addressGrid_form"]/a'),
             'addrDescription': ('Type', '#address_description', '&description;'),
             'addrType': ('Select', '#correspondence_method_type_id',
-                         '&addressType;'),
+                         {'value': '&addressType;'}),
             'addr1': ('Type', '#address_1', '&address1;'),
             'addr2': ('Type', '#address_2', '&address2;'),
             'addrCity': ('Type', '#city', '&city;'),
-            'addrState': ('Select', '#state', '&state;'),
+            'addrState': ('Select', '#state', {'value': '&state;'}),
             'addrZip': ('Type', '#zip_code', '&zipCode;'),
-            'addrCountry': ('Select', '#country_code', '&country;'),
+            'addrCountry': ('Select', '#country_code', {'value': '&country;'}),
             'save': ('Click', '#save-n-check'),
             'saveAddressCheck': ('Click', 'css=.waves-effect.waves-light.btn.'
                                           'right-align.modal-action.'

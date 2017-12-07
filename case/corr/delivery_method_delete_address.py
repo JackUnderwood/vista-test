@@ -81,7 +81,7 @@ class DeliveryMethod(UI):
 
     option = get_list_of_option_elements(process, '#license_id', '- Pending')
     runtime = {
-        'license': ('SelectType', '//*[@id="license_id"]',
+        'license': ('Select', '//*[@id="license_id"]',
                     {'value': option[0][1], 'select_type': 'value'}),  # 2a
         'entity': ('Click', '//*[@id="add-recipient-container"]/span[1]'),  # 2b
         'find': ('Type', '<input>', 'n:{} id:{}'.

@@ -66,7 +66,7 @@ class DeliveryMethod(UI):
 
     option = get_list_of_option_elements(process, '#license_id', '- Pending')
     runtime = {  # find option by 'value'
-        'license': ('SelectType', '#license_id',
+        'license': ('Select', '#license_id',
                     {'value': option[0][1], 'select_type': 'value'})
     }
     process.update(runtime)

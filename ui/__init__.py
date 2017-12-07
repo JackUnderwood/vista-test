@@ -128,6 +128,9 @@ class UI:
         if isinstance(value, str) and value.find('&') is not -1:
             log.debug("-- REPLACE a 'value'")
             value = self.check_for_placeholder(value)
+        if isinstance(value, dict):
+            log.debug("-- REPLACE a kwargs 'value'")
+            value = self._check_for_kwargs_placeholders(value)
 
         if command == "Click":
             self.click(locator)
@@ -140,9 +143,10 @@ class UI:
         elif command == "Find":
             self.find(locator, value)
         elif command == "Select":
-            self.select(locator, value)
-        elif command == "SelectType":
-            self.select_type(locator, **value)
+            if isinstance(value, dict):
+                self.select_type(locator, **value)
+            else:
+                self.select(locator, value)
         elif command == "Upload":
             self.upload(locator, value)
         elif command == "Hover":
@@ -303,18 +307,18 @@ class UI:
         """
         Tightly coupled - Set select_types are 'value', 'text', and 'index'
         Example: U.S. States appear as <option value="AL">Alabama<\option>
+        May access option by using--index is '1' because Alabama is first
+        select_type: 'value'    'text'      'index'
+        value:       'AL'       'Alabama'   '1'
         :param locator: holds the xpath, id, class, or tag
         :param kwargs: dict - required keys 'value' and 'select_type'
         :return: None
-        Example using U.S. States:
-        select_type: 'value'    'text'      'index'
-        value:       'AL'       'Alabama'   '1'
         """
-        log.info("SelectType Command - PATH: {0} - VALUE: \'{1}\'"
-                 .format(locator, kwargs))
-        value = kwargs.pop('value')
+        value = kwargs.pop('value', '')
         select_type = kwargs.pop('select_type', 'text')
         select_type = select_type.lower()
+        log.info("Select command :: PATH: {0}\nVALUE: {1}\nSELECT_TYPE: {2}"
+                 .format(locator, value, select_type))
         self.wait()  # compensate for on-screen shifting of the element
         self.check_for_new_window()
         element = self.check(self._find_element(locator))
@@ -391,7 +395,7 @@ class UI:
             action, params = elem
             for k in params:  # only one element should be in dict at this point
                 sub_locator = params.get(k, None)
-                # The first argument 'check_chain' is a phony command;
+                # The first argument 'check_chain' is a faux command;
                 # a command is not necessary for chaining.
                 replacer = self.check_for_placeholder(sub_locator)
                 params[k] = replacer
@@ -483,7 +487,7 @@ class UI:
         finally:
             pass
 
-    def _find_element(self, locator):  # TODO: rename to _find_element
+    def _find_element(self, locator):
         """
         '//' for xpath
         '.' for class
@@ -556,7 +560,7 @@ class UI:
         """
         return self._find_element(locator)
 
-    def find_elements(self, locator):  # TODO: rename to _find_elements
+    def find_elements(self, locator):
         """
         '//' for xpath
         '.' for class
@@ -695,32 +699,53 @@ class UI:
                 # log.warning("The 'override' key is not found in 'runtime'")
         log.debug("check_override() new runtime: {}".format(self.runtime,))
 
-    def check_for_placeholder(self, replacer):
+    def check_for_placeholder(self, value):
         """
         Allows a placeholder inside an xpath, e.g. {
             'provider': '123456',
             'selectAssign': ("Click", '//*[@id="&provider;"]/div[1]', "")}
-        The replacer param may hold something other than a string, i.e. Chain
-        :param replacer: string - the element's location in the DOM
-        :return: string - locator
+        The value param may hold something other than a string, i.e. Chain
+        :param value: string - the element's location in the DOM
+        :return: string - revised locator string
         """
-        if not isinstance(replacer, str):
-            return replacer
-        while utils.test_for_symbols(replacer):
+        if not isinstance(value, str):
+            return value
+        while utils.test_for_symbols(value):
             # Look for placeholder key
-            log.debug("------ ELEMENT: {}".format(replacer,))
-            key = replacer[replacer.find('&') + 1: replacer.find(';')]
+            log.debug("------ ELEMENT: {}".format(value, ))
+            key = value[value.find('&') + 1: value.find(';')]
             log.debug("-- REPLACE KEY: {}".format(key,))
             if key in self.runtime:
-                replacer = replacer.replace(
+                value = value.replace(
                     '&{};'.format(key,), self.runtime[key])
                 log.debug("-- NEW ELEMENT: {}".format(
-                    self.truncate(replacer), ))
+                    self.truncate(value), ))
             else:
                 message = ("Trying to replace the placeholder \"{}\""
                            "with the non-existing KEY [{}]")
-                raise KeyError(message.format(replacer, key))
-        return replacer
+                raise KeyError(message.format(value, key))
+        return value
+
+    def _check_for_kwargs_placeholders(self, value):
+        """
+        Runtime's dictionary --> 'key': (command, locator, value)
+        Note: In some cases, the 'value', requires a dictionary to be passed.
+        Allows a placeholder inside a value's dictionary, e.g. {
+            'state': 'Utah',
+            'selectState': ('Select', '#state_id', {'value': '&state;'})}
+        :param value: dict - {'value': '&state;'}
+        :return: dict - {'value': 'Utah'}
+        """
+        log.debug('------ KWARGS: {}'.format(value,))
+        for k, v in value.items():
+            if v.find('&') > -1:
+                placeholder = v[v.find('&') + 1: v.find(';')]
+                if placeholder in self.runtime:
+                    value[k] = self.runtime[placeholder]
+                else:
+                    log.error('placeholder is missing inside runtime')
+        log.debug('------ completed KWARGS: {}'.format(value,))
+        return value
 
     def change_attribute(self, locator, script):
         """
