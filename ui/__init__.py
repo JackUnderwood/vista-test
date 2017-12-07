@@ -66,7 +66,6 @@ class UI:
     # chrome_options.add_argument("--start-maximized")
     chrome_options.add_argument("window-size=1280,1024")  # 1280x1024 resolution
     chrome_options.add_argument("--disable-extensions")  # developer extensions
-    # TODO: disable hardware acceleration setting - this doesn't work
     chrome_options.add_argument("--disable-gpu")
     # This option takes care of a known issue in the browser, where the
     # PDF viewer does not function as expected--it downloads the file.
@@ -307,7 +306,7 @@ class UI:
         """
         Tightly coupled - Set select_types are 'value', 'text', and 'index'
         Example: U.S. States appear as <option value="AL">Alabama<\option>
-        May access option by using--index is '1' because Alabama is first
+        May access option by using (index is '1' because Alabama is first):
         select_type: 'value'    'text'      'index'
         value:       'AL'       'Alabama'   '1'
         :param locator: holds the xpath, id, class, or tag
