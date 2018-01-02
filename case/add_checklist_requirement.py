@@ -14,8 +14,8 @@ class AddChecklistRequirement(UI):
         'addRequirement': (
             'Click',
             '//*[@id="checklist-form-container"]/div[2]/div/a/i'),
-        'active': ('Click', '//*[@id="stateLicenseRequirementEdit_form"]/'
-                            'div[1]/div[2]/label/span'),
+        'active': ('Click', '//*[@id="stateLicenseRequirementEdit_form"]/div[1]'
+                            '/div[2]'),
         'state': ('Click', ''),  # TODO: WAIT state/cred/type may auto-fill
     }
     expected = 'Requirement saved'

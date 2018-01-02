@@ -82,12 +82,10 @@ class RequirementInactive(UI):
             '//*[@id="checklist-form-container"]/div[3]/div[5]/a/i'),
         'active': (
             'Click',
-            '//*[@id="stateLicenseRequirementEdit_form"]/div[1]/div[2]'
-            '/label/span'),
+            '//*[@id="stateLicenseRequirementEdit_form"]/div[1]/div[2]'),
         'save': (
             'Click', '//*[@id="stateLicenseRequirementEdit_form"]/div[5]/a[2]')
     }
-    # #content>div.row>div.col.s3>ul>li:nth-child(7) > a
     process = UI()
     process.update(runtime)
     order = ('checklist', )
