@@ -151,8 +151,8 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         3 Expand the row
         4 Click the Approved checkbox
         5 Cancel the alert
-        Expected: Alert stating, "You are about to approve a job that has not
-                  been set to 'Ready to Post'."
+        Expected: Alert stating, "You are about to approve a Job that has not
+        been set to 'Ready to Post'. Are you sure? Press OK to continue."
 
         6 Click the job's edit button
         7 Click Ready to Post check box to select
@@ -205,8 +205,8 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         })
         self.process.execute(('expand', 'approved'))
         self.process.wait()
-        expected = ("You are about to approve a Job that has not been set "
-                    "to \'Ready to Post\'. Are you sure? Press OK to continue.")
+        expected = ("You are about to approve a Job that has not been set to "
+                    "'Ready to Post'. Are you sure? Press OK to continue.")
         actual = self.process.dismiss_alert()
         self.process.compare(expected, actual, message="dismiss alert")
         self.process.wait()
@@ -229,8 +229,6 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         })
         self.process.execute(('edit', 'template', 'ready', 'reject', 'save', ))
         self.process.wait()
-        expected = "Job Saved"
-        self.process.results(expected, locator='toast-container')
 
         # Check for the background color.
         self.process.execute(('reset', 'entry', 'refresh'))
@@ -310,8 +308,6 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         })
         expected = 'Job Saved'
         self.process.execute(('save', ))
-        self.process.results(expected)
-        self.process.wait()
 
         color = 'blue'
         rgb = self.process.get_css_property(
@@ -390,7 +386,6 @@ class TestSuiteJobPostStatus(unittest.TestCase):
 
         expected = 'Job Saved'
         self.process.execute(('save', ))
-        self.process.results(expected)
         self.process.wait()
         self.process.execute(('reset', ))
         self.process.wait(2)
@@ -447,7 +442,6 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.wait()
         self.process.execute(('save',))
         self.process.wait()
-        self.process.results(expected, locator='toast-container')
 
         color = 'rust'
         rgb = self.process.get_css_property(
@@ -505,7 +499,6 @@ class TestSuiteJobPostStatus(unittest.TestCase):
         self.process.wait()
         self.process.execute(('save',))
         self.process.wait()
-        self.process.results(expected, locator='toast-container')
 
         expected = '#ffddbb'
         rgb = self.process.get_css_property(
@@ -684,7 +677,6 @@ class TestSuiteJobPostStatus(unittest.TestCase):
 
         self.process.execute(('save', ))
         self.process.wait()
-        self.process.results('Job Saved', message='saved successfully')
         self.process.execute(('reset', 'entry', 'refresh', ))
 
         expected = '#cceeee'
