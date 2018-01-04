@@ -28,8 +28,8 @@ class FileUpload(UI):
     process.update(runtime)
     order = ('examinations', 'malpractice', 'fileCloud', )
     process.execute(order)
-    process.wait(3)
-    process.results(expected)
+    process.wait()
+    process.results(expected, locator='toast-container')
     process.wait()
     process.teardown()
 
