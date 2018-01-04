@@ -48,7 +48,6 @@ class ApprovePost(UI):
                                format(job_number))}
         process.update(runtime)
         process.execute(('approve',))
-        process.wait(1)
         process.results(expected, locator='toast-container',
                         message='approved the job')
     else:
@@ -79,7 +78,6 @@ class ApprovePost(UI):
         }
         process.update(runtime)
         process.execute(('edit', 'approved', 'save'))
-        process.wait(1)
         process.results(expected, locator='toast-container',
                         message='approved the job')
     else:
