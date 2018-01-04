@@ -27,8 +27,6 @@ class SaveCorrTemplate(UI):
     process = UI()
     process.update(runtime)
     process.execute(('template', 'subject', 'save',))
-    process.wait()
-
     process.results(expected, locator='toast-container')
     process.wait()
     process.teardown()
