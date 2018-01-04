@@ -737,7 +737,7 @@ class UI:
         """
         log.debug('------ KWARGS: {}'.format(value,))
         for k, v in value.items():
-            if v.find('&') > -1:
+            if str(v).find('&') > -1:
                 placeholder = v[v.find('&') + 1: v.find(';')]
                 if placeholder in self.runtime:
                     value[k] = self.runtime[placeholder]
