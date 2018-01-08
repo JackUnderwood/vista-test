@@ -17,7 +17,7 @@ class SendCorrespond(UI):
     process = UI()
     log = VLog()
     template = 'License Renewal'  # TODO test a variety of templates
-    email = 'lambertmwl696777@vistastaff.com'
+    email = 'lambertmwl976171@vistastaff.com'
     sql = """
         SELECT ed.entity_id_number ID, ed.peoplesoft_name_on_check Name
         FROM entity_details ed, email_address ea
