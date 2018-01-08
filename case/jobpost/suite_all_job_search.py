@@ -231,7 +231,7 @@ class AllJobSearch(unittest.TestCase):
         })
         expected = 'City'
         self.process.execute(('city', ))
-        self.process.wait(3)
+        self.process.wait(4)
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
@@ -252,21 +252,21 @@ class AllJobSearch(unittest.TestCase):
         result = self.process.compare(html != '', True, message=compare_message)
         self.assertTrue(result, msg=expected)
 
-    @unittest.skipUnless(
-        debug is 'created' or debug is 'all', "testing {}".format(debug,))
-    def test_created_date(self):
-        ui.log.info('>>> Inside function test_created_date()')
-        self.process.update({
-            'created': ('Click', '#drp_autogen0'),
-            'previousMonth': ('Click', '//*[@id="ui-id-7"]/a'),
-        })
-        expected = 'Created Date'
-        self.process.execute(('created', 'previousMonth', ))
-        self.process.wait()
-        html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
-        compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
-        result = self.process.compare(html != '', True, message=compare_message)
-        self.assertTrue(result, msg=expected)
+    # @unittest.skipUnless(  # TODO:create a method that finds a year and a month
+    #     debug is 'created' or debug is 'all', "testing {}".format(debug,))
+    # def test_created_date(self):
+    #     ui.log.info('>>> Inside function test_created_date()')
+    #     self.process.update({
+    #         'created': ('Click', '#drp_autogen0'),
+    #         'previousMonth': ('Click', '//*[@id="ui-id-7"]/a'),
+    #     })
+    #     expected = 'Created Date'
+    #     self.process.execute(('created', 'previousMonth', ))
+    #     self.process.wait()
+    #     html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
+    #     compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED)+self.test
+    #     result = self.process.compare(html != '',True, message=compare_message)
+    #     self.assertTrue(result, msg=expected)
 
     @unittest.skipUnless(
         debug is 'modified' or debug is 'all', "testing {}".format(debug,))
@@ -294,7 +294,7 @@ class AllJobSearch(unittest.TestCase):
         expected = 'Keywords'
         self.process.execute(('keyword', ))
         self.process.wait_for_element(
-            '//*[@id="result-target"]/tbody/tr[1]', wait_time=45)
+            '//*[@id="result-target"]/tbody/tr[1]/td[4]/div[1]', wait_time=30)
         html = self.process.spy('//*[@id="result-target"]/tbody', 'innerHTML')
         compare_message = (MSG_SUCCESS if html != '' else MSG_FAILED) + self.test
         result = self.process.compare(html != '', True, message=compare_message)
